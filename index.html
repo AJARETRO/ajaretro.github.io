@@ -56,6 +56,57 @@
             overflow-x: hidden;
         }
 
+        /* NEW: Preloader Styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out 0.5s, visibility 0.8s ease-out 0.5s;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-logo-container {
+            position: relative;
+            width: 140px;
+            height: 100px;
+        }
+        .loader-piece {
+            position: absolute;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 12;
+            fill: none;
+            animation-duration: 1.5s;
+            animation-fill-mode: forwards;
+            animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .loader-piece-1 { stroke: url(#logoGradient); animation-name: assemble-left; }
+        .loader-piece-2 { stroke: white; animation-name: assemble-j; }
+        .loader-piece-3 { stroke: url(#logoGradient); animation-name: assemble-right; }
+
+        @keyframes assemble-left {
+            from { transform: translate(-100px, -100px) rotate(-90deg); opacity: 0; }
+            to { transform: translate(0, 0) rotate(0); opacity: 1; }
+        }
+        @keyframes assemble-j {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes assemble-right {
+            from { transform: translate(100px, 100px) rotate(90deg); opacity: 0; }
+            to { transform: translate(0, 0) rotate(0); opacity: 1; }
+        }
+
+
         /* Hero section background slideshow container */
         #hero-bg-slider {
             position: absolute;
@@ -206,23 +257,31 @@
 </head>
 <body class="antialiased">
 
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-logo-container">
+            <svg class="w-full h-full" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#4F46E5"/>
+                        <stop offset="100%" stop-color="#22D3EE"/>
+                    </linearGradient>
+                </defs>
+                <path class="loader-piece loader-piece-1" d="M40 0 L10 50 L40 100"/>
+                <path class="loader-piece loader-piece-2" d="M70 15 V 85 C 70 95 60 95 55 85"/>
+                <path class="loader-piece loader-piece-3" d="M100 0 L130 50 L100 100"/>
+            </svg>
+        </div>
+    </div>
+
     <!-- Header with permanent semi-transparent background -->
     <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm transition-colors duration-300" id="header">
         <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
             <!-- SVG Logo (Code Monogram) -->
             <a href="#" aria-label="AjaRetro Homepage">
                 <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#4F46E5"/>
-                            <stop offset="100%" stop-color="#22D3EE"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- Left Bracket / A -->
                     <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- J -->
                     <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- Right Bracket / A -->
                     <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
@@ -278,10 +337,16 @@
                         <p class="text-gray-400">Powerful online stores to sell your products. We build secure and scalable e-commerce websites with easy inventory management and payment gateway integration.</p>
                     </div>
                 </div>
+                <!-- Link to Services Page -->
+                <div class="text-center mt-16">
+                    <a href="services.html" class="text-indigo-400 font-semibold text-lg hover:text-indigo-300 transition-colors">
+                        Learn More About Our Services &rarr;
+                    </a>
+                </div>
             </div>
         </section>
 
-        <!-- NEW: Our Process Section -->
+        <!-- Our Process Section -->
         <section id="process" class="py-20 md:py-32">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
@@ -432,18 +497,18 @@
             <div class="container mx-auto px-4">
                 <div class="glass-card max-w-4xl mx-auto p-8 md:p-12 grid md:grid-cols-3 gap-8 items-center">
                     <div class="md:col-span-1 text-center">
-                        <img src="https://placehold.co/400x400/111827/FFFFFF?text=AJA" alt="AJA RETRO, Web Developer in Bangladesh" class="rounded-full w-48 h-48 mx-auto border-4 border-indigo-500">
+                        <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="AJA RETRO, Web Developer in Bangladesh" class="rounded-full w-48 h-48 mx-auto border-4 border-indigo-500">
                     </div>
                     <div class="md:col-span-2">
                         <h3 class="text-3xl font-bold text-white">Meet the Engineer</h3>
                         <h4 class="text-2xl font-semibold text-indigo-400 mt-1 mb-4">AJA RETRO</h4>
                         <p class="text-gray-300 mb-6">
-                            With a great passion for technology and a sharp eye for design, I (Ahmed Juhaed Ayeman Niloy) craft digital experiences that are not only beautiful but also powerful and secure. My journey is fueled by a constant desire to innovate and push the boundaries of what's possible on the web.
+                            With a great passion for technology and a sharp eye for design, I (Ahmed Juhaed Ayeman Niloy) craft digital experiences that are not only beautiful but also powerful and secure.
                         </p>
-                        <div class="flex flex-wrap gap-4">
-                            <span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">Designing Websites since 2020</span>
-                            <span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">Ethical Hacker since 2022</span>
-                        </div>
+                        <!-- Link to About Page -->
+                        <a href="about.html" class="text-indigo-400 font-semibold hover:text-indigo-300">
+                            Learn More About Me &rarr;
+                        </a>
                     </div>
                 </div>
             </div>
@@ -470,6 +535,14 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
+        // --- Preloader Logic ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 2000); // Let animation play
+        });
+
         // --- Hero Background Slideshow ---
         const bgImages = document.querySelectorAll('.hero-bg-img');
         let currentImageIndex = 0;
@@ -518,12 +591,6 @@
                 description: 'A luxurious e-commerce platform for a high-end jewelry brand. The design focuses on clean visuals and a premium user experience to drive sales.',
                 imageUrl: 'https://placehold.co/800x600/111827/d4af37?text=E-Commerce',
                 link: 'example/ec.html'
-            },
-            {
-                title: 'Future Project',
-                description: 'This is a placeholder for your next amazing project. We can showcase a corporate site, a blog, or any other type of web experience here.',
-                imageUrl: 'https://placehold.co/800x600/111827/4f46e5?text=Coming+Soon',
-                link: '#'
             }
         ];
 
