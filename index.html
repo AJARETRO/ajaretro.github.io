@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Optimized Title -->
+    <title>AjaRetro Devs | Custom Web Design & Development in Bangladesh</title>
+    
     <!-- SEO Meta Description -->
-    <meta name="description" content="AjaRetro Devs builds stunning, high-performance websites and digital experiences for businesses in Bangladesh. We offer custom design, development, and fully managed hosting.">
-    <title>AjaRetro Devs - Building Digital Experiences</title>
+    <meta name="description" content="AjaRetro Devs builds high-performance, SEO-ready websites in Bangladesh. Get a quote for custom design, e-commerce solutions, and fully managed hosting from an experienced web developer.">
     
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,8 +26,8 @@
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "AjaRetro Devs",
-      "image": "https://www.yourdomain.com/logo.png",
-      "url": "https://www.yourdomain.com",
+      "image": "https://ajaretro.dev/logo.svg",
+      "url": "https://ajaretro.dev",
       "telephone": "+8801989208751",
       "priceRange": "$$",
       "description": "Custom web design, development, and SEO services in Bangladesh, led by experienced developer AJA RETRO.",
@@ -115,6 +117,11 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
+            transition: background 0.3s, border 0.3s;
+        }
+        .glass-card:hover {
+            background: rgba(20, 20, 20, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
         /* Section with parallax background image */
@@ -202,7 +209,7 @@
     <!-- Header with permanent semi-transparent background -->
     <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm transition-colors duration-300" id="header">
         <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
-            <!-- NEW: SVG Logo (Code Monogram) -->
+            <!-- SVG Logo (Code Monogram) -->
             <a href="#" aria-label="AjaRetro Homepage">
                 <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -232,12 +239,12 @@
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content container mx-auto px-4 pb-24 md:pb-32">
-            <h2 class="text-4xl md:text-7xl font-black text-white leading-tight mb-4 animate-fade-in-up text-shadow">
+            <h1 class="text-4xl md:text-7xl font-black text-white leading-tight mb-4 animate-fade-in-up text-shadow">
                 We Don't Just Build Websites.
-            </h2>
-            <h3 class="text-4xl md:text-7xl font-black text-indigo-400 leading-tight mb-8 animate-fade-in-up-delay text-shadow">
+            </h1>
+            <h2 class="text-4xl md:text-7xl font-black text-indigo-400 leading-tight mb-8 animate-fade-in-up-delay text-shadow">
                 We Engineer Experiences.
-            </h3>
+            </h2>
             <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10 text-shadow">
                 From stunning visuals to seamless functionality, we create digital platforms that captivate and convert.
             </p>
@@ -252,23 +259,59 @@
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
                     <h3 class="text-3xl md:text-5xl font-bold text-white">Our Core Services</h3>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We provide the essential services to launch and grow your online presence.</p>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We provide the essential services to launch and grow your business in Bangladesh.</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Service Card 1 -->
                     <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
                         <h4 class="text-2xl font-bold text-white mb-3">Custom Web Design</h4>
-                        <p class="text-gray-400">Visually stunning designs tailored to your brand. We focus on user experience to ensure your site is not only beautiful but also easy to use.</p>
+                        <p class="text-gray-400">Visually stunning, bespoke web design tailored to your brand. We focus on user experience to ensure your site is not only beautiful but also intuitive and easy to navigate.</p>
                     </div>
                     <!-- Service Card 2 -->
                     <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
                         <h4 class="text-2xl font-bold text-white mb-3">Responsive Development</h4>
-                        <p class="text-gray-400">Flawless performance on any device. Your website will look and work perfectly on desktops, tablets, and smartphones.</p>
+                        <p class="text-gray-400">Flawless performance on any device. Our responsive development ensures your website looks and works perfectly on desktops, tablets, and all smartphones.</p>
                     </div>
                     <!-- Service Card 3 -->
                     <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
                         <h4 class="text-2xl font-bold text-white mb-3">E-Commerce Solutions</h4>
-                        <p class="text-gray-400">Powerful online stores to sell your products. We integrate secure payment gateways and manage inventory systems.</p>
+                        <p class="text-gray-400">Powerful online stores to sell your products. We build secure and scalable e-commerce websites with easy inventory management and payment gateway integration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Our Process Section -->
+        <section id="process" class="py-20 md:py-32">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-5xl font-bold text-white">Our Proven Process</h3>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We follow a structured path to ensure your project's success from start to finish.</p>
+                </div>
+                <div class="grid md:grid-cols-4 gap-8 text-center">
+                    <!-- Step 1 -->
+                    <div class="process-step">
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">01</div>
+                        <h4 class="text-xl font-bold text-white mb-2">Discover</h4>
+                        <p class="text-gray-400">We start by understanding your vision, goals, and target audience to build a solid foundation.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="process-step">
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">02</div>
+                        <h4 class="text-xl font-bold text-white mb-2">Design</h4>
+                        <p class="text-gray-400">Our creative phase involves wireframing and designing a beautiful, user-friendly interface.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="process-step">
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">03</div>
+                        <h4 class="text-xl font-bold text-white mb-2">Develop</h4>
+                        <p class="text-gray-400">We write clean, efficient code to bring the design to life with seamless functionality.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="process-step">
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">04</div>
+                        <h4 class="text-xl font-bold text-white mb-2">Deploy</h4>
+                        <p class="text-gray-400">After rigorous testing, we launch your website and provide support for a smooth takeoff.</p>
                     </div>
                 </div>
             </div>
@@ -378,7 +421,7 @@
                     <div class="project-info">
                         <h4 id="project-title" class="text-3xl font-bold text-white mb-4"></h4>
                         <p id="project-description" class="text-gray-400 mb-6"></p>
-                        <a id="project-link" href="#" class="text-indigo-400 font-semibold hover:text-indigo-300">View Project &rarr;</a>
+                        <a id="project-link" href="#" target="_blank" class="text-indigo-400 font-semibold hover:text-indigo-300">View Project &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -457,7 +500,7 @@
 
         // --- GSAP Scroll-Triggered Animations ---
         gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.service-card, .glass-card').forEach(card => {
+        gsap.utils.toArray('.service-card, .glass-card, .process-step').forEach(card => {
             gsap.from(card, { opacity: 0, y: 50, duration: 0.8, scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' } });
         });
         gsap.to('.parallax-section', { backgroundPosition: 'center 20%', ease: 'none', scrollTrigger: { trigger: '.parallax-section', start: 'top bottom', end: 'bottom top', scrub: true } });
@@ -465,19 +508,22 @@
         // --- Project Assembler Logic ---
         const projects = [
             {
-                title: 'Project Alpha',
-                description: 'A corporate rebranding and website overhaul for a leading tech firm. We focused on a clean, futuristic aesthetic with interactive data visualizations.',
-                imageUrl: 'https://placehold.co/800x600/111827/4f46e5?text=Project+Alpha'
+                title: 'Kachchi House',
+                description: 'A sophisticated and elegant website for a premium Bangladeshi restaurant, featuring an interactive menu and a seamless reservation system.',
+                imageUrl: 'https://placehold.co/800x600/111827/c8a97e?text=Restaurant',
+                link: 'example/res.html'
             },
             {
-                title: 'E-Commerce Nova',
-                description: 'An e-commerce platform for a fashion startup. The site features a dynamic product grid, a seamless checkout process, and a custom design system.',
-                imageUrl: 'https://placehold.co/800x600/111827/10b981?text=Project+Nova'
+                title: 'Aethel Ornaments',
+                description: 'A luxurious e-commerce platform for a high-end jewelry brand. The design focuses on clean visuals and a premium user experience to drive sales.',
+                imageUrl: 'https://placehold.co/800x600/111827/d4af37?text=E-Commerce',
+                link: 'example/ec.html'
             },
             {
-                title: 'Studio Creativa',
-                description: 'A portfolio website for a digital arts studio, featuring complex animations and a WebGL-powered gallery to showcase their immersive work.',
-                imageUrl: 'https://placehold.co/800x600/111827/d97706?text=Studio+Creativa'
+                title: 'Future Project',
+                description: 'This is a placeholder for your next amazing project. We can showcase a corporate site, a blog, or any other type of web experience here.',
+                imageUrl: 'https://placehold.co/800x600/111827/4f46e5?text=Coming+Soon',
+                link: '#'
             }
         ];
 
@@ -514,7 +560,7 @@
                     // Update content
                     projectTitle.textContent = project.title;
                     projectDescription.textContent = project.description;
-                    projectLink.href = '#'; // Update with actual link if available
+                    projectLink.href = project.link;
                     // Animate text in
                     gsap.to([projectTitle, projectDescription, projectLink], {
                         opacity: 1,
