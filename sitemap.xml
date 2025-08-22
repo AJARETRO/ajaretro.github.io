@@ -5,4 +5,14 @@
     <lastmod>2025-08-22</lastmod>
     <priority>1.00</priority>
   </url>
+  <url>
+    <loc>https://ajaretro.dev/services.html</loc>
+    <lastmod>2025-08-22</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/about.html</loc>
+    <lastmod>2025-08-22</lastmod>
+    <priority>0.80</priority>
+  </url>
 </urlset>
