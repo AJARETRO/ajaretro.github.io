@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Description -->
+    <meta name="description" content="AjaRetro Devs builds stunning, high-performance websites and digital experiences for businesses in Bangladesh. We offer custom design, development, and fully managed hosting.">
+    <title>AjaRetro Devs - Building Digital Experiences</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Swiper.js for the feature slider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- Custom CSS for advanced effects -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #f0f0f0;
+            overflow-x: hidden;
+        }
+
+        /* Hero section background slideshow container */
+        #hero-bg-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Individual background images */
+        .hero-bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            transform: scale(1.1); /* Start slightly zoomed in */
+        }
+
+        /* Active state for background images */
+        .hero-bg-img.active {
+            opacity: 1;
+            transform: scale(1); /* Zoom out to normal */
+            transition: opacity 1.5s ease-in-out, transform 10s linear;
+        }
+
+        /* Dark overlay for readability */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4));
+            z-index: 1;
+        }
+
+        /* Ensure content is above the background and overlay */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Text shadow for readability */
+        .text-shadow {
+            text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Glassmorphism effect for cards */
+        .glass-card {
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+        
+        /* Section with parallax background image */
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Keyframe animations for hero text */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        .animate-fade-in-up-delay {
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            opacity: 0; /* Start as invisible before animation */
+        }
+
+        /* Custom Swiper navigation buttons */
+        .swiper-button-next, .swiper-button-prev {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+            transform: scale(1.1);
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 24px;
+        }
+        /* Positioning arrows outside the slider content on larger screens */
+        .swiper-button-prev {
+            left: var(--swiper-navigation-sides-offset, -10px);
+        }
+        .swiper-button-next {
+            right: var(--swiper-navigation-sides-offset, -10px);
+        }
+
+        /* NEW: Styles for the Transformer Portfolio */
+        #project-assembler {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            #project-assembler {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .image-grid-container {
+            aspect-ratio: 4 / 3;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .grid-piece {
+            background-size: 1200% 1200%; /* 100 * 12 columns/rows */
+            transition: background-image 0.2s ease-in-out;
+        }
+        .project-info {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header with permanent semi-transparent background -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm transition-colors duration-300" id="header">
+        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">AjaRetro</h1>
+            <a href="#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">Get a Quote</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Background Slideshow -->
+    <section class="relative min-h-screen flex items-end justify-center text-center overflow-hidden">
+        <div id="hero-bg-slider">
+            <div class="hero-bg-img active" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Modern+Architecture');"></div>
+            <div class="hero-bg-img" style="background-image: url('https://placehold.co/1920x1080/111111/FFFFFF?text=Digital+Landscape');"></div>
+            <div class="hero-bg-img" style="background-image: url('https://placehold.co/1920x1080/222222/FFFFFF?text=Creative+Code');"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content container mx-auto px-4 pb-24 md:pb-32">
+            <h2 class="text-4xl md:text-7xl font-black text-white leading-tight mb-4 animate-fade-in-up text-shadow">
+                We Don't Just Build Websites.
+            </h2>
+            <h3 class="text-4xl md:text-7xl font-black text-indigo-400 leading-tight mb-8 animate-fade-in-up-delay text-shadow">
+                We Engineer Experiences.
+            </h3>
+            <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10 text-shadow">
+                From stunning visuals to seamless functionality, we create digital platforms that captivate and convert.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content Wrapper -->
+    <div class="relative bg-black z-10">
+    
+        <!-- Services Section with Animated Cards -->
+        <section id="services" class="py-20 md:py-32">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-5xl font-bold text-white">Our Core Services</h3>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We provide the essential services to launch and grow your online presence.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
+                        <h4 class="text-2xl font-bold text-white mb-3">Custom Web Design</h4>
+                        <p class="text-gray-400">Visually stunning designs tailored to your brand. We focus on user experience to ensure your site is not only beautiful but also easy to use.</p>
+                    </div>
+                    <!-- Service Card 2 -->
+                    <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
+                        <h4 class="text-2xl font-bold text-white mb-3">Responsive Development</h4>
+                        <p class="text-gray-400">Flawless performance on any device. Your website will look and work perfectly on desktops, tablets, and smartphones.</p>
+                    </div>
+                    <!-- Service Card 3 -->
+                    <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
+                        <h4 class="text-2xl font-bold text-white mb-3">E-Commerce Solutions</h4>
+                        <p class="text-gray-400">Powerful online stores to sell your products. We integrate secure payment gateways and manage inventory systems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Slider Section -->
+        <section id="features" class="py-20 md:py-32 bg-gray-900/30">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-5xl font-bold text-white">Why Choose AjaRetro?</h3>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We combine cutting-edge technology with a client-focused approach.</p>
+                </div>
+                <!-- Swiper Wrapper for positioning arrows -->
+                <div class="relative max-w-6xl mx-auto">
+                    <!-- Swiper -->
+                    <div class="swiper features-slider">
+                        <div class="swiper-wrapper">
+                            <!-- Slide 1 -->
+                            <div class="swiper-slide">
+                                <div class="glass-card p-8 h-full">
+                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Pixel-Perfect Design</h4>
+                                    <p class="text-gray-300">We obsess over the details. Every element is meticulously crafted to ensure your website is a visual masterpiece that aligns perfectly with your brand identity.</p>
+                                </div>
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="swiper-slide">
+                                <div class="glass-card p-8 h-full">
+                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Optimized for Speed</h4>
+                                    <p class="text-gray-300">A slow website is a lost customer. We build with performance in mind, ensuring lightning-fast load times to keep your visitors engaged.</p>
+                                </div>
+                            </div>
+                            <!-- Slide 3 -->
+                            <div class="swiper-slide">
+                                <div class="glass-card p-8 h-full">
+                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">SEO-Ready Foundation</h4>
+                                    <p class="text-gray-300">We build your site on a foundation of SEO best practices, making it easier for search engines like Google to find and rank your content.</p>
+                                </div>
+                            </div>
+                            <!-- Slide 4 -->
+                            <div class="swiper-slide">
+                                <div class="glass-card p-8 h-full">
+                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Secure & Reliable</h4>
+                                    <p class="text-gray-300">Security is not an afterthought. We implement robust security measures to protect your website and your customers' data from threats.</p>
+                                </div>
+                            </div>
+                             <!-- Slide 5 -->
+                            <div class="swiper-slide">
+                                <div class="glass-card p-8 h-full">
+                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Transparent Communication</h4>
+                                    <p class="text-gray-300">You're always in the loop. We believe in clear, consistent communication throughout the entire development process, from concept to launch.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Navigation Arrows -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 md:py-32 parallax-section" style="background-image: url('https://placehold.co/1920x1080/0a0a0a/333333?text=Abstract+Grid');">
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="glass-card max-w-5xl mx-auto p-8 md:p-12">
+                    <div class="text-center mb-10">
+                        <h3 class="text-3xl md:text-5xl font-bold text-white">Transparent Pricing</h3>
+                        <p class="text-gray-400 mt-4">Simple, affordable, and powerful plans for your business.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8 text-center items-start">
+                        <div class="p-4">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Setup Fee</h4>
+                            <p class="text-4xl font-extrabold text-white">1999<span class="text-2xl font-medium text-gray-300">tk</span></p>
+                            <p class="text-gray-400 text-sm">One-time initial payment</p>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Additional Pages</h4>
+                            <p class="text-4xl font-extrabold text-white">499<span class="text-2xl font-medium text-gray-300">tk+</span></p>
+                            <p class="text-gray-400 text-sm">Starts from, based on complexity</p>
+                        </div>
+                        <div class="p-4 bg-black/20 rounded-lg ring-2 ring-indigo-500">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Hosting & Care</h4>
+                            <p class="text-4xl font-extrabold text-white mb-4">999<span class="text-2xl font-medium text-gray-300">tk</span></p>
+                            <ul class="text-left space-y-2 text-gray-300">
+                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Fully Managed Hosting</li>
+                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Unlimited Custom Mails</li>
+                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Customization on Request</li>
+                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>4 Free Monthly Revisions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Portfolio Assembler Section -->
+        <section id="portfolio" class="py-20 md:py-32">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-5xl font-bold text-white">Project Assembler</h3>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Witness our projects materialize. A showcase of dynamic and complex builds.</p>
+                </div>
+                <div id="project-assembler" class="items-center">
+                    <div class="image-grid-container glass-card">
+                        <!-- Grid pieces will be injected here by JavaScript -->
+                    </div>
+                    <div class="project-info">
+                        <h4 id="project-title" class="text-3xl font-bold text-white mb-4"></h4>
+                        <p id="project-description" class="text-gray-400 mb-6"></p>
+                        <a id="project-link" href="#" class="text-indigo-400 font-semibold hover:text-indigo-300">View Project &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Footer -->
+        <footer id="contact" class="py-20 bg-gray-900/50">
+            <div class="container mx-auto px-4 text-center">
+                <h3 class="text-3xl md:text-5xl font-bold text-white mb-4">Have a project in mind?</h3>
+                <p class="text-gray-400 mb-8 max-w-xl mx-auto">Let's talk about how we can transform your idea into a digital reality.</p>
+                <a href="mailto:contact@ajaretro.dev" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-lg text-lg transition-transform transform hover:scale-105 inline-block">
+                    contact@ajaretro.dev
+                </a>
+                <p class="text-sm text-gray-600 mt-16">&copy; 2025 AjaRetro Devs. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- GSAP (GreenSock Animation Platform) for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // --- Hero Background Slideshow ---
+        const bgImages = document.querySelectorAll('.hero-bg-img');
+        let currentImageIndex = 0;
+        setInterval(() => {
+            bgImages[currentImageIndex].classList.remove('active');
+            currentImageIndex = (currentImageIndex + 1) % bgImages.length;
+            bgImages[currentImageIndex].classList.add('active');
+        }, 7000); // Change image every 7 seconds
+
+        // --- Initialize Swiper for Features Slider ---
+        const swiper = new Swiper('.features-slider', {
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            slidesPerView: 1,
+            spaceBetween: 30,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                768: { slidesPerView: 2, spaceBetween: 30 },
+                1024: { slidesPerView: 3, spaceBetween: 40 }
+            }
+        });
+
+        // --- GSAP Scroll-Triggered Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.service-card').forEach(card => {
+            gsap.from(card, { opacity: 0, y: 50, duration: 0.8, scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' } });
+        });
+        gsap.to('.parallax-section', { backgroundPosition: 'center 20%', ease: 'none', scrollTrigger: { trigger: '.parallax-section', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+        // --- NEW: Project Assembler Logic ---
+        const projects = [
+            {
+                title: 'Project Alpha',
+                description: 'A corporate rebranding and website overhaul for a leading tech firm. We focused on a clean, futuristic aesthetic with interactive data visualizations.',
+                imageUrl: 'https://placehold.co/800x600/111827/4f46e5?text=Project+Alpha'
+            },
+            {
+                title: 'E-Commerce Nova',
+                description: 'An e-commerce platform for a fashion startup. The site features a dynamic product grid, a seamless checkout process, and a custom design system.',
+                imageUrl: 'https://placehold.co/800x600/111827/10b981?text=Project+Nova'
+            },
+            {
+                title: 'Studio Creativa',
+                description: 'A portfolio website for a digital arts studio, featuring complex animations and a WebGL-powered gallery to showcase their immersive work.',
+                imageUrl: 'https://placehold.co/800x600/111827/d97706?text=Studio+Creativa'
+            }
+        ];
+
+        const gridContainer = document.querySelector('.image-grid-container');
+        const projectTitle = document.getElementById('project-title');
+        const projectDescription = document.getElementById('project-description');
+        const projectLink = document.getElementById('project-link');
+        
+        const GRID_SIZE = 12;
+        let pieces = [];
+        let currentProjectIndex = 0;
+        let isAnimating = false;
+
+        // Create the grid pieces
+        for (let i = 0; i < GRID_SIZE; i++) {
+            for (let j = 0; j < GRID_SIZE; j++) {
+                const piece = document.createElement('div');
+                piece.classList.add('grid-piece');
+                piece.style.backgroundPosition = `${(j / (GRID_SIZE - 1)) * 100}% ${(i / (GRID_SIZE - 1)) * 100}%`;
+                gridContainer.appendChild(piece);
+                pieces.push(piece);
+            }
+        }
+
+        function updateProjectInfo(index) {
+            const project = projects[index];
+            // Animate text out
+            gsap.to([projectTitle, projectDescription, projectLink], {
+                opacity: 0,
+                y: 10,
+                duration: 0.4,
+                ease: 'power2.in',
+                onComplete: () => {
+                    // Update content
+                    projectTitle.textContent = project.title;
+                    projectDescription.textContent = project.description;
+                    projectLink.href = '#'; // Update with actual link if available
+                    // Animate text in
+                    gsap.to([projectTitle, projectDescription, projectLink], {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: 'power2.out',
+                        delay: 0.8 // Wait for image to start reassembling
+                    });
+                }
+            });
+        }
+
+        function playTransition(nextIndex) {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            updateProjectInfo(nextIndex);
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    isAnimating = false;
+                }
+            });
+
+            // Disassemble
+            tl.to(pieces, {
+                x: () => gsap.utils.random(-200, 200),
+                y: () => gsap.utils.random(-200, 200),
+                rotation: () => gsap.utils.random(-360, 360),
+                scale: 0,
+                opacity: 0,
+                duration: 1,
+                ease: 'power2.inOut',
+                stagger: {
+                    amount: 0.6,
+                    from: 'random'
+                }
+            });
+
+            // Change image source mid-animation
+            tl.add(() => {
+                pieces.forEach(p => p.style.backgroundImage = `url('${projects[nextIndex].imageUrl}')`);
+            });
+
+            // Reassemble
+            tl.to(pieces, {
+                x: 0,
+                y: 0,
+                rotation: 0,
+                scale: 1,
+                opacity: 1,
+                duration: 1,
+                ease: 'power2.inOut',
+                stagger: {
+                    amount: 0.6,
+                    from: 'random'
+                }
+            });
+        }
+
+        // Initial setup
+        pieces.forEach(p => p.style.backgroundImage = `url('${projects[0].imageUrl}')`);
+        updateProjectInfo(0);
+
+        // Auto-cycle projects
+        setInterval(() => {
+            currentProjectIndex = (currentProjectIndex + 1) % projects.length;
+            playTransition(currentProjectIndex);
+        }, 7000); // Cycle every 7 seconds
+
+    </script>
+</body>
+</html>
