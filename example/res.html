@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kachchi House - Authentic Bangladeshi Cuisine</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display (for headings) & Montserrat (for body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-bg {
+            /* Image from Unsplash by Mgg Vitchakorn */
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader-logo {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+        .loader-logo .piece {
+            position: absolute;
+            background-color: #c8a97e;
+            transition: all 0.5s ease-in-out;
+        }
+        /* Transformer-like animation pieces */
+        .piece-1 { width: 50px; height: 100px; top: 0; left: 0; transform-origin: bottom right; animation: assemble1 1.5s forwards; }
+        .piece-2 { width: 50px; height: 100px; top: 0; left: 50px; transform-origin: bottom left; animation: assemble2 1.5s forwards; }
+        .piece-3 { width: 60px; height: 8px; top: 65px; left: 20px; background-color: #1a1a1a; animation: assemble3 1.5s forwards; }
+
+        @keyframes assemble1 {
+            0% { transform: translate(-200px, -200px) rotate(-180deg); }
+            100% { transform: translate(0, 0) rotate(0deg); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+        }
+        @keyframes assemble2 {
+            0% { transform: translate(200px, -200px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(0deg); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+        }
+        @keyframes assemble3 {
+            0% { transform: translateY(200px); opacity: 0; }
+            50% { opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-logo">
+            <div class="piece piece-1"></div>
+            <div class="piece piece-2"></div>
+            <div class="piece piece-3"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 transition-colors duration-300 bg-black bg-opacity-50 backdrop-blur-sm">
+        <nav class="container mx-auto p-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white font-display">Kachchi House</a>
+            <div class="hidden md:flex space-x-8 text-white">
+                <a href="#about" class="hover:text-[#c8a97e] transition-colors">About</a>
+                <a href="#menu" class="hover:text-[#c8a97e] transition-colors">Menu</a>
+                <a href="#gallery" class="hover:text-[#c8a97e] transition-colors">Gallery</a>
+                <a href="#contact" class="hover:text-[#c8a97e] transition-colors">Contact</a>
+            </div>
+            <a href="#contact" class="hidden md:block bg-[#c8a97e] text-black font-semibold py-2 px-5 rounded-full hover:bg-[#b8996e] transition-colors">Book a Table</a>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#about" class="block py-2 px-4 text-sm text-white hover:bg-gray-800">About</a>
+            <a href="#menu" class="block py-2 px-4 text-sm text-white hover:bg-gray-800">Menu</a>
+            <a href="#gallery" class="block py-2 px-4 text-sm text-white hover:bg-gray-800">Gallery</a>
+            <a href="#contact" class="block py-2 px-4 text-sm text-white hover:bg-gray-800">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="h-screen flex items-center justify-center text-center hero-bg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-5xl md:text-8xl font-extrabold text-white leading-tight">Taste of Tradition</h1>
+            <p class="text-xl md:text-2xl text-gray-300 mt-4 max-w-2xl mx-auto">Experience the authentic flavors of Bangladeshi Kachchi Biryani, crafted with passion.</p>
+            <a href="#menu" class="mt-8 inline-block bg-[#c8a97e] text-black font-bold py-4 px-10 rounded-full text-lg hover:bg-[#b8996e] transition-transform transform hover:scale-105">View Our Menu</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="bg-[#1a1a1a]">
+
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Our Story</h2>
+                    <p class="text-gray-400 mb-4">
+                        Born from a passion for authentic Bangladeshi cuisine, Kachchi House was founded to bring the true taste of royal biryani to the heart of the city. Our recipes have been passed down through generations, perfected over time to deliver an unforgettable culinary experience.
+                    </p>
+                    <p class="text-gray-400">
+                        We use only the finest, locally-sourced ingredients, from fragrant chinigura rice to tender, slow-cooked mutton, ensuring every dish is a celebration of flavor and tradition.
+                    </p>
+                </div>
+                <div class="rounded-lg overflow-hidden">
+                    <!-- Image from Unsplash by Rumman Amin -->
+                    <img src="https://images.unsplash.com/photo-1604329226364-3c62e57c6488?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Restaurant Kitchen" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="py-20 md:py-32 bg-[#111111]">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white">Our Menu</h2>
+                    <p class="text-gray-400 mt-2">A selection of our finest dishes</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+                    <!-- Menu Item -->
+                    <div class="flex justify-between items-center border-b border-dashed border-gray-700 pb-4">
+                        <div>
+                            <h4 class="text-xl font-semibold text-white">Basmati Kachchi (Mutton)</h4>
+                            <p class="text-gray-500 text-sm">Slow-cooked mutton with fragrant basmati rice.</p>
+                        </div>
+                        <p class="text-xl font-bold text-[#c8a97e]">450tk</p>
+                    </div>
+                    <!-- Menu Item -->
+                    <div class="flex justify-between items-center border-b border-dashed border-gray-700 pb-4">
+                        <div>
+                            <h4 class="text-xl font-semibold text-white">Chicken Biryani</h4>
+                            <p class="text-gray-500 text-sm">Tender chicken pieces in a flavorful rice pilaf.</p>
+                        </div>
+                        <p class="text-xl font-bold text-[#c8a97e]">350tk</p>
+                    </div>
+                    <!-- Menu Item -->
+                    <div class="flex justify-between items-center border-b border-dashed border-gray-700 pb-4">
+                        <div>
+                            <h4 class="text-xl font-semibold text-white">Beef Tehari</h4>
+                            <p class="text-gray-500 text-sm">Spicy beef and rice, a Dhaka classic.</p>
+                        </div>
+                        <p class="text-xl font-bold text-[#c8a97e]">280tk</p>
+                    </div>
+                     <!-- Menu Item -->
+                    <div class="flex justify-between items-center border-b border-dashed border-gray-700 pb-4">
+                        <div>
+                            <h4 class="text-xl font-semibold text-white">Borhani</h4>
+                            <p class="text-gray-500 text-sm">Traditional spiced yogurt drink.</p>
+                        </div>
+                        <p class="text-xl font-bold text-[#c8a97e]">80tk</p>
+                    </div>
+                     <!-- Menu Item -->
+                    <div class="flex justify-between items-center border-b border-dashed border-gray-700 pb-4">
+                        <div>
+                            <h4 class="text-xl font-semibold text-white">Firni</h4>
+                            <p class="text-gray-500 text-sm">Creamy rice pudding dessert.</p>
+                        </div>
+                        <p class="text-xl font-bold text-[#c8a97e]">120tk</p>
+                    </div>
+                     <!-- Menu Item -->
+                    <div class="flex justify-between items-center border-b border-dashed border-gray-700 pb-4">
+                        <div>
+                            <h4 class="text-xl font-semibold text-white">Shahi Tukra</h4>
+                            <p class="text-gray-500 text-sm">Royal bread pudding with nuts and saffron.</p>
+                        </div>
+                        <p class="text-xl font-bold text-[#c8a97e]">150tk</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-20 md:py-32">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white">Our Gallery</h2>
+                    <p class="text-gray-400 mt-2">A feast for your eyes</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="overflow-hidden rounded-lg h-64">
+                        <!-- Image by Afif Ramdhasu -->
+                        <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Gallery Image 1" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="overflow-hidden rounded-lg h-64">
+                         <!-- Image by Farhad Ibrahimzade -->
+                        <img src="https://images.unsplash.com/photo-1599043513900-ed6fe01d3833?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Gallery Image 2" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="overflow-hidden rounded-lg h-64">
+                         <!-- Image by Syed F Hashemi -->
+                        <img src="https://images.unsplash.com/photo-1594221708779-94832f4320d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Gallery Image 3" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                     <div class="overflow-hidden rounded-lg h-64">
+                         <!-- FIX 1: New Image by Food Photographer David Fedulov -->
+                        <img src="https://images.unsplash.com/photo-1626074353765-517a681e40be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Gallery Image 4" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="overflow-hidden rounded-lg h-64">
+                        <!-- Image by Mgg Vitchakorn -->
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Gallery Image 5" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="overflow-hidden rounded-lg h-64">
+                         <!-- FIX 2: New Image by Monisha Selvaraj -->
+                        <img src="https://images.unsplash.com/photo-1630409351235-53595f8a0293?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="Gallery Image 6" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="overflow-hidden rounded-lg h-64">
+                        <!-- Image by Eiliv Aceron -->
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Gallery Image 7" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="overflow-hidden rounded-lg h-64">
+                        <!-- Image by Jez Timms -->
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Gallery Image 8" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Reservation Section -->
+        <section id="contact" class="py-20 md:py-32 bg-[#111111]">
+            <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Contact Us</h2>
+                    <p class="text-gray-400 mb-8">
+                        We'd love to hear from you. Book a table for your next meal or get in touch for any inquiries.
+                    </p>
+                    <div class="space-y-4 text-lg">
+                        <p><strong class="text-[#c8a97e]">Location:</strong> Celestial Plaza, Stardust Lane, Nebula City</p>
+                        <p><strong class="text-[#c8a97e]">Phone:</strong> +880 1***-******</p>
+                        <p><strong class="text-[#c8a97e]">Hours:</strong> Everyday, 12:00 PM - 11:00 PM</p>
+                    </div>
+                </div>
+                <div>
+                    <div id="reservation-form" class="bg-[#1a1a1a] p-8 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-white mb-6 text-center">Book Your Table</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="text" id="res-name" placeholder="Your Name" class="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#c8a97e]">
+                            <input type="email" id="res-email" placeholder="Your Email" class="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#c8a97e]">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="date" id="res-date" class="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#c8a97e]">
+                            <input type="number" id="res-guests" placeholder="Number of Guests" class="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#c8a97e]">
+                        </div>
+                        <textarea id="res-requests" placeholder="Any special requests?" rows="4" class="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#c8a97e]"></textarea>
+                        <button id="submit-reservation-btn" class="mt-6 w-full bg-[#c8a97e] text-black font-bold py-3 rounded-full text-lg hover:bg-[#b8996e] transition-colors">Submit Reservation</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8">
+        <div class="container mx-auto px-4 text-center text-gray-500">
+            <p>&copy; 2025 Kachchi House. All Rights Reserved.</p>
+            <p class="text-sm mt-2">Designed by <a href="https://ajaretro.dev" target="_blank" class="text-[#c8a97e] hover:underline">AjaRetro Devs</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 2000); // Ensure animation plays for at least 2 seconds
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // WhatsApp Reservation Logic
+        const submitBtn = document.getElementById('submit-reservation-btn');
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent form from submitting traditionally
+
+            const name = document.getElementById('res-name').value;
+            const email = document.getElementById('res-email').value;
+            const date = document.getElementById('res-date').value;
+            const guests = document.getElementById('res-guests').value;
+            const requests = document.getElementById('res-requests').value;
+
+            if (!name || !date || !guests) {
+                alert('Please fill in at least your name, date, and number of guests.');
+                return;
+            }
+
+            const restaurantPhoneNumber = '8801712345678'; // The actual number for the link
+
+            let message = `*New Table Reservation Request*\n\n`;
+            message += `*Name:* ${name}\n`;
+            if (email) message += `*Email:* ${email}\n`;
+            message += `*Date:* ${date}\n`;
+            message += `*Number of Guests:* ${guests}\n`;
+            if (requests) message += `*Special Requests:* ${requests}\n`;
+
+            const whatsappUrl = `https://wa.me/${restaurantPhoneNumber}?text=${encodeURIComponent(message)}`;
+
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+
+</body>
+</html>
