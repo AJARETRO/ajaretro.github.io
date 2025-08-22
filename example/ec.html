@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aethel - Exquisite Ornaments & Jewelry</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Cormorant Garamond (for headings) & Manrope (for body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #111111;
+            color: #e0e0e0;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .hero-bg {
+            /* Using a placeholder for the hero background for consistency */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1920x1080/111111/d4af37?text=Aethel');
+            background-size: cover;
+            background-position: center 60%;
+        }
+        .btn-primary {
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #d4af37;
+            color: #111111;
+        }
+        .product-card img {
+            transition: transform 0.4s ease;
+        }
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-30 backdrop-blur-md">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold text-white font-serif tracking-wider">Aethel</a>
+            <div class="hidden md:flex items-center space-x-8 text-white">
+                <a href="#collections" class="hover:text-[#d4af37] transition-colors">Collections</a>
+                <a href="#featured" class="hover:text-[#d4af37] transition-colors">Featured</a>
+                <a href="#about" class="hover:text-[#d4af37] transition-colors">Our Story</a>
+                <a href="#" class="hover:text-[#d4af37] transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-50">
+            <a href="#collections" class="block py-2 px-6 text-sm text-white hover:bg-gray-800">Collections</a>
+            <a href="#featured" class="block py-2 px-6 text-sm text-white hover:bg-gray-800">Featured</a>
+            <a href="#about" class="block py-2 px-6 text-sm text-white hover:bg-gray-800">Our Story</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="h-screen flex items-center justify-start hero-bg">
+        <div class="container mx-auto px-6">
+            <div class="max-w-lg text-left">
+                <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight">Timeless Elegance,<br>Modern Grace.</h1>
+                <p class="text-lg text-gray-300 mt-6">Discover our collection of handcrafted ornaments, designed to be cherished for a lifetime.</p>
+                <a href="#featured" class="mt-10 inline-block btn-primary font-semibold py-3 px-10 rounded-full text-lg">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="bg-[#111111]">
+
+        <!-- Featured Products Section -->
+        <section id="featured" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white">Featured Products</h2>
+                    <p class="text-gray-400 mt-3">A selection of our most beloved pieces</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Product Card 1 -->
+                    <div class="product-card text-center group">
+                        <div class="overflow-hidden mb-4 bg-black rounded-lg">
+                            <img src="https://placehold.co/600x800/111111/d4af37?text=Necklace" alt="Seraphina Necklace" class="w-full h-96 object-cover">
+                        </div>
+                        <h3 class="text-xl font-serif text-white">Seraphina Necklace</h3>
+                        <p class="text-[#d4af37] font-semibold">12,500tk</p>
+                    </div>
+                    <!-- Product Card 2 -->
+                    <div class="product-card text-center group">
+                        <div class="overflow-hidden mb-4 bg-black rounded-lg">
+                            <img src="https://placehold.co/600x800/111111/d4af37?text=Earrings" alt="Orion Earrings" class="w-full h-96 object-cover">
+                        </div>
+                        <h3 class="text-xl font-serif text-white">Orion Earrings</h3>
+                        <p class="text-[#d4af37] font-semibold">8,900tk</p>
+                    </div>
+                    <!-- Product Card 3 -->
+                    <div class="product-card text-center group">
+                        <div class="overflow-hidden mb-4 bg-black rounded-lg">
+                            <img src="https://placehold.co/600x800/111111/d4af37?text=Bracelet" alt="Helios Bracelet" class="w-full h-96 object-cover">
+                        </div>
+                        <h3 class="text-xl font-serif text-white">Helios Bracelet</h3>
+                        <p class="text-[#d4af37] font-semibold">15,000tk</p>
+                    </div>
+                    <!-- Product Card 4 -->
+                    <div class="product-card text-center group">
+                        <div class="overflow-hidden mb-4 bg-black rounded-lg">
+                            <img src="https://placehold.co/600x800/111111/d4af37?text=Ring" alt="Luna Ring" class="w-full h-96 object-cover">
+                        </div>
+                        <h3 class="text-xl font-serif text-white">Luna Ring</h3>
+                        <p class="text-[#d4af37] font-semibold">7,200tk</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collections Section -->
+        <section id="collections" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
+                <div class="text-left">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">The Celestial Collection</h2>
+                    <p class="text-gray-400 mb-8 max-w-md">Inspired by the cosmos, the Celestial Collection features intricate designs that capture the magic of the night sky. Each piece is a reminder of the infinite beauty that surrounds us.</p>
+                    <a href="#" class="btn-primary font-semibold py-3 px-10 rounded-full text-lg">Explore Now</a>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://placehold.co/600x800/111111/d4af37?text=Celestial+I" alt="Collection image 1" class="rounded-lg object-cover w-full h-80">
+                    <img src="https://placehold.co/600x800/111111/d4af37?text=Celestial+II" alt="Collection image 2" class="rounded-lg object-cover w-full h-80 mt-8">
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-32 bg-black">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <div class="rounded-lg overflow-hidden">
+                    <img src="https://placehold.co/800x600/111111/d4af37?text=Craftsmanship" alt="Craftsmanship" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">A Legacy of Craftsmanship</h2>
+                    <p class="text-gray-400 mb-4">
+                        At Aethel, jewelry is more than an accessory; it's a form of art. Our journey began with a simple desire to create beautiful, meaningful ornaments that tell a story.
+                    </p>
+                    <p class="text-gray-400">
+                        Each piece is meticulously handcrafted by our skilled artisans, blending traditional techniques with contemporary design. We believe in creating heirlooms, not trends.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black py-16">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <a href="#" class="text-3xl font-bold text-white font-serif tracking-wider mb-4 inline-block">Aethel</a>
+            <div class="flex justify-center space-x-6 my-6">
+                <a href="#" class="hover:text-white transition-colors">Facebook</a>
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-white transition-colors">Pinterest</a>
+            </div>
+            <p>&copy; 2025 Aethel. All Rights Reserved.</p>
+            <p class="text-sm mt-2">Designed by <a href="https://ajaretro.dev" target="_blank" class="text-gray-400 hover:underline">AjaRetro Devs</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate featured products
+        gsap.utils.toArray('.product-card').forEach((card, i) => {
+            gsap.from(card, {
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                delay: i * 0.1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Animate section headings
+        gsap.utils.toArray('h2, #collections p, #collections a, #about p').forEach(elem => {
+            gsap.from(elem, {
+                opacity: 0,
+                y: 40,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: elem,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
