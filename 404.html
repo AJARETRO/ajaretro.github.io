@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found | AjaRetro Devs</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
+            <!-- SVG Logo -->
+            <a href="index.html" aria-label="AjaRetro Homepage">
+                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#4F46E5"/>
+                            <stop offset="100%" stop-color="#22D3EE"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center text-center">
+        <div class="container mx-auto px-4 py-16">
+            <div class="max-w-md mx-auto">
+                <img src="https://i.imgflip.com/a3v4va.jpg" alt="Disappointed Cricket Fan Meme" class="w-full rounded-lg shadow-lg">
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black text-white mt-12">404</h1>
+            <p class="text-xl md:text-2xl text-indigo-400 font-semibold mt-2">Page Not Found</p>
+            <p class="text-gray-400 mt-6 max-w-lg mx-auto">
+                Looks like you're as lost as our hope was during that cricket match. The page you're looking for doesn't exist.
+            </p>
+            <a href="index.html" class="mt-10 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
+                Go Back Home
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 bg-black">
+        <div class="container mx-auto px-4 text-center text-gray-600 text-sm">
+            <p>&copy; 2025 AjaRetro Devs. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
