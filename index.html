@@ -29,7 +29,7 @@
       "image": "https://ajaretro.dev/logo.svg",
       "url": "https://ajaretro.dev",
       "telephone": "+8801989208751",
-      "priceRange": "$$",
+      "priceRange": "$$$",
       "description": "Custom web design, development, and SEO services in Bangladesh, led by experienced developer AJA RETRO.",
       "address": {
         "@type": "PostalAddress",
@@ -74,38 +74,16 @@
             opacity: 0;
             visibility: hidden;
         }
-        .loader-logo-container {
-            position: relative;
-            width: 140px;
+        .loader-logo {
+            width: 100px;
             height: 100px;
+            position: relative;
+            animation: pulse 2s infinite ease-in-out;
         }
-        .loader-piece {
-            position: absolute;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-width: 12;
-            fill: none;
-            animation-duration: 1.5s;
-            animation-fill-mode: forwards;
-            animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
-        .loader-piece-1 { stroke: url(#logoGradient); animation-name: assemble-left; }
-        .loader-piece-2 { stroke: white; animation-name: assemble-j; }
-        .loader-piece-3 { stroke: url(#logoGradient); animation-name: assemble-right; }
-
-        @keyframes assemble-left {
-            from { transform: translate(-100px, -100px) rotate(-90deg); opacity: 0; }
-            to { transform: translate(0, 0) rotate(0); opacity: 1; }
-        }
-        @keyframes assemble-j {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes assemble-right {
-            from { transform: translate(100px, 100px) rotate(90deg); opacity: 0; }
-            to { transform: translate(0, 0) rotate(0); opacity: 1; }
-        }
-
 
         /* Hero section background slideshow container */
         #hero-bg-slider {
@@ -129,13 +107,13 @@
             background-position: center center;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
-            transform: scale(1.1); /* Start slightly zoomed in */
+            transform: scale(1.1);
         }
 
         /* Active state for background images */
         .hero-bg-img.active {
             opacity: 1;
-            transform: scale(1); /* Zoom out to normal */
+            transform: scale(1);
             transition: opacity 1.5s ease-in-out, transform 10s linear;
         }
 
@@ -168,11 +146,6 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
-            transition: background 0.3s, border 0.3s;
-        }
-        .glass-card:hover {
-            background: rgba(20, 20, 20, 0.6);
-            border-color: rgba(255, 255, 255, 0.2);
         }
         
         /* Section with parallax background image */
@@ -199,7 +172,7 @@
         }
         .animate-fade-in-up-delay {
             animation: fadeInUp 0.8s ease-out 0.4s forwards;
-            opacity: 0; /* Start as invisible before animation */
+            opacity: 0;
         }
 
         /* Custom Swiper navigation buttons */
@@ -219,7 +192,6 @@
         .swiper-button-next::after, .swiper-button-prev::after {
             font-size: 24px;
         }
-        /* Positioning arrows outside the slider content on larger screens */
         .swiper-button-prev {
             left: var(--swiper-navigation-sides-offset, -10px);
         }
@@ -247,7 +219,7 @@
             border-radius: 0.5rem;
         }
         .grid-piece {
-            background-size: 1200% 1200%; /* 100 * 12 columns/rows */
+            background-size: 1200% 1200%;
             transition: background-image 0.2s ease-in-out;
         }
         .project-info {
@@ -259,27 +231,27 @@
 
     <!-- Preloader -->
     <div id="preloader">
-        <div class="loader-logo-container">
-            <svg class="w-full h-full" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="loader-logo">
+            <svg class="h-full w-full text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stop-color="#4F46E5"/>
                         <stop offset="100%" stop-color="#22D3EE"/>
                     </linearGradient>
                 </defs>
-                <path class="loader-piece loader-piece-1" d="M40 0 L10 50 L40 100"/>
-                <path class="loader-piece loader-piece-2" d="M70 15 V 85 C 70 95 60 95 55 85"/>
-                <path class="loader-piece loader-piece-3" d="M100 0 L130 50 L100 100"/>
+                <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
     </div>
 
-    <!-- Header with permanent semi-transparent background -->
+    <!-- Header -->
     <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm transition-colors duration-300" id="header">
         <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
-            <!-- SVG Logo (Code Monogram) -->
             <a href="#" aria-label="AjaRetro Homepage">
                 <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#logoGradient" />
                     <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
@@ -289,21 +261,21 @@
         </nav>
     </header>
 
-    <!-- Hero Section with Background Slideshow -->
+    <!-- Hero Section -->
     <section class="relative min-h-screen flex items-end justify-center text-center overflow-hidden">
         <div id="hero-bg-slider">
-            <div class="hero-bg-img active" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Modern+Architecture');"></div>
-            <div class="hero-bg-img" style="background-image: url('https://placehold.co/1920x1080/111111/FFFFFF?text=Digital+Landscape');"></div>
-            <div class="hero-bg-img" style="background-image: url('https://placehold.co/1920x1080/222222/FFFFFF?text=Creative+Code');"></div>
+            <div class="hero-bg-img active" style="background-image: url('https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="hero-bg-img" style="background-image: url('https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2231&q=80');"></div>
+            <div class="hero-bg-img" style="background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');"></div>
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content container mx-auto px-4 pb-24 md:pb-32">
-            <h1 class="text-4xl md:text-7xl font-black text-white leading-tight mb-4 animate-fade-in-up text-shadow">
+            <h2 class="text-4xl md:text-7xl font-black text-white leading-tight mb-4 animate-fade-in-up text-shadow">
                 We Don't Just Build Websites.
-            </h1>
-            <h2 class="text-4xl md:text-7xl font-black text-indigo-400 leading-tight mb-8 animate-fade-in-up-delay text-shadow">
-                We Engineer Experiences.
             </h2>
+            <h3 class="text-4xl md:text-7xl font-black text-indigo-400 leading-tight mb-8 animate-fade-in-up-delay text-shadow">
+                We Engineer Experiences.
+            </h3>
             <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10 text-shadow">
                 From stunning visuals to seamless functionality, we create digital platforms that captivate and convert.
             </p>
@@ -313,160 +285,155 @@
     <!-- Main Content Wrapper -->
     <div class="relative bg-black z-10">
     
-        <!-- Services Section with Animated Cards -->
-        <section id="services" class="py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">Our Core Services</h3>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We provide the essential services to launch and grow your business in Bangladesh.</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Service Card 1 -->
-                    <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
-                        <h4 class="text-2xl font-bold text-white mb-3">Custom Web Design</h4>
-                        <p class="text-gray-400">Visually stunning, bespoke web design tailored to your brand. We focus on user experience to ensure your site is not only beautiful but also intuitive and easy to navigate.</p>
-                    </div>
-                    <!-- Service Card 2 -->
-                    <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
-                        <h4 class="text-2xl font-bold text-white mb-3">Responsive Development</h4>
-                        <p class="text-gray-400">Flawless performance on any device. Our responsive development ensures your website looks and works perfectly on desktops, tablets, and all smartphones.</p>
-                    </div>
-                    <!-- Service Card 3 -->
-                    <div class="service-card glass-card p-8 border-t-4 border-indigo-500">
-                        <h4 class="text-2xl font-bold text-white mb-3">E-Commerce Solutions</h4>
-                        <p class="text-gray-400">Powerful online stores to sell your products. We build secure and scalable e-commerce websites with easy inventory management and payment gateway integration.</p>
-                    </div>
-                </div>
-                <!-- Link to Services Page -->
-                <div class="text-center mt-16">
-                    <a href="services.html" class="text-indigo-400 font-semibold text-lg hover:text-indigo-300 transition-colors">
-                        Learn More About Our Services &rarr;
-                    </a>
-                </div>
-            </div>
-        </section>
-
         <!-- Our Process Section -->
         <section id="process" class="py-20 md:py-32">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">Our Proven Process</h3>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We follow a structured path to ensure your project's success from start to finish.</p>
+                    <h3 class="text-3xl md:text-5xl font-bold text-white">Our 4-Step Process to Success</h3>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We follow a proven path to ensure your project is a masterpiece, from start to finish.</p>
                 </div>
                 <div class="grid md:grid-cols-4 gap-8 text-center">
                     <!-- Step 1 -->
                     <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">01</div>
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">01</div>
                         <h4 class="text-xl font-bold text-white mb-2">Discover</h4>
-                        <p class="text-gray-400">We start by understanding your vision, goals, and target audience to build a solid foundation.</p>
+                        <p class="text-gray-400">We dive deep into your vision, goals, and audience to build a rock-solid strategy.</p>
                     </div>
                     <!-- Step 2 -->
                     <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">02</div>
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">02</div>
                         <h4 class="text-xl font-bold text-white mb-2">Design</h4>
-                        <p class="text-gray-400">Our creative phase involves wireframing and designing a beautiful, user-friendly interface.</p>
+                        <p class="text-gray-400">We craft a stunning, user-friendly design that brings your brand's story to life.</p>
                     </div>
                     <!-- Step 3 -->
                     <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">03</div>
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">03</div>
                         <h4 class="text-xl font-bold text-white mb-2">Develop</h4>
-                        <p class="text-gray-400">We write clean, efficient code to bring the design to life with seamless functionality.</p>
+                        <p class="text-gray-400">Our expert coders build a fast, secure, and pixel-perfect website from the ground up.</p>
                     </div>
                     <!-- Step 4 -->
                     <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 rounded-full bg-gray-800 border-2 border-indigo-500 text-indigo-400 text-3xl font-bold">04</div>
+                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">04</div>
                         <h4 class="text-xl font-bold text-white mb-2">Deploy</h4>
-                        <p class="text-gray-400">After rigorous testing, we launch your website and provide support for a smooth takeoff.</p>
+                        <p class="text-gray-400">We launch your site to the world and ensure a flawless, bug-free experience for your users.</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Slider Section -->
-        <section id="features" class="py-20 md:py-32 bg-gray-900/30">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">Why Choose AjaRetro?</h3>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We combine cutting-edge technology with a client-focused approach.</p>
-                </div>
-                <!-- Swiper Wrapper for positioning arrows -->
-                <div class="relative max-w-6xl mx-auto">
-                    <!-- Swiper -->
-                    <div class="swiper features-slider">
-                        <div class="swiper-wrapper">
-                            <!-- Slide 1 -->
-                            <div class="swiper-slide">
-                                <div class="glass-card p-8 h-full">
-                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Pixel-Perfect Design</h4>
-                                    <p class="text-gray-300">We obsess over the details. Every element is meticulously crafted to ensure your website is a visual masterpiece that aligns perfectly with your brand identity.</p>
-                                </div>
-                            </div>
-                            <!-- Slide 2 -->
-                            <div class="swiper-slide">
-                                <div class="glass-card p-8 h-full">
-                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Optimized for Speed</h4>
-                                    <p class="text-gray-300">A slow website is a lost customer. We build with performance in mind, ensuring lightning-fast load times to keep your visitors engaged.</p>
-                                </div>
-                            </div>
-                            <!-- Slide 3 -->
-                            <div class="swiper-slide">
-                                <div class="glass-card p-8 h-full">
-                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">SEO-Ready Foundation</h4>
-                                    <p class="text-gray-300">We build your site on a foundation of SEO best practices, making it easier for search engines like Google to find and rank your content.</p>
-                                </div>
-                            </div>
-                            <!-- Slide 4 -->
-                            <div class="swiper-slide">
-                                <div class="glass-card p-8 h-full">
-                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Secure & Reliable</h4>
-                                    <p class="text-gray-300">Security is not an afterthought. We implement robust security measures to protect your website and your customers' data from threats.</p>
-                                </div>
-                            </div>
-                             <!-- Slide 5 -->
-                            <div class="swiper-slide">
-                                <div class="glass-card p-8 h-full">
-                                    <h4 class="text-xl font-bold text-indigo-400 mb-3">Transparent Communication</h4>
-                                    <p class="text-gray-300">You're always in the loop. We believe in clear, consistent communication throughout the entire development process, from concept to launch.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Navigation Arrows -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
                 </div>
             </div>
         </section>
 
         <!-- Pricing Section -->
-        <section id="pricing" class="py-20 md:py-32 parallax-section" style="background-image: url('https://placehold.co/1920x1080/0a0a0a/333333?text=Abstract+Grid');">
-            <div class="container mx-auto px-4 relative z-10">
-                <div class="glass-card max-w-5xl mx-auto p-8 md:p-12">
-                    <div class="text-center mb-10">
-                        <h3 class="text-3xl md:text-5xl font-bold text-white">Transparent Pricing</h3>
-                        <p class="text-gray-400 mt-4">Simple, affordable, and powerful plans for your business.</p>
+        <section id="pricing" class="py-20 md:py-32 bg-gray-900/30">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-5xl font-bold text-white">All-Inclusive Development Packages</h3>
+                    <p class="text-gray-400 mt-4 max-w-3xl mx-auto">Choose your foundation. Your package includes a **Free Domain for Life** as long as you have a Guardian Plan with us.</p>
+                </div>
+                <div class="grid lg:grid-cols-4 gap-8 max-w-7xl mx-auto items-start">
+                    <!-- Package 1 -->
+                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-white">Starter Site</h4>
+                        <p class="text-4xl font-black text-white my-4">14,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
+                        <p class="text-gray-400 mb-6 flex-grow">A stunning, professional static site to launch your brand.</p>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>4-5 Page Static Site</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Mobile-First Responsive Design</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Basic SEO Setup</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
                     </div>
-                    <div class="grid md:grid-cols-3 gap-8 text-center items-start">
-                        <div class="p-4">
-                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Setup Fee</h4>
-                            <p class="text-4xl font-extrabold text-white">1999<span class="text-2xl font-medium text-gray-300">tk</span></p>
-                            <p class="text-gray-400 text-sm">One-time initial payment</p>
+                    <!-- Package 2 -->
+                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-white">Business Site</h4>
+                        <p class="text-4xl font-black text-white my-4">24,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
+                        <p class="text-gray-400 mb-6 flex-grow">An expansive site for growing businesses, ready for content and marketing.</p>
+                        <ul class="space-y-3 text-gray-300">
+                             <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>10-12 Page Site</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Advanced Responsive Design</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Blog & News Section</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Advanced SEO Setup</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
+                    </div>
+                    <!-- Package 3 -->
+                    <div class="glass-card p-8 rounded-lg h-full flex flex-col ring-2 ring-indigo-500 transform scale-105">
+                        <div class="text-center mb-4">
+                            <span class="bg-indigo-600 text-white text-sm font-bold px-4 py-1 rounded-full">BEST VALUE</span>
                         </div>
-                        <div class="p-4">
-                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Additional Pages</h4>
-                            <p class="text-4xl font-extrabold text-white">499<span class="text-2xl font-medium text-gray-300">tk+</span></p>
-                            <p class="text-gray-400 text-sm">Starts from, based on complexity</p>
+                        <h4 class="text-2xl font-bold text-white">Pro Engine</h4>
+                        <p class="text-4xl font-black text-white my-4">39,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
+                        <p class="text-gray-400 mb-6 flex-grow">The ultimate solution with a powerful admin panel (CMS) that you control.</p>
+                        <ul class="space-y-3 text-gray-300">
+                           <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Unlimited Pages Structure</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Full CMS Admin Panel (WordPress)</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>E-commerce Ready</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Client Training Session</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 block w-full text-center bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors">Choose Plan</a>
+                    </div>
+                     <!-- Package 4 -->
+                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-white">Full Ownership</h4>
+                        <p class="text-4xl font-black text-white my-4">49,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
+                        <p class="text-gray-400 mb-6 flex-grow">Complete control and ownership. We build it, then hand you all the keys.</p>
+                        <ul class="space-y-3 text-gray-300">
+                           <li class="flex items-center font-bold"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Everything in Pro Engine</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Full Source Code Handover</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Deployment to Your Server</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>No Monthly Commitment Required</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monthly Guardian Plans Section -->
+        <section id="care-plans" class="py-20 md:py-32">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-5xl font-bold text-white">Monthly Website Guardian Plans</h3>
+                    <p class="text-gray-400 mt-4 max-w-3xl mx-auto">For our hosted clients, choose a plan to keep your site fast, secure, and working for you 24/7.</p>
+                </div>
+                 <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
+                    <!-- Plan 1 -->
+                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-white">Essential</h4>
+                        <p class="text-4xl font-black text-white my-4">2,499<span class="text-xl font-medium text-gray-300"> tk/mo</span></p>
+                        <p class="text-gray-400 mb-6 flex-grow">Your website's personal security team. We handle all the technical details.</p>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Premium Hosting</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Weekly Backups</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Security & Updates</li>
+                             <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Unlimited Custom Mails</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
+                    </div>
+                    <!-- Plan 2 -->
+                    <div class="glass-card p-8 rounded-lg h-full flex flex-col ring-2 ring-indigo-500 transform scale-105">
+                        <div class="text-center mb-4">
+                            <span class="bg-indigo-600 text-white text-sm font-bold px-4 py-1 rounded-full">MOST POPULAR</span>
                         </div>
-                        <div class="p-4 bg-black/20 rounded-lg ring-2 ring-indigo-500">
-                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Hosting & Care</h4>
-                            <p class="text-4xl font-extrabold text-white mb-4">999<span class="text-2xl font-medium text-gray-300">tk</span></p>
-                            <ul class="text-left space-y-2 text-gray-300">
-                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Fully Managed Hosting</li>
-                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Unlimited Custom Mails</li>
-                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>Customization on Request</li>
-                                <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>4 Free Monthly Revisions</li>
-                            </ul>
-                        </div>
+                        <h4 class="text-2xl font-bold text-white">Standard</h4>
+                        <p class="text-4xl font-black text-white my-4">4,999<span class="text-xl font-medium text-gray-300"> tk/mo</span></p>
+                        <p class="text-gray-400 mb-6 flex-grow">The perfect balance of protection and support for growing businesses.</p>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-center font-bold"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Everything in Essential</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>2 Hours of Priority Updates</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>4 Free Monthly Revisions</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 block w-full text-center bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors">Choose Plan</a>
+                    </div>
+                    <!-- Plan 3 -->
+                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
+                        <h4 class="text-2xl font-bold text-white">Pro Retainer</h4>
+                        <p class="text-4xl font-black text-white my-4">9,999<span class="text-xl font-medium text-gray-300"> tk/mo</span></p>
+                        <p class="text-gray-400 mb-6 flex-grow">Dedicated support and proactive management for serious businesses.</p>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-center font-bold"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Everything in Standard</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>5 Hours of Priority Updates</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Monthly SEO Performance Report</li>
+                        </ul>
+                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
                     </div>
                 </div>
             </div>
@@ -486,7 +453,7 @@
                     <div class="project-info">
                         <h4 id="project-title" class="text-3xl font-bold text-white mb-4"></h4>
                         <p id="project-description" class="text-gray-400 mb-6"></p>
-                        <a id="project-link" href="#" target="_blank" class="text-indigo-400 font-semibold hover:text-indigo-300">View Project &rarr;</a>
+                        <a id="project-link" href="#" class="text-indigo-400 font-semibold hover:text-indigo-300">View Project &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -497,41 +464,37 @@
             <div class="container mx-auto px-4">
                 <div class="glass-card max-w-4xl mx-auto p-8 md:p-12 grid md:grid-cols-3 gap-8 items-center">
                     <div class="md:col-span-1 text-center">
-                        <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="AJA RETRO, Web Developer in Bangladesh" class="rounded-full w-48 h-48 mx-auto border-4 border-indigo-500">
+                        <img src="https://raw.githubusercontent.com/AJARETRO/ajaretro.github.io/main/IMG-20240928-WA0011-01.jpeg" alt="AJA RETRO, Web Developer in Bangladesh" class="rounded-full w-48 h-48 mx-auto border-4 border-indigo-500 object-cover">
                     </div>
                     <div class="md:col-span-2">
                         <h3 class="text-3xl font-bold text-white">Meet the Engineer</h3>
                         <h4 class="text-2xl font-semibold text-indigo-400 mt-1 mb-4">AJA RETRO</h4>
                         <p class="text-gray-300 mb-6">
-                            With a great passion for technology and a sharp eye for design, I (Ahmed Juhaed Ayeman Niloy) craft digital experiences that are not only beautiful but also powerful and secure.
+                            With a great passion for technology and a sharp eye for design, I (Ahmed Juhaed Ayeman Niloy) craft digital experiences that are not only beautiful but also powerful and secure. My journey is fueled by a constant desire to innovate and push the boundaries of what's possible on the web.
                         </p>
-                        <!-- Link to About Page -->
-                        <a href="about.html" class="text-indigo-400 font-semibold hover:text-indigo-300">
-                            Learn More About Me &rarr;
-                        </a>
+                        <div class="flex flex-wrap gap-4 mb-6">
+                            <span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">Designing Websites since 2020</span>
+                            <span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">Ethical Hacker since 2022</span>
+                        </div>
+                         <a href="about.html" class="text-indigo-400 font-semibold hover:text-indigo-300">Learn More About Me &rarr;</a>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- NEW: From the Blog Section -->
+        <!-- From the Blog Section -->
         <section id="blog" class="py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">From the Blog</h3>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Sharing insights on web development and digital strategy in Bangladesh.</p>
-                </div>
-                <div class="max-w-4xl mx-auto">
-                     <a href="blog/post1.html" class="block glass-card overflow-hidden md:flex">
-                        <img class="h-64 w-full object-cover md:w-1/3" src="https://placehold.co/600x400/161b22/c9d1d9?text=Website+Cost" alt="Calculator and charts representing website cost">
-                        <div class="p-8">
-                            <p class="text-sm text-gray-500">August 22, 2025</p>
-                            <h4 class="text-2xl font-bold text-white mt-2 mb-3">How Much Does a Website Cost in Bangladesh? (2025 Guide)</h4>
-                            <p class="text-gray-400 mb-6">A detailed breakdown of website pricing in Bangladesh, from basic sites to complex e-commerce platforms...</p>
-                            <span class="text-indigo-400 font-semibold hover:text-indigo-300">Read More &rarr;</span>
-                        </div>
+            <div class="container mx-auto px-4 text-center">
+                 <h3 class="text-3xl md:text-5xl font-bold text-white">From the Blog</h3>
+                 <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Insights and advice on navigating the digital world.</p>
+                 <div class="mt-12 max-w-2xl mx-auto">
+                    <a href="blog/post1.html" class="block glass-card p-8 text-left hover:bg-gray-900/50 transition-colors">
+                        <p class="text-indigo-400 font-semibold">Pricing Explained</p>
+                        <h4 class="text-2xl font-bold text-white mt-2">How Much Does a Professional Website *Really* Cost in Bangladesh?</h4>
+                        <p class="text-gray-400 mt-4">We break down the typical costs and show you how our packages provide unmatched value compared to the market average.</p>
+                        <span class="text-indigo-400 font-semibold mt-6 inline-block">Read More &rarr;</span>
                     </a>
-                </div>
+                 </div>
             </div>
         </section>
 
@@ -556,12 +519,12 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // --- Preloader Logic ---
+        // --- Preloader ---
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
                 preloader.classList.add('hidden');
-            }, 2000); // Let animation play
+            }, 1500); // Let it run for 1.5s
         });
 
         // --- Hero Background Slideshow ---
@@ -571,7 +534,7 @@
             bgImages[currentImageIndex].classList.remove('active');
             currentImageIndex = (currentImageIndex + 1) % bgImages.length;
             bgImages[currentImageIndex].classList.add('active');
-        }, 7000); // Change image every 7 seconds
+        }, 7000);
 
         // --- Initialize Swiper for Features Slider ---
         const swiper = new Swiper('.features-slider', {
@@ -594,8 +557,8 @@
 
         // --- GSAP Scroll-Triggered Animations ---
         gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.service-card, .glass-card, .process-step').forEach(card => {
-            gsap.from(card, { opacity: 0, y: 50, duration: 0.8, scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' } });
+        gsap.utils.toArray('.process-step, .glass-card, .project-info, #blog a').forEach(el => {
+            gsap.from(el, { opacity: 0, y: 50, duration: 0.8, scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' } });
         });
         gsap.to('.parallax-section', { backgroundPosition: 'center 20%', ease: 'none', scrollTrigger: { trigger: '.parallax-section', start: 'top bottom', end: 'bottom top', scrub: true } });
 
@@ -603,15 +566,15 @@
         const projects = [
             {
                 title: 'Kachchi House',
-                description: 'A sophisticated and elegant website for a premium Bangladeshi restaurant, featuring an interactive menu and a seamless reservation system.',
-                imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1887&auto=format&fit=crop',
-                link: 'example/res.html'
+                description: 'A sophisticated and elegant website for a premium Bangladeshi restaurant, featuring an online menu and reservation system.',
+                imageUrl: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80',
+                link: 'restaurant.html' // Link to the example page
             },
             {
-                title: 'Aethel Ornaments',
-                description: 'A luxurious e-commerce platform for a high-end jewelry brand. The design focuses on clean visuals and a premium user experience to drive sales.',
-                imageUrl: 'https://images.unsplash.com/photo-1599330293580-f5b12937e9a3?q=80&w=1887&auto=format&fit=crop',
-                link: 'example/ec.html'
+                title: 'E-Commerce Nova',
+                description: 'An e-commerce platform for a fashion startup. The site features a dynamic product grid, a seamless checkout process, and a custom design system.',
+                imageUrl: 'https://placehold.co/800x600/111827/10b981?text=Project+Nova',
+                link: '#'
             }
         ];
 
@@ -625,7 +588,6 @@
         let currentProjectIndex = 0;
         let isAnimating = false;
 
-        // Create the grid pieces
         for (let i = 0; i < GRID_SIZE; i++) {
             for (let j = 0; j < GRID_SIZE; j++) {
                 const piece = document.createElement('div');
@@ -638,24 +600,21 @@
 
         function updateProjectInfo(index) {
             const project = projects[index];
-            // Animate text out
             gsap.to([projectTitle, projectDescription, projectLink], {
                 opacity: 0,
                 y: 10,
                 duration: 0.4,
                 ease: 'power2.in',
                 onComplete: () => {
-                    // Update content
                     projectTitle.textContent = project.title;
                     projectDescription.textContent = project.description;
                     projectLink.href = project.link;
-                    // Animate text in
                     gsap.to([projectTitle, projectDescription, projectLink], {
                         opacity: 1,
                         y: 0,
                         duration: 0.6,
                         ease: 'power2.out',
-                        delay: 0.8 // Wait for image to start reassembling
+                        delay: 0.8
                     });
                 }
             });
@@ -667,13 +626,8 @@
 
             updateProjectInfo(nextIndex);
 
-            const tl = gsap.timeline({
-                onComplete: () => {
-                    isAnimating = false;
-                }
-            });
+            const tl = gsap.timeline({ onComplete: () => { isAnimating = false; } });
 
-            // Disassemble
             tl.to(pieces, {
                 x: () => gsap.utils.random(-200, 200),
                 y: () => gsap.utils.random(-200, 200),
@@ -682,18 +636,13 @@
                 opacity: 0,
                 duration: 1,
                 ease: 'power2.inOut',
-                stagger: {
-                    amount: 0.6,
-                    from: 'random'
-                }
+                stagger: { amount: 0.6, from: 'random' }
             });
 
-            // Change image source mid-animation
             tl.add(() => {
                 pieces.forEach(p => p.style.backgroundImage = `url('${projects[nextIndex].imageUrl}')`);
             });
 
-            // Reassemble
             tl.to(pieces, {
                 x: 0,
                 y: 0,
@@ -702,22 +651,17 @@
                 opacity: 1,
                 duration: 1,
                 ease: 'power2.inOut',
-                stagger: {
-                    amount: 0.6,
-                    from: 'random'
-                }
+                stagger: { amount: 0.6, from: 'random' }
             });
         }
 
-        // Initial setup
         pieces.forEach(p => p.style.backgroundImage = `url('${projects[0].imageUrl}')`);
         updateProjectInfo(0);
 
-        // Auto-cycle projects
         setInterval(() => {
             currentProjectIndex = (currentProjectIndex + 1) % projects.length;
             playTransition(currentProjectIndex);
-        }, 7000); // Cycle every 7 seconds
+        }, 7000);
 
     </script>
 </body>
