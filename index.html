@@ -3,666 +3,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO Optimized Title -->
-    <title>AjaRetro Devs | Custom Web Design & Development in Bangladesh</title>
-    
-    <!-- SEO Meta Description -->
-    <meta name="description" content="AjaRetro Devs builds high-performance, SEO-ready websites in Bangladesh. Get a quote for custom design, e-commerce solutions, and fully managed hosting from an experienced web developer.">
-    
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Swiper.js for the feature slider -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-
-    <!-- JSON-LD Structured Data for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "AjaRetro Devs",
-      "image": "https://ajaretro.dev/logo.svg",
-      "url": "https://ajaretro.dev",
-      "telephone": "+8801989208751",
-      "priceRange": "$$$",
-      "description": "Custom web design, development, and SEO services in Bangladesh, led by experienced developer AJA RETRO.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Khulna",
-        "addressCountry": "BD"
-      },
-      "founder": {
-        "@type": "Person",
-        "name": "Ahmed Juhaed Ayeman Niloy (AJA RETRO)"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Bangladesh"
-      }
-    }
-    </script>
-
-    <!-- Custom CSS for advanced effects -->
+    <title>AJA_RETRO | Plugin Developer</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #f0f0f0;
-            overflow-x: hidden;
+        /* --- 1. CONFIG & RESET --- */
+        :root {
+            --brand-red: #DB2727;
+            --bg-dark: #101010;
+            --bg-medium: #1a1a1a;
+            --text-light: #E0E0E0;
+            --text-dark: #777;
         }
 
-        /* Preloader Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow: hidden; /* Hide scrollbar during load */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- 2. PRELOADER (The Fancy Loading Screen) --- */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background-color: var(--bg-dark);
             z-index: 1000;
             display: flex;
-            align-items: center;
             justify-content: center;
-            transition: opacity 0.8s ease-out 0.5s, visibility 0.8s ease-out 0.5s;
-        }
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .loader-logo {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            animation: pulse 2s infinite ease-in-out;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Hero section background slideshow container */
-        #hero-bg-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        /* Individual background images */
-        .hero-bg-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center center;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            transform: scale(1.1);
-        }
-
-        /* Active state for background images */
-        .hero-bg-img.active {
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 1.5s ease-in-out, transform 10s linear;
-        }
-
-        /* Dark overlay for readability */
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4));
-            z-index: 1;
-        }
-
-        /* Ensure content is above the background and overlay */
-        .hero-content {
-            position: relative;
-            z-index: 2;
+            align-items: center;
+            transition: opacity 0.75s ease;
         }
         
-        /* Text shadow for readability */
-        .text-shadow {
-            text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.7);
+        /* Simple spinner animation */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--text-dark);
+            border-top-color: var(--brand-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        /* Glassmorphism effect for cards */
-        .glass-card {
-            background: rgba(10, 10, 10, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- 3. FUTURISTIC NAV BAR --- */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
+            padding: 20px 0;
+            
+            /* Step-by-step animation */
+            opacity: 0;
+            animation: fadeInDown 0.8s ease 0.5s forwards;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFF;
+            text-decoration: none;
         }
         
-        /* Section with parallax background image */
-        .parallax-section {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        .logo span {
+            color: var(--brand-red);
         }
 
-        /* Keyframe animations for hero text */
-        @keyframes fadeInUp {
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 35px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        /* The futuristic hover line */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brand-red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FFF;
+        }
+        
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Active page indicator */
+        .nav-links a.active {
+            color: var(--brand-red);
+        }
+
+        /* --- 4. "STEP-BY-STEP" ANIMATIONS --- */
+        
+        /* This is the base animation for all items */
+        @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        .animate-fade-in-up-delay {
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-            opacity: 0;
-        }
-
-        /* Custom Swiper navigation buttons */
-        .swiper-button-next, .swiper-button-prev {
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.3);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            backdrop-filter: blur(5px);
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .swiper-button-next:hover, .swiper-button-prev:hover {
-            background-color: rgba(0, 0, 0, 0.5);
-            transform: scale(1.1);
-        }
-        .swiper-button-next::after, .swiper-button-prev::after {
-            font-size: 24px;
-        }
-        .swiper-button-prev {
-            left: var(--swiper-navigation-sides-offset, -10px);
-        }
-        .swiper-button-next {
-            right: var(--swiper-navigation-sides-offset, -10px);
-        }
-
-        /* Styles for the Transformer Portfolio */
-        #project-assembler {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        @media (min-width: 768px) {
-            #project-assembler {
-                grid-template-columns: 1fr 1fr;
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-        .image-grid-container {
-            aspect-ratio: 4 / 3;
+        
+        /* We apply this animation to each item with a different delay */
+        .hero-title {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+        }
+        
+        .hero-subtitle {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 1.0s forwards;
+        }
+        
+        .hero-buttons {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 1.2s forwards;
+        }
+        
+        .section-title {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 1.4s forwards;
+        }
+        
+        .project-card {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 1.6s forwards;
+        }
+
+
+        /* --- 5. CONTENT (Hero & Projects) --- */
+        
+        /* Hero (Intro) Section */
+        #hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+        }
+        
+        .hero-title {
+            font-size: 4.5rem;
+            color: #FFF;
+        }
+        
+        .hero-title span {
+            color: var(--brand-red);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 400;
+            margin-top: 10px;
+        }
+        
+        .hero-buttons {
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--brand-red);
+            color: #FFFFFF;
+            border: 2px solid var(--brand-red);
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--brand-red);
+        }
+
+        /* Projects Section */
+        #projects {
+            padding: 100px 0;
+            background-color: #141414;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .project-grid {
             display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-template-rows: repeat(12, 1fr);
-            overflow: hidden;
-            border-radius: 0.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
-        .grid-piece {
-            background-size: 1200% 1200%;
-            transition: background-image 0.2s ease-in-out;
+        
+        .project-card {
+            background-color: var(--bg-medium);
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .project-info {
-            position: relative;
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
+        
+        .project-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-red);
+            margin-bottom: 15px;
+        }
+        
+        .project-card p {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        .project-links a {
+            color: var(--text-light);
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .project-links a:hover {
+            color: var(--brand-red);
+        }
+
+        /* --- 6. FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background-color: var(--bg-medium);
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- Preloader -->
     <div id="preloader">
-        <div class="loader-logo">
-            <svg class="h-full w-full text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#4F46E5"/>
-                        <stop offset="100%" stop-color="#22D3EE"/>
-                    </linearGradient>
-                </defs>
-                <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
+        <div class="spinner"></div>
     </div>
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm transition-colors duration-300" id="header">
-        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
-            <a href="#" aria-label="AjaRetro Homepage">
-                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#logoGradient" />
-                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-            <a href="#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">Get a Quote</a>
-        </nav>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">AJA<span>RETRO</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="cover.html">Covers</a></li>
+            </ul>
+        </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-end justify-center text-center overflow-hidden">
-        <div id="hero-bg-slider">
-            <div class="hero-bg-img active" style="background-image: url('https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');"></div>
-            <div class="hero-bg-img" style="background-image: url('https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2231&q=80');"></div>
-            <div class="hero-bg-img" style="background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');"></div>
+    <main>
+        <section id="hero">
+            <div class="container">
+                <h1 class="hero-title">AJA_RETRO<span>.</span></h1>
+                <p class="hero-subtitle hero-subtitle">Developer of High-Performance Minecraft Plugins.</p>
+                <div class="hero-buttons hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">My Projects</h2>
+                
+                <div class="project-grid">
+                    
+                    <div class="project-card">
+                        <h3>CircuitBreaker (v2.0)</h3>
+                        <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag and intelligently culls excess entities, all while being non-destructive.</p>
+                        <div class="project-links">
+                            <a href="httpsS://github.com/AJARETRO/CircuitBreaker" target="_blank">GitHub</a>
+                            <a href="httpsS://hangar.papermc.io/AJA_RETRO/CircuitBreaker" target="_blank">Hangar</a>
+                            <a href="httpsS://modrinth.com/plugin/circuitbreaker" target="_blank">Modrinth</a>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <h3>RetroBedrock Totem</h3>
+                        <p>A lightweight, zero-config QoL plugin that gives Bedrock (Floodgate) players a custom buff, allowing a Totem of Undying to work from anywhere in their inventory.</p>
+                        <div class="project-links">
+                            <a href="httpsS://github.com/AJARETRO/RetroBedrockTotem" target="_blank">GitHub</a>
+                            <a href="httpsS://hangar.papermc.io/AJA_RETRO/RetroBedrockTotem" target="_blank">Hangar</a>
+                            <a href="httpsS://www.spigotmc.org/resources/retrobedrocktotem.130113/" target="_blank">SpigotMC</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Blood Money (In-Dev)</h3>
+                        <p>A high-stakes anarchy plugin. Pay a massive sum to place a live-tracking bounty on another player. A 20-minute hunt with a real-time coordinate feed. Coming soon.</p>
+                        <div class="project-links">
+                            <a href="#">Learn More (Soon)</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
         </div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content container mx-auto px-4 pb-24 md:pb-32">
-            <h2 class="text-4xl md:text-7xl font-black text-white leading-tight mb-4 animate-fade-in-up text-shadow">
-                We Don't Just Build Websites.
-            </h2>
-            <h3 class="text-4xl md:text-7xl font-black text-indigo-400 leading-tight mb-8 animate-fade-in-up-delay text-shadow">
-                We Engineer Experiences.
-            </h3>
-            <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10 text-shadow">
-                From stunning visuals to seamless functionality, we create digital platforms that captivate and convert.
-            </p>
-        </div>
-    </section>
-
-    <!-- Main Content Wrapper -->
-    <div class="relative bg-black z-10">
-    
-        <!-- Our Process Section -->
-        <section id="process" class="py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">Our 4-Step Process to Success</h3>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">We follow a proven path to ensure your project is a masterpiece, from start to finish.</p>
-                </div>
-                <div class="grid md:grid-cols-4 gap-8 text-center">
-                    <!-- Step 1 -->
-                    <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">01</div>
-                        <h4 class="text-xl font-bold text-white mb-2">Discover</h4>
-                        <p class="text-gray-400">We dive deep into your vision, goals, and audience to build a rock-solid strategy.</p>
-                    </div>
-                    <!-- Step 2 -->
-                    <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">02</div>
-                        <h4 class="text-xl font-bold text-white mb-2">Design</h4>
-                        <p class="text-gray-400">We craft a stunning, user-friendly design that brings your brand's story to life.</p>
-                    </div>
-                    <!-- Step 3 -->
-                    <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">03</div>
-                        <h4 class="text-xl font-bold text-white mb-2">Develop</h4>
-                        <p class="text-gray-400">Our expert coders build a fast, secure, and pixel-perfect website from the ground up.</p>
-                    </div>
-                    <!-- Step 4 -->
-                    <div class="process-step">
-                        <div class="flex items-center justify-center h-24 w-24 mx-auto mb-4 border-2 border-indigo-500 rounded-full text-indigo-400 text-3xl font-bold">04</div>
-                        <h4 class="text-xl font-bold text-white mb-2">Deploy</h4>
-                        <p class="text-gray-400">We launch your site to the world and ensure a flawless, bug-free experience for your users.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="py-20 md:py-32 bg-gray-900/30">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">All-Inclusive Development Packages</h3>
-                    <p class="text-gray-400 mt-4 max-w-3xl mx-auto">Choose your foundation. Your package includes a **Free Domain for Life** as long as you have a Guardian Plan with us.</p>
-                </div>
-                <div class="grid lg:grid-cols-4 gap-8 max-w-7xl mx-auto items-start">
-                    <!-- Package 1 -->
-                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
-                        <h4 class="text-2xl font-bold text-white">Starter Site</h4>
-                        <p class="text-4xl font-black text-white my-4">14,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
-                        <p class="text-gray-400 mb-6 flex-grow">A stunning, professional static site to launch your brand.</p>
-                        <ul class="space-y-3 text-gray-300">
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>4-5 Page Static Site</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Mobile-First Responsive Design</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Basic SEO Setup</li>
-                        </ul>
-                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
-                    </div>
-                    <!-- Package 2 -->
-                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
-                        <h4 class="text-2xl font-bold text-white">Business Site</h4>
-                        <p class="text-4xl font-black text-white my-4">24,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
-                        <p class="text-gray-400 mb-6 flex-grow">An expansive site for growing businesses, ready for content and marketing.</p>
-                        <ul class="space-y-3 text-gray-300">
-                             <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>10-12 Page Site</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Advanced Responsive Design</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Blog & News Section</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Advanced SEO Setup</li>
-                        </ul>
-                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
-                    </div>
-                    <!-- Package 3 -->
-                    <div class="glass-card p-8 rounded-lg h-full flex flex-col ring-2 ring-indigo-500 transform scale-105">
-                        <div class="text-center mb-4">
-                            <span class="bg-indigo-600 text-white text-sm font-bold px-4 py-1 rounded-full">BEST VALUE</span>
-                        </div>
-                        <h4 class="text-2xl font-bold text-white">Pro Engine</h4>
-                        <p class="text-4xl font-black text-white my-4">39,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
-                        <p class="text-gray-400 mb-6 flex-grow">The ultimate solution with a powerful admin panel (CMS) that you control.</p>
-                        <ul class="space-y-3 text-gray-300">
-                           <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Unlimited Pages Structure</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Full CMS Admin Panel (WordPress)</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>E-commerce Ready</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Client Training Session</li>
-                        </ul>
-                        <a href="#contact" class="mt-8 block w-full text-center bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors">Choose Plan</a>
-                    </div>
-                     <!-- Package 4 -->
-                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
-                        <h4 class="text-2xl font-bold text-white">Full Ownership</h4>
-                        <p class="text-4xl font-black text-white my-4">49,999<span class="text-xl font-medium text-gray-300"> tk</span></p>
-                        <p class="text-gray-400 mb-6 flex-grow">Complete control and ownership. We build it, then hand you all the keys.</p>
-                        <ul class="space-y-3 text-gray-300">
-                           <li class="flex items-center font-bold"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Everything in Pro Engine</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Full Source Code Handover</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Deployment to Your Server</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>No Monthly Commitment Required</li>
-                        </ul>
-                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Monthly Guardian Plans Section -->
-        <section id="care-plans" class="py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">Monthly Website Guardian Plans</h3>
-                    <p class="text-gray-400 mt-4 max-w-3xl mx-auto">For our hosted clients, choose a plan to keep your site fast, secure, and working for you 24/7.</p>
-                </div>
-                 <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
-                    <!-- Plan 1 -->
-                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
-                        <h4 class="text-2xl font-bold text-white">Essential</h4>
-                        <p class="text-4xl font-black text-white my-4">2,499<span class="text-xl font-medium text-gray-300"> tk/mo</span></p>
-                        <p class="text-gray-400 mb-6 flex-grow">Your website's personal security team. We handle all the technical details.</p>
-                        <ul class="space-y-3 text-gray-300">
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Premium Hosting</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Weekly Backups</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Security & Updates</li>
-                             <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Unlimited Custom Mails</li>
-                        </ul>
-                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
-                    </div>
-                    <!-- Plan 2 -->
-                    <div class="glass-card p-8 rounded-lg h-full flex flex-col ring-2 ring-indigo-500 transform scale-105">
-                        <div class="text-center mb-4">
-                            <span class="bg-indigo-600 text-white text-sm font-bold px-4 py-1 rounded-full">MOST POPULAR</span>
-                        </div>
-                        <h4 class="text-2xl font-bold text-white">Standard</h4>
-                        <p class="text-4xl font-black text-white my-4">4,999<span class="text-xl font-medium text-gray-300"> tk/mo</span></p>
-                        <p class="text-gray-400 mb-6 flex-grow">The perfect balance of protection and support for growing businesses.</p>
-                        <ul class="space-y-3 text-gray-300">
-                            <li class="flex items-center font-bold"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Everything in Essential</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>2 Hours of Priority Updates</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>4 Free Monthly Revisions</li>
-                        </ul>
-                        <a href="#contact" class="mt-8 block w-full text-center bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors">Choose Plan</a>
-                    </div>
-                    <!-- Plan 3 -->
-                    <div class="glass-card p-8 rounded-lg h-full flex flex-col">
-                        <h4 class="text-2xl font-bold text-white">Pro Retainer</h4>
-                        <p class="text-4xl font-black text-white my-4">9,999<span class="text-xl font-medium text-gray-300"> tk/mo</span></p>
-                        <p class="text-gray-400 mb-6 flex-grow">Dedicated support and proactive management for serious businesses.</p>
-                        <ul class="space-y-3 text-gray-300">
-                            <li class="flex items-center font-bold"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Everything in Standard</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>5 Hours of Priority Updates</li>
-                            <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Monthly SEO Performance Report</li>
-                        </ul>
-                        <a href="#contact" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">Choose Plan</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfolio Assembler Section -->
-        <section id="portfolio" class="py-20 md:py-32">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h3 class="text-3xl md:text-5xl font-bold text-white">Project Assembler</h3>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Witness our projects materialize. A showcase of dynamic and complex builds.</p>
-                </div>
-                <div id="project-assembler" class="items-center">
-                    <div class="image-grid-container glass-card">
-                        <!-- Grid pieces will be injected here by JavaScript -->
-                    </div>
-                    <div class="project-info">
-                        <h4 id="project-title" class="text-3xl font-bold text-white mb-4"></h4>
-                        <p id="project-description" class="text-gray-400 mb-6"></p>
-                        <a id="project-link" href="#" class="text-indigo-400 font-semibold hover:text-indigo-300">View Project &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Me Section -->
-        <section id="about" class="py-20 md:py-32 bg-gray-900/30">
-            <div class="container mx-auto px-4">
-                <div class="glass-card max-w-4xl mx-auto p-8 md:p-12 grid md:grid-cols-3 gap-8 items-center">
-                    <div class="md:col-span-1 text-center">
-                        <img src="https://raw.githubusercontent.com/AJARETRO/ajaretro.github.io/main/IMG-20240928-WA0011-01.jpeg" alt="AJA RETRO, Web Developer in Bangladesh" class="rounded-full w-48 h-48 mx-auto border-4 border-indigo-500 object-cover">
-                    </div>
-                    <div class="md:col-span-2">
-                        <h3 class="text-3xl font-bold text-white">Meet the Engineer</h3>
-                        <h4 class="text-2xl font-semibold text-indigo-400 mt-1 mb-4">AJA RETRO</h4>
-                        <p class="text-gray-300 mb-6">
-                            With a great passion for technology and a sharp eye for design, I (Ahmed Juhaed Ayeman Niloy) craft digital experiences that are not only beautiful but also powerful and secure. My journey is fueled by a constant desire to innovate and push the boundaries of what's possible on the web.
-                        </p>
-                        <div class="flex flex-wrap gap-4 mb-6">
-                            <span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">Designing Websites since 2020</span>
-                            <span class="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">Ethical Hacker since 2022</span>
-                        </div>
-                         <a href="about.html" class="text-indigo-400 font-semibold hover:text-indigo-300">Learn More About Me &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- From the Blog Section -->
-        <section id="blog" class="py-20 md:py-32">
-            <div class="container mx-auto px-4 text-center">
-                 <h3 class="text-3xl md:text-5xl font-bold text-white">From the Blog</h3>
-                 <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Insights and advice on navigating the digital world.</p>
-                 <div class="mt-12 max-w-2xl mx-auto">
-                    <a href="blog/post1.html" class="block glass-card p-8 text-left hover:bg-gray-900/50 transition-colors">
-                        <p class="text-indigo-400 font-semibold">Pricing Explained</p>
-                        <h4 class="text-2xl font-bold text-white mt-2">How Much Does a Professional Website *Really* Cost in Bangladesh?</h4>
-                        <p class="text-gray-400 mt-4">We break down the typical costs and show you how our packages provide unmatched value compared to the market average.</p>
-                        <span class="text-indigo-400 font-semibold mt-6 inline-block">Read More &rarr;</span>
-                    </a>
-                 </div>
-            </div>
-        </section>
-
-        <!-- Contact Footer -->
-        <footer id="contact" class="py-20 bg-black">
-            <div class="container mx-auto px-4 text-center">
-                <h3 class="text-3xl md:text-5xl font-bold text-white mb-4">Have a project in mind?</h3>
-                <p class="text-gray-400 mb-8 max-w-xl mx-auto">Let's talk about how we can transform your idea into a digital reality.</p>
-                <a href="https://wa.me/8801989208751" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-lg text-lg transition-transform transform hover:scale-105 inline-flex items-center">
-                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.487 5.235 3.487 8.413 0 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.456l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.447-4.435-9.884-9.888-9.884-5.448 0-9.886 4.434-9.889 9.885.002 2.024.63 3.965 1.739 5.615l-1.162 4.244 4.352-1.142z"/></svg>
-                    Message me on WhatsApp
-                </a>
-                <p class="text-sm text-gray-600 mt-16">&copy; 2025 AjaRetro Devs. All Rights Reserved.</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- GSAP (GreenSock Animation Platform) for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    </footer>
 
     <script>
-        // --- Preloader ---
+        // This is our tiny preloader script
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
+            
+            // Start fading out the preloader
+            preloader.style.opacity = '0';
+            
+            // After the fade animation finishes, hide it completely
             setTimeout(() => {
-                preloader.classList.add('hidden');
-            }, 1500); // Let it run for 1.5s
+                preloader.style.display = 'none';
+                // Restore scrolling to the body
+                document.body.style.overflow = 'auto';
+            }, 750); // Match this to your CSS transition time
         });
-
-        // --- Hero Background Slideshow ---
-        const bgImages = document.querySelectorAll('.hero-bg-img');
-        let currentImageIndex = 0;
-        setInterval(() => {
-            bgImages[currentImageIndex].classList.remove('active');
-            currentImageIndex = (currentImageIndex + 1) % bgImages.length;
-            bgImages[currentImageIndex].classList.add('active');
-        }, 7000);
-
-        // --- Initialize Swiper for Features Slider ---
-        const swiper = new Swiper('.features-slider', {
-            loop: true,
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-            slidesPerView: 1,
-            spaceBetween: 30,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                768: { slidesPerView: 2, spaceBetween: 30 },
-                1024: { slidesPerView: 3, spaceBetween: 40 }
-            }
-        });
-
-        // --- GSAP Scroll-Triggered Animations ---
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.process-step, .glass-card, .project-info, #blog a').forEach(el => {
-            gsap.from(el, { opacity: 0, y: 50, duration: 0.8, scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' } });
-        });
-        gsap.to('.parallax-section', { backgroundPosition: 'center 20%', ease: 'none', scrollTrigger: { trigger: '.parallax-section', start: 'top bottom', end: 'bottom top', scrub: true } });
-
-        // --- Project Assembler Logic ---
-        const projects = [
-            {
-                title: 'Kachchi House',
-                description: 'A sophisticated and elegant website for a premium Bangladeshi restaurant, featuring an online menu and reservation system.',
-                imageUrl: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80',
-                link: 'example/res.html' // Correct link to the example page
-            },
-            {
-                title: 'E-Commerce Nova',
-                description: 'An e-commerce platform for a fashion startup. The site features a dynamic product grid, a seamless checkout process, and a custom design system.',
-                imageUrl: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
-                link: 'example/ec.html' // Correct link to the example page
-            }
-        ];
-
-        const gridContainer = document.querySelector('.image-grid-container');
-        const projectTitle = document.getElementById('project-title');
-        const projectDescription = document.getElementById('project-description');
-        const projectLink = document.getElementById('project-link');
-        
-        const GRID_SIZE = 12;
-        let pieces = [];
-        let currentProjectIndex = 0;
-        let isAnimating = false;
-
-        for (let i = 0; i < GRID_SIZE; i++) {
-            for (let j = 0; j < GRID_SIZE; j++) {
-                const piece = document.createElement('div');
-                piece.classList.add('grid-piece');
-                piece.style.backgroundPosition = `${(j / (GRID_SIZE - 1)) * 100}% ${(i / (GRID_SIZE - 1)) * 100}%`;
-                gridContainer.appendChild(piece);
-                pieces.push(piece);
-            }
-        }
-
-        function updateProjectInfo(index) {
-            const project = projects[index];
-            gsap.to([projectTitle, projectDescription, projectLink], {
-                opacity: 0,
-                y: 10,
-                duration: 0.4,
-                ease: 'power2.in',
-                onComplete: () => {
-                    projectTitle.textContent = project.title;
-                    projectDescription.textContent = project.description;
-                    projectLink.href = project.link;
-                    gsap.to([projectTitle, projectDescription, projectLink], {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        ease: 'power2.out',
-                        delay: 0.8
-                    });
-                }
-            });
-        }
-
-        function playTransition(nextIndex) {
-            if (isAnimating) return;
-            isAnimating = true;
-
-            updateProjectInfo(nextIndex);
-
-            const tl = gsap.timeline({ onComplete: () => { isAnimating = false; } });
-
-            tl.to(pieces, {
-                x: () => gsap.utils.random(-200, 200),
-                y: () => gsap.utils.random(-200, 200),
-                rotation: () => gsap.utils.random(-360, 360),
-                scale: 0,
-                opacity: 0,
-                duration: 1,
-                ease: 'power2.inOut',
-                stagger: { amount: 0.6, from: 'random' }
-            });
-
-            tl.add(() => {
-                pieces.forEach(p => p.style.backgroundImage = `url('${projects[nextIndex].imageUrl}')`);
-            });
-
-            tl.to(pieces, {
-                x: 0,
-                y: 0,
-                rotation: 0,
-                scale: 1,
-                opacity: 1,
-                duration: 1,
-                ease: 'power2.inOut',
-                stagger: { amount: 0.6, from: 'random' }
-            });
-        }
-
-        pieces.forEach(p => p.style.backgroundImage = `url('${projects[0].imageUrl}')`);
-        updateProjectInfo(0);
-
-        setInterval(() => {
-            currentProjectIndex = (currentProjectIndex + 1) % projects.length;
-            playTransition(currentProjectIndex);
-        }, 7000);
-
     </script>
+
 </body>
 </html>
