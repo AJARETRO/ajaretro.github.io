@@ -3,176 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO Optimized Title -->
-    <title>Our Web Design Services | AjaRetro Devs Bangladesh</title>
+    <title>AJA_RETRO | Services</title>
     
-    <!-- SEO Meta Description -->
-    <meta name="description" content="Explore the professional web design and development services offered by AjaRetro Devs, including custom websites, e-commerce solutions, and responsive design for businesses in Bangladesh.">
-    
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Custom CSS for advanced effects -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <style>
+        /* --- 1. CONFIG & RESET (Same as index.html) --- */
+        :root {
+            --brand-red: #DB2727;
+            --brand-red-glow: rgba(219, 39, 39, 0.5);
+            --bg-dark: #101010;
+            --bg-medium: #1a1a1a;
+            --text-light: #E0E0E0;
+            --text-dark: #777;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #f0f0f0;
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            /* overflow: hidden;  <-- THIS WAS THE BUG. IT IS NOW REMOVED. */
         }
-        .service-hero-bg {
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://placehold.co/1920x1080/111111/FFFFFF?text=Our+Services');
-            background-size: cover;
-            background-position: center;
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        .glass-card {
-            background: rgba(10, 10, 10, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            transition: background 0.3s, border 0.3s;
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .glass-card:hover {
-            background: rgba(20, 20, 20, 0.6);
-            border-color: rgba(255, 255, 255, 0.2);
+
+        /* --- 2. STEP-BY-STEP ANIMATIONS (Pure CSS) --- */
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated {
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        .fade-in-down-1 { animation: fadeInDown 0.8s ease 0.3s forwards; }
+        .fade-in-up-1 { animation: fadeInUp 0.8s ease 0.5s forwards; }
+        .fade-in-up-2 { animation: fadeInUp 0.8s ease 0.7s forwards; }
+        .fade-in-up-3 { animation: fadeInUp 0.8s ease 0.9s forwards; }
+        .fade-in-up-4 { animation: fadeInUp 0.8s ease 1.1s forwards; }
+
+
+        /* --- 3. FUTURISTIC NAV BAR (Same as index.html) --- */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
+            padding: 20px 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFF;
+            text-decoration: none;
+        }
+        .logo span {
+            color: var(--brand-red);
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 35px;
+        }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brand-red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .nav-links a:hover {
+            color: #FFF;
+        }
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+        .nav-links a.active {
+            color: var(--brand-red);
+        }
+
+        /* --- 4. NEW: SERVICES PAGE CONTENT --- */
+        .page-hero {
+            padding-top: 150px;
+            padding-bottom: 60px;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            color: #FFF;
+            margin-bottom: 10px;
+        }
+        
+        .page-hero h1 span {
+            color: var(--brand-red);
+        }
+        
+        .page-hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 400;
+            max-width: 600px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding-bottom: 60px;
+        }
+        
+        .service-card {
+            background-color: var(--bg-medium);
+            border-top: 3px solid var(--brand-red);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 15px var(--brand-red-glow);
+        }
+
+        .service-card h2 {
+            font-size: 1.8rem;
+            color: var(--brand-red);
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px var(--brand-red-glow);
+        }
+        
+        .service-card p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+        
+        .service-card ul {
+            list-style: none;
+            padding-left: 0;
+            color: var(--text-light);
+        }
+        
+        .service-card li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .service-card li::before {
+            content: '\f00c'; /* Font Awesome check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--brand-red);
+            position: absolute;
+            left: 0;
+            top: 4px;
+        }
+        
+        /* Pricing & Contact Section */
+        .contact-section {
+            padding-bottom: 100px;
+            text-align: center;
+        }
+        
+        .pricing-box {
+            background-color: var(--bg-medium);
+            border: 1px solid var(--brand-red);
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            box-shadow: 0 0 30px var(--brand-red-glow);
+        }
+        
+        .pricing-box h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        
+        .pricing-box .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--brand-red);
+            margin-bottom: 10px;
+        }
+        
+        .pricing-box .price span {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+        
+        .btn-whatsapp {
+            display: inline-block;
+            background-color: #25D366; /* WhatsApp Green */
+            color: #FFF;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        .btn-whatsapp i {
+            margin-right: 10px;
+        }
+
+        /* --- 5. FOOTER (Same as index.html) --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background-color: var(--bg-medium);
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        /* --- 6. Responsive --- */
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- Header -->
-    <header class="sticky top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm transition-colors duration-300" id="header">
-        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
-            <!-- SVG Logo (Code Monogram) -->
-            <a href="index.html" aria-label="AjaRetro Homepage">
-                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#4F46E5"/>
-                            <stop offset="100%" stop-color="#22D3EE"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-            <a href="index.html#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">Get a Quote</a>
-        </nav>
+    <header class="animated fade-in-down-1">
+        <div class="container navbar">
+            <a href="index.html" class="logo">AJA<span>RETRO</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html" class="active">Services</a></li> <li><a href="cover.html">Covers</a></li>
+            </ul>
+        </div>
     </header>
 
-    <!-- Service Hero Section -->
-    <section class="service-hero-bg py-24 md:py-32 text-center">
-        <div class="container mx-auto px-4">
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight">Our Web Development Services</h1>
-            <p class="text-lg md:text-xl text-gray-300 mt-4 max-w-3xl mx-auto">
-                We offer a comprehensive suite of web design and development services tailored for businesses in Bangladesh.
-            </p>
-        </div>
-    </section>
-
-    <!-- Main Content Wrapper -->
-    <div class="relative bg-black z-10">
-    
-        <!-- Detailed Services Section -->
-        <section id="detailed-services" class="py-20 md:py-32">
-            <div class="container mx-auto px-4 space-y-24">
-
-                <!-- Service 1: Custom Web Design -->
-                <div class="service-item grid md:grid-cols-2 gap-12 items-center">
-                    <div class="image-wrap rounded-lg overflow-hidden">
-                        <img src="https://placehold.co/800x600/111827/4f46e5?text=Custom+Design" alt="Custom web design process" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Custom Web Design</h2>
-                        <p class="text-gray-400 mb-4">
-                            Your business is unique, and your website should be too. We don't use generic templates. Our **custom web design** process starts with understanding your brand and goals to create a visually stunning website that stands out in the Bangladeshi market. We focus on creating an intuitive user experience (UX) that guides visitors and converts them into customers.
-                        </p>
-                        <ul class="text-gray-300 space-y-2">
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Bespoke designs tailored to your brand</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Focus on user-centric UI/UX</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>SEO-friendly structure from the start</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Service 2: E-commerce Solutions -->
-                <div class="service-item grid md:grid-cols-2 gap-12 items-center">
-                    <div class="md:order-2">
-                        <img src="https://placehold.co/800x600/111827/10b981?text=E-Commerce" alt="E-commerce website on a laptop" class="w-full h-full object-cover rounded-lg">
-                    </div>
-                    <div class="md:order-1">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">E-Commerce Solutions</h2>
-                        <p class="text-gray-400 mb-4">
-                            Ready to sell online? We build powerful and secure **e-commerce solutions** for businesses in Bangladesh. From simple online shops to complex marketplaces, we create platforms that are easy to manage and provide a seamless checkout experience for your customers. We can advise on the best **e-commerce website price in Bangladesh** for your budget.
-                        </p>
-                        <ul class="text-gray-300 space-y-2">
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Secure payment gateway integration (bKash, etc.)</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Easy-to-use product & inventory management</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Mobile-optimized for shopping on the go</li>
-                        </ul>
-                    </div>
-                </div>
-
-                 <!-- Service 3: Responsive Development -->
-                <div class="service-item grid md:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <img src="https://placehold.co/800x600/111827/d97706?text=Responsive" alt="Website shown on multiple devices" class="w-full h-full object-cover rounded-lg">
-                    </div>
-                    <div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Mobile-First Development</h2>
-                        <p class="text-gray-400 mb-4">
-                            With the majority of users in Bangladesh browsing on their phones, a **mobile-friendly web design** is non-negotiable. We take a mobile-first approach to development, ensuring your site is perfectly responsive and provides a flawless experience on every screen size, from the smallest smartphone to the largest desktop monitor.
-                        </p>
-                        <ul class="text-gray-300 space-y-2">
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Optimized for fast loading on mobile networks</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Touch-friendly navigation and buttons</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Guaranteed perfect display on all devices</li>
-                        </ul>
-                    </div>
-                </div>
-
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="animated fade-in-up-1">Services<span>.</span></h1>
+                <p class="subtitle animated fade-in-up-2">
+                    Need a custom plugin? Let's build something awesome.
+                </p>
             </div>
         </section>
-    
-        <!-- Contact Footer -->
-        <footer id="contact" class="py-20 bg-black">
-            <div class="container mx-auto px-4 text-center">
-                <h3 class="text-3xl md:text-5xl font-bold text-white mb-4">Ready to Start Your Project?</h3>
-                <p class="text-gray-400 mb-8 max-w-xl mx-auto">Let's talk about how we can transform your idea into a digital reality.</p>
-                <a href="https://wa.me/8801989208751" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-lg text-lg transition-transform transform hover:scale-105 inline-flex items-center">
-                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.487 5.235 3.487 8.413 0 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.456l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.447-4.435-9.884-9.888-9.884-5.448 0-9.886 4.434-9.889 9.885.002 2.024.63 3.965 1.739 5.615l-1.162 4.244 4.352-1.142z"/></svg>
-                    Message me on WhatsApp
-                </a>
-                <p class="text-sm text-gray-600 mt-16">&copy; 2025 AjaRetro Devs. All Rights Reserved.</p>
-            </div>
-        </footer>
-    </div>
 
-    <!-- GSAP (GreenSock Animation Platform) for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-    <script>
-        // GSAP Scroll-Triggered Animations
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.service-item').forEach(item => {
-            gsap.from(item, { 
-                opacity: 0, 
-                y: 50, 
-                duration: 1, 
-                scrollTrigger: { 
-                    trigger: item, 
-                    start: 'top 85%', 
-                    toggleActions: 'play none none none' 
-                } 
-            });
-        });
-    </script>
+        <section class="container">
+            <div class="services-grid">
+                
+                <div class="service-card animated fade-in-up-3">
+                    <h2>Custom Plugin Development</h2>
+                    <p>Have a unique idea for your server? I'll build it from scratch. I specialize in high-performance, reliable plugins for Paper and Folia.</p>
+                    <ul>
+                        <li>QoL & Fun Plugins</li>
+                        <li>Anarchy & PvP Systems</li>
+                        <li>Custom Minigames</li>
+                        <li>Performance & Admin Tools</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card animated fade-in-up-3"> <h2>Plugin Updates & Fixes</h2>
+                    <p>Have an old, abandoned plugin that's broken? Need to add new features or update a plugin to a new Minecraft version?</p>
+                    <ul>
+                        <li>Version Updates (e.g., 1.20 -> 1.21)</li>
+                        <li>Bug Fixing & Optimization</li>
+                        <li>New Feature Additions</li>
+                        <li>Configuration & Setup Help</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="contact-section animated fade-in-up-4">
+                <div class="pricing-box">
+                    <h3>Standard Hourly Rate</h3>
+                    <div class="price">$20 <span>/ hour</span></div>
+                    <p>Reliable, professional-grade code. Let's discuss your project's scope.</p>
+                </div>
+                
+                <a href="https://wa.me/8801989208751" class="btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Contact me on WhatsApp
+                </a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="animated fade-in-up-5">
+        <div class="container">
+            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
+        </div>
+    </footer>
+
 </body>
 </html>
