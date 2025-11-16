@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJA_RETRO | Booting...</title>
+    <title>AJA_RETRO | Plugin Developer</title>
     <style>
         /* --- 1. CONFIG & RESET --- */
         :root {
             --brand-red: #DB2727;
-            /* NEW: Add a glow color */
             --brand-red-glow: rgba(219, 39, 39, 0.5); 
             --bg-dark: #101010;
             --bg-medium: #1a1a1a;
             --text-light: #E0E0E0;
             --text-dark: #777;
-            --font-mono: 'Consolas', 'Monaco', 'monospace';
         }
 
         body {
@@ -24,7 +22,7 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
-            overflow: hidden; 
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
         * {
@@ -39,48 +37,34 @@
             padding: 0 20px;
         }
 
-        /* --- 2. HACKER PRELOADER (Unchanged) --- */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease;
+        /* --- 2. STEP-BY-STEP ANIMATIONS (Pure CSS) --- */
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        #terminal {
-            font-family: var(--font-mono);
-            font-size: 1.1rem;
-            color: #00FF41;
-            width: 90%;
-            max-width: 700px;
-        }
-
-        #terminal p {
-            margin-bottom: 10px;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2rem;
-            background-color: #00FF41;
-            margin-left: 5px;
-            animation: blink 1s infinite;
+        /* This "animation-fill-mode" is key. It keeps the item visible after the animation. */
+        .animated {
+            opacity: 0; /* Start hidden */
+            animation-fill-mode: forwards; /* Stay in final state */
         }
+        
+        /* Stagger the animations */
+        .fade-in-down-1 { animation: fadeInDown 0.8s ease 0.3s; }
+        .fade-in-up-1 { animation: fadeInUp 0.8s ease 0.5s; }
+        .fade-in-up-2 { animation: fadeInUp 0.8s ease 0.7s; }
+        .fade-in-up-3 { animation: fadeInUp 0.8s ease 0.9s; }
+        .fade-in-up-4 { animation: fadeInUp 0.8s ease 1.1s; }
+        .fade-in-up-5 { animation: fadeInUp 0.8s ease 1.3s; }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
 
-        /* --- 3. FUTURISTIC NAV BAR (Unchanged) --- */
+        /* --- 3. FUTURISTIC NAV BAR --- */
         header {
             position: fixed;
             width: 100%;
@@ -89,8 +73,6 @@
             z-index: 100;
             background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
             padding: 20px 0;
-            opacity: 0;
-            transition: opacity 0.8s ease;
         }
         .navbar {
             display: flex;
@@ -146,31 +128,20 @@
             color: var(--brand-red);
         }
 
-        /* --- 4. STEP-BY-STEP ANIMATIONS (Unchanged) --- */
-        .reveal {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        /* --- 5. CONTENT (Hero & NEW Projects) --- */
+        /* --- 4. CONTENT (Hero & Projects) --- */
         
-        /* Hero (Intro) Section (Unchanged) */
+        /* Hero (Intro) Section */
         #hero {
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 100vh;
+            min-height: 90vh;
+            padding-top: 100px; /* Space for nav */
         }
         .hero-title {
             font-size: 4.5rem;
             color: #FFF;
-            transition-delay: 0.2s;
         }
         .hero-title span {
             color: var(--brand-red);
@@ -180,11 +151,9 @@
             color: var(--text-dark);
             font-weight: 400;
             margin-top: 10px;
-            transition-delay: 0.4s;
         }
         .hero-buttons {
             margin-top: 30px;
-            transition-delay: 0.6s;
         }
         .btn {
             display: inline-block;
@@ -199,7 +168,6 @@
             background-color: var(--brand-red);
             color: #FFFFFF;
             border: 2px solid var(--brand-red);
-            /* NEW: Add a subtle glow */
             box-shadow: 0 0 15px var(--brand-red-glow);
         }
         .btn-primary:hover {
@@ -208,7 +176,7 @@
             box-shadow: 0 0 25px var(--brand-red-glow);
         }
 
-        /* === NEW: PROJECTS SECTION === */
+        /* Cinematic Projects Section */
         #projects {
             padding: 100px 0;
             background-color: #141414;
@@ -218,13 +186,11 @@
             font-size: 2.5rem;
             margin-bottom: 50px;
             text-align: center;
-            transition-delay: 0.8s;
         }
 
-        /* This is the new showcase layout */
         .project-showcase {
             display: grid;
-            grid-template-columns: 1fr 1.5fr; /* Left side (title) | Right side (content) */
+            grid-template-columns: 1fr 1.5fr;
             align-items: center;
             gap: 50px;
             margin-bottom: 80px;
@@ -232,12 +198,10 @@
             border-bottom: 1px solid #222;
         }
         
-        /* This reverses the layout for every even card */
         .project-showcase:nth-child(even) {
             grid-template-columns: 1.5fr 1fr;
         }
         
-        /* This makes the "content" come first in the reversed layout */
         .project-showcase:nth-child(even) .project-content {
             grid-row: 1;
             grid-column: 1;
@@ -298,7 +262,6 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         
-        /* NEW: Make the GitHub link stand out */
         .project-links a.github-link {
             background-color: var(--brand-red);
             color: #FFF;
@@ -314,7 +277,7 @@
             color: var(--brand-red);
         }
         
-        /* --- 6. FOOTER (Unchanged) --- */
+        /* --- 5. FOOTER --- */
         footer {
             text-align: center;
             padding: 40px 0;
@@ -324,15 +287,25 @@
             font-size: 0.9rem;
             color: var(--text-dark);
         }
+        
+        /* --- 6. Responsive --- */
+        @media (max-width: 768px) {
+            .project-showcase,
+            .project-showcase:nth-child(even) {
+                grid-template-columns: 1fr;
+            }
+            .project-showcase:nth-child(even) .project-title {
+                text-align: left;
+            }
+            .nav-links {
+                display: none; /* Simple hide for mobile */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div id="terminal"></div>
-    </div>
-
-    <header class="reveal-item">
+    <header class="animated fade-in-down-1">
         <div class="container navbar">
             <a href="index.html" class="logo">AJA<span>RETRO</span></a>
             <ul class="nav-links">
@@ -347,9 +320,9 @@
     <main>
         <section id="hero">
             <div class="container">
-                <h1 class="hero-title reveal-item">AJA_RETRO<span>.</span></h1>
-                <p class="hero-subtitle reveal-item">Developer of High-Performance Minecraft Plugins.</p>
-                <div class="hero-buttons reveal-item">
+                <h1 class="hero-title animated fade-in-up-1">AJA_RETRO<span>.</span></h1>
+                <p class="hero-subtitle animated fade-in-up-2">Developer of High-Performance Minecraft Plugins.</p>
+                <div class="hero-buttons animated fade-in-up-3">
                     <a href="#projects" class="btn btn-primary">View My Projects</a>
                 </div>
             </div>
@@ -357,12 +330,62 @@
 
         <section id="projects">
             <div class="container">
-                <h2 class="section-title reveal-item">My Projects</h2>
+                <h2 class="section-title animated fade-in-up-4">My Projects</h2>
                 
-                <div class="project-showcase reveal-item">
+                <div class="project-showcase animated fade-in-up-5">
                     <div class="project-title">
                         <span>v2.0 Performance Suite</span>
                         <h3>CircuitBreaker</h3>
                     </div>
                     <div class="project-content">
-                        <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag with a 3-strike system and intelligently culls excess entities, all while being non-destructive.</p>
+                        <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag and intelligently culls excess entities, all while being non-destructive.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/AJARETRO/CircuitBreaker" class="github-link" target="_blank">GitHub</a>
+                            <a href="https://hangar.papermc.io/AJA_RETRO/CircuitBreaker" target="_blank">Hangar</a>
+                            <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank">Modrinth</a>
+                            <a href="https://www.spigotmc.org/resources/circuitbreaker.130125/" target="_blank">SpigotMC</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-showcase animated fade-in-up-5">
+                    <div class="project-title">
+                        <span>QoL / Parity Plugin</span>
+                        <h3>RetroBedrock Totem</h3>
+                    </div>
+                    <div class="project-content">
+                        <p>A lightweight, zero-config QoL plugin that gives Bedrock (Floodgate) players a custom buff, allowing a Totem of Undying to work from anywhere in their inventory.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/AJARETRO/RetroBedrockTotem" class="github-link" target="_blank">GitHub</a>
+                            <a href="https://hangar.papermc.io/AJA_RETRO/RetroBedrockTotem" target="_blank">Hangar</a>
+                            <a href="https://modrinth.com/plugin/retrobedrocktotem" target="_blank">Modrinth</a>
+                            <a href="https://www.spigotmc.org/resources/retrobedrocktotem.130113/" target="_blank">SpigotMC</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-showcase animated fade-in-up-5">
+                    <div class="project-title">
+                        <span>Anarchy / PvP Plugin</span>
+                        <h3>Blood Money</h3>
+                    </div>
+                    <div class="project-content">
+                        <p>A high-stakes anarchy plugin. Pay a massive sum to place a live-tracking bounty on another player. A 20-minute hunt with a real-time coordinate feed. (In Development)</p>
+                        <div class="project-links">
+                            <a href="#" class="github-link">GitHub (Soon)</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer class="animated fade-in-up-5">
+        <div class="container">
+            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
+        </div>
+    </footer>
+
+    </body>
+</html>
