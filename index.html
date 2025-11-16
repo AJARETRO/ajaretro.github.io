@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJA_RETRO | Plugin Developer</title>
+    <title>AJA_RETRO | Booting...</title>
     <style>
         /* --- 1. CONFIG & RESET --- */
         :root {
@@ -13,6 +13,7 @@
             --bg-medium: #1a1a1a;
             --text-light: #E0E0E0;
             --text-dark: #777;
+            --font-mono: 'Consolas', 'Monaco', 'monospace';
         }
 
         body {
@@ -22,7 +23,7 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow: hidden; 
         }
 
         * {
@@ -37,32 +38,46 @@
             padding: 0 20px;
         }
 
-        /* --- 2. STEP-BY-STEP ANIMATIONS (Pure CSS) --- */
-        
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- 2. HACKER PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
         }
         
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        #terminal {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: #00FF41;
+            width: 90%;
+            max-width: 700px;
         }
-        
-        /* This "animation-fill-mode" is key. It keeps the item visible after the animation. */
-        .animated {
-            opacity: 0; /* Start hidden */
-            animation-fill-mode: forwards; /* Stay in final state */
-        }
-        
-        /* Stagger the animations */
-        .fade-in-down-1 { animation: fadeInDown 0.8s ease 0.3s; }
-        .fade-in-up-1 { animation: fadeInUp 0.8s ease 0.5s; }
-        .fade-in-up-2 { animation: fadeInUp 0.8s ease 0.7s; }
-        .fade-in-up-3 { animation: fadeInUp 0.8s ease 0.9s; }
-        .fade-in-up-4 { animation: fadeInUp 0.8s ease 1.1s; }
-        .fade-in-up-5 { animation: fadeInUp 0.8s ease 1.3s; }
 
+        #terminal p {
+            margin-bottom: 10px;
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background-color: #00FF41;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
 
         /* --- 3. FUTURISTIC NAV BAR --- */
         header {
@@ -73,6 +88,8 @@
             z-index: 100;
             background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
             padding: 20px 0;
+            opacity: 0;
+            transition: opacity 0.8s ease;
         }
         .navbar {
             display: flex;
@@ -128,20 +145,30 @@
             color: var(--brand-red);
         }
 
-        /* --- 4. CONTENT (Hero & Projects) --- */
+        /* --- 4. STEP-BY-STEP ANIMATIONS --- */
+        .reveal {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        /* --- 5. CONTENT (Hero & Projects) --- */
         
-        /* Hero (Intro) Section */
         #hero {
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 90vh;
-            padding-top: 100px; /* Space for nav */
+            min-height: 100vh;
         }
         .hero-title {
             font-size: 4.5rem;
             color: #FFF;
+            transition-delay: 0.2s;
         }
         .hero-title span {
             color: var(--brand-red);
@@ -151,9 +178,11 @@
             color: var(--text-dark);
             font-weight: 400;
             margin-top: 10px;
+            transition-delay: 0.4s;
         }
         .hero-buttons {
             margin-top: 30px;
+            transition-delay: 0.6s;
         }
         .btn {
             display: inline-block;
@@ -186,6 +215,7 @@
             font-size: 2.5rem;
             margin-bottom: 50px;
             text-align: center;
+            transition-delay: 0.8s;
         }
 
         .project-showcase {
@@ -259,6 +289,7 @@
             text-decoration: none;
             font-weight: 600;
             margin-right: 10px;
+            margin-bottom: 10px; /* Added for better wrapping on small screens */
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         
@@ -277,7 +308,7 @@
             color: var(--brand-red);
         }
         
-        /* --- 5. FOOTER --- */
+        /* --- 6. FOOTER --- */
         footer {
             text-align: center;
             padding: 40px 0;
@@ -287,25 +318,15 @@
             font-size: 0.9rem;
             color: var(--text-dark);
         }
-        
-        /* --- 6. Responsive --- */
-        @media (max-width: 768px) {
-            .project-showcase,
-            .project-showcase:nth-child(even) {
-                grid-template-columns: 1fr;
-            }
-            .project-showcase:nth-child(even) .project-title {
-                text-align: left;
-            }
-            .nav-links {
-                display: none; /* Simple hide for mobile */
-            }
-        }
     </style>
 </head>
 <body>
 
-    <header class="animated fade-in-down-1">
+    <div id="preloader">
+        <div id="terminal"></div>
+    </div>
+
+    <header class="reveal-item">
         <div class="container navbar">
             <a href="index.html" class="logo">AJA<span>RETRO</span></a>
             <ul class="nav-links">
@@ -320,9 +341,9 @@
     <main>
         <section id="hero">
             <div class="container">
-                <h1 class="hero-title animated fade-in-up-1">AJA_RETRO<span>.</span></h1>
-                <p class="hero-subtitle animated fade-in-up-2">Developer of High-Performance Minecraft Plugins.</p>
-                <div class="hero-buttons animated fade-in-up-3">
+                <h1 class="hero-title reveal-item">AJA_RETRO<span>.</span></h1>
+                <p class="hero-subtitle reveal-item">Developer of High-Performance Minecraft Plugins.</p>
+                <div class="hero-buttons reveal-item">
                     <a href="#projects" class="btn btn-primary">View My Projects</a>
                 </div>
             </div>
@@ -330,9 +351,9 @@
 
         <section id="projects">
             <div class="container">
-                <h2 class="section-title animated fade-in-up-4">My Projects</h2>
+                <h2 class="section-title reveal-item">My Projects</h2>
                 
-                <div class="project-showcase animated fade-in-up-5">
+                <div class="project-showcase reveal-item">
                     <div class="project-title">
                         <span>v2.0 Performance Suite</span>
                         <h3>CircuitBreaker</h3>
@@ -348,7 +369,7 @@
                     </div>
                 </div>
                 
-                <div class="project-showcase animated fade-in-up-5">
+                <div class="project-showcase reveal-item">
                     <div class="project-title">
                         <span>QoL / Parity Plugin</span>
                         <h3>RetroBedrock Totem</h3>
@@ -364,7 +385,7 @@
                     </div>
                 </div>
 
-                <div class="project-showcase animated fade-in-up-5">
+                <div class="project-showcase reveal-item">
                     <div class="project-title">
                         <span>Anarchy / PvP Plugin</span>
                         <h3>Blood Money</h3>
@@ -381,11 +402,68 @@
         </section>
     </main>
 
-    <footer class="animated fade-in-up-5">
+    <footer>
         <div class="container">
             <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
         </div>
     </footer>
 
-    </body>
+    <script>
+        const preloader = document.getElementById('preloader');
+        const terminal = document.getElementById('terminal');
+        const contentItems = document.querySelectorAll('.reveal-item');
+
+        const lines = [
+            { text: "Booting AJARETRO.DEV...", delay: 100 },
+            { text: "Loading core modules...", delay: 100 },
+            { text: "Checking plugin integrity...", delay: 100 },
+            { text: " > CircuitBreaker v2.0... [OK]", delay: 300, color: "#DB2727" },
+            { text: " > RetroBedrockTotem... [OK]", delay: 300, color: "#DB2727" },
+            { text: " > BloodMoney... [ON HOLD]", delay: 300, color: "#777" },
+            { text: "All systems operational.", delay: 100 },
+            { text: "ACCESS GRANTED.", delay: 500, color: "#FFF" }
+        ];
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function runBootSequence() {
+            for (const line of lines) {
+                await sleep(line.delay); 
+                const p = document.createElement('p');
+                if (line.color) {
+                    p.style.color = line.color;
+                }
+                for (let i = 0; i < line.text.length; i++) {
+                    p.innerHTML += line.text.charAt(i);
+                    terminal.appendChild(p);
+                    await sleep(20); 
+                    terminal.scrollTop = terminal.scrollHeight;
+                }
+                terminal.innerHTML += '<br>'; 
+            }
+
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            terminal.appendChild(cursor);
+
+            await sleep(1000);
+
+            preloader.style.opacity = '0';
+            
+            contentItems.forEach(item => {
+                item.classList.add('reveal');
+            });
+            
+            setTimeout(() => {
+                preloader.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 1000);
+        }
+
+        runBootSequence();
+    </script>
+
+</body>
 </html>
