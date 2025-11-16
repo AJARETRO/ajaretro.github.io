@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJA_RETRO | Covers</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* --- 1. CONFIG & RESET (Same as index.html) --- */
+        :root {
+            --brand-red: #DB2727;
+            --brand-red-glow: rgba(219, 39, 39, 0.5);
+            --bg-dark: #101010;
+            --bg-medium: #1a1a1a;
+            --text-light: #E0E0E0;
+            --text-dark: #777;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- 2. STEP-BY-STEP ANIMATIONS (Pure CSS) --- */
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated {
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        .fade-in-down-1 { animation: fadeInDown 0.8s ease 0.3s forwards; }
+        .fade-in-up-1 { animation: fadeInUp 0.8s ease 0.5s forwards; }
+        .fade-in-up-2 { animation: fadeInUp 0.8s ease 0.7s forwards; }
+        .fade-in-up-3 { animation: fadeInUp 0.8s ease 0.9s forwards; }
+
+
+        /* --- 3. FUTURISTIC NAV BAR (Same as index.html) --- */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
+            padding: 20px 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFF;
+            text-decoration: none;
+        }
+        .logo span {
+            color: var(--brand-red);
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 35px;
+        }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brand-red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .nav-links a:hover {
+            color: #FFF;
+        }
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+        .nav-links a.active {
+            color: var(--brand-red);
+        }
+
+        /* --- 4. NEW: COVER PAGE CONTENT --- */
+        .page-hero {
+            padding-top: 150px;
+            padding-bottom: 60px;
+            text-align: center;
+            min-height: 80vh;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            color: #FFF;
+            margin-bottom: 10px;
+        }
+        
+        .page-hero h1 span {
+            color: var(--brand-red);
+        }
+        
+        .page-hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .page-hero p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        /* --- 5. FOOTER (Same as index.html) --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background-color: var(--bg-medium);
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        /* --- 6. Responsive --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="animated fade-in-down-1">
+        <div class="container navbar">
+            <a href="index.html" class="logo">AJA<span>RETRO</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="cover.html" class="active">Covers</a></li> </ul>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="animated fade-in-up-1">Cover Songs<span>.</span></h1>
+                <p class="subtitle animated fade-in-up-2">
+                    Coming Soon...
+                </p>
+                <p class="animated fade-in-up-3">
+                    This page will host my song covers. As I mentioned in my bio, I'm a casual singer and a big fan of bands like Warfaze.
+                    Stay tuned!
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="animated fade-in-up-3">
+        <div class="container">
+            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
+        </div>
+    </footer>
+
+</body>
+</html>
