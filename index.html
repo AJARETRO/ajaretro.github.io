@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJA_RETRO | Plugin Developer</title>
+    <title>AJA_RETRO | Booting...</title>
     <style>
         /* --- 1. CONFIG & RESET --- */
         :root {
@@ -12,6 +12,7 @@
             --bg-medium: #1a1a1a;
             --text-light: #E0E0E0;
             --text-dark: #777;
+            --font-mono: 'Consolas', 'Monaco', 'monospace';
         }
 
         body {
@@ -21,8 +22,8 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
-            scroll-behavior: smooth;
-            overflow: hidden; /* Hide scrollbar during load */
+            /* Hide everything until the preloader is done */
+            overflow: hidden; 
         }
 
         * {
@@ -37,33 +38,46 @@
             padding: 0 20px;
         }
 
-        /* --- 2. PRELOADER (The Fancy Loading Screen) --- */
+        /* --- 2. HACKER PRELOADER --- */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--bg-dark);
+            background-color: #000; /* Pure black for the terminal */
             z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.75s ease;
+            transition: opacity 1s ease;
         }
         
-        /* Simple spinner animation */
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--text-dark);
-            border-top-color: var(--brand-red);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        #terminal {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: #00FF41; /* Classic hacker green */
+            width: 90%;
+            max-width: 700px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        #terminal p {
+            margin-bottom: 10px;
+        }
+        
+        /* The blinking cursor effect */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background-color: #00FF41;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* --- 3. FUTURISTIC NAV BAR --- */
@@ -76,9 +90,9 @@
             background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
             padding: 20px 0;
             
-            /* Step-by-step animation */
+            /* Hidden by default, will be faded in by JS */
             opacity: 0;
-            animation: fadeInDown 0.8s ease 0.5s forwards;
+            transition: opacity 0.8s ease;
         }
 
         .navbar {
@@ -119,7 +133,6 @@
             transition: color 0.3s ease;
         }
         
-        /* The futuristic hover line */
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -141,66 +154,26 @@
             transform: scaleX(1);
         }
         
-        /* Active page indicator */
         .nav-links a.active {
             color: var(--brand-red);
         }
 
-        /* --- 4. "STEP-BY-STEP" ANIMATIONS --- */
+        /* --- 4. STEP-BY-STEP ANIMATIONS (Controlled by JS) --- */
         
-        /* This is the base animation for all items */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* This is the class our JS will add */
+        .reveal {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
         
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* We apply this animation to each item with a different delay */
-        .hero-title {
+        /* All content is hidden and moved down by default */
+        .reveal-item {
             opacity: 0;
-            animation: fadeInUp 0.8s ease 0.8s forwards;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
-        
-        .hero-subtitle {
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 1.0s forwards;
-        }
-        
-        .hero-buttons {
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 1.2s forwards;
-        }
-        
-        .section-title {
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 1.4s forwards;
-        }
-        
-        .project-card {
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 1.6s forwards;
-        }
-
 
         /* --- 5. CONTENT (Hero & Projects) --- */
-        
-        /* Hero (Intro) Section */
         #hero {
             display: flex;
             align-items: center;
@@ -212,6 +185,7 @@
         .hero-title {
             font-size: 4.5rem;
             color: #FFF;
+            transition-delay: 0.2s; /* Staggered delay */
         }
         
         .hero-title span {
@@ -223,10 +197,12 @@
             color: var(--text-dark);
             font-weight: 400;
             margin-top: 10px;
+            transition-delay: 0.4s;
         }
         
         .hero-buttons {
             margin-top: 30px;
+            transition-delay: 0.6s;
         }
         
         .btn {
@@ -250,7 +226,6 @@
             color: var(--brand-red);
         }
 
-        /* Projects Section */
         #projects {
             padding: 100px 0;
             background-color: #141414;
@@ -260,6 +235,7 @@
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 50px;
+            transition-delay: 0.8s;
         }
 
         .project-grid {
@@ -274,7 +250,8 @@
             border-radius: 8px;
             padding: 30px;
             text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.8s ease, transform 0.8s ease;
+            transition-delay: 1s; /* All cards fade in at once */
         }
         
         .project-card:hover {
@@ -315,16 +292,16 @@
             font-size: 0.9rem;
             color: var(--text-dark);
         }
-
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="spinner"></div>
+        <div id="terminal">
+            </div>
     </div>
 
-    <header>
+    <header class="reveal-item">
         <div class="container navbar">
             <a href="index.html" class="logo">AJA<span>RETRO</span></a>
             <ul class="nav-links">
@@ -339,9 +316,9 @@
     <main>
         <section id="hero">
             <div class="container">
-                <h1 class="hero-title">AJA_RETRO<span>.</span></h1>
-                <p class="hero-subtitle hero-subtitle">Developer of High-Performance Minecraft Plugins.</p>
-                <div class="hero-buttons hero-buttons">
+                <h1 class="hero-title reveal-item">AJA_RETRO<span>.</span></h1>
+                <p class="hero-subtitle reveal-item">Developer of High-Performance Minecraft Plugins.</p>
+                <div class="hero-buttons reveal-item">
                     <a href="#projects" class="btn btn-primary">View My Projects</a>
                 </div>
             </div>
@@ -349,11 +326,11 @@
 
         <section id="projects">
             <div class="container">
-                <h2 class="section-title">My Projects</h2>
+                <h2 class="section-title reveal-item">My Projects</h2>
                 
                 <div class="project-grid">
                     
-                    <div class="project-card">
+                    <div class="project-card reveal-item">
                         <h3>CircuitBreaker (v2.0)</h3>
                         <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag and intelligently culls excess entities, all while being non-destructive.</p>
                         <div class="project-links">
@@ -363,7 +340,7 @@
                         </div>
                     </div>
                     
-                    <div class="project-card">
+                    <div class="project-card reveal-item">
                         <h3>RetroBedrock Totem</h3>
                         <p>A lightweight, zero-config QoL plugin that gives Bedrock (Floodgate) players a custom buff, allowing a Totem of Undying to work from anywhere in their inventory.</p>
                         <div class="project-links">
@@ -373,7 +350,7 @@
                         </div>
                     </div>
 
-                    <div class="project-card">
+                    <div class="project-card reveal-item">
                         <h3>Blood Money (In-Dev)</h3>
                         <p>A high-stakes anarchy plugin. Pay a massive sum to place a live-tracking bounty on another player. A 20-minute hunt with a real-time coordinate feed. Coming soon.</p>
                         <div class="project-links">
@@ -393,20 +370,76 @@
     </footer>
 
     <script>
-        // This is our tiny preloader script
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
+        const preloader = document.getElementById('preloader');
+        const terminal = document.getElementById('terminal');
+        const contentItems = document.querySelectorAll('.reveal-item');
+
+        // Lines to type in the terminal
+        const lines = [
+            { text: "Booting AJARETRO.DEV...", delay: 100 },
+            { text: "Loading core modules...", delay: 100 },
+            { text: "Checking plugin integrity...", delay: 100 },
+            { text: " > CircuitBreaker v2.0... [OK]", delay: 300, color: "#DB2727" },
+            { text: " > RetroBedrockTotem... [OK]", delay: 300, color: "#DB2727" },
+            { text: " > BloodMoney... [ON HOLD]", delay: 300, color: "#777" },
+            { text: "All systems operational.", delay: 100 },
+            { text: "ACCESS GRANTED.", delay: 500, color: "#FFF" }
+        ];
+
+        // Utility function to "sleep" for a bit
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // The main typing function
+        async function runBootSequence() {
+            for (const line of lines) {
+                await sleep(line.delay); // Wait before typing the line
+                
+                const p = document.createElement('p');
+                if (line.color) {
+                    p.style.color = line.color;
+                }
+                
+                // Add text char by char
+                for (let i = 0; i < line.text.length; i++) {
+                    p.innerHTML += line.text.charAt(i);
+                    terminal.appendChild(p);
+                    await sleep(20); // Typing speed
+                    terminal.scrollTop = terminal.scrollHeight; // Scroll to bottom
+                }
+                
+                // Add a new paragraph for the next line
+                terminal.innerHTML += '<br>'; 
+            }
+
+            // Add the blinking cursor at the end
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            terminal.appendChild(cursor);
+
+            // Wait 1 second after finishing
+            await sleep(1000);
+
+            // --- The "Reveal" ---
             
-            // Start fading out the preloader
+            // 1. Fade out the preloader
             preloader.style.opacity = '0';
             
-            // After the fade animation finishes, hide it completely
+            // 2. Reveal all the content
+            contentItems.forEach(item => {
+                item.classList.add('reveal');
+            });
+            
+            // 3. After fade, remove preloader and restore scroll
             setTimeout(() => {
                 preloader.style.display = 'none';
-                // Restore scrolling to the body
                 document.body.style.overflow = 'auto';
-            }, 750); // Match this to your CSS transition time
-        });
+            }, 1000);
+        }
+
+        // Run the sequence
+        runBootSequence();
     </script>
 
 </body>
