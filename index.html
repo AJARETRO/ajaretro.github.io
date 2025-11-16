@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJA_RETRO | Booting...</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <style>
         /* --- 1. CONFIG & RESET --- */
         :root {
             --brand-red: #DB2727;
-            --brand-red-glow: rgba(219, 39, 39, 0.5); 
+            /* NEW: Added glow color */
+            --brand-red-glow: rgba(219, 39, 39, 0.5);
             --bg-dark: #101010;
             --bg-medium: #1a1a1a;
             --text-light: #E0E0E0;
@@ -38,7 +42,7 @@
             padding: 0 20px;
         }
 
-        /* --- 2. HACKER PRELOADER --- */
+        /* --- 2. HACKER PRELOADER (Unchanged) --- */
         #preloader {
             position: fixed;
             top: 0;
@@ -79,7 +83,7 @@
             50% { opacity: 0; }
         }
 
-        /* --- 3. FUTURISTIC NAV BAR --- */
+        /* --- 3. FUTURISTIC NAV BAR (Unchanged) --- */
         header {
             position: fixed;
             width: 100%;
@@ -145,7 +149,7 @@
             color: var(--brand-red);
         }
 
-        /* --- 4. STEP-BY-STEP ANIMATIONS --- */
+        /* --- 4. STEP-BY-STEP ANIMATIONS (Unchanged) --- */
         .reveal {
             opacity: 1 !important;
             transform: translateY(0) !important;
@@ -158,6 +162,7 @@
 
         /* --- 5. CONTENT (Hero & Projects) --- */
         
+        /* Hero (Unchanged) */
         #hero {
             display: flex;
             align-items: center;
@@ -197,123 +202,99 @@
             background-color: var(--brand-red);
             color: #FFFFFF;
             border: 2px solid var(--brand-red);
-            box-shadow: 0 0 15px var(--brand-red-glow);
         }
         .btn-primary:hover {
             background-color: transparent;
             color: var(--brand-red);
-            box-shadow: 0 0 25px var(--brand-red-glow);
         }
 
-        /* Cinematic Projects Section */
+        /* --- 5.2. PROJECTS SECTION (UPGRADED) --- */
         #projects {
             padding: 100px 0;
             background-color: #141414;
+            text-align: center;
         }
         
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 50px;
-            text-align: center;
             transition-delay: 0.8s;
         }
 
-        .project-showcase {
+        .project-grid {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 80px;
-            padding-bottom: 50px;
-            border-bottom: 1px solid #222;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
         
-        .project-showcase:nth-child(even) {
-            grid-template-columns: 1.5fr 1fr;
-        }
-        
-        .project-showcase:nth-child(even) .project-content {
-            grid-row: 1;
-            grid-column: 1;
-        }
-
-        .project-showcase:nth-child(even) .project-title {
-            grid-column: 2;
-            text-align: right;
-        }
-        
-        .project-showcase:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .project-title h3 {
-            font-size: 2.8rem;
-            color: #FFF;
-        }
-        
-        .project-title span {
-            font-size: 1.2rem;
-            color: var(--brand-red);
-            font-weight: 700;
-            display: block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .project-content {
+        .project-card {
             background-color: var(--bg-medium);
-            padding: 30px;
+            /* NEW: Added futuristic top border */
+            border-top: 3px solid var(--brand-red);
+            border-left: 1px solid #222;
+            border-right: 1px solid #222;
+            border-bottom: 1px solid #222;
             border-radius: 8px;
-            border: 1px solid #222;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.8s ease;
+            transition-delay: 1s;
         }
         
-        .project-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        .project-card:hover {
+            transform: translateY(-10px);
+            /* NEW: Added red glow on hover */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--brand-red-glow);
         }
-
-        .project-content p {
-            font-size: 1.1rem;
+        
+        .project-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-red);
+            margin-bottom: 15px;
+            /* NEW: Added subtle text glow */
+            text-shadow: 0 0 10px var(--brand-red-glow);
+        }
+        
+        .project-card p {
+            font-size: 1rem;
             color: var(--text-dark);
             margin-bottom: 25px;
         }
         
+        /* NEW: Upgraded button styles */
         .project-links a {
             display: inline-block;
-            background-color: #333;
-            color: var(--text-light);
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
+            color: var(--text-dark);
+            background-color: transparent;
+            border: 2px solid #555;
             font-weight: 600;
             margin-right: 10px;
-            margin-bottom: 10px; /* Added for better wrapping on small screens */
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        .project-links a.github-link {
-            background-color: var(--brand-red);
-            color: #FFF;
+            margin-bottom: 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .project-links a:hover {
-            background-color: var(--text-light);
-            color: var(--bg-dark);
+            color: #FFF;
+            background-color: var(--brand-red);
+            border-color: var(--brand-red);
+            box-shadow: 0 0 15px var(--brand-red-glow);
         }
         
-        .project-links a.github-link:hover {
-            background-color: #FFF;
-            color: var(--brand-red);
+        /* NEW: Icon styling */
+        .project-links a i {
+            margin-right: 8px;
         }
-        
-        /* --- 6. FOOTER --- */
+
+        /* --- 6. FOOTER (Unchanged) --- */
         footer {
             text-align: center;
             padding: 40px 0;
             background-color: var(--bg-medium);
         }
+        
         footer p {
             font-size: 0.9rem;
             color: var(--text-dark);
@@ -323,7 +304,8 @@
 <body>
 
     <div id="preloader">
-        <div id="terminal"></div>
+        <div id="terminal">
+            </div>
     </div>
 
     <header class="reveal-item">
@@ -353,51 +335,39 @@
             <div class="container">
                 <h2 class="section-title reveal-item">My Projects</h2>
                 
-                <div class="project-showcase reveal-item">
-                    <div class="project-title">
-                        <span>v2.0 Performance Suite</span>
-                        <h3>CircuitBreaker</h3>
-                    </div>
-                    <div class="project-content">
+                <div class="project-grid">
+                    
+                    <div class="project-card reveal-item">
+                        <h3>CircuitBreaker (v2.0)</h3>
                         <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag and intelligently culls excess entities, all while being non-destructive.</p>
                         <div class="project-links">
-                            <a href="https://github.com/AJARETRO/CircuitBreaker" class="github-link" target="_blank">GitHub</a>
-                            <a href="https://hangar.papermc.io/AJA_RETRO/CircuitBreaker" target="_blank">Hangar</a>
-                            <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank">Modrinth</a>
-                            <a href="https://www.spigotmc.org/resources/circuitbreaker.130125/" target="_blank">SpigotMC</a>
+                            <a href="https://github.com/AJARETRO/CircuitBreaker" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://hangar.papermc.io/AJA_RETRO/CircuitBreaker" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
+                            <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
+                            <a href="https://www.spigotmc.org/resources/circuitbreaker.130125/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
                         </div>
                     </div>
-                </div>
-                
-                <div class="project-showcase reveal-item">
-                    <div class="project-title">
-                        <span>QoL / Parity Plugin</span>
+                    
+                    <div class="project-card reveal-item">
                         <h3>RetroBedrock Totem</h3>
-                    </div>
-                    <div class="project-content">
                         <p>A lightweight, zero-config QoL plugin that gives Bedrock (Floodgate) players a custom buff, allowing a Totem of Undying to work from anywhere in their inventory.</p>
                         <div class="project-links">
-                            <a href="https://github.com/AJARETRO/RetroBedrockTotem" class="github-link" target="_blank">GitHub</a>
-                            <a href="https://hangar.papermc.io/AJA_RETRO/RetroBedrockTotem" target="_blank">Hangar</a>
-                            <a href="https://modrinth.com/plugin/retrobedrocktotem" target="_blank">Modrinth</a>
-                            <a href="https://www.spigotmc.org/resources/retrobedrocktotem.130113/" target="_blank">SpigotMC</a>
+                            <a href="https://github.com/AJARETRO/RetroBedrockTotem" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://hangar.papermc.io/AJA_RETRO/RetroBedrockTotem" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
+                            <a href="https://modrinth.com/plugin/retrobedrocktotem" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
+                            <a href="https://www.spigotmc.org/resources/retrobedrocktotem.130113/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
                         </div>
                     </div>
-                </div>
 
-                <div class="project-showcase reveal-item">
-                    <div class="project-title">
-                        <span>Anarchy / PvP Plugin</span>
-                        <h3>Blood Money</h3>
-                    </div>
-                    <div class="project-content">
-                        <p>A high-stakes anarchy plugin. Pay a massive sum to place a live-tracking bounty on another player. A 20-minute hunt with a real-time coordinate feed. (In Development)</p>
+                    <div class="project-card reveal-item">
+                        <h3>Blood Money (In-Dev)</h3>
+                        <p>A high-stakes anarchy plugin. Pay a massive sum to place a live-tracking bounty on another player. A 20-minute hunt with a real-time coordinate feed. Coming soon.</p>
                         <div class="project-links">
-                            <a href="#" class="github-link">GitHub (Soon)</a>
+                            <a href="#"><i class="fab fa-github"></i> Learn More (Soon)</a>
                         </div>
                     </div>
+                    
                 </div>
-                
             </div>
         </section>
     </main>
