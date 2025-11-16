@@ -3,156 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJA_RETRO | About Me</title>
     
-    <!-- SEO Optimized Title for all your names -->
-    <title>About AJA RETRO (Ahmed Juhaed Ayeman Niloy - AJA NILOY)</title>
-    
-    <!-- SEO Meta Keywords & Author -->
-    <meta name="keywords" content="AJA RETRO, AJA NILOY, Ahmed Juhaed Ayeman Niloy, web developer Bangladesh, ethical hacker, game developer Khulna">
-    <meta name="author" content="Ahmed Juhaed Ayeman Niloy (AJA RETRO)">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- NEW: JSON-LD Schema for Person (Excellent for SEO) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Ahmed Juhaed Ayeman Niloy",
-      "alternateName": ["AJA RETRO", "AJA NILOY"],
-      "url": "https://ajaretro.dev/about.html",
-      "image": "https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg",
-      "jobTitle": "Web Developer",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "AjaRetro Devs"
-      },
-      "birthDate": "2007-02-14",
-      "knowsAbout": ["Web Development", "Ethical Hacking", "Game Development", "SEO"],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Khulna",
-        "addressCountry": "BD"
-      },
-      "alumniOf": "Government Sundarban Adarsha College, Khulna"
-    }
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- Custom CSS -->
     <style>
+        /* --- 1. CONFIG & RESET (Same as index.html) --- */
+        :root {
+            --brand-red: #DB2727;
+            --brand-red-glow: rgba(219, 39, 39, 0.5);
+            --bg-dark: #101010;
+            --bg-medium: #1a1a1a;
+            --text-light: #E0E0E0;
+            --text-dark: #777;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* GitHub Dark Dimmed */
-            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
-        .card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 0.5rem;
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        .icon-color {
-            color: #8b949e;
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- 2. STEP-BY-STEP ANIMATIONS (Pure CSS) --- */
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated {
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        .fade-in-down-1 { animation: fadeInDown 0.8s ease 0.3s forwards; }
+        .fade-in-up-1 { animation: fadeInUp 0.8s ease 0.5s forwards; }
+        .fade-in-up-2 { animation: fadeInUp 0.8s ease 0.7s forwards; }
+        .fade-in-up-3 { animation: fadeInUp 0.8s ease 0.9s forwards; }
+        .fade-in-up-4 { animation: fadeInUp 0.8s ease 1.1s forwards; }
+        .fade-in-up-5 { animation: fadeInUp 0.8s ease 1.3s forwards; }
+
+
+        /* --- 3. FUTURISTIC NAV BAR (Same as index.html) --- */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
+            padding: 20px 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFF;
+            text-decoration: none;
+        }
+        .logo span {
+            color: var(--brand-red);
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 35px;
+        }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brand-red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .nav-links a:hover {
+            color: #FFF;
+        }
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+        .nav-links a.active {
+            color: var(--brand-red);
+        }
+
+        /* --- 4. NEW: ABOUT PAGE CONTENT --- */
+        .page-hero {
+            padding-top: 150px; /* Start below the fixed nav */
+            padding-bottom: 60px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--brand-red);
+            box-shadow: 0 0 20px var(--brand-red-glow);
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            color: #FFF;
+            margin-bottom: 0;
+        }
+        
+        .page-hero h1 span {
+            color: var(--brand-red);
+        }
+        
+        .page-hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            font-weight: 400;
+            max-width: 600px;
+        }
+        
+        /* New grid for the content */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding-bottom: 100px;
+        }
+        
+        .about-box {
+            background-color: var(--bg-medium);
+            border-top: 3px solid var(--brand-red);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .about-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 15px var(--brand-red-glow);
+        }
+
+        .about-box h2 {
+            font-size: 1.8rem;
+            color: var(--brand-red);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--brand-red-glow);
+        }
+        
+        .about-box p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+        
+        /* Styled list for details */
+        .details-list {
+            list-style: none;
+            padding: 0;
+            color: var(--text-light);
+        }
+        
+        .details-list li {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .details-list i {
+            font-size: 1.2rem;
+            color: var(--brand-red);
+            margin-right: 15px;
+            width: 20px; /* Aligns the text */
+            text-align: center;
+        }
+        
+        /* Certificate styling */
+        .certificate-img {
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease;
+        }
+        
+        .certificate-img:hover {
+            transform: scale(1.02);
+        }
+        
+        .platform-links a {
+            display: inline-block;
+            color: var(--text-dark);
+            background-color: transparent;
+            border: 2px solid #555;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .platform-links a:hover {
+            color: #FFF;
+            background-color: var(--brand-red);
+            border-color: var(--brand-red);
+            box-shadow: 0 0 15px var(--brand-red-glow);
+        }
+        
+        .platform-links a i {
+            margin-right: 8px;
+        }
+        
+
+        /* --- 5. FOOTER (Same as index.html) --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background-color: var(--bg-medium);
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        /* --- 6. Responsive --- */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .page-hero {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- Header -->
-    <header class="sticky top-0 left-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
-            <!-- SVG Logo -->
-            <a href="index.html" aria-label="AjaRetro Homepage">
-                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#4F46E5"/>
-                            <stop offset="100%" stop-color="#22D3EE"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-            <!-- Quote button removed as requested -->
-        </nav>
+    <header class="animated fade-in-down-1">
+        <div class="container navbar">
+            <a href="index.html" class="logo">AJA<span>RETRO</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active">About</a></li> <li><a href="services.html">Services</a></li>
+                <li><a href="cover.html">Covers</a></li>
+            </ul>
+        </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto p-4 md:p-8 max-w-4xl">
-        <!-- Profile Header -->
-        <div class="flex flex-col md:flex-row items-center gap-8 mb-12">
-            <div class="flex-shrink-0">
-                <img class="h-40 w-40 rounded-full border-4 border-indigo-500 object-cover" src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="AJA RETRO - Ahmed Juhaed Ayeman Niloy">
-            </div>
-            <div>
-                <h1 class="text-4xl font-bold text-white">AJA RETRO</h1>
-                <p class="text-xl text-gray-400">Ahmed Juhaed Ayeman Niloy</p>
-                <p class="mt-2 text-gray-300">Web Developer, Ethical Hacker, and Digital Creator based in Khulna, Bangladesh.</p>
-            </div>
-        </div>
-
-        <!-- Main Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Left Column -->
-            <div class="md:col-span-1 space-y-8">
-                <!-- Intro Card -->
-                <div class="card p-6">
-                    <h2 class="text-xl font-semibold text-white mb-4">Intro</h2>
-                    <p class="text-gray-400">A casual competitive gamer (Idk how that goes together). And I sometimes sing, favorite band: Warfaze.</p>
-                </div>
-
-                <!-- Certificate Card -->
-                <div class="card p-6">
-                    <h2 class="text-xl font-semibold text-white mb-4">Certifications</h2>
-                    <!-- The placeholder has been replaced with your actual certificate image file -->
-                    <img src="Alison_Certificate.jpg" alt="Alison Certificate for AJA RETRO" class="rounded border border-gray-700">
-                    <a href="https://alison.com/user/pdf/1930/1" target="_blank" class="mt-4 inline-block text-sm text-indigo-400 hover:underline">Verify Certificate</a>
+    <main>
+        <section class="page-hero">
+            <div class="container" style="display: flex; align-items: center; gap: 30px;">
+                <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="AJA RETRO Profile" class="profile-pic animated fade-in-up-1">
+                
+                <div>
+                    <h1 class="animated fade-in-up-1">AJA RETRO<span>.</span></h1>
+                    <p class="subtitle animated fade-in-up-2">
+                        Ahmed Juhaed Ayeman Niloy
+                        <br>
+                        Web Developer, Ethical Hacker, and Digital Creator.
+                    </p>
                 </div>
             </div>
+        </section>
 
-            <!-- Right Column -->
-            <div class="md:col-span-2 card p-6">
-                <h2 class="text-xl font-semibold text-white mb-6">Details</h2>
-                <ul class="space-y-5">
-                     <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 icon-color flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <span>Profile - <span class="font-semibold text-white">Digital Creator</span></span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 icon-color flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        <span>Game Developer at <span class="font-semibold text-white">Sheikh Games</span></span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 icon-color flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        <span>Former Video game developers at <span class="font-semibold text-white">Eviyon Network</span></span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 icon-color flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222 4 2.222V20M1 12v7a2 2 0 002 2h14a2 2 0 002-2v-7" /></svg>
-                        <span>Went to <span class="font-semibold text-white">Government Sundarban Adarsha College, Khulna</span></span>
-                    </li>
-                     <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 icon-color flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                        <span>Birthday - <span class="font-semibold text-white">14 February 2007</span></span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 icon-color flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                        <span>Lives in <span class="font-semibold text-white">Khulna</span></span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 icon-color flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                        <span>From <span class="font-semibold text-white">Madaripur, Dhaka, Bangladesh</span></span>
-                    </li>
-                </ul>
+        <section class="container">
+            <div class="about-grid">
+                
+                <div class="about-left">
+                    <div class="about-box animated fade-in-up-3">
+                        <h2>Intro</h2>
+                        <p>A casual competitive gamer (idk how that goes together). And I sometimes sing, favorite band: Warfaze.</p>
+                    </div>
+
+                    <div class="about-box animated fade-in-up-5" style="margin-top: 30px;">
+                        <h2>My Platforms</h2>
+                        <div class="platform-links">
+                            <a href="https://github.com/AJARETRO" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://hangar.papermc.io/AJA_RETRO" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
+                            <a href="https://modrinth.com/user/AJA_RETRO" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
+                            <a href="https://www.spigotmc.org/resources/authors/aja_retro.1984450/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-right animated fade-in-up-4">
+                    <div class="about-box">
+                        <h2>Details</h2>
+                        <ul class="details-list">
+                            <li><i class="fa-solid fa-id-card"></i> Profile - Digital Creator</li>
+                            <li><i class="fa-solid fa-bolt"></i> Plugin Developer for PaperMC & Folia</li>
+                            <li><i class="fa-solid fa-gamepad"></i> Game Developer at Sheikh Games</li>
+                            <li><i class="fa-solid fa-briefcase"></i> Former Video game developers at Eviyon Network</li>
+                            <li><i class="fa-solid fa-graduation-cap"></i> Went to Government Sundarban Adarsha College</li>
+                            <li><i class="fa-solid fa-cake-candles"></i> Birthday - 14 February 2007</li>
+                            <li><i class="fa-solid fa-house-user"></i> Lives in Khulna, Bangladesh</li>
+                            <li><i class="fa-solid fa-map-pin"></i> From Madaripur, Dhaka, Bangladesh</li>
+                        </ul>
+                    </div>
+                </div>
+                
             </div>
-        </div>
+            
+            <div class="certificate-section animated fade-in-up-5" style="padding-bottom: 100px; text-align: center;">
+                <h2>Certifications</h2>
+                <a href="https://github.com/AJARETRO/ajaretro.github.io/blob/main/Alison_Certificate.jpg" target="_blank" title="Click to view PDF">
+                    <img src="httpsG://github.com/AJARETRO/ajaretro.github.io/raw/main/Alison_Certificate.jpg" alt="Alison Certificate" class="certificate-img" style="max-width: 500px; margin: 0 auto;">
+                </a>
+            </div>
+
+        </section>
     </main>
+
+    <footer class="animated fade-in-up-5">
+        <div class="container">
+            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
+        </div>
+    </footer>
 
 </body>
 </html>
