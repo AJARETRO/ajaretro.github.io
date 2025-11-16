@@ -8,6 +8,8 @@
         /* --- 1. CONFIG & RESET --- */
         :root {
             --brand-red: #DB2727;
+            /* NEW: Add a glow color */
+            --brand-red-glow: rgba(219, 39, 39, 0.5); 
             --bg-dark: #101010;
             --bg-medium: #1a1a1a;
             --text-light: #E0E0E0;
@@ -22,7 +24,6 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
-            /* Hide everything until the preloader is done */
             overflow: hidden; 
         }
 
@@ -38,14 +39,14 @@
             padding: 0 20px;
         }
 
-        /* --- 2. HACKER PRELOADER --- */
+        /* --- 2. HACKER PRELOADER (Unchanged) --- */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000; /* Pure black for the terminal */
+            background-color: #000;
             z-index: 1000;
             display: flex;
             justify-content: center;
@@ -56,7 +57,7 @@
         #terminal {
             font-family: var(--font-mono);
             font-size: 1.1rem;
-            color: #00FF41; /* Classic hacker green */
+            color: #00FF41;
             width: 90%;
             max-width: 700px;
         }
@@ -65,7 +66,6 @@
             margin-bottom: 10px;
         }
         
-        /* The blinking cursor effect */
         .cursor {
             display: inline-block;
             width: 10px;
@@ -80,7 +80,7 @@
             50% { opacity: 0; }
         }
 
-        /* --- 3. FUTURISTIC NAV BAR --- */
+        /* --- 3. FUTURISTIC NAV BAR (Unchanged) --- */
         header {
             position: fixed;
             width: 100%;
@@ -89,38 +89,30 @@
             z-index: 100;
             background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
             padding: 20px 0;
-            
-            /* Hidden by default, will be faded in by JS */
             opacity: 0;
             transition: opacity 0.8s ease;
         }
-
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
             color: #FFF;
             text-decoration: none;
         }
-        
         .logo span {
             color: var(--brand-red);
         }
-
         .nav-links {
             list-style: none;
             display: flex;
         }
-
         .nav-links li {
             margin-left: 35px;
         }
-
         .nav-links a {
             color: var(--text-light);
             text-decoration: none;
@@ -132,7 +124,6 @@
             position: relative;
             transition: color 0.3s ease;
         }
-        
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -145,35 +136,30 @@
             transform-origin: left;
             transition: transform 0.4s ease;
         }
-
         .nav-links a:hover {
             color: #FFF;
         }
-        
         .nav-links a:hover::after {
             transform: scaleX(1);
         }
-        
         .nav-links a.active {
             color: var(--brand-red);
         }
 
-        /* --- 4. STEP-BY-STEP ANIMATIONS (Controlled by JS) --- */
-        
-        /* This is the class our JS will add */
+        /* --- 4. STEP-BY-STEP ANIMATIONS (Unchanged) --- */
         .reveal {
             opacity: 1 !important;
             transform: translateY(0) !important;
         }
-        
-        /* All content is hidden and moved down by default */
         .reveal-item {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        /* --- 5. CONTENT (Hero & Projects) --- */
+        /* --- 5. CONTENT (Hero & NEW Projects) --- */
+        
+        /* Hero (Intro) Section (Unchanged) */
         #hero {
             display: flex;
             align-items: center;
@@ -181,17 +167,14 @@
             text-align: center;
             min-height: 100vh;
         }
-        
         .hero-title {
             font-size: 4.5rem;
             color: #FFF;
-            transition-delay: 0.2s; /* Staggered delay */
+            transition-delay: 0.2s;
         }
-        
         .hero-title span {
             color: var(--brand-red);
         }
-        
         .hero-subtitle {
             font-size: 1.5rem;
             color: var(--text-dark);
@@ -199,12 +182,10 @@
             margin-top: 10px;
             transition-delay: 0.4s;
         }
-        
         .hero-buttons {
             margin-top: 30px;
             transition-delay: 0.6s;
         }
-        
         .btn {
             display: inline-block;
             padding: 12px 25px;
@@ -214,80 +195,131 @@
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        
         .btn-primary {
             background-color: var(--brand-red);
             color: #FFFFFF;
             border: 2px solid var(--brand-red);
+            /* NEW: Add a subtle glow */
+            box-shadow: 0 0 15px var(--brand-red-glow);
         }
-        
         .btn-primary:hover {
             background-color: transparent;
             color: var(--brand-red);
+            box-shadow: 0 0 25px var(--brand-red-glow);
         }
 
+        /* === NEW: PROJECTS SECTION === */
         #projects {
             padding: 100px 0;
             background-color: #141414;
-            text-align: center;
         }
         
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 50px;
+            text-align: center;
             transition-delay: 0.8s;
         }
 
-        .project-grid {
+        /* This is the new showcase layout */
+        .project-showcase {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: 1fr 1.5fr; /* Left side (title) | Right side (content) */
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 80px;
+            padding-bottom: 50px;
+            border-bottom: 1px solid #222;
         }
         
-        .project-card {
-            background-color: var(--bg-medium);
-            border: 1px solid #222;
-            border-radius: 8px;
-            padding: 30px;
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.8s ease, transform 0.8s ease;
-            transition-delay: 1s; /* All cards fade in at once */
+        /* This reverses the layout for every even card */
+        .project-showcase:nth-child(even) {
+            grid-template-columns: 1.5fr 1fr;
         }
         
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        /* This makes the "content" come first in the reversed layout */
+        .project-showcase:nth-child(even) .project-content {
+            grid-row: 1;
+            grid-column: 1;
+        }
+
+        .project-showcase:nth-child(even) .project-title {
+            grid-column: 2;
+            text-align: right;
         }
         
-        .project-card h3 {
-            font-size: 1.8rem;
+        .project-showcase:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .project-title h3 {
+            font-size: 2.8rem;
+            color: #FFF;
+        }
+        
+        .project-title span {
+            font-size: 1.2rem;
             color: var(--brand-red);
-            margin-bottom: 15px;
+            font-weight: 700;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        .project-card p {
-            font-size: 1rem;
+        .project-content {
+            background-color: var(--bg-medium);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #222;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-content p {
+            font-size: 1.1rem;
             color: var(--text-dark);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .project-links a {
+            display: inline-block;
+            background-color: #333;
             color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
             font-weight: 600;
-            margin-right: 15px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* NEW: Make the GitHub link stand out */
+        .project-links a.github-link {
+            background-color: var(--brand-red);
+            color: #FFF;
         }
 
         .project-links a:hover {
+            background-color: var(--text-light);
+            color: var(--bg-dark);
+        }
+        
+        .project-links a.github-link:hover {
+            background-color: #FFF;
             color: var(--brand-red);
         }
-
-        /* --- 6. FOOTER --- */
+        
+        /* --- 6. FOOTER (Unchanged) --- */
         footer {
             text-align: center;
             padding: 40px 0;
             background-color: var(--bg-medium);
         }
-        
         footer p {
             font-size: 0.9rem;
             color: var(--text-dark);
@@ -297,8 +329,7 @@
 <body>
 
     <div id="preloader">
-        <div id="terminal">
-            </div>
+        <div id="terminal"></div>
     </div>
 
     <header class="reveal-item">
@@ -328,119 +359,10 @@
             <div class="container">
                 <h2 class="section-title reveal-item">My Projects</h2>
                 
-                <div class="project-grid">
-                    
-                    <div class="project-card reveal-item">
-                        <h3>CircuitBreaker (v2.0)</h3>
-                        <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag and intelligently culls excess entities, all while being non-destructive.</p>
-                        <div class="project-links">
-                            <a href="httpsS://github.com/AJARETRO/CircuitBreaker" target="_blank">GitHub</a>
-                            <a href="httpsS://hangar.papermc.io/AJA_RETRO/CircuitBreaker" target="_blank">Hangar</a>
-                            <a href="httpsS://modrinth.com/plugin/circuitbreaker" target="_blank">Modrinth</a>
-                        </div>
+                <div class="project-showcase reveal-item">
+                    <div class="project-title">
+                        <span>v2.0 Performance Suite</span>
+                        <h3>CircuitBreaker</h3>
                     </div>
-                    
-                    <div class="project-card reveal-item">
-                        <h3>RetroBedrock Totem</h3>
-                        <p>A lightweight, zero-config QoL plugin that gives Bedrock (Floodgate) players a custom buff, allowing a Totem of Undying to work from anywhere in their inventory.</p>
-                        <div class="project-links">
-                            <a href="httpsS://github.com/AJARETRO/RetroBedrockTotem" target="_blank">GitHub</a>
-                            <a href="httpsS://hangar.papermc.io/AJA_RETRO/RetroBedrockTotem" target="_blank">Hangar</a>
-                            <a href="httpsS://www.spigotmc.org/resources/retrobedrocktotem.130113/" target="_blank">SpigotMC</a>
-                        </div>
-                    </div>
-
-                    <div class="project-card reveal-item">
-                        <h3>Blood Money (In-Dev)</h3>
-                        <p>A high-stakes anarchy plugin. Pay a massive sum to place a live-tracking bounty on another player. A 20-minute hunt with a real-time coordinate feed. Coming soon.</p>
-                        <div class="project-links">
-                            <a href="#">Learn More (Soon)</a>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
-        </div>
-    </footer>
-
-    <script>
-        const preloader = document.getElementById('preloader');
-        const terminal = document.getElementById('terminal');
-        const contentItems = document.querySelectorAll('.reveal-item');
-
-        // Lines to type in the terminal
-        const lines = [
-            { text: "Booting AJARETRO.DEV...", delay: 100 },
-            { text: "Loading core modules...", delay: 100 },
-            { text: "Checking plugin integrity...", delay: 100 },
-            { text: " > CircuitBreaker v2.0... [OK]", delay: 300, color: "#DB2727" },
-            { text: " > RetroBedrockTotem... [OK]", delay: 300, color: "#DB2727" },
-            { text: " > BloodMoney... [ON HOLD]", delay: 300, color: "#777" },
-            { text: "All systems operational.", delay: 100 },
-            { text: "ACCESS GRANTED.", delay: 500, color: "#FFF" }
-        ];
-
-        // Utility function to "sleep" for a bit
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        // The main typing function
-        async function runBootSequence() {
-            for (const line of lines) {
-                await sleep(line.delay); // Wait before typing the line
-                
-                const p = document.createElement('p');
-                if (line.color) {
-                    p.style.color = line.color;
-                }
-                
-                // Add text char by char
-                for (let i = 0; i < line.text.length; i++) {
-                    p.innerHTML += line.text.charAt(i);
-                    terminal.appendChild(p);
-                    await sleep(20); // Typing speed
-                    terminal.scrollTop = terminal.scrollHeight; // Scroll to bottom
-                }
-                
-                // Add a new paragraph for the next line
-                terminal.innerHTML += '<br>'; 
-            }
-
-            // Add the blinking cursor at the end
-            const cursor = document.createElement('span');
-            cursor.className = 'cursor';
-            terminal.appendChild(cursor);
-
-            // Wait 1 second after finishing
-            await sleep(1000);
-
-            // --- The "Reveal" ---
-            
-            // 1. Fade out the preloader
-            preloader.style.opacity = '0';
-            
-            // 2. Reveal all the content
-            contentItems.forEach(item => {
-                item.classList.add('reveal');
-            });
-            
-            // 3. After fade, remove preloader and restore scroll
-            setTimeout(() => {
-                preloader.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }, 1000);
-        }
-
-        // Run the sequence
-        runBootSequence();
-    </script>
-
-</body>
-</html>
+                    <div class="project-content">
+                        <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag with a 3-strike system and intelligently culls excess entities, all while being non-destructive.</p>
