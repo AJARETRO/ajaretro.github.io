@@ -11,7 +11,6 @@
         /* --- 1. CONFIG & RESET --- */
         :root {
             --brand-red: #DB2727;
-            /* NEW: Added glow color */
             --brand-red-glow: rgba(219, 39, 39, 0.5);
             --bg-dark: #101010;
             --bg-medium: #1a1a1a;
@@ -42,14 +41,14 @@
             padding: 0 20px;
         }
 
-        /* --- 2. HACKER PRELOADER (Unchanged) --- */
+        /* --- 2. HACKER PRELOADER --- */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background-color: #000; /* Pure black for the terminal */
             z-index: 1000;
             display: flex;
             justify-content: center;
@@ -60,7 +59,7 @@
         #terminal {
             font-family: var(--font-mono);
             font-size: 1.1rem;
-            color: #00FF41;
+            color: #00FF41; /* Classic hacker green */
             width: 90%;
             max-width: 700px;
         }
@@ -83,7 +82,7 @@
             50% { opacity: 0; }
         }
 
-        /* --- 3. FUTURISTIC NAV BAR (Unchanged) --- */
+        /* --- 3. FUTURISTIC NAV BAR --- */
         header {
             position: fixed;
             width: 100%;
@@ -95,27 +94,33 @@
             opacity: 0;
             transition: opacity 0.8s ease;
         }
+
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
             color: #FFF;
             text-decoration: none;
         }
+        
         .logo span {
             color: var(--brand-red);
         }
+
         .nav-links {
             list-style: none;
             display: flex;
         }
+
         .nav-links li {
             margin-left: 35px;
         }
+
         .nav-links a {
             color: var(--text-light);
             text-decoration: none;
@@ -127,6 +132,7 @@
             position: relative;
             transition: color 0.3s ease;
         }
+        
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -139,21 +145,26 @@
             transform-origin: left;
             transition: transform 0.4s ease;
         }
+
         .nav-links a:hover {
             color: #FFF;
         }
+        
         .nav-links a:hover::after {
             transform: scaleX(1);
         }
+        
         .nav-links a.active {
             color: var(--brand-red);
         }
 
-        /* --- 4. STEP-BY-STEP ANIMATIONS (Unchanged) --- */
+        /* --- 4. STEP-BY-STEP ANIMATIONS (Controlled by JS) --- */
+        
         .reveal {
             opacity: 1 !important;
             transform: translateY(0) !important;
         }
+        
         .reveal-item {
             opacity: 0;
             transform: translateY(30px);
@@ -161,8 +172,6 @@
         }
 
         /* --- 5. CONTENT (Hero & Projects) --- */
-        
-        /* Hero (Unchanged) */
         #hero {
             display: flex;
             align-items: center;
@@ -170,14 +179,17 @@
             text-align: center;
             min-height: 100vh;
         }
+        
         .hero-title {
             font-size: 4.5rem;
             color: #FFF;
             transition-delay: 0.2s;
         }
+        
         .hero-title span {
             color: var(--brand-red);
         }
+        
         .hero-subtitle {
             font-size: 1.5rem;
             color: var(--text-dark);
@@ -185,10 +197,12 @@
             margin-top: 10px;
             transition-delay: 0.4s;
         }
+        
         .hero-buttons {
             margin-top: 30px;
             transition-delay: 0.6s;
         }
+        
         .btn {
             display: inline-block;
             padding: 12px 25px;
@@ -198,17 +212,18 @@
             text-decoration: none;
             transition: all 0.3s ease;
         }
+        
         .btn-primary {
             background-color: var(--brand-red);
             color: #FFFFFF;
             border: 2px solid var(--brand-red);
         }
+        
         .btn-primary:hover {
             background-color: transparent;
             color: var(--brand-red);
         }
 
-        /* --- 5.2. PROJECTS SECTION (UPGRADED) --- */
         #projects {
             padding: 100px 0;
             background-color: #141414;
@@ -229,7 +244,6 @@
         
         .project-card {
             background-color: var(--bg-medium);
-            /* NEW: Added futuristic top border */
             border-top: 3px solid var(--brand-red);
             border-left: 1px solid #222;
             border-right: 1px solid #222;
@@ -243,7 +257,6 @@
         
         .project-card:hover {
             transform: translateY(-10px);
-            /* NEW: Added red glow on hover */
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--brand-red-glow);
         }
         
@@ -251,7 +264,6 @@
             font-size: 1.8rem;
             color: var(--brand-red);
             margin-bottom: 15px;
-            /* NEW: Added subtle text glow */
             text-shadow: 0 0 10px var(--brand-red-glow);
         }
         
@@ -261,7 +273,6 @@
             margin-bottom: 25px;
         }
         
-        /* NEW: Upgraded button styles */
         .project-links a {
             display: inline-block;
             color: var(--text-dark);
@@ -283,12 +294,11 @@
             box-shadow: 0 0 15px var(--brand-red-glow);
         }
         
-        /* NEW: Icon styling */
         .project-links a i {
             margin-right: 8px;
         }
 
-        /* --- 6. FOOTER (Unchanged) --- */
+        /* --- 6. FOOTER --- */
         footer {
             text-align: center;
             padding: 40px 0;
@@ -305,7 +315,7 @@
 
     <div id="preloader">
         <div id="terminal">
-            </div>
+        </div>
     </div>
 
     <header class="reveal-item">
@@ -339,7 +349,7 @@
                     
                     <div class="project-card reveal-item">
                         <h3>CircuitBreaker (v2.0)</h3>
-                        <p>The Surgical Anti-Lag Solution. A 2-in-1 suite that stops physics lag and intelligently culls excess entities, all while being non-destructive.</p>
+                        <p>The Surgical Anti-Lag Solution. [cite_start]A 2-in-1 suite that stops physics lag [cite: 11] [cite_start]and intelligently culls excess entities [cite: 23, 29][cite_start], all while being non-destructive[cite: 8].</p>
                         <div class="project-links">
                             <a href="https://github.com/AJARETRO/CircuitBreaker" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                             <a href="https://hangar.papermc.io/AJA_RETRO/CircuitBreaker" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
@@ -358,10 +368,21 @@
                             <a href="https://www.spigotmc.org/resources/retrobedrocktotem.130113/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
                         </div>
                     </div>
-
+                    
+                    <div class="project-card reveal-item">
+                        <h3>FoliaCore</h3>
+                        <p>A core library and API utility plugin designed specifically for Folia servers. Simplifies the development of high-performance, region-aware plugins.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/AJARETRO/FoliaCore" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://hangar.papermc.io/AJA_RETRO/FoliaCore" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
+                            <a href="https://modrinth.com/plugin/foliacore" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
+                            <a href="https://www.spigotmc.org/resources/foliacore.130229/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
+                        </div>
+                    </div>
+                    
                     <div class="project-card reveal-item">
                         <h3>Blood Money (In-Dev)</h3>
-                        <p>A high-stakes anarchy plugin. Pay a massive sum to place a live-tracking bounty on another player. A 20-minute hunt with a real-time coordinate feed. Coming soon.</p>
+                        [cite_start]<p>A high-stakes anarchy plugin[cite: 55]. Pay a massive sum to place a live-tracking bounty on another player. [cite_start]A 20-minute hunt with a real-time coordinate feed[cite: 56, 58]. (On Hold) [cite_start][cite: 54]</p>
                         <div class="project-links">
                             <a href="#"><i class="fab fa-github"></i> Learn More (Soon)</a>
                         </div>
@@ -389,6 +410,7 @@
             { text: "Checking plugin integrity...", delay: 100 },
             { text: " > CircuitBreaker v2.0... [OK]", delay: 300, color: "#DB2727" },
             { text: " > RetroBedrockTotem... [OK]", delay: 300, color: "#DB2727" },
+            { text: " > FoliaCore... [OK]", delay: 300, color: "#DB2727" }, /* UPDATED */
             { text: " > BloodMoney... [ON HOLD]", delay: 300, color: "#777" },
             { text: "All systems operational.", delay: 100 },
             { text: "ACCESS GRANTED.", delay: 500, color: "#FFF" }
