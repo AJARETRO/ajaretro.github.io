@@ -1,461 +1,505 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJA_RETRO | Booting...</title>
+    <title>AJA_RETRO | High-Performance Minecraft Development</title>
+    <meta name="description" content="Home of FoliaCore, CircuitBreaker, and RetroBedrockTotem. Next-gen plugins for Folia and Paper servers.">
     
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { red: '#DB2727', dark: '#050505', surface: '#0a0a0c' },
+                        folia: '#06b6d4',
+                        legacy: '#fbbf24', 
+                        io: '#a855f7', 
+                        redstone: '#ef4444'
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    animation: {
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'float': 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        /* --- 1. CONFIG & RESET --- */
-        :root {
-            --brand-red: #DB2727;
-            --brand-red-glow: rgba(219, 39, 39, 0.5);
-            --bg-dark: #101010;
-            --bg-medium: #1a1a1a;
-            --text-light: #E0E0E0;
-            --text-dark: #777;
-            --font-mono: 'Consolas', 'Monaco', 'monospace';
-        }
+        body { background-color: #050505; color: #e2e8f0; overflow-x: hidden; }
+        .glass { background: rgba(15, 15, 20, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+        .glass-folia { border-left: 3px solid #06b6d4; }
+        .glass-red { border-left: 3px solid #DB2727; }
+        .glass-legacy { border-left: 3px solid #fbbf24; }
+        
+        /* Interactive Elements */
+        .packet { width: 8px; height: 8px; border-radius: 50%; position: absolute; box-shadow: 0 0 10px currentColor; z-index: 10; }
+        @keyframes travel { 0% { left: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+        .animate-travel { animation: travel 2s linear infinite; }
+        .paused { animation-play-state: paused !important; }
+        
+        .graph-bar { width: 6px; background: #333; border-radius: 2px; transition: height 0.1s; }
+        .graph-bar.active { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow: hidden; 
-        }
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #DB2727; cursor: pointer; margin-top: -8px; box-shadow: 0 0 10px rgba(219, 39, 39, 0.8); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #333; border-radius: 2px; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* --- 2. HACKER PRELOADER --- */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000; /* Pure black for the terminal */
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease;
-        }
+        #boot-overlay { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s; }
+        .boot-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         
-        #terminal {
-            font-family: var(--font-mono);
-            font-size: 1.1rem;
-            color: #00FF41; /* Classic hacker green */
-            width: 90%;
-            max-width: 700px;
-        }
-
-        #terminal p {
-            margin-bottom: 10px;
-        }
-        
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2rem;
-            background-color: #00FF41;
-            margin-left: 5px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* --- 3. FUTURISTIC NAV BAR --- */
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
-            padding: 20px 0;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #FFF;
-            text-decoration: none;
-        }
-        
-        .logo span {
-            color: var(--brand-red);
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-
-        .nav-links li {
-            margin-left: 35px;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding-bottom: 5px;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--brand-red);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .nav-links a:hover {
-            color: #FFF;
-        }
-        
-        .nav-links a:hover::after {
-            transform: scaleX(1);
-        }
-        
-        .nav-links a.active {
-            color: var(--brand-red);
-        }
-
-        /* --- 4. STEP-BY-STEP ANIMATIONS (Controlled by JS) --- */
-        
-        .reveal {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-        
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        /* --- 5. CONTENT (Hero & Projects) --- */
-        #hero {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            min-height: 100vh;
-        }
-        
-        .hero-title {
-            font-size: 4.5rem;
-            color: #FFF;
-            transition-delay: 0.2s;
-        }
-        
-        .hero-title span {
-            color: var(--brand-red);
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            font-weight: 400;
-            margin-top: 10px;
-            transition-delay: 0.4s;
-        }
-        
-        .hero-buttons {
-            margin-top: 30px;
-            transition-delay: 0.6s;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background-color: var(--brand-red);
-            color: #FFFFFF;
-            border: 2px solid var(--brand-red);
-        }
-        
-        .btn-primary:hover {
-            background-color: transparent;
-            color: var(--brand-red);
-        }
-
-        #projects {
-            padding: 100px 0;
-            background-color: #141414;
-            text-align: center;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            transition-delay: 0.8s;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .project-card {
-            background-color: var(--bg-medium);
-            border-top: 3px solid var(--brand-red);
-            border-left: 1px solid #222;
-            border-right: 1px solid #222;
-            border-bottom: 1px solid #222;
-            border-radius: 8px;
-            padding: 30px;
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.8s ease;
-            transition-delay: 1s;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--brand-red-glow);
-        }
-        
-        .project-card h3 {
-            font-size: 1.8rem;
-            color: var(--brand-red);
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px var(--brand-red-glow);
-        }
-        
-        .project-card p {
-            font-size: 1rem;
-            color: var(--text-dark);
-            margin-bottom: 25px;
-        }
-        
-        .project-links a {
-            display: inline-block;
-            color: var(--text-dark);
-            background-color: transparent;
-            border: 2px solid #555;
-            font-weight: 600;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            padding: 8px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .project-links a:hover {
-            color: #FFF;
-            background-color: var(--brand-red);
-            border-color: var(--brand-red);
-            box-shadow: 0 0 15px var(--brand-red-glow);
-        }
-        
-        .project-links a i {
-            margin-right: 8px;
-        }
-
-        /* --- 6. FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            background-color: var(--bg-medium);
-        }
-        
-        footer p {
-            font-size: 0.9rem;
-            color: var(--text-dark);
-        }
+        .console-line { margin-bottom: 4px; display: block; padding-left: 6px; border-left: 2px solid transparent; }
+        .console-error { color: #ef4444; border-left-color: #ef4444; background: rgba(239, 68, 68, 0.1); }
     </style>
 </head>
-<body>
+<body class="antialiased font-sans">
 
-    <div id="preloader">
-        <div id="terminal">
+    <div id="boot-overlay">
+        <div class="font-mono text-green-500 text-sm md:text-base w-full max-w-lg p-8 border border-green-900/30 bg-black">
+            <div id="boot-text" class="mb-4">INITIALIZING SYSTEM...</div>
+            <div class="h-1 w-full bg-gray-900 rounded overflow-hidden">
+                <div id="boot-bar" class="h-full bg-green-500 w-0 transition-all duration-300"></div>
+            </div>
+            <div class="mt-2 text-[10px] text-green-800">HOST: AJARETRO.DEV</div>
         </div>
     </div>
 
-    <header class="reveal-item">
-        <div class="container navbar">
-            <a href="index.html" class="logo">AJA<span>RETRO</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="cover.html">Covers</a></li>
-            </ul>
+    <nav class="fixed w-full z-50 top-0 border-b border-white/5 bg-brand-dark/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="text-xl font-black tracking-tighter text-white group">
+                AJA<span class="text-brand-red group-hover:text-white transition-colors">_RETRO</span>
+            </a>
+            <div class="hidden md:flex gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                <a href="#foliacore" class="hover:text-folia transition-colors">FoliaCore</a>
+                <a href="#circuitbreaker" class="hover:text-brand-red transition-colors">CircuitBreaker</a>
+                <a href="#retro" class="hover:text-purple-400 transition-colors">RetroBedrock</a>
+                <a href="#about" class="hover:text-white transition-colors">About Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-20 px-6 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[500px] bg-brand-red/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto space-y-6 animate-float">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] uppercase font-bold tracking-widest text-slate-400">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Available for Folia & Paper
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black text-white tracking-tight leading-none">
+                STOP THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-orange-600">LAG.</span><br>
+                FIX THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-folia to-cyan-500">LOGIC.</span>
+            </h1>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+                Legacy plugins were built for 2011 hardware. 
+                <strong>FoliaCore</strong> and <strong>CircuitBreaker</strong> are engineered for the modern, multi-threaded era.
+            </p>
+            <div class="flex justify-center gap-4 pt-4">
+                <a href="#foliacore" class="px-8 py-3 bg-folia text-black font-bold rounded-lg hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-900/20">Get FoliaCore</a>
+                <a href="#circuitbreaker" class="px-8 py-3 bg-brand-red text-white font-bold rounded-lg hover:bg-red-600 transition-all shadow-lg shadow-red-900/20">Get CircuitBreaker</a>
+            </div>
         </div>
     </header>
 
-    <main>
-        <section id="hero">
-            <div class="container">
-                <h1 class="hero-title reveal-item">AJA_RETRO<span>.</span></h1>
-                <p class="hero-subtitle reveal-item">Developer of High-Performance Minecraft Plugins.</p>
-                <div class="hero-buttons reveal-item">
-                    <a href="#projects" class="btn btn-primary">View My Projects</a>
+    <main class="max-w-7xl mx-auto px-6 pb-40 space-y-40">
+
+        <section id="foliacore">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div>
+                    <h2 class="text-4xl font-bold text-white mb-6 flex items-center gap-3">
+                        FoliaCore
+                        <span class="px-3 py-1 rounded bg-folia/10 text-folia text-xs font-bold uppercase border border-folia/20">Native Suite</span>
+                    </h2>
+                    <p class="text-slate-400 text-lg mb-6 leading-relaxed">
+                        <strong>Stop using single-threaded plugins on a multi-threaded server.</strong><br>
+                        FoliaCore is a ground-up rewrite of the essential server suite (Economy, Chat, Teleportation, Kits), engineered specifically for the regionized architecture of Folia. No more main-thread blocking. No more race conditions.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <a href="https://modrinth.com/plugin/foliacore" target="_blank" class="flex-1 min-w-[160px] text-center px-6 py-4 bg-folia text-black font-bold rounded-xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i> Download (Modrinth)
+                        </a>
+                        <a href="https://github.com/AJARETRO/FoliaCore" target="_blank" class="px-6 py-4 border border-white/10 bg-white/5 text-white font-bold rounded-xl hover:bg-white/10 transition-colors">
+                            <i class="fa-brands fa-github"></i> Source
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                        <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3 class="font-bold text-white">Safe Teleport</h3>
+                        <p class="text-xs text-slate-400 mt-1">100% Async chunk loading. Never freezes the thread.</p>
+                    </div>
+                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                        <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-coins"></i></div>
+                        <h3 class="font-bold text-white">Native Economy</h3>
+                        <p class="text-xs text-slate-400 mt-1">Thread-safe Vault implementation. No double-spending bugs.</p>
+                    </div>
+                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                        <div class="text-folia text-2xl mb-2"><i class="fa-regular fa-compass"></i></div>
+                        <h3 class="font-bold text-white">GPS System</h3>
+                        <p class="text-xs text-slate-400 mt-1">Action bar compass pointing to destinations.</p>
+                    </div>
+                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                        <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-comments"></i></div>
+                        <h3 class="font-bold text-white">Chat Channels</h3>
+                        <p class="text-xs text-slate-400 mt-1">Global, Local, and Radius chat support.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass rounded-xl border-t border-white/10 p-2 md:p-8 relative overflow-hidden mb-12">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-white">The Architecture Difference</h3>
+                    <p class="text-xs text-slate-500">Why Legacy Plugins Crash vs. Why FoliaCore Works</p>
+                </div>
+                
+                <div class="flex justify-center gap-4 mb-6 relative z-10">
+                    <button onclick="runCrashSim()" class="px-4 py-2 bg-legacy/10 border border-legacy text-legacy font-bold rounded uppercase text-xs hover:bg-legacy hover:text-black transition-colors">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Run EssentialsX
+                    </button>
+                    <button onclick="runFoliaSim()" class="px-4 py-2 bg-folia/10 border border-folia text-folia font-bold rounded uppercase text-xs hover:bg-folia hover:text-black transition-colors">
+                        <i class="fa-solid fa-check mr-1"></i> Run FoliaCore
+                    </button>
+                </div>
+
+                <div class="relative h-[250px] bg-black/50 rounded-lg border border-white/5 mb-4 overflow-hidden" id="stage">
+                    <div class="absolute top-6 left-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center" id="region-1">
+                        <div class="text-[9px] text-slate-500 font-mono">Region A</div>
+                        <i class="fa-solid fa-user text-xl text-white mt-1"></i>
+                    </div>
+                    <div class="absolute bottom-6 right-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center" id="region-2">
+                        <div class="text-[9px] text-slate-500 font-mono">Region B</div>
+                        <i class="fa-solid fa-user text-xl text-white mt-1"></i>
+                    </div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-folia/10 border border-folia rounded-full flex items-center justify-center opacity-0 transition-all duration-500 scale-50" id="global-sched">
+                        <i class="fa-solid fa-globe text-folia text-xl"></i>
+                    </div>
+                    <div class="absolute inset-0 bg-red-500/20 opacity-0 pointer-events-none flex items-center justify-center transition-opacity" id="crash-screen">
+                        <div class="text-brand-red font-black text-4xl border-4 border-brand-red p-4 transform -rotate-12">CRASH</div>
+                    </div>
+                </div>
+                
+                <div class="bg-[#0c0c0c] border-t border-white/10 h-24 p-4 font-mono text-[10px] overflow-y-auto" id="console-chat">
+                    <div class="text-slate-500">// Console Ready...</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass glass-legacy rounded-xl p-6 relative">
+                    <div class="absolute top-4 right-4 text-legacy text-xs font-bold uppercase">Legacy (Sync)</div>
+                    <h3 class="font-bold text-white mb-2">The "Main Thread" Freeze</h3>
+                    <p class="text-xs text-slate-400 mb-4">Loading player data synchronously freezes the entire server.</p>
+                    <div class="bg-black/50 h-16 rounded border border-white/5 relative flex items-center px-4 overflow-hidden mb-4">
+                        <div class="w-full h-1 bg-gray-700 relative">
+                            <div class="packet bg-legacy animate-travel" id="sync-tick"></div>
+                            <div class="absolute left-1/2 top-1/2 -translate-y-1/2 w-1 bg-red-500 h-8 opacity-0 transition-opacity" id="sync-wall"></div>
+                        </div>
+                    </div>
+                    <button onclick="runWarpSync()" class="w-full py-2 bg-legacy/10 text-legacy border border-legacy/30 rounded font-bold uppercase text-xs">Simulate /Home</button>
+                    <div class="mt-1 text-[10px] text-red-400 h-4" id="sync-status"></div>
+                </div>
+
+                <div class="glass glass-folia rounded-xl p-6 relative">
+                    <div class="absolute top-4 right-4 text-folia text-xs font-bold uppercase">FoliaCore (Async)</div>
+                    <h3 class="font-bold text-white mb-2">The "Async Future" Load</h3>
+                    <p class="text-xs text-slate-400 mb-4">Data loads in the background. The server never stops ticking.</p>
+                    <div class="bg-black/50 h-16 rounded border border-white/5 relative flex flex-col justify-center px-4 overflow-hidden mb-4 gap-2">
+                        <div class="w-full h-1 bg-gray-700 relative"><div class="packet bg-folia animate-travel"></div></div>
+                        <div class="w-full h-1 bg-gray-800 relative"><div class="packet bg-io" id="async-packet" style="left:0; opacity:0;"></div></div>
+                    </div>
+                    <button onclick="runWarpAsync()" class="w-full py-2 bg-folia/10 text-folia border border-folia/30 rounded font-bold uppercase text-xs">Simulate /Home</button>
+                    <div class="mt-1 text-[10px] text-green-400 h-4" id="async-status"></div>
                 </div>
             </div>
         </section>
 
-        <section id="projects">
-            <div class="container">
-                <h2 class="section-title reveal-item">My Projects</h2>
+
+        <section id="circuitbreaker" class="border-t border-white/5 pt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
+                <div>
+                    <h2 class="text-4xl font-bold text-white mb-6 flex items-center gap-3">
+                        CircuitBreaker
+                        <span class="px-3 py-1 rounded bg-brand-red/10 text-brand-red text-xs font-bold uppercase border border-brand-red/20">Anti-Lag</span>
+                    </h2>
+                    <p class="text-slate-400 text-lg mb-6 leading-relaxed">
+                        <strong>The Surgical Anti-Lag Solution.</strong><br>
+                        Unlike "ClearLag" which blindly deletes items every 10 minutes, CircuitBreaker is reactive. It monitors your chunk tick times and only engages when performance drops, surgically removing the specific entities causing the lag.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank" class="flex-1 min-w-[160px] text-center px-6 py-4 bg-brand-red text-white font-bold rounded-xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i> Download (Modrinth)
+                        </a>
+                        <a href="https://github.com/AJARETRO/CircuitBreaker" target="_blank" class="px-6 py-4 border border-white/10 bg-white/5 text-white font-bold rounded-xl hover:bg-white/10 transition-colors">
+                            <i class="fa-brands fa-github"></i> Source
+                        </a>
+                    </div>
+                </div>
                 
-                <div class="project-grid">
-                    
-                    <div class="project-card reveal-item">
-                        <h3>CircuitBreaker (v2.0)</h3>
-                        <p>The Surgical Anti-Lag Solution. [cite_start]A 2-in-1 suite that stops physics lag [cite: 11] [cite_start]and intelligently culls excess entities [cite: 23, 29][cite_start], all while being non-destructive[cite: 8].</p>
-                        <div class="project-links">
-                            <a href="https://github.com/AJARETRO/CircuitBreaker" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="https://hangar.papermc.io/AJA_RETRO/CircuitBreaker" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
-                            <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
-                            <a href="https://www.spigotmc.org/resources/circuitbreaker.130125/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
-                        </div>
+                <div class="glass p-8 rounded-xl border-l-4 border-brand-red">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-white">Smart Culling</h3>
+                        <span class="text-[10px] bg-brand-red/20 text-brand-red px-2 py-1 rounded animate-pulse">LIVE MONITOR</span>
                     </div>
-                    
-                    <div class="project-card reveal-item">
-                        <h3>RetroBedrock Totem</h3>
-                        <p>A lightweight, zero-config QoL plugin that gives Bedrock (Floodgate) players a custom buff, allowing a Totem of Undying to work from anywhere in their inventory.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/AJARETRO/RetroBedrockTotem" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="https://hangar.papermc.io/AJA_RETRO/RetroBedrockTotem" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
-                            <a href="https://modrinth.com/plugin/retrobedrocktotem" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
-                            <a href="https://www.spigotmc.org/resources/retrobedrocktotem.130113/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
-                        </div>
+                    <input type="range" min="0" max="100" value="30" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer mb-6" id="cb-slider" oninput="updateCircuitBreaker()">
+                    <div class="bg-black/60 rounded p-4 font-mono text-sm space-y-2 border border-white/5">
+                        <div class="flex justify-between"><span class="text-slate-400">Entities:</span><span id="cb-entities" class="text-white">300</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">TPS Impact:</span><span id="cb-tps" class="text-green-500 font-bold">0.0%</span></div>
+                        <div id="cb-status" class="text-[10px] text-slate-600 pt-2 border-t border-white/10 mt-2">System nominal.</div>
                     </div>
-                    
-                    <div class="project-card reveal-item">
-                        <h3>FoliaCore</h3>
-                        <p>A core library and API utility plugin designed specifically for Folia servers. Simplifies the development of high-performance, region-aware plugins.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/AJARETRO/FoliaCore" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="https://hangar.papermc.io/AJA_RETRO/FoliaCore" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
-                            <a href="https://modrinth.com/plugin/foliacore" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
-                            <a href="https://www.spigotmc.org/resources/foliacore.130229/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
-                        </div>
+                </div>
+            </div>
+
+            <div class="glass rounded-xl p-8 border-t border-redstone/20 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-microchip text-9xl text-redstone"></i></div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-redstone"></i> Redstone Defender
+                        </h3>
+                        <p class="text-slate-400 text-sm mb-4">
+                            CircuitBreaker sets a hard limit on redstone updates per chunk (Default: 5000). 
+                            If a lag machine exceeds this, the chunk is <strong>frozen</strong> instantly to save the server.
+                        </p>
                     </div>
-                    
-                    <div class="project-card reveal-item">
-                        <h3>Blood Money (In-Dev)</h3>
-                        [cite_start]<p>A high-stakes anarchy plugin[cite: 55]. Pay a massive sum to place a live-tracking bounty on another player. [cite_start]A 20-minute hunt with a real-time coordinate feed[cite: 56, 58]. (On Hold) [cite_start][cite: 54]</p>
-                        <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> Learn More (Soon)</a>
+                    <div class="bg-black/60 rounded-xl p-6 border border-white/5 z-10">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="text-xs font-bold text-slate-500 uppercase">Redstone Flux</div>
+                            <div id="breaker-status" class="text-xs font-bold text-green-500 uppercase">Protected</div>
                         </div>
+                        <div class="h-24 flex items-end justify-between gap-1 mb-4 relative border-b border-white/10 pb-1">
+                            <div class="absolute top-[20%] w-full h-[1px] bg-redstone/50 border-t border-dashed border-redstone"></div>
+                            <div class="graph-bar h-2"></div><div class="graph-bar h-4"></div><div class="graph-bar h-8"></div><div class="graph-bar h-3"></div>
+                            <div class="graph-bar h-6"></div><div class="graph-bar h-2"></div><div class="graph-bar h-9"></div><div class="graph-bar h-4"></div>
+                            <div class="graph-bar h-5"></div><div class="graph-bar h-3"></div><div class="graph-bar h-2"></div><div class="graph-bar h-7"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <button id="lag-btn" onclick="toggleLagMachine()" class="px-4 py-2 bg-redstone/10 border border-redstone text-redstone font-bold rounded hover:bg-redstone hover:text-white transition-all text-xs uppercase w-full">
+                                <i class="fa-solid fa-power-off mr-2"></i> Activate Lag Machine
+                            </button>
+                        </div>
+                        <div class="mt-2 text-center text-[10px] text-slate-500 font-mono" id="redstone-updates">Updates/Sec: 120</div>
                     </div>
-                    
                 </div>
             </div>
         </section>
+
+
+        <section id="retro" class="border-t border-white/5 pt-20">
+            <div class="glass p-10 rounded-xl text-center relative overflow-hidden border-t border-purple-500/50">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 to-pink-600"></div>
+                <div class="inline-block p-4 rounded-full bg-purple-500/10 text-purple-400 mb-6 text-3xl">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-4">RetroBedrock Totem</h2>
+                <p class="text-slate-400 max-w-xl mx-auto mb-8">
+                    Fixes the "Off-Hand" problem for Geyser/Bedrock players. This zero-config utility allows Totems of Undying to trigger from anywhere in the inventory.
+                </p>
+                
+                <div class="flex justify-center gap-4">
+                    <a href="https://modrinth.com/plugin/retrobedrocktotem" target="_blank" class="px-8 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-500 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download Plugin
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="border-t border-white/5 pt-20 pb-20">
+            <div class="glass rounded-xl p-8 max-w-3xl mx-auto">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-24 h-24 rounded-full bg-brand-red flex items-center justify-center text-4xl text-black font-bold border-4 border-black shadow-[0_0_20px_rgba(219,39,39,0.5)]">
+                        N
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h2 class="text-3xl font-bold text-white mb-2">Hey, I'm Niloy! 👋</h2>
+                        <div class="text-brand-red font-mono text-sm mb-4">@AJA_RETRO</div>
+                        <div class="space-y-2 text-slate-400 text-sm">
+                            <p><i class="fa-solid fa-graduation-cap w-6 text-center"></i> Student: Cybersecurity & Networking</p>
+                            <p><i class="fa-solid fa-microphone w-6 text-center"></i> Music: Self-taught Vocalist</p>
+                            <p><i class="fa-solid fa-laptop-code w-6 text-center"></i> Dev: Working in industry since 2019</p>
+                            <p><i class="fa-solid fa-globe w-6 text-center"></i> Website: <a href="https://ajaretro.dev" class="text-white hover:underline">ajaretro.dev</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
-        </div>
+    <footer class="border-t border-white/5 bg-black py-12 text-center text-slate-600 text-xs font-mono">
+        <p>&copy; 2025 AJA_RETRO | Open Source High-Performance Software</p>
     </footer>
 
     <script>
-        const preloader = document.getElementById('preloader');
-        const terminal = document.getElementById('terminal');
-        const contentItems = document.querySelectorAll('.reveal-item');
+        /* --- BOOTLOADER --- */
+        window.addEventListener('load', () => {
+            const overlay = document.getElementById('boot-overlay');
+            const bar = document.getElementById('boot-bar');
+            setTimeout(() => bar.style.width = "100%", 500);
+            setTimeout(() => overlay.classList.add('boot-hidden'), 1000);
+        });
 
-        const lines = [
-            { text: "Booting AJARETRO.DEV...", delay: 100 },
-            { text: "Loading core modules...", delay: 100 },
-            { text: "Checking plugin integrity...", delay: 100 },
-            { text: " > CircuitBreaker v2.0... [OK]", delay: 300, color: "#DB2727" },
-            { text: " > RetroBedrockTotem... [OK]", delay: 300, color: "#DB2727" },
-            { text: " > FoliaCore... [OK]", delay: 300, color: "#DB2727" }, /* UPDATED */
-            { text: " > BloodMoney... [ON HOLD]", delay: 300, color: "#777" },
-            { text: "All systems operational.", delay: 100 },
-            { text: "ACCESS GRANTED.", delay: 500, color: "#FFF" }
-        ];
+        /* --- CRASH SIM --- */
+        const consoleChat = document.getElementById('console-chat');
+        const region1 = document.getElementById('region-1');
+        const region2 = document.getElementById('region-2');
+        const globalSched = document.getElementById('global-sched');
+        const stage = document.getElementById('stage');
+        const crashScreen = document.getElementById('crash-screen');
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+        function logChat(msg, type) {
+            const div = document.createElement('div');
+            div.className = 'console-line ' + (type === 'error' ? 'console-error' : 'console-warn');
+            if(type === 'success') div.style.color = '#06b6d4';
+            div.innerText = `> ${msg}`;
+            consoleChat.appendChild(div);
+            consoleChat.scrollTop = consoleChat.scrollHeight;
         }
 
-        async function runBootSequence() {
-            for (const line of lines) {
-                await sleep(line.delay); 
-                const p = document.createElement('p');
-                if (line.color) {
-                    p.style.color = line.color;
-                }
-                for (let i = 0; i < line.text.length; i++) {
-                    p.innerHTML += line.text.charAt(i);
-                    terminal.appendChild(p);
-                    await sleep(20); 
-                    terminal.scrollTop = terminal.scrollHeight;
-                }
-                terminal.innerHTML += '<br>'; 
-            }
+        async function runCrashSim() {
+            resetCrashSim();
+            logChat("EssentialsX: Broadcasting...", 'warn');
+            await new Promise(r => setTimeout(r, 600));
+            region1.classList.add('border-legacy');
+            logChat("Thread-A: Accessing Player List...");
+            await new Promise(r => setTimeout(r, 600));
+            stage.classList.add('animate-shake');
+            crashScreen.style.opacity = '1';
+            region1.classList.add('bg-red-900/50', 'border-red-500');
+            region2.classList.add('bg-red-900/50', 'border-red-500');
+            logChat("FATAL: ConcurrentModificationException!", 'error');
+        }
 
-            const cursor = document.createElement('span');
-            cursor.className = 'cursor';
-            terminal.appendChild(cursor);
+        async function runFoliaSim() {
+            resetCrashSim();
+            logChat("FoliaCore: Broadcasting...", 'success');
+            await new Promise(r => setTimeout(r, 500));
+            globalSched.style.opacity = '1';
+            globalSched.style.transform = 'translate(-50%, -50%) scale(1)';
+            logChat("GlobalSched: Task Scheduled.", 'success');
+            await new Promise(r => setTimeout(r, 800));
+            region1.classList.add('border-folia');
+            region2.classList.add('border-folia');
+            logChat("Packet Distributed. Zero Lag.", 'success');
+        }
 
-            await sleep(1000);
+        function resetCrashSim() {
+            stage.classList.remove('animate-shake');
+            crashScreen.style.opacity = '0';
+            region1.className = 'absolute top-6 left-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center transition-all duration-300';
+            region2.className = 'absolute bottom-6 right-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center transition-all duration-300';
+            globalSched.style.opacity = '0';
+            globalSched.style.transform = 'translate(-50%, -50%) scale(0.5)';
+            consoleChat.innerHTML = '<div class="text-slate-500">// Console Ready...</div>';
+        }
 
-            preloader.style.opacity = '0';
-            
-            contentItems.forEach(item => {
-                item.classList.add('reveal');
-            });
-            
+        /* --- WARP SIM --- */
+        function runWarpSync() {
+            const tick = document.getElementById('sync-tick');
+            const wall = document.getElementById('sync-wall');
+            const status = document.getElementById('sync-status');
+            status.innerText = "Simulating Main Thread Block...";
+            tick.classList.add('paused');
+            wall.style.opacity = '1';
             setTimeout(() => {
-                preloader.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }, 1000);
+                wall.style.opacity = '0';
+                tick.classList.remove('paused');
+                status.innerText = "Lag Spike (500ms) Complete.";
+            }, 2000);
         }
 
-        runBootSequence();
-    </script>
+        function runWarpAsync() {
+            const asyncPacket = document.getElementById('async-packet');
+            const status = document.getElementById('async-status');
+            status.innerText = "Fetching Data (Async)...";
+            asyncPacket.style.transition = 'left 2s linear, opacity 0.2s';
+            asyncPacket.style.opacity = '1';
+            asyncPacket.style.left = '100%';
+            setTimeout(() => {
+                asyncPacket.style.transition = 'none';
+                asyncPacket.style.left = '0';
+                asyncPacket.style.opacity = '0';
+                status.innerText = "Data Loaded. Server Never Stopped.";
+            }, 2000);
+        }
 
+        /* --- CIRCUITBREAKER --- */
+        function updateCircuitBreaker() {
+            const val = document.getElementById('cb-slider').value;
+            const entities = val * 10;
+            const tpsText = document.getElementById('cb-tps');
+            const status = document.getElementById('cb-status');
+            document.getElementById('cb-entities').innerText = entities;
+            if (val > 80) {
+                tpsText.innerText = "STABLE (Culling)";
+                tpsText.className = "text-brand-red font-bold";
+                status.innerHTML = "<span class='text-brand-red'>[ALERT] High Density. Culling engaged.</span>";
+            } else {
+                tpsText.innerText = "0.0%";
+                tpsText.className = "text-green-500 font-bold";
+                status.innerText = "System nominal.";
+            }
+        }
+
+        /* --- REDSTONE BREAKER --- */
+        let lagMachineActive = false;
+        let redstoneInterval;
+        const bars = document.querySelectorAll('.graph-bar');
+        const updateText = document.getElementById('redstone-updates');
+        const statusText = document.getElementById('breaker-status');
+        const lagBtn = document.getElementById('lag-btn');
+
+        function toggleLagMachine() {
+            if (lagMachineActive) {
+                lagMachineActive = false;
+                clearInterval(redstoneInterval);
+                bars.forEach(b => { b.style.height = '10px'; b.classList.remove('active'); });
+                updateText.innerText = "Updates/Sec: 120";
+                updateText.classList.remove('text-redstone');
+                statusText.innerText = "Protected";
+                statusText.className = "text-xs font-bold text-green-500 uppercase";
+                lagBtn.innerHTML = '<i class="fa-solid fa-power-off mr-2"></i> Activate Lag Machine';
+            } else {
+                lagMachineActive = true;
+                lagBtn.innerHTML = '<i class="fa-solid fa-stop mr-2"></i> Stop Machine';
+                statusText.innerText = "SURGE DETECTED";
+                statusText.className = "text-xs font-bold text-redstone uppercase animate-pulse";
+                redstoneInterval = setInterval(() => {
+                    bars.forEach(b => {
+                        const h = Math.floor(Math.random() * 80) + 20;
+                        b.style.height = h + '%';
+                        if(h > 70) b.classList.add('active'); else b.classList.remove('active');
+                    });
+                    const currentUpdates = Math.floor(Math.random() * 2000) + 4000;
+                    if(currentUpdates > 5000) {
+                        updateText.innerHTML = `Updates/Sec: ${currentUpdates} <span class='font-bold'>(CUTOFF)</span>`;
+                        updateText.classList.add('text-redstone');
+                         bars.forEach(b => b.style.backgroundColor = '#555');
+                         setTimeout(() => bars.forEach(b => b.style.backgroundColor = '#333'), 100);
+                    } else {
+                        updateText.innerText = `Updates/Sec: ${currentUpdates}`;
+                    }
+                }, 100);
+            }
+        }
+    </script>
 </body>
 </html>
