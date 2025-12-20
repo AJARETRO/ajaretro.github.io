@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CircuitBreaker | Surgical Anti-Lag</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @keyframes piston-push {
+            0%, 100% { transform: scaleX(1); }
+            50% { transform: scaleX(1.4); }
+        }
+        .piston-active {
+            animation: piston-push 0.15s infinite;
+            background-color: #ef4444 !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        }
+        .grid-bg {
+            background-image: radial-gradient(#222 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .glass {
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-[#050505] text-white font-sans selection:bg-red-500 overflow-x-hidden">
+
+    <section class="max-w-7xl mx-auto pt-24 pb-12 px-6 text-center">
+        <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold uppercase tracking-widest">
+            Paper & Purpur Only
+        </div>
+        <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-6 italic">
+            CIRCUIT<span class="text-red-600">BREAKER</span>
+        </h1>
+        <p class="text-xl text-zinc-400 max-w-2xl mx-auto mb-10">
+            The world's first surgical <b>Chunk-Ban</b> system. Don't punish the player—stop the lag exactly where it starts.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-20">
+            <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#1bd96a] hover:bg-[#16b358] text-[#050505] font-black transition transform hover:-translate-y-1 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1.636-12.727H8.182V16h2.182V9.273zm4.364 0h-2.182V16h2.182V9.273z"/></svg>
+                Get it on Modrinth
+            </a>
+            <a href="https://github.com/AJARETRO/CircuitBreaker" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold transition flex items-center justify-center gap-2">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                GitHub Source
+            </a>
+        </div>
+    </section>
+
+    <section id="lab" class="max-w-6xl mx-auto pb-32 px-6" x-data="{ 
+        lagOn: false, 
+        strikes: 0, 
+        isFrozen: false, 
+        freezeTimer: 0,
+        status: 'SYSTEM READY',
+        
+        triggerLag() {
+            if(this.isFrozen) return;
+            this.lagOn = !this.lagOn;
+            
+            if(this.lagOn) {
+                this.status = 'SCANNING EVENTS...';
+                setTimeout(() => {
+                    if(this.lagOn) this.processViolation();
+                }, 1000);
+            } else {
+                this.status = 'SYSTEM READY';
+            }
+        },
+
+        processViolation() {
+            this.strikes++;
+            if(this.strikes <= 3) {
+                this.freezeChunk(5);
+            } else {
+                this.freezeChunk(900);
+            }
+        },
+
+        freezeChunk(seconds) {
+            this.isFrozen = true;
+            this.lagOn = false;
+            this.freezeTimer = seconds;
+            this.status = this.strikes > 3 ? 'CHUNK BANNED (15M)' : 'CHUNK FROZEN (5S)';
+            
+            let interval = setInterval(() => {
+                this.freezeTimer--;
+                if(this.freezeTimer <= 0) {
+                    clearInterval(interval);
+                    this.isFrozen = false;
+                    this.status = 'SYSTEM READY';
+                }
+            }, 1000);
+        }
+    }">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            <div class="lg:col-span-4 glass p-8 rounded-3xl flex flex-col justify-between">
+                <div>
+                    <h3 class="text-2xl font-black mb-8 italic flex items-center gap-3">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        </span>
+                        LAB CONSOLE
+                    </h3>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block mb-3">Lag Machine Power</label>
+                            <button 
+                                @click="triggerLag()"
+                                :disabled="isFrozen"
+                                :class="lagOn ? 'bg-red-600 shadow-2xl shadow-red-600/40' : 'bg-zinc-800'"
+                                class="w-full py-5 rounded-2xl font-black transition-all active:scale-95 disabled:opacity-30">
+                                <span x-text="lagOn ? 'STOP MACHINE' : 'START MACHINE'"></span>
+                            </button>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-3">
+                                <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Strike Counter</label>
+                                <span class="text-xs font-mono text-red-500" x-text="strikes + '/3'"></span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <template x-for="i in 3">
+                                    <div :class="strikes >= i ? 'bg-red-600 shadow-sm shadow-red-600/50' : 'bg-zinc-800'" class="h-3 rounded-full transition-all duration-500"></div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-white/5">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-mono text-zinc-500 uppercase">Status</span>
+                        <span :class="isFrozen ? 'text-red-500' : 'text-emerald-500'" class="text-xs font-bold" x-text="isFrozen ? 'DISABLED' : 'ONLINE'"></span>
+                    </div>
+                    <div class="text-3xl font-black font-mono tracking-tighter truncate" :class="isFrozen ? 'text-red-500' : 'text-white'" x-text="status"></div>
+                    
+                    <div x-show="isFrozen" x-transition class="mt-6 bg-red-600 text-black p-4 rounded-xl text-center font-black">
+                        RESUMING IN: <span x-text="freezeTimer"></span>S
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8 relative min-h-[500px] bg-zinc-950 rounded-3xl border border-white/5 overflow-hidden grid-bg flex items-center justify-center">
+                
+                <div x-show="isFrozen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" class="absolute inset-0 z-20 flex items-center justify-center bg-red-600/10 backdrop-blur-md">
+                    <div class="text-center">
+                        <div class="text-8xl mb-6">🔒</div>
+                        <h4 class="text-5xl font-black italic tracking-tighter">CHUNK BANNED</h4>
+                        <p class="text-red-500 font-mono mt-2 uppercase tracking-widest text-sm">Security protocol active</p>
+                    </div>
+                </div>
+
+                <div class="relative z-10 flex gap-8">
+                    <template x-for="i in 4">
+                        <div class="flex flex-col gap-4">
+                            <div :class="lagOn ? 'piston-active' : 'bg-zinc-800'" class="w-16 h-16 rounded-xl transition-all duration-200 border border-white/5"></div>
+                            <div class="w-16 h-32 bg-zinc-900/50 rounded-xl relative overflow-hidden border border-white/5">
+                                <div x-show="lagOn" class="absolute inset-0 bg-red-600/20 animate-pulse"></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                    <div class="font-mono text-[10px] text-zinc-600 space-y-1 uppercase tracking-widest">
+                        <div>Location: Chunk [12, -4]</div>
+                        <div>Events: <span :class="lagOn ? 'text-red-500' : 'text-emerald-500'" x-text="lagOn ? '18,442/t' : '12/t'"></span></div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="px-4 py-2 bg-black border border-white/10 rounded-lg text-xs font-mono">TPS: <span :class="lagOn ? 'text-red-500' : 'text-emerald-500'" x-text="lagOn ? '9.4' : '20.0'"></span></div>
+                        <div class="px-4 py-2 bg-black border border-white/10 rounded-lg text-xs font-mono">MSPT: <span :class="lagOn ? 'text-red-500' : 'text-emerald-500'" x-text="lagOn ? '112' : '14'"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-32 grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="glass p-10 rounded-[2.5rem]">
+                <h3 class="text-3xl font-black mb-6 italic underline decoration-red-600 decoration-4 underline-offset-8">THE 3-STRIKE RULE</h3>
+                <p class="text-zinc-400 leading-relaxed text-lg">
+                    CircuitBreaker is fair. If it detects a lag machine, it freezes the chunk for <b>5 seconds</b> to let the server breathe. If the machine turns back on immediately, it happens again. On the 4th violation, the chunk is <b>Banned for 15 minutes</b>.
+                </p>
+            </div>
+            <div class="glass p-10 rounded-[2.5rem] border-amber-500/20">
+                <h3 class="text-3xl font-black mb-6 italic text-amber-500">FOLIA ALERT</h3>
+                <p class="text-zinc-400 leading-relaxed text-lg">
+                    Because Folia uses region-threading, block events are handled asynchronously. CircuitBreaker is <b>not compatible</b> with Folia and will automatically shut itself down if detected to prevent data corruption.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-white/5 text-center text-zinc-600 text-xs font-mono uppercase tracking-[0.4em]">
+        Built by AJARETRO • Protected by CircuitBreaker
+    </footer>
+
+</body>
+</html>
