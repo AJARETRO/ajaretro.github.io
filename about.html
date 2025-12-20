@@ -3,369 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJA_RETRO | About Me</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <title>About | AJA RETRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* --- 1. CONFIG & RESET (Same as index.html) --- */
-        :root {
-            --brand-red: #DB2727;
-            --brand-red-glow: rgba(219, 39, 39, 0.5);
-            --bg-dark: #101010;
-            --bg-medium: #1a1a1a;
-            --text-light: #E0E0E0;
-            --text-dark: #777;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050505;
+            color: #f8fafc;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .glass {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .hero-grid {
+            background-image: 
+                linear-gradient(rgba(220, 38, 38, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(220, 38, 38, 0.02) 2px, transparent 2px);
+            background-size: 60px 60px;
         }
 
-        /* --- 2. STEP-BY-STEP ANIMATIONS (Pure CSS) --- */
-        
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .animated {
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
-        
-        .fade-in-down-1 { animation: fadeInDown 0.8s ease 0.3s forwards; }
-        .fade-in-up-1 { animation: fadeInUp 0.8s ease 0.5s forwards; }
-        .fade-in-up-2 { animation: fadeInUp 0.8s ease 0.7s forwards; }
-        .fade-in-up-3 { animation: fadeInUp 0.8s ease 0.9s forwards; }
-        .fade-in-up-4 { animation: fadeInUp 0.8s ease 1.1s forwards; }
-        .fade-in-up-5 { animation: fadeInUp 0.8s ease 1.3s forwards; }
 
-
-        /* --- 3. FUTURISTIC NAV BAR (Same as index.html) --- */
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
-            padding: 20px 0;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #FFF;
-            text-decoration: none;
-        }
-        .logo span {
-            color: var(--brand-red);
-        }
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-        .nav-links li {
-            margin-left: 35px;
-        }
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding-bottom: 5px;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--brand-red);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        .nav-links a:hover {
-            color: #FFF;
-        }
-        .nav-links a:hover::after {
-            transform: scaleX(1);
-        }
-        .nav-links a.active {
-            color: var(--brand-red);
-        }
-
-        /* --- 4. NEW: ABOUT PAGE CONTENT --- */
-        .page-hero {
-            padding-top: 150px; /* Start below the fixed nav */
-            padding-bottom: 60px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-        
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 4px solid var(--brand-red);
-            box-shadow: 0 0 20px var(--brand-red-glow);
-        }
-        
-        .page-hero h1 {
-            font-size: 3.5rem;
-            color: #FFF;
-            margin-bottom: 0;
-        }
-        
-        .page-hero h1 span {
-            color: var(--brand-red);
-        }
-        
-        .page-hero .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-dark);
-            font-weight: 400;
-            max-width: 600px;
-        }
-        
-        /* New grid for the content */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding-bottom: 100px;
-        }
-        
-        .about-box {
-            background-color: var(--bg-medium);
-            border-top: 3px solid var(--brand-red);
-            border-radius: 8px;
-            padding: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .about-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 15px var(--brand-red-glow);
-        }
-
-        .about-box h2 {
-            font-size: 1.8rem;
-            color: var(--brand-red);
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px var(--brand-red-glow);
-        }
-        
-        .about-box p {
-            font-size: 1.1rem;
-            color: var(--text-dark);
-            margin-bottom: 25px;
-        }
-        
-        /* Styled list for details */
-        .details-list {
-            list-style: none;
-            padding: 0;
-            color: var(--text-light);
-        }
-        
-        .details-list li {
-            display: flex;
-            align-items: center;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-        
-        .details-list i {
-            font-size: 1.2rem;
-            color: var(--brand-red);
-            margin-right: 15px;
-            width: 20px; /* Aligns the text */
-            text-align: center;
-        }
-        
-        /* Certificate styling */
-        .certificate-img {
-            width: 100%;
-            border-radius: 5px;
-            border: 1px solid #333;
-            transition: transform 0.3s ease;
-        }
-        
-        .certificate-img:hover {
-            transform: scale(1.02);
-        }
-        
-        .platform-links a {
-            display: inline-block;
-            color: var(--text-dark);
-            background-color: transparent;
-            border: 2px solid #555;
-            font-weight: 600;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            padding: 8px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .platform-links a:hover {
-            color: #FFF;
-            background-color: var(--brand-red);
-            border-color: var(--brand-red);
-            box-shadow: 0 0 15px var(--brand-red-glow);
-        }
-        
-        .platform-links a i {
-            margin-right: 8px;
-        }
-        
-
-        /* --- 5. FOOTER (Same as index.html) --- */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            background-color: var(--bg-medium);
-        }
-        
-        footer p {
-            font-size: 0.9rem;
-            color: var(--text-dark);
-        }
-        
-        /* --- 6. Responsive --- */
-        @media (max-width: 768px) {
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav-links {
-                display: none;
-            }
-            .page-hero {
-                flex-direction: column;
-                text-align: center;
-            }
+        .animate-fade-up {
+            animation: fadeInUp 0.6s ease-out forwards;
         }
     </style>
 </head>
-<body>
+<body class="overflow-x-hidden hero-grid">
 
-    <header class="animated fade-in-down-1">
-        <div class="container navbar">
-            <a href="index.html" class="logo">AJA<span>RETRO</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About</a></li> <li><a href="services.html">Services</a></li>
-                <li><a href="cover.html">Covers</a></li>
-            </ul>
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-5">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <a href="index.html" class="text-2xl font-black tracking-tighter uppercase italic">AJA<span class="text-red-600">RETRO</span></a>
+            </div>
+            <div class="hidden md:flex items-center gap-8 font-bold text-xs text-zinc-400 uppercase tracking-widest">
+                <a href="index.html" class="hover:text-white transition">Home</a>
+                <a href="about.html" class="text-white transition">About</a>
+                <a href="services.html" class="hover:text-white transition">Services</a>
+                <a href="cover.html" class="hover:text-white transition">Covers</a>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main>
-        <section class="page-hero">
-            <div class="container" style="display: flex; align-items: center; gap: 30px;">
-                <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="AJA RETRO Profile" class="profile-pic animated fade-in-up-1">
-                
-                <div>
-                    <h1 class="animated fade-in-up-1">AJA RETRO<span>.</span></h1>
-                    <p class="subtitle animated fade-in-up-2">
-                        Ahmed Juhaed Ayeman Niloy
-                        <br>
-                        Web Developer, Ethical Hacker, and Digital Creator.
-                    </p>
-                </div>
+    <main class="max-w-6xl mx-auto pt-40 pb-24 px-6">
+        <section class="flex flex-col md:flex-row items-center gap-10 mb-20 animate-fade-up" style="animation-delay: 0.1s;">
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-zinc-800 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="Ahmed Juhaed Ayeman Niloy" class="relative w-48 h-48 rounded-full border-4 border-red-600 object-cover shadow-2xl">
+            </div>
+            <div class="text-center md:text-left">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-4 italic uppercase">AJA <span class="text-red-600">RETRO</span></h1>
+                <p class="text-xl md:text-2xl text-zinc-400 font-medium">Ahmed Juhaed Ayeman Niloy</p>
+                <p class="text-zinc-500 mt-2 tracking-widest uppercase font-bold text-sm">Web Developer • Ethical Hacker • Digital Creator</p>
             </div>
         </section>
 
-        <section class="container">
-            <div class="about-grid">
-                
-                <div class="about-left">
-                    <div class="about-box animated fade-in-up-3">
-                        <h2>Intro</h2>
-                        <p>A casual competitive gamer (idk how that goes together). And I sometimes sing, favorite band: Warfaze.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass p-10 rounded-[2.5rem] animate-fade-up" style="animation-delay: 0.2s;">
+                <h2 class="text-3xl font-black mb-6 italic uppercase flex items-center gap-3">
+                    <i data-lucide="user" class="text-red-600"></i> Intro
+                </h2>
+                <p class="text-zinc-400 text-lg leading-relaxed mb-8">
+                    A casual competitive gamer (idk how that goes together). And I sometimes sing, favorite band: <b>Warfaze</b>.
+                </p>
+                <div class="pt-8 border-t border-white/5">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-zinc-600 mb-6">Connect With Me</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://github.com/AJARETRO" target="_blank" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-600 transition flex items-center gap-2">
+                            <i data-lucide="github" class="w-4 h-4"></i> GitHub
+                        </a>
+                        <a href="https://modrinth.com/user/AJA_RETRO" target="_blank" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-600 transition flex items-center gap-2">
+                            <i data-lucide="package" class="w-4 h-4"></i> Modrinth
+                        </a>
+                        <a href="https://hangar.papermc.io/AJA_RETRO" target="_blank" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-600 transition flex items-center gap-2">
+                            <i data-lucide="box" class="w-4 h-4"></i> Hangar
+                        </a>
                     </div>
+                </div>
+            </div>
 
-                    <div class="about-box animated fade-in-up-5" style="margin-top: 30px;">
-                        <h2>My Platforms</h2>
-                        <div class="platform-links">
-                            <a href="https://github.com/AJARETRO" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="https://hangar.papermc.io/AJA_RETRO" target="_blank"><i class="fa-solid fa-box-open"></i> Hangar</a>
-                            <a href="https://modrinth.com/user/AJA_RETRO" target="_blank"><i class="fa-solid fa-cube"></i> Modrinth</a>
-                            <a href="https://www.spigotmc.org/resources/authors/aja_retro.1984450/" target="_blank"><i class="fa-solid fa-fire"></i> SpigotMC</a>
+            <div class="glass p-10 rounded-[2.5rem] animate-fade-up" style="animation-delay: 0.3s;">
+                <h2 class="text-3xl font-black mb-6 italic uppercase flex items-center gap-3">
+                    <i data-lucide="list" class="text-red-600"></i> Details
+                </h2>
+                <ul class="space-y-6">
+                    <li class="flex items-center gap-4 text-zinc-300">
+                        <i data-lucide="id-card" class="text-zinc-600 w-5 h-5"></i>
+                        <span>Profile - Digital Creator</span>
+                    </li>
+                    <li class="flex items-center gap-4 text-zinc-300">
+                        <i data-lucide="zap" class="text-zinc-600 w-5 h-5"></i>
+                        <span>Plugin Developer for PaperMC & Folia</span>
+                    </li>
+                    <li class="flex items-center gap-4 text-zinc-300">
+                        <i data-lucide="gamepad-2" class="text-zinc-600 w-5 h-5"></i>
+                        <span>Game Developer at Sheikh Games</span>
+                    </li>
+                    <li class="flex items-center gap-4 text-zinc-300">
+                        <i data-lucide="briefcase" class="text-zinc-600 w-5 h-5"></i>
+                        <span>Former Dev at Eviyon Network</span>
+                    </li>
+                    <li class="flex items-center gap-4 text-zinc-300">
+                        <i data-lucide="graduation-cap" class="text-zinc-600 w-5 h-5"></i>
+                        <span>Went to Government Sundarban Adarsha College</span>
+                    </li>
+                    <li class="flex items-center gap-4 text-zinc-300">
+                        <i data-lucide="map-pin" class="text-zinc-600 w-5 h-5"></i>
+                        <span>Khulna, Bangladesh</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lg:col-span-2 glass p-10 rounded-[3rem] animate-fade-up" style="animation-delay: 0.4s;">
+                <h2 class="text-3xl font-black mb-10 italic uppercase text-center flex items-center justify-center gap-3">
+                    <i data-lucide="award" class="text-red-600"></i> Certifications
+                </h2>
+                <div class="flex flex-col items-center">
+                    <a href="https://github.com/AJARETRO/ajaretro.github.io/blob/main/Alison_Certificate.jpg" target="_blank" class="group relative block overflow-hidden rounded-2xl border border-white/10 transition hover:border-red-600">
+                        <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/Alison_Certificate.jpg" alt="Alison Certificate" class="max-w-full md:max-w-2xl transition duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <span class="bg-red-600 px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest shadow-xl">View Large</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
-                
-                <div class="about-right animated fade-in-up-4">
-                    <div class="about-box">
-                        <h2>Details</h2>
-                        <ul class="details-list">
-                            <li><i class="fa-solid fa-id-card"></i> Profile - Digital Creator</li>
-                            <li><i class="fa-solid fa-bolt"></i> Plugin Developer for PaperMC & Folia</li>
-                            <li><i class="fa-solid fa-gamepad"></i> Game Developer at Sheikh Games</li>
-                            <li><i class="fa-solid fa-briefcase"></i> Former Video game developers at Eviyon Network</li>
-                            <li><i class="fa-solid fa-graduation-cap"></i> Went to Government Sundarban Adarsha College</li>
-                            <li><i class="fa-solid fa-cake-candles"></i> Birthday - 14 February 2007</li>
-                            <li><i class="fa-solid fa-house-user"></i> Lives in Khulna, Bangladesh</li>
-                            <li><i class="fa-solid fa-map-pin"></i> From Madaripur, Dhaka, Bangladesh</li>
-                        </ul>
-                    </div>
-                </div>
-                
             </div>
-            
-            <div class="certificate-section animated fade-in-up-5" style="padding-bottom: 100px; text-align: center;">
-                <h2>Certifications</h2>
-                <a href="https://github.com/AJARETRO/ajaretro.github.io/blob/main/Alison_Certificate.jpg" target="_blank" title="Click to view PDF">
-                    <img src="httpsG://github.com/AJARETRO/ajaretro.github.io/raw/main/Alison_Certificate.jpg" alt="Alison Certificate" class="certificate-img" style="max-width: 500px; margin: 0 auto;">
-                </a>
-            </div>
-
-        </section>
+        </div>
     </main>
 
-    <footer class="animated fade-in-up-5">
-        <div class="container">
-            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
+    <footer class="py-24 border-t border-white/5 text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-center gap-1 mb-8">
+                <span class="text-2xl font-black tracking-tighter uppercase italic">AJA<span class="text-red-600">RETRO</span></span>
+            </div>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-black leading-loose">
+                &copy; 2025 ajaretro.dev • All Projects Open Source
+            </p>
         </div>
     </footer>
 
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
