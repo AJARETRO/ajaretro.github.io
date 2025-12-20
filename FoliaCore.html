@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoliaCore | The Native Essentials Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --folia-green: #10b981;
+            --core-blue: #3b82f6;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .region-grid {
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.03) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 2px, transparent 2px);
+            background-size: 80px 80px;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); opacity: 1; }
+            80%, 100% { opacity: 0; }
+        }
+
+        .glow-point {
+            position: relative;
+        }
+
+        .glow-point::before {
+            content: '';
+            position: absolute;
+            left: -100%; top: -100%;
+            width: 300%; height: 300%;
+            background-color: var(--folia-green);
+            border-radius: 50%;
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            line-height: 0.9;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body x-data="{ 
+    legacy: true,
+    ecoBalance: 5240.50,
+    isProcessing: false,
+    chatChannel: 'Global',
+    gpsDist: 482,
+    showDetailedComparison: false
+}">
+
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-4">
+        <div class="max-w-[1400px] mx-auto px-8 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="https://raw.githubusercontent.com/AJARETRO/ajaretro.github.io/main/68a15aa3-19e7-4a74-9849-ae75608be367.jpg" alt="FoliaCore Logo" class="w-12 h-12 rounded-xl shadow-lg shadow-emerald-500/20">
+                <span class="text-2xl font-extrabold tracking-tighter uppercase">Folia<span class="text-emerald-500">Core</span></span>
+            </div>
+            <div class="hidden lg:flex items-center gap-10 font-bold text-xs text-zinc-400 uppercase tracking-widest">
+                <a href="#engine" class="hover:text-white transition">Engine</a>
+                <a href="#showcase" class="hover:text-white transition">Showcase</a>
+                <a href="#comparison" class="hover:text-white transition">Benchmark</a>
+                <a href="#commands" class="hover:text-white transition">Terminal</a>
+                <a href="https://github.com/AJARETRO/CircuitBreaker" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition">Source</a>
+                <a href="https://modrinth.com" class="px-6 py-3 bg-emerald-500 text-black rounded-xl hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/20">Modrinth</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative pt-64 pb-32 px-8 overflow-hidden region-grid">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1600px] h-[900px] bg-emerald-500/5 blur-[180px] rounded-full -z-10"></div>
+        
+        <div class="max-w-[1400px] mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-black uppercase tracking-[0.3em] mb-12">
+                <span class="glow-point w-2.5 h-2.5 bg-emerald-500 rounded-full inline-block mr-2"></span>
+                The Standard for Multithreaded Excellence
+            </div>
+            
+            <h1 class="hero-title font-extrabold tracking-tighter mb-12 uppercase italic">
+                Native. <span class="text-zinc-700">Atomic.</span><br>
+                <span class="gradient-text">Absolute.</span>
+            </h1>
+            
+            <p class="text-2xl text-zinc-400 max-w-4xl mx-auto leading-relaxed mb-16 font-medium">
+                Ditch the 2011 monoliths. <b>FoliaCore</b> is a ground-up rewrite of the essential server suite, engineered specifically for the regionized architecture of Folia.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="https://modrinth.com" class="px-16 py-7 bg-emerald-500 text-black font-black uppercase tracking-tighter rounded-3xl hover:scale-110 transition-all shadow-2xl shadow-emerald-500/30 text-xl">
+                    Get FoliaCore
+                </a>
+                <a href="#engine" class="px-16 py-7 bg-white/5 border border-white/10 text-white font-black uppercase tracking-tighter rounded-3xl hover:bg-white/10 transition-all text-xl">
+                    Explore Engine
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="comparison" class="py-48 px-8 bg-zinc-950/50">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="text-center mb-24">
+                <h2 class="text-6xl font-black italic mb-6">VS <span class="text-zinc-700">LEGACY</span></h2>
+                <p class="text-xl text-zinc-500">Why FoliaCore wins every single time.</p>
+            </div>
+
+            <div class="glass rounded-[3.5rem] overflow-hidden border-white/5 shadow-2xl">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-white/5">
+                            <th class="p-10 text-xs font-black uppercase tracking-widest text-zinc-500 border-b border-white/5">Capability</th>
+                            <th class="p-10 text-xs font-black uppercase tracking-widest text-zinc-500 border-b border-white/5">Legacy (EssentialsX/CMI)</th>
+                            <th class="p-10 text-xs font-black uppercase tracking-widest text-emerald-500 border-b border-emerald-500/10">FoliaCore Native</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-lg">
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
+                            <td class="p-10 font-bold">Architecture</td>
+                            <td class="p-10 text-zinc-500">Single-Thread Monolith</td>
+                            <td class="p-10 text-emerald-400 font-bold">Regionized Multithreading</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
+                            <td class="p-10 font-bold">Teleportation</td>
+                            <td class="p-10 text-zinc-500 italic">Sync (Main Thread Lock)</td>
+                            <td class="p-10 text-emerald-400 font-bold">Async (teleportAsync Native)</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
+                            <td class="p-10 font-bold">Economy Flow</td>
+                            <td class="p-10 text-zinc-500">Global State (Dupes on Folia)</td>
+                            <td class="p-10 text-emerald-400 font-bold">AtomicLong Data Sets</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
+                            <td class="p-10 font-bold">Command Delay</td>
+                            <td class="p-10 text-zinc-500">Global Warmup</td>
+                            <td class="p-10 text-emerald-400 font-bold">Thread-Specific Schedulers</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02] transition">
+                            <td class="p-10 font-bold">Navigation</td>
+                            <td class="p-10 text-zinc-500">Coordinates Only</td>
+                            <td class="p-10 text-emerald-400 font-bold">Native Action-Bar GPS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="engine" class="py-48 px-8 border-y border-white/5 relative">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+                <div class="space-y-12">
+                    <h2 class="text-7xl font-extrabold italic leading-tight">Native <span class="text-emerald-500">Concurrency.</span></h2>
+                    <p class="text-zinc-400 text-xl leading-relaxed">
+                        In legacy servers, everything runs on one thread. In Folia, every group of chunks is its own heartbeat. FoliaCore talks to these hearts directly.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 gap-8">
+                        <div class="glass p-10 rounded-[2.5rem] border-emerald-500/30">
+                            <h4 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                                <span class="text-emerald-500">⚡</span> 100% Async Teleportation
+                            </h4>
+                            <p class="text-zinc-500 text-lg">We use <code>teleportAsync</code> to load chunks on worker threads before moving the player. Result: No stutter. No main-thread lock.</p>
+                        </div>
+                        <div class="glass p-10 rounded-[2.5rem] border-blue-500/30">
+                            <h4 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                                <span class="text-blue-500">🛡️</span> Atomic State Management
+                            </h4>
+                            <p class="text-zinc-500 text-lg">Cross-region data (like balances) are stored using <b>AtomicLongs</b>. You can process 1,000 payments per second without a single race condition.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="glass rounded-[3rem] p-12 border-white/10 relative overflow-hidden">
+                        <div class="grid grid-cols-4 gap-4 mb-12">
+                            <template x-for="i in 16">
+                                <div :class="legacy && i !== 6 ? 'opacity-20' : 'opacity-100'" class="aspect-square rounded-xl bg-zinc-900 border border-white/5 relative flex items-center justify-center transition-all duration-700 overflow-hidden">
+                                    <div x-show="!legacy" class="absolute inset-0 bg-emerald-500/5 animate-pulse"></div>
+                                    <div :class="!legacy ? 'bg-emerald-500' : 'bg-red-500'" class="w-1.5 h-1.5 rounded-full shadow-[0_0_10px_currentColor]"></div>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <div class="flex justify-between items-center bg-black/50 p-6 rounded-2xl border border-white/5">
+                            <div>
+                                <div class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Execution Mode</div>
+                                <div class="font-black text-xl italic" :class="legacy ? 'text-red-500' : 'text-emerald-500'" x-text="legacy ? 'SINGLE CORE BLOCK' : 'MULTI-REGION PARALLEL'"></div>
+                            </div>
+                            <button @click="legacy = !legacy" class="px-6 py-3 bg-white text-black font-black rounded-xl text-xs uppercase tracking-widest hover:scale-105 transition-all">
+                                Toggle Sim
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase" class="py-48 px-8">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="text-center mb-32">
+                <h2 class="text-7xl font-black italic mb-6">Interactive <span class="text-emerald-500">Showcase</span></h2>
+                <p class="text-2xl text-zinc-500 font-medium max-w-3xl mx-auto leading-relaxed">Everything you need, none of the legacy bloat. Optimized for Java 21.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-4 glass p-12 rounded-[3.5rem] flex flex-col justify-between">
+                    <div>
+                        <div class="text-4xl mb-8">💰</div>
+                        <h3 class="text-3xl font-black mb-4 italic">Atomic Economy</h3>
+                        <p class="text-zinc-400 text-lg leading-relaxed mb-10">Vault provider built into the core. No external database needed for lightning-fast concurrent transactions.</p>
+                    </div>
+                    <div class="bg-black/50 p-8 rounded-3xl border border-white/5">
+                        <div class="flex justify-between mb-4">
+                            <span class="text-xs text-zinc-500 font-mono uppercase">User Balance</span>
+                            <span class="text-emerald-400 font-mono" x-text="'$' + ecoBalance.toFixed(2)"></span>
+                        </div>
+                        <button 
+                            @click="isProcessing = true; setTimeout(() => { ecoBalance -= 50; isProcessing = false }, 400)"
+                            :disabled="isProcessing"
+                            class="w-full py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 font-black text-sm uppercase hover:bg-emerald-500 hover:text-black transition-all">
+                            <span x-text="isProcessing ? 'Processing...' : 'Simulate /pay $50'"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 glass p-12 rounded-[3.5rem] flex flex-col justify-between border-blue-500/20 bg-blue-500/5">
+                    <div>
+                        <div class="text-4xl mb-8">🧭</div>
+                        <h3 class="text-3xl font-black mb-4 italic text-blue-400">Action Bar GPS</h3>
+                        <p class="text-zinc-300 text-lg leading-relaxed mb-10">Real-time navigation without scoreboard spam. A minimalist action-bar compass that updates on region tick.</p>
+                    </div>
+                    <div class="bg-zinc-950 p-8 rounded-3xl border border-blue-500/20">
+                        <input type="range" x-model="gpsDist" min="0" max="1000" class="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500 mb-6">
+                        <div class="text-center font-mono">
+                            <div class="text-zinc-600 text-[10px] mb-2 uppercase tracking-widest">In-Game Preview</div>
+                            <div class="text-emerald-400 text-lg tracking-[0.6em]">
+                                [ S &nbsp; <span class="text-blue-500 animate-pulse">▲</span> &nbsp; SW ]
+                            </div>
+                            <div class="text-xs text-zinc-500 mt-2" x-text="'Distance: ' + gpsDist + 'm'"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 glass p-12 rounded-[3.5rem] flex flex-col justify-between">
+                    <div>
+                        <div class="text-4xl mb-8">💬</div>
+                        <h3 class="text-3xl font-black mb-4 italic">Social Hub</h3>
+                        <p class="text-zinc-400 text-lg leading-relaxed mb-10">Advanced chat channels with async formatting. Switch between Global, World, and Regional talk seamlessly.</p>
+                    </div>
+                    <div class="bg-black/50 p-6 rounded-3xl border border-white/5 space-y-3">
+                        <template x-for="ch in ['Global', 'World', 'Local']">
+                            <button 
+                                @click="chatChannel = ch"
+                                :class="chatChannel === ch ? 'bg-zinc-800 text-white border-white/20' : 'text-zinc-500 border-transparent'"
+                                class="w-full py-2 px-4 rounded-lg border text-xs font-bold transition-all text-left flex justify-between uppercase tracking-widest">
+                                <span x-text="ch"></span>
+                                <span x-show="chatChannel === ch" class="text-emerald-500">Active</span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="commands" class="py-48 px-8 bg-zinc-950/50">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-20">
+                <div class="lg:col-span-5">
+                    <h2 class="text-6xl font-black italic mb-8 uppercase tracking-tighter text-emerald-500">The Core<br><span class="text-white underline decoration-white/10 underline-offset-8">Terminal.</span></h2>
+                    <p class="text-zinc-400 text-xl leading-relaxed mb-12">Total transparency on permissions. Most player commands are enabled by default for a plug-and-play experience.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all cursor-default">
+                            <div class="font-mono text-emerald-500 text-sm mb-1">foliacore.tpa</div>
+                            <div class="text-zinc-300 font-bold">Teleportation access</div>
+                        </div>
+                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all cursor-default">
+                            <div class="font-mono text-emerald-500 text-sm mb-1">foliacore.gps</div>
+                            <div class="text-zinc-300 font-bold">Navigation tools</div>
+                        </div>
+                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all cursor-default">
+                            <div class="font-mono text-emerald-500 text-sm mb-1">foliacore.eco</div>
+                            <div class="text-zinc-300 font-bold">Admin economy control</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7">
+                    <div class="glass rounded-[3rem] overflow-hidden border-white/10 shadow-2xl">
+                        <div class="bg-white/5 p-6 border-b border-white/5 flex items-center justify-between">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+                            </div>
+                            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">FoliaCore Suite v1.0.4</span>
+                        </div>
+                        <div class="p-10 h-[500px] overflow-y-auto custom-scrollbar font-mono text-sm space-y-6">
+                            <div class="flex gap-4">
+                                <span class="text-emerald-500 shrink-0">/tpahere &lt;p&gt;</span>
+                                <span class="text-zinc-500 italic">Request player to teleport to you safely</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="text-emerald-500 shrink-0">/sethome [n]</span>
+                                <span class="text-zinc-500 italic">Save your current region location</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="text-emerald-500 shrink-0">/marker set</span>
+                                <span class="text-zinc-500 italic">Create a waypoint for the GPS system</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="text-emerald-500 shrink-0">/nick &lt;name&gt;</span>
+                                <span class="text-zinc-500 italic">Change display name (RGB supported)</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="text-emerald-500 shrink-0">/kit preview</span>
+                                <span class="text-zinc-500 italic">Open GUI to see kit contents</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="text-emerald-500 shrink-0">/mail send</span>
+                                <span class="text-zinc-500 italic">Send async messages to offline friends</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="text-emerald-500 shrink-0">/team create</span>
+                                <span class="text-zinc-500 italic">Initialize a new native clan thread</span>
+                            </div>
+                            <div class="pt-8 text-zinc-600 text-xs uppercase tracking-widest border-t border-white/5">
+                                [ System ] 48 commands currently active in the suite.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-48 px-8 bg-black/40">
+        <div class="max-w-6xl mx-auto glass p-20 rounded-[4rem] border-emerald-500/30 relative overflow-hidden shadow-2xl">
+            <div class="absolute -top-32 -left-32 w-96 h-96 bg-emerald-500/5 blur-[140px] rounded-full"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-20 items-center">
+                <div class="md:col-span-1">
+                    <div class="w-48 h-48 rounded-[3rem] border-4 border-emerald-500 p-2 mx-auto rotate-6 shadow-2xl shadow-emerald-500/20 bg-zinc-900 overflow-hidden">
+                        <img src="https://ajaretro.dev/avatar.jpg" alt="Niloy" class="w-full h-full rounded-[2.5rem] grayscale hover:grayscale-0 transition duration-700 object-cover" onerror="this.src='https://ui-avatars.com/api/?name=AJ+Retro&background=10b981&color=fff&size=512'">
+                    </div>
+                </div>
+                
+                <div class="md:col-span-2 text-left">
+                    <div class="text-emerald-500 font-black tracking-[0.5em] uppercase text-sm mb-4">Lead Developer</div>
+                    <h3 class="text-6xl font-black italic mb-8 tracking-tighter">Niloy / <span class="text-white">@AJARETRO</span></h3>
+                    
+                    <div class="text-zinc-400 text-xl leading-relaxed space-y-6 mb-12">
+                        <p><b>Cybersecurity & Networking</b> student with a focus on high-concurrency systems. Professional developer in the industry since <b>2019</b>.</p>
+                        <p>I build for the <b>Anarchy</b> and <b>Survival</b> communities, where server stability isn't a luxury—it's the only thing that matters. Self-taught vocalist by night, full-time dev by day.</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-8">
+                        <a href="https://ajaretro.dev/about.html" target="_blank" class="px-8 py-3 bg-white/5 rounded-xl text-xs font-black uppercase tracking-widest border border-white/10 hover:bg-white/10 transition">Full Bio</a>
+                        <a href="https://github.com/AJARETRO" target="_blank" class="px-8 py-3 bg-white/5 rounded-xl text-xs font-black uppercase tracking-widest border border-white/10 hover:bg-white/10 transition">GitHub</a>
+                        <a href="https://ajaretro.dev" target="_blank" class="px-8 py-3 bg-emerald-500 text-black rounded-xl text-xs font-black uppercase tracking-widest hover:scale-110 transition">Portfolio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-32 text-center bg-black border-t border-white/5 relative overflow-hidden">
+        <div class="absolute inset-0 region-grid opacity-20 pointer-events-none"></div>
+        <div class="max-w-[1400px] mx-auto px-8 relative z-10 flex flex-col items-center">
+            <img src="https://raw.githubusercontent.com/AJARETRO/ajaretro.github.io/main/68a15aa3-19e7-4a74-9849-ae75608be367.jpg" alt="Logo" class="w-16 h-16 rounded-2xl mb-12">
+            <p class="text-zinc-400 text-sm uppercase tracking-[0.8em] font-black leading-loose">
+                FoliaCore • AJARETRO © 2024<br>
+                <span class="text-zinc-800">Engineered for the Regionized Era</span>
+            </p>
+            
+            <div class="mt-16 flex gap-10 text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+                <span>Java 21+ Required</span>
+                <span>Modrinth Certified</span>
+                <span>Open Source</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
