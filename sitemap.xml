@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ajaretro.dev/</loc>
-    <lastmod>2025-08-22</lastmod>
-    <priority>1.00</priority>
-  </url>
-  <url>
-    <loc>https://ajaretro.dev/services.html</loc>
-    <lastmod>2025-08-22</lastmod>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://ajaretro.dev/about.html</loc>
-    <lastmod>2025-08-22</lastmod>
-    <priority>0.80</priority>
-  </url>
+
+<urlset xmlns="[suspicious link removed]">
+<url>
+<loc>https://ajaretro.dev/index.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>1.00</priority>
+</url>
+<url>
+<loc>https://www.google.com/search?q=https://ajaretro.dev/FoliaCore.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>0.90</priority>
+</url>
+<url>
+<loc>https://www.google.com/search?q=https://ajaretro.dev/circuitbreaker.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>0.90</priority>
+</url>
+<url>
+<loc>https://www.google.com/search?q=https://ajaretro.dev/totem.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>0.90</priority>
+</url>
+<url>
+<loc>https://ajaretro.dev/about.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://www.google.com/search?q=https://ajaretro.dev/blog.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>0.70</priority>
+</url>
+<url>
+<loc>https://www.google.com/search?q=https://ajaretro.dev/services.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>0.70</priority>
+</url>
+<url>
+<loc>https://www.google.com/search?q=https://ajaretro.dev/cover.html</loc>
+<lastmod>2025-11-12</lastmod>
+<priority>0.60</priority>
+</url>
 </urlset>
