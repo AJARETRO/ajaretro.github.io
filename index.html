@@ -24,7 +24,9 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
                     animation: {
                         'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
-                        'float': 'float 6s ease-in-out infinite'
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                        'stamp': 'stamp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
                     },
                     keyframes: {
                         shake: {
@@ -36,6 +38,10 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' }
+                        },
+                        stamp: {
+                            '0%': { opacity: 0, transform: 'scale(2) rotate(-15deg)' },
+                            '100%': { opacity: 1, transform: 'scale(1) rotate(-12deg)' }
                         }
                     }
                 }
@@ -68,6 +74,10 @@
         
         .console-line { margin-bottom: 4px; display: block; padding-left: 6px; border-left: 2px solid transparent; }
         .console-error { color: #ef4444; border-left-color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+        
+        /* Custom Loading Bars for Sync/Async Demo */
+        .loading-track { width: 100%; height: 6px; background: #1a1a1a; border-radius: 3px; position: relative; overflow: hidden; }
+        .loading-fill { height: 100%; width: 0%; transition: width 0s linear; }
     </style>
 </head>
 <body class="antialiased font-sans">
@@ -120,113 +130,105 @@
     <main class="max-w-7xl mx-auto px-6 pb-40 space-y-40">
 
         <section id="foliacore">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-                <div>
-                    <h2 class="text-4xl font-bold text-white mb-6 flex items-center gap-3">
-                        FoliaCore
-                        <span class="px-3 py-1 rounded bg-folia/10 text-folia text-xs font-bold uppercase border border-folia/20">Native Suite</span>
-                    </h2>
-                    <p class="text-slate-400 text-lg mb-6 leading-relaxed">
-                        <strong>Stop using single-threaded plugins on a multi-threaded server.</strong><br>
-                        FoliaCore is a ground-up rewrite of the essential server suite (Economy, Chat, Teleportation, Kits), engineered specifically for the regionized architecture of Folia. No more main-thread blocking. No more race conditions.
-                    </p>
-                    
-                    <div class="flex flex-wrap gap-4 mb-8">
-                        <a href="https://modrinth.com/plugin/foliacore" target="_blank" class="flex-1 min-w-[160px] text-center px-6 py-4 bg-folia text-black font-bold rounded-xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-download"></i> Download (Modrinth)
-                        </a>
-                        <a href="https://github.com/AJARETRO/FoliaCore" target="_blank" class="px-6 py-4 border border-white/10 bg-white/5 text-white font-bold rounded-xl hover:bg-white/10 transition-colors">
-                            <i class="fa-brands fa-github"></i> Source
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
-                        <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3 class="font-bold text-white">Safe Teleport</h3>
-                        <p class="text-xs text-slate-400 mt-1">100% Async chunk loading. Never freezes the thread.</p>
-                    </div>
-                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
-                        <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-coins"></i></div>
-                        <h3 class="font-bold text-white">Native Economy</h3>
-                        <p class="text-xs text-slate-400 mt-1">Thread-safe Vault implementation. No double-spending bugs.</p>
-                    </div>
-                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
-                        <div class="text-folia text-2xl mb-2"><i class="fa-regular fa-compass"></i></div>
-                        <h3 class="font-bold text-white">GPS System</h3>
-                        <p class="text-xs text-slate-400 mt-1">Action bar compass pointing to destinations.</p>
-                    </div>
-                    <div class="glass p-6 rounded-xl border-l-2 border-folia">
-                        <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-comments"></i></div>
-                        <h3 class="font-bold text-white">Chat Channels</h3>
-                        <p class="text-xs text-slate-400 mt-1">Global, Local, and Radius chat support.</p>
-                    </div>
-                </div>
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-white mb-4">The Architecture Difference</h2>
+                <p class="text-slate-400">Why Legacy Plugins Crash vs. Why FoliaCore Works</p>
             </div>
 
-            <div class="glass rounded-xl border-t border-white/10 p-2 md:p-8 relative overflow-hidden mb-12">
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl font-bold text-white">The Architecture Difference</h3>
-                    <p class="text-xs text-slate-500">Why Legacy Plugins Crash vs. Why FoliaCore Works</p>
-                </div>
-                
+            <div class="glass rounded-xl p-4 md:p-8 mb-16 max-w-4xl mx-auto relative overflow-hidden">
                 <div class="flex justify-center gap-4 mb-6 relative z-10">
-                    <button onclick="runCrashSim()" class="px-4 py-2 bg-legacy/10 border border-legacy text-legacy font-bold rounded uppercase text-xs hover:bg-legacy hover:text-black transition-colors">
-                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Run EssentialsX
+                    <button onclick="runEssentialsCrash()" class="px-6 py-3 bg-[#fbbf24] text-black font-bold rounded shadow-[0_0_15px_rgba(251,191,36,0.4)] hover:bg-yellow-400 transition-all flex items-center gap-2 uppercase tracking-wide text-sm">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Run EssentialsX
                     </button>
-                    <button onclick="runFoliaSim()" class="px-4 py-2 bg-folia/10 border border-folia text-folia font-bold rounded uppercase text-xs hover:bg-folia hover:text-black transition-colors">
-                        <i class="fa-solid fa-check mr-1"></i> Run FoliaCore
+                    <button onclick="runFoliaSafe()" class="px-6 py-3 bg-[#06b6d4] text-black font-bold rounded shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:bg-cyan-400 transition-all flex items-center gap-2 uppercase tracking-wide text-sm">
+                        <i class="fa-solid fa-check"></i> Run FoliaCore
                     </button>
                 </div>
 
-                <div class="relative h-[250px] bg-black/50 rounded-lg border border-white/5 mb-4 overflow-hidden" id="stage">
-                    <div class="absolute top-6 left-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center" id="region-1">
-                        <div class="text-[9px] text-slate-500 font-mono">Region A</div>
-                        <i class="fa-solid fa-user text-xl text-white mt-1"></i>
-                    </div>
-                    <div class="absolute bottom-6 right-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center" id="region-2">
-                        <div class="text-[9px] text-slate-500 font-mono">Region B</div>
-                        <i class="fa-solid fa-user text-xl text-white mt-1"></i>
-                    </div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-folia/10 border border-folia rounded-full flex items-center justify-center opacity-0 transition-all duration-500 scale-50" id="global-sched">
-                        <i class="fa-solid fa-globe text-folia text-xl"></i>
-                    </div>
-                    <div class="absolute inset-0 bg-red-500/20 opacity-0 pointer-events-none flex items-center justify-center transition-opacity" id="crash-screen">
-                        <div class="text-brand-red font-black text-4xl border-4 border-brand-red p-4 transform -rotate-12">CRASH</div>
-                    </div>
-                </div>
-                
-                <div class="bg-[#0c0c0c] border-t border-white/10 h-24 p-4 font-mono text-[10px] overflow-y-auto" id="console-chat">
-                    <div class="text-slate-500">// Console Ready...</div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="glass glass-legacy rounded-xl p-6 relative">
-                    <div class="absolute top-4 right-4 text-legacy text-xs font-bold uppercase">Legacy (Sync)</div>
-                    <h3 class="font-bold text-white mb-2">The "Main Thread" Freeze</h3>
-                    <p class="text-xs text-slate-400 mb-4">Loading player data synchronously freezes the entire server.</p>
-                    <div class="bg-black/50 h-16 rounded border border-white/5 relative flex items-center px-4 overflow-hidden mb-4">
-                        <div class="w-full h-1 bg-gray-700 relative">
-                            <div class="packet bg-legacy animate-travel" id="sync-tick"></div>
-                            <div class="absolute left-1/2 top-1/2 -translate-y-1/2 w-1 bg-red-500 h-8 opacity-0 transition-opacity" id="sync-wall"></div>
+                <div class="bg-black rounded-lg border border-white/10 h-[300px] relative overflow-hidden font-mono text-xs md:text-sm p-6" id="crash-console">
+                    <div class="text-slate-500 mb-2">// Server Console Ready...</div>
+                    <div id="console-output"></div>
+                    
+                    <div id="crash-stamp" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 bg-black/50 backdrop-blur-sm">
+                        <div class="border-[6px] border-[#ef4444] text-[#ef4444] text-6xl md:text-8xl font-black p-4 uppercase transform -rotate-12 tracking-widest shadow-[0_0_30px_#ef4444]">
+                            CRASH
                         </div>
                     </div>
-                    <button onclick="runWarpSync()" class="w-full py-2 bg-legacy/10 text-legacy border border-legacy/30 rounded font-bold uppercase text-xs">Simulate /Home</button>
-                    <div class="mt-1 text-[10px] text-red-400 h-4" id="sync-status"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+                
+                <div class="bg-[#0f0f0f] border border-[#fbbf24]/30 border-l-[6px] border-l-[#fbbf24] rounded-lg p-6 relative">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">The "Main Thread" Freeze</h3>
+                            <p class="text-xs text-slate-500 mt-1">Loading player data synchronously freezes the entire server.</p>
+                        </div>
+                        <span class="text-[#fbbf24] text-[10px] font-bold uppercase tracking-wider">Legacy (Sync)</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-6 bg-black/50 p-3 rounded border border-white/5">
+                        <div class="text-xs text-slate-400 uppercase font-mono">Server Heartbeat:</div>
+                        <i id="sync-heart" class="fa-solid fa-gear text-[#fbbf24] text-xl animate-spin-slow"></i>
+                        <span id="sync-status-text" class="text-xs font-mono text-green-500">Ticking...</span>
+                    </div>
+
+                    <div class="loading-track mb-6">
+                        <div id="sync-bar" class="loading-fill bg-[#fbbf24] shadow-[0_0_10px_#fbbf24]"></div>
+                    </div>
+
+                    <button onclick="triggerSyncFreeze()" class="w-full py-3 border border-[#fbbf24] text-[#fbbf24] bg-[#fbbf24]/10 rounded font-bold uppercase text-sm hover:bg-[#fbbf24] hover:text-black transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Simulate /Home (Legacy)
+                    </button>
                 </div>
 
-                <div class="glass glass-folia rounded-xl p-6 relative">
-                    <div class="absolute top-4 right-4 text-folia text-xs font-bold uppercase">FoliaCore (Async)</div>
-                    <h3 class="font-bold text-white mb-2">The "Async Future" Load</h3>
-                    <p class="text-xs text-slate-400 mb-4">Data loads in the background. The server never stops ticking.</p>
-                    <div class="bg-black/50 h-16 rounded border border-white/5 relative flex flex-col justify-center px-4 overflow-hidden mb-4 gap-2">
-                        <div class="w-full h-1 bg-gray-700 relative"><div class="packet bg-folia animate-travel"></div></div>
-                        <div class="w-full h-1 bg-gray-800 relative"><div class="packet bg-io" id="async-packet" style="left:0; opacity:0;"></div></div>
+                <div class="bg-[#0f0f0f] border border-[#06b6d4]/30 border-l-[6px] border-l-[#06b6d4] rounded-lg p-6 relative">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">The "Async Future" Load</h3>
+                            <p class="text-xs text-slate-500 mt-1">Data loads in the background. The server never stops ticking.</p>
+                        </div>
+                        <span class="text-[#06b6d4] text-[10px] font-bold uppercase tracking-wider">FoliaCore (Async)</span>
                     </div>
-                    <button onclick="runWarpAsync()" class="w-full py-2 bg-folia/10 text-folia border border-folia/30 rounded font-bold uppercase text-xs">Simulate /Home</button>
-                    <div class="mt-1 text-[10px] text-green-400 h-4" id="async-status"></div>
+
+                    <div class="flex items-center gap-3 mb-6 bg-black/50 p-3 rounded border border-white/5">
+                        <div class="text-xs text-slate-400 uppercase font-mono">Server Heartbeat:</div>
+                        <i id="async-heart" class="fa-solid fa-gear text-[#06b6d4] text-xl animate-spin-slow"></i>
+                        <span id="async-status-text" class="text-xs font-mono text-green-500">Ticking...</span>
+                    </div>
+
+                    <div class="loading-track mb-6">
+                        <div id="async-bar" class="loading-fill bg-[#06b6d4] shadow-[0_0_10px_#06b6d4]"></div>
+                    </div>
+
+                    <button onclick="triggerAsyncLoad()" class="w-full py-3 border border-[#06b6d4] text-[#06b6d4] bg-[#06b6d4]/10 rounded font-bold uppercase text-sm hover:bg-[#06b6d4] hover:text-black transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> Simulate /Home (FoliaCore)
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                    <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="font-bold text-white">Safe Teleport</h3>
+                    <p class="text-xs text-slate-400 mt-1">100% Async chunk loading.</p>
+                </div>
+                <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                    <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-coins"></i></div>
+                    <h3 class="font-bold text-white">Native Economy</h3>
+                    <p class="text-xs text-slate-400 mt-1">Thread-safe Vault impl.</p>
+                </div>
+                <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                    <div class="text-folia text-2xl mb-2"><i class="fa-regular fa-compass"></i></div>
+                    <h3 class="font-bold text-white">GPS System</h3>
+                    <p class="text-xs text-slate-400 mt-1">Action bar compass.</p>
+                </div>
+                <div class="glass p-6 rounded-xl border-l-2 border-folia">
+                    <div class="text-folia text-2xl mb-2"><i class="fa-solid fa-comments"></i></div>
+                    <h3 class="font-bold text-white">Chat Channels</h3>
+                    <p class="text-xs text-slate-400 mt-1">Radius chat support.</p>
                 </div>
             </div>
         </section>
@@ -241,9 +243,8 @@
                     </h2>
                     <p class="text-slate-400 text-lg mb-6 leading-relaxed">
                         <strong>The Surgical Anti-Lag Solution.</strong><br>
-                        Unlike "ClearLag" which blindly deletes items every 10 minutes, CircuitBreaker is reactive. It monitors your chunk tick times and only engages when performance drops, surgically removing the specific entities causing the lag.
+                        Reactive performance monitoring. It monitors your chunk tick times and only engages when performance drops, surgically removing the specific entities causing the lag.
                     </p>
-                    
                     <div class="flex flex-wrap gap-4 mb-8">
                         <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank" class="flex-1 min-w-[160px] text-center px-6 py-4 bg-brand-red text-white font-bold rounded-xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
                             <i class="fa-solid fa-download"></i> Download (Modrinth)
@@ -259,6 +260,7 @@
                         <h3 class="font-bold text-white">Smart Culling</h3>
                         <span class="text-[10px] bg-brand-red/20 text-brand-red px-2 py-1 rounded animate-pulse">LIVE MONITOR</span>
                     </div>
+                    <label class="text-xs text-slate-500 block mb-2">Simulate Mob Density (Slide Me)</label>
                     <input type="range" min="0" max="100" value="30" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer mb-6" id="cb-slider" oninput="updateCircuitBreaker()">
                     <div class="bg-black/60 rounded p-4 font-mono text-sm space-y-2 border border-white/5">
                         <div class="flex justify-between"><span class="text-slate-400">Entities:</span><span id="cb-entities" class="text-white">300</span></div>
@@ -276,8 +278,8 @@
                             <i class="fa-solid fa-bolt text-redstone"></i> Redstone Defender
                         </h3>
                         <p class="text-slate-400 text-sm mb-4">
-                            CircuitBreaker sets a hard limit on redstone updates per chunk (Default: 5000). 
-                            If a lag machine exceeds this, the chunk is <strong>frozen</strong> instantly to save the server.
+                            Hard limit on redstone updates per chunk (Default: 5000). 
+                            If a lag machine exceeds this, the chunk is <strong>frozen</strong> instantly.
                         </p>
                     </div>
                     <div class="bg-black/60 rounded-xl p-6 border border-white/5 z-10">
@@ -311,9 +313,8 @@
                 </div>
                 <h2 class="text-3xl font-bold text-white mb-4">RetroBedrock Totem</h2>
                 <p class="text-slate-400 max-w-xl mx-auto mb-8">
-                    Fixes the "Off-Hand" problem for Geyser/Bedrock players. This zero-config utility allows Totems of Undying to trigger from anywhere in the inventory.
+                    Fixes the "Off-Hand" problem for Geyser/Bedrock players. Zero-config utility allows Totems of Undying to trigger from anywhere in the inventory.
                 </p>
-                
                 <div class="flex justify-center gap-4">
                     <a href="https://modrinth.com/plugin/retrobedrocktotem" target="_blank" class="px-8 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-500 transition-colors flex items-center gap-2">
                         <i class="fa-solid fa-download"></i> Download Plugin
@@ -357,97 +358,119 @@
             setTimeout(() => overlay.classList.add('boot-hidden'), 1000);
         });
 
-        /* --- CRASH SIM --- */
-        const consoleChat = document.getElementById('console-chat');
-        const region1 = document.getElementById('region-1');
-        const region2 = document.getElementById('region-2');
-        const globalSched = document.getElementById('global-sched');
-        const stage = document.getElementById('stage');
-        const crashScreen = document.getElementById('crash-screen');
+        /* --- 1. CRASH SIMULATOR LOGIC (Video Replica) --- */
+        const consoleOutput = document.getElementById('console-output');
+        const crashStamp = document.getElementById('crash-stamp');
 
-        function logChat(msg, type) {
+        function addLog(text, color = 'text-slate-400') {
             const div = document.createElement('div');
-            div.className = 'console-line ' + (type === 'error' ? 'console-error' : 'console-warn');
-            if(type === 'success') div.style.color = '#06b6d4';
-            div.innerText = `> ${msg}`;
-            consoleChat.appendChild(div);
-            consoleChat.scrollTop = consoleChat.scrollHeight;
+            div.className = `console-line ${color}`;
+            div.innerText = `> ${text}`;
+            consoleOutput.appendChild(div);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
         }
 
-        async function runCrashSim() {
-            resetCrashSim();
-            logChat("EssentialsX: Broadcasting...", 'warn');
+        async function runEssentialsCrash() {
+            consoleOutput.innerHTML = '';
+            crashStamp.style.opacity = '0';
+            crashStamp.classList.remove('animate-stamp');
+            
+            addLog("EssentialsX: Broadcasting...", "text-[#fbbf24]");
             await new Promise(r => setTimeout(r, 600));
-            region1.classList.add('border-legacy');
-            logChat("Thread-A: Accessing Player List...");
-            await new Promise(r => setTimeout(r, 600));
-            stage.classList.add('animate-shake');
-            crashScreen.style.opacity = '1';
-            region1.classList.add('bg-red-900/50', 'border-red-500');
-            region2.classList.add('bg-red-900/50', 'border-red-500');
-            logChat("FATAL: ConcurrentModificationException!", 'error');
-        }
-
-        async function runFoliaSim() {
-            resetCrashSim();
-            logChat("FoliaCore: Broadcasting...", 'success');
-            await new Promise(r => setTimeout(r, 500));
-            globalSched.style.opacity = '1';
-            globalSched.style.transform = 'translate(-50%, -50%) scale(1)';
-            logChat("GlobalSched: Task Scheduled.", 'success');
+            addLog("Thread-Main: Accessing Player List...");
             await new Promise(r => setTimeout(r, 800));
-            region1.classList.add('border-folia');
-            region2.classList.add('border-folia');
-            logChat("Packet Distributed. Zero Lag.", 'success');
+            
+            // CRASH EFFECT
+            crashStamp.style.opacity = '1';
+            crashStamp.classList.add('animate-stamp');
+            addLog("FATAL: ConcurrentModificationException!", "text-[#ef4444] font-bold");
+            addLog("    at net.minecraft.server.TickTask", "text-[#ef4444]");
+            addLog("    at org.bukkit.craftbukkit.Scheduler", "text-[#ef4444]");
+            
+            // Shake effect on container
+            const container = document.getElementById('crash-console');
+            container.classList.add('animate-shake');
+            setTimeout(() => container.classList.remove('animate-shake'), 500);
         }
 
-        function resetCrashSim() {
-            stage.classList.remove('animate-shake');
-            crashScreen.style.opacity = '0';
-            region1.className = 'absolute top-6 left-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center transition-all duration-300';
-            region2.className = 'absolute bottom-6 right-6 w-24 h-24 border border-dashed border-slate-700 rounded p-2 text-center transition-all duration-300';
-            globalSched.style.opacity = '0';
-            globalSched.style.transform = 'translate(-50%, -50%) scale(0.5)';
-            consoleChat.innerHTML = '<div class="text-slate-500">// Console Ready...</div>';
+        async function runFoliaSafe() {
+            consoleOutput.innerHTML = '';
+            crashStamp.style.opacity = '0';
+            crashStamp.classList.remove('animate-stamp');
+            
+            addLog("FoliaCore: Broadcasting...", "text-[#06b6d4]");
+            await new Promise(r => setTimeout(r, 400));
+            addLog("GlobalRegionScheduler: Scheduling Task...", "text-slate-300");
+            await new Promise(r => setTimeout(r, 400));
+            addLog("Task Executed Successfully on Region (0,0).", "text-green-400");
+            addLog("No Thread Blocking Detected.", "text-green-500 font-bold");
         }
 
-        /* --- WARP SIM --- */
-        function runWarpSync() {
-            const tick = document.getElementById('sync-tick');
-            const wall = document.getElementById('sync-wall');
-            const status = document.getElementById('sync-status');
-            status.innerText = "Simulating Main Thread Block...";
-            tick.classList.add('paused');
-            wall.style.opacity = '1';
+        /* --- 2. SYNC VS ASYNC SLIDER LOGIC (Image Replica) --- */
+        function triggerSyncFreeze() {
+            const bar = document.getElementById('sync-bar');
+            const heart = document.getElementById('sync-heart');
+            const status = document.getElementById('sync-status-text');
+
+            // Reset
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
+            
             setTimeout(() => {
-                wall.style.opacity = '0';
-                tick.classList.remove('paused');
-                status.innerText = "Lag Spike (500ms) Complete.";
-            }, 2000);
+                // Start Load
+                bar.style.transition = 'width 3s linear';
+                bar.style.width = '80%'; // Go most of the way
+                
+                // FREEZE THE SERVER (Stop Animation)
+                setTimeout(() => {
+                    heart.classList.add('paused');
+                    status.innerText = "SERVER FROZEN (Main Thread Blocked)";
+                    status.className = "text-xs font-mono text-[#fbbf24] font-bold animate-pulse";
+                }, 500);
+
+                // Resume after load finishes
+                setTimeout(() => {
+                    bar.style.width = '100%';
+                    heart.classList.remove('paused');
+                    status.innerText = "Ticking (Recovered)";
+                    status.className = "text-xs font-mono text-green-500";
+                }, 3000);
+            }, 50);
         }
 
-        function runWarpAsync() {
-            const asyncPacket = document.getElementById('async-packet');
-            const status = document.getElementById('async-status');
-            status.innerText = "Fetching Data (Async)...";
-            asyncPacket.style.transition = 'left 2s linear, opacity 0.2s';
-            asyncPacket.style.opacity = '1';
-            asyncPacket.style.left = '100%';
+        function triggerAsyncLoad() {
+            const bar = document.getElementById('async-bar');
+            const status = document.getElementById('async-status-text');
+
+            // Reset
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
+            
             setTimeout(() => {
-                asyncPacket.style.transition = 'none';
-                asyncPacket.style.left = '0';
-                asyncPacket.style.opacity = '0';
-                status.innerText = "Data Loaded. Server Never Stopped.";
-            }, 2000);
+                bar.style.transition = 'width 2s ease-in-out';
+                bar.style.width = '100%';
+                
+                status.innerText = "Loading Data (Async Thread)...";
+                status.className = "text-xs font-mono text-[#06b6d4]";
+                
+                // Note: We do NOT pause the heart here. It keeps spinning.
+                
+                setTimeout(() => {
+                    status.innerText = "Done. 20.0 TPS Maintained.";
+                    status.className = "text-xs font-mono text-green-500";
+                }, 2000);
+            }, 50);
         }
 
-        /* --- CIRCUITBREAKER --- */
+        /* --- CIRCUITBREAKER LOGIC --- */
         function updateCircuitBreaker() {
             const val = document.getElementById('cb-slider').value;
             const entities = val * 10;
             const tpsText = document.getElementById('cb-tps');
             const status = document.getElementById('cb-status');
+            
             document.getElementById('cb-entities').innerText = entities;
+            
             if (val > 80) {
                 tpsText.innerText = "STABLE (Culling)";
                 tpsText.className = "text-brand-red font-bold";
@@ -459,7 +482,7 @@
             }
         }
 
-        /* --- REDSTONE BREAKER --- */
+        /* --- REDSTONE LOGIC --- */
         let lagMachineActive = false;
         let redstoneInterval;
         const bars = document.querySelectorAll('.graph-bar');
@@ -477,18 +500,26 @@
                 statusText.innerText = "Protected";
                 statusText.className = "text-xs font-bold text-green-500 uppercase";
                 lagBtn.innerHTML = '<i class="fa-solid fa-power-off mr-2"></i> Activate Lag Machine';
+                lagBtn.classList.remove('bg-red-900', 'text-white');
+                lagBtn.classList.add('bg-redstone/10', 'text-redstone');
             } else {
                 lagMachineActive = true;
                 lagBtn.innerHTML = '<i class="fa-solid fa-stop mr-2"></i> Stop Machine';
+                lagBtn.classList.remove('bg-redstone/10', 'text-redstone');
+                lagBtn.classList.add('bg-red-900', 'text-white');
+                
                 statusText.innerText = "SURGE DETECTED";
                 statusText.className = "text-xs font-bold text-redstone uppercase animate-pulse";
+                
                 redstoneInterval = setInterval(() => {
                     bars.forEach(b => {
                         const h = Math.floor(Math.random() * 80) + 20;
                         b.style.height = h + '%';
                         if(h > 70) b.classList.add('active'); else b.classList.remove('active');
                     });
+                    
                     const currentUpdates = Math.floor(Math.random() * 2000) + 4000;
+                    
                     if(currentUpdates > 5000) {
                         updateText.innerHTML = `Updates/Sec: ${currentUpdates} <span class='font-bold'>(CUTOFF)</span>`;
                         updateText.classList.add('text-redstone');
