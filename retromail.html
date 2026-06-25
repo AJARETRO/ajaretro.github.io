@@ -553,9 +553,9 @@
                     memoryComplexity: '< 1.5 KB payload caching',
                     howItHolds: 'Queries verified subscriber rows asynchronously, compiling them into a loop queue that delivers mails without locking up server ticks.',
                     args: '&lt;subject&gt; &lt;body...&gt;',
-                    argOptions: ['"Event Alert" "The seasonal tournament starts tomorrow at 6 PM!"'],
+                    argOptions: ['&quot;Event Alert&quot; &quot;The seasonal tournament starts tomorrow at 6 PM!&quot;'],
                     simSteps: [
-                        '[You] executed: /email mass "Event Alert" "Starts tomorrow!"',
+                        '[You] executed: /email mass &quot;Event Alert&quot; &quot;Starts tomorrow!&quot;',
                         '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Loading verified recipient targets list...',
                         '<span class=&quot;text-zinc-500&quot;&gt;[SMTP Gateway]&lt;/span&gt; Queueing plain-text dispatches for 184 subscribers...',
                         '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; Sending mass email to 184 subscribers in the background...'
@@ -608,9 +608,9 @@
                     memoryComplexity: '< 16 KB file compilation caching',
                     howItHolds: 'Safely reads template flatfiles from plugins directory via async stream. Parses variables and schedules email blocks to run.',
                     args: '&lt;file&gt; [subject...]',
-                    argOptions: ['announcement.html "Season V Release Details!"'],
+                    argOptions: ['announcement.html &quot;Season V Release Details!&quot;'],
                     simSteps: [
-                        '[You] executed: /mass-email announcement.html "Season V Release!"',
+                        '[You] executed: /mass-email announcement.html &quot;Season V Release!&quot;',
                         '<span class=&quot;text-zinc-500&quot;&gt;[IO Thread]&lt;/span&gt; Reading HTML template content...',
                         '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Checking active subscriber list...',
                         '<span class=&quot;text-zinc-500&quot;&gt;[SMTP]&lt;/span&gt; Running SMTP delivery queues...',
