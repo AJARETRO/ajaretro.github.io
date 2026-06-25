@@ -791,6 +791,77 @@ tablist:
     enabled: true
     header-method: "header_wave"
     footer-method: "footer_wave"</code></pre>
+
+                <!-- Module Explanations Grid -->
+                <div class="mt-8 border-t border-brand-border/40 pt-8">
+                    <h4 class="text-lg font-black italic uppercase text-white mb-6">Module Capabilities & Folia Engine Integrations</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Module Card -->
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">teleport</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">Teleportation System</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Decouples entity warp pipelines. Utilizes <code>teleportAsync</code> to pre-load destination chunks asynchronously on worker threads, resolving main-thread tick freeze locks during coordinates shift.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">kits</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">Inventory Kits</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Operates inventory edits within regional boundaries on current tick allocations. Enforces cooldown validations using thread-safe map structures to prevent item cloning exploits.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">chat</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">Chat & Messages</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Decouples text formatting, Hex colors parsing, and block list validations. Channels chats through async pipelines directly into target player packet loops without main thread strain.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">markers</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">GPS & Markers</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Tracks user locations relative to active destination vectors. Calculates waypoint offsets dynamically without triggering region-synchronized database read bottlenecks.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">teams</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">Team Routing</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Handles scoreboard registers asynchronously, preventing lock contention when players across different coordinate threads interact with global team indices concurrently.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">staff</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">Staff Operations</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Decouples vanish visibilities by stripping packet tags at netty pipeline level, and operates safe multithreaded player inventory inspections using transaction keys.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">system</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">System Monitor</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Toggles maintenance restrictions, processes new player logins, and executes regional mob cleanses automatically when local TPS indices drop beneath limits.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">utility</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">General Utilities</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Offers gameplay actions (/heal, /fly, /workbench, /trash) locked to individual region threads to prevent coordinates-sync discrepancies.
+                            </p>
+                        </div>
+                        <div class="p-6 bg-zinc-950/40 border border-brand-border/60 rounded-2xl space-y-3">
+                            <span class="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">tab / sidebar</span>
+                            <h5 class="text-sm font-bold text-white uppercase italic">Display Visuals</h5>
+                            <p class="text-xs text-zinc-400 leading-relaxed">
+                                Distributes animated tablist formats and sidebars dynamically using the visual blueprint system to handle updates without server ticks drop.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Commands Content -->
