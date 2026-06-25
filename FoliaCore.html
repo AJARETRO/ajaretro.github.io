@@ -597,9 +597,9 @@
                     memoryComplexity: '< 0.2 KB text payload',
                     howItHolds: 'Bypasses legacy Bukkit main thread message bottlenecks by queueing text delivery directly into Folia\'s regionalized chat packet pipelines.',
                     args: '&lt;player&gt; &lt;message...&gt;',
-                    argOptions: ['Niloy "Hey, are you online?"'],
+                    argOptions: ['Niloy &quot;Hey, are you online?&quot;'],
                     simSteps: [
-                        '[You] executed: /msg Niloy "Hey, are you online?"',
+                        '[You] executed: /msg Niloy &quot;Hey, are you online?&quot;',
                         '<span class=&quot;text-zinc-500&quot;&gt;[Chat Routing]&lt;/span&gt; Locating player session...',
                         '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; [Me -> Niloy]: Hey, are you online?'
                     ]
@@ -614,9 +614,9 @@
                     memoryComplexity: '< 0.1 KB payload allocation',
                     howItHolds: 'Reads target UUID from a thread-safe mapping container and routes message payload to the receiver\'s tick region.',
                     args: '&lt;message...&gt;',
-                    argOptions: ['"Got it, joining now!"'],
+                    argOptions: ['&quot;Got it, joining now!&quot;'],
                     simSteps: [
-                        '[You] executed: /reply "Got it, joining now!"',
+                        '[You] executed: /reply &quot;Got it, joining now!&quot;',
                         '<span class=&quot;text-zinc-500&quot;&gt;[Chat Routing]&lt;/span&gt; Fetching last contact registry...',
                         '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; [Me -> Niloy]: Got it, joining now!'
                     ]
@@ -631,12 +631,12 @@
                     memoryComplexity: '< 1.2 KB mail cache buffer',
                     howItHolds: 'Uses non-blocking asynchronous IO routines to process mail send, fetch, or delete parameters without introducing scheduler frame drops.',
                     args: 'read/clear/send &lt;player&gt; &lt;msg...&gt;',
-                    argOptions: ['read', 'send Niloy "Check spawn chest"'],
+                    argOptions: ['read', 'send Niloy &quot;Check spawn chest&quot;'],
                     simSteps: [
                         '[You] executed: /mail read',
                         '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Querying user inbox...',
                         '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore Mailbox]&lt;/span&gt; You have 1 unread message:',
-                        ' - From Niloy: "Check chest at spawn" (2h ago)'
+                        ' - From Niloy: &quot;Check chest at spawn&quot; (2h ago)'
                     ]
                 },
                 { 
