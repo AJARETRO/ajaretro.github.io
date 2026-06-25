@@ -5,147 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | AJA RETRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #050505;
-            color: #f8fafc;
-        }
-
-        .glass {
-            background: rgba(15, 15, 15, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
+        
         .hero-grid {
             background-image: 
-                linear-gradient(rgba(220, 38, 38, 0.02) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(220, 38, 38, 0.02) 2px, transparent 2px);
-            background-size: 60px 60px;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fade-up {
-            animation: fadeInUp 0.6s ease-out forwards;
+                linear-gradient(rgba(239, 68, 68, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.02) 2px, transparent 2px);
+            background-size: 50px 50px;
         }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ef4444',
+                            dark: '#050508',
+                            card: 'rgba(17, 17, 24, 0.75)',
+                            border: 'rgba(255, 255, 255, 0.04)',
+                            glow: 'rgba(239, 68, 68, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="overflow-x-hidden hero-grid">
+<body class="bg-brand-dark text-slate-100 font-sans selection:bg-brand-red selection:text-white overflow-x-hidden min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
 
-    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-5">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <a href="index.html" class="text-2xl font-black tracking-tighter uppercase italic">AJA<span class="text-red-600">RETRO</span></a>
+    <!-- Nav Bar -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</a>
             </div>
-            <div class="hidden md:flex items-center gap-8 font-bold text-xs text-zinc-400 uppercase tracking-widest">
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-10 font-bold text-xs uppercase tracking-widest text-slate-400">
                 <a href="index.html" class="hover:text-white transition">Home</a>
                 <a href="about.html" class="text-white transition">About</a>
                 <a href="services.html" class="hover:text-white transition">Services</a>
                 <a href="cover.html" class="hover:text-white transition">Covers</a>
             </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl">
+            <a href="index.html" class="hover:text-white transition">Home</a>
+            <a href="about.html" class="text-white transition">About</a>
+            <a href="services.html" class="hover:text-white transition">Services</a>
+            <a href="cover.html" class="hover:text-white transition">Covers</a>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto pt-40 pb-24 px-6">
-        <section class="flex flex-col md:flex-row items-center gap-10 mb-20 animate-fade-up" style="animation-delay: 0.1s;">
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-zinc-800 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="Ahmed Juhaed Ayeman Niloy" class="relative w-48 h-48 rounded-full border-4 border-red-600 object-cover shadow-2xl">
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto pt-40 pb-24 px-6 md:px-12 w-full space-y-20">
+        <!-- Intro Header -->
+        <section class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+            <div class="relative group flex-shrink-0">
+                <div class="absolute -inset-1 bg-gradient-to-r from-brand-red to-zinc-800 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/IMG-20240928-WA0011-01.jpeg" alt="Ahmed Juhaed Ayeman Niloy" class="relative w-48 h-48 rounded-full border-4 border-brand-red object-cover shadow-2xl">
             </div>
-            <div class="text-center md:text-left">
-                <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-4 italic uppercase">AJA <span class="text-red-600">RETRO</span></h1>
-                <p class="text-xl md:text-2xl text-zinc-400 font-medium">Ahmed Juhaed Ayeman Niloy</p>
-                <p class="text-zinc-500 mt-2 tracking-widest uppercase font-bold text-sm">Web Developer • Ethical Hacker • Digital Creator</p>
+            <div class="text-center md:text-left space-y-4">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter italic uppercase text-white"><span class="text-brand-red">AJA</span> RETRO</h1>
+                <p class="text-lg md:text-xl text-slate-400 font-medium">Ahmed Juhaed Ayeman Niloy</p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-semibold text-slate-300">Web Developer</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-semibold text-slate-300">Ethical Hacker</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-semibold text-slate-300">Digital Creator</span>
+                </div>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="glass p-10 rounded-[2.5rem] animate-fade-up" style="animation-delay: 0.2s;">
-                <h2 class="text-3xl font-black mb-6 italic uppercase flex items-center gap-3">
-                    <i data-lucide="user" class="text-red-600"></i> Intro
-                </h2>
-                <p class="text-zinc-400 text-lg leading-relaxed mb-8">
-                    A casual competitive gamer (idk how that goes together). And I sometimes sing, favorite band: <b>Warfaze</b>.
-                </p>
-                <div class="pt-8 border-t border-white/5">
-                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-zinc-600 mb-6">Connect With Me</h3>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="https://github.com/AJARETRO" target="_blank" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-600 transition flex items-center gap-2">
-                            <i data-lucide="github" class="w-4 h-4"></i> GitHub
+        <!-- Biography Sections Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <!-- Biography -->
+            <div class="bg-brand-card border border-brand-border p-10 rounded-[2.5rem] flex flex-col justify-between">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-black italic uppercase flex items-center gap-3 text-white">
+                        <i data-lucide="user" class="text-brand-red"></i> Intro
+                    </h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        I am a casual competitive gamer (balancing pvp mechanics with code optimization) and a vocal enthusiast who sings covers, particularly inspired by my favorite band, <strong>Warfaze</strong>.
+                    </p>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        My development targets natively threaded server architectures (PaperMC & Folia) and custom cybersecurity filters.
+                    </p>
+                </div>
+                <div class="pt-8 mt-8 border-t border-brand-border space-y-4">
+                    <h3 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Public Profiles</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://github.com/AJARETRO" target="_blank" class="px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-brand-red hover:text-white hover:border-transparent transition flex items-center gap-2">
+                            <i data-lucide="github" class="w-3.5 h-3.5"></i> GitHub
                         </a>
-                        <a href="https://modrinth.com/user/AJA_RETRO" target="_blank" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-600 transition flex items-center gap-2">
-                            <i data-lucide="package" class="w-4 h-4"></i> Modrinth
+                        <a href="https://modrinth.com/user/AJA_RETRO" target="_blank" class="px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-brand-red hover:text-white hover:border-transparent transition flex items-center gap-2">
+                            <i data-lucide="package" class="w-3.5 h-3.5"></i> Modrinth
                         </a>
-                        <a href="https://hangar.papermc.io/AJA_RETRO" target="_blank" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-600 transition flex items-center gap-2">
-                            <i data-lucide="box" class="w-4 h-4"></i> Hangar
+                        <a href="https://hangar.papermc.io/AJA_RETRO" target="_blank" class="px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-brand-red hover:text-white hover:border-transparent transition flex items-center gap-2">
+                            <i data-lucide="box" class="w-3.5 h-3.5"></i> Hangar
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div class="glass p-10 rounded-[2.5rem] animate-fade-up" style="animation-delay: 0.3s;">
-                <h2 class="text-3xl font-black mb-6 italic uppercase flex items-center gap-3">
-                    <i data-lucide="list" class="text-red-600"></i> Details
+            <!-- Details -->
+            <div class="bg-brand-card border border-brand-border p-10 rounded-[2.5rem] space-y-8">
+                <h2 class="text-2xl font-black italic uppercase flex items-center gap-3 text-white">
+                    <i data-lucide="info" class="text-brand-red"></i> Details
                 </h2>
-                <ul class="space-y-6">
-                    <li class="flex items-center gap-4 text-zinc-300">
-                        <i data-lucide="id-card" class="text-zinc-600 w-5 h-5"></i>
-                        <span>Profile - Digital Creator</span>
-                    </li>
-                    <li class="flex items-center gap-4 text-zinc-300">
-                        <i data-lucide="zap" class="text-zinc-600 w-5 h-5"></i>
+                <ul class="space-y-4 text-sm">
+                    <li class="flex items-center gap-4 text-slate-300">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400">
+                            <i data-lucide="zap" class="w-4 h-4"></i>
+                        </div>
                         <span>Plugin Developer for PaperMC & Folia</span>
                     </li>
-                    <li class="flex items-center gap-4 text-zinc-300">
-                        <i data-lucide="gamepad-2" class="text-zinc-600 w-5 h-5"></i>
+                    <li class="flex items-center gap-4 text-slate-300">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400">
+                            <i data-lucide="gamepad-2" class="w-4 h-4"></i>
+                        </div>
                         <span>Game Developer at Sheikh Games</span>
                     </li>
-                    <li class="flex items-center gap-4 text-zinc-300">
-                        <i data-lucide="briefcase" class="text-zinc-600 w-5 h-5"></i>
+                    <li class="flex items-center gap-4 text-slate-300">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400">
+                            <i data-lucide="briefcase" class="w-4 h-4"></i>
+                        </div>
                         <span>Former Dev at Eviyon Network</span>
                     </li>
-                    <li class="flex items-center gap-4 text-zinc-300">
-                        <i data-lucide="graduation-cap" class="text-zinc-600 w-5 h-5"></i>
+                    <li class="flex items-center gap-4 text-slate-300">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400">
+                            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                        </div>
                         <span>Went to Government Sundarban Adarsha College</span>
                     </li>
-                    <li class="flex items-center gap-4 text-zinc-300">
-                        <i data-lucide="map-pin" class="text-zinc-600 w-5 h-5"></i>
+                    <li class="flex items-center gap-4 text-slate-300">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        </div>
                         <span>Khulna, Bangladesh</span>
                     </li>
                 </ul>
             </div>
-
-            <div class="lg:col-span-2 glass p-10 rounded-[3rem] animate-fade-up" style="animation-delay: 0.4s;">
-                <h2 class="text-3xl font-black mb-10 italic uppercase text-center flex items-center justify-center gap-3">
-                    <i data-lucide="award" class="text-red-600"></i> Certifications
-                </h2>
-                <div class="flex flex-col items-center">
-                    <a href="https://github.com/AJARETRO/ajaretro.github.io/blob/main/Alison_Certificate.jpg" target="_blank" class="group relative block overflow-hidden rounded-2xl border border-white/10 transition hover:border-red-600">
-                        <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/Alison_Certificate.jpg" alt="Alison Certificate" class="max-w-full md:max-w-2xl transition duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="bg-red-600 px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest shadow-xl">View Large</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
         </div>
+
+        <!-- Certifications -->
+        <section class="bg-brand-card border border-brand-border p-10 rounded-[3rem] space-y-8">
+            <h2 class="text-2xl font-black italic uppercase flex items-center gap-3 text-white justify-center">
+                <i data-lucide="award" class="text-brand-red"></i> Certifications
+            </h2>
+            <div class="flex flex-col items-center">
+                <a href="https://github.com/AJARETRO/ajaretro.github.io/blob/main/Alison_Certificate.jpg" target="_blank" class="group relative block overflow-hidden rounded-2xl border border-brand-border transition hover:border-brand-red max-w-xl">
+                    <img src="https://github.com/AJARETRO/ajaretro.github.io/raw/main/Alison_Certificate.jpg" alt="Alison Certificate" class="w-full transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="bg-brand-red px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl">View Larger Image</span>
+                    </div>
+                </a>
+            </div>
+        </section>
     </main>
 
-    <footer class="py-24 border-t border-white/5 text-center">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-center gap-1 mb-8">
-                <span class="text-2xl font-black tracking-tighter uppercase italic">AJA<span class="text-red-600">RETRO</span></span>
-            </div>
-            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-black leading-loose">
-                &copy; 2025 ajaretro.dev • All Projects Open Source
+    <!-- Footer -->
+    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
+                Designed for the Multithreaded Era • &copy; 2026<br>
+                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
             </p>
         </div>
     </footer>

@@ -3,216 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJA_RETRO | Covers</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <title>Covers | AJA RETRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* --- 1. CONFIG & RESET (Same as index.html) --- */
-        :root {
-            --brand-red: #DB2727;
-            --brand-red-glow: rgba(219, 39, 39, 0.5);
-            --bg-dark: #101010;
-            --bg-medium: #1a1a1a;
-            --text-light: #E0E0E0;
-            --text-dark: #777;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        .hero-grid {
+            background-image: 
+                linear-gradient(rgba(239, 68, 68, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.02) 2px, transparent 2px);
+            background-size: 50px 50px;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+        /* Music visualizer animation */
+        @keyframes bounce-bar {
+            0%, 100% { height: 4px; }
+            50% { height: 28px; }
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .music-bar {
+            width: 3px;
+            background-color: #ef4444;
+            border-radius: 9999px;
+            animation: bounce-bar 0.8s ease-in-out infinite;
         }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* --- 2. STEP-BY-STEP ANIMATIONS (Pure CSS) --- */
-        
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animated {
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
-        
-        .fade-in-down-1 { animation: fadeInDown 0.8s ease 0.3s forwards; }
-        .fade-in-up-1 { animation: fadeInUp 0.8s ease 0.5s forwards; }
-        .fade-in-up-2 { animation: fadeInUp 0.8s ease 0.7s forwards; }
-        .fade-in-up-3 { animation: fadeInUp 0.8s ease 0.9s forwards; }
-
-
-        /* --- 3. FUTURISTIC NAV BAR (Same as index.html) --- */
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            background: linear-gradient(180deg, rgba(16,16,16,0.95) 0%, rgba(16,16,16,0.7) 80%, transparent 100%);
-            padding: 20px 0;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #FFF;
-            text-decoration: none;
-        }
-        .logo span {
-            color: var(--brand-red);
-        }
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-        .nav-links li {
-            margin-left: 35px;
-        }
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding-bottom: 5px;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--brand-red);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        .nav-links a:hover {
-            color: #FFF;
-        }
-        .nav-links a:hover::after {
-            transform: scaleX(1);
-        }
-        .nav-links a.active {
-            color: var(--brand-red);
-        }
-
-        /* --- 4. NEW: COVER PAGE CONTENT --- */
-        .page-hero {
-            padding-top: 150px;
-            padding-bottom: 60px;
-            text-align: center;
-            min-height: 80vh;
-        }
-        
-        .page-hero h1 {
-            font-size: 3.5rem;
-            color: #FFF;
-            margin-bottom: 10px;
-        }
-        
-        .page-hero h1 span {
-            color: var(--brand-red);
-        }
-        
-        .page-hero .subtitle {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            font-weight: 400;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .page-hero p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 30px auto;
-        }
-
-        /* --- 5. FOOTER (Same as index.html) --- */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            background-color: var(--bg-medium);
-        }
-        
-        footer p {
-            font-size: 0.9rem;
-            color: var(--text-dark);
-        }
-        
-        /* --- 6. Responsive --- */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+        .bar-1 { animation-delay: 0.1s; }
+        .bar-2 { animation-delay: 0.3s; }
+        .bar-3 { animation-delay: 0.5s; }
+        .bar-4 { animation-delay: 0.2s; }
+        .bar-5 { animation-delay: 0.4s; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ef4444',
+                            dark: '#050508',
+                            card: 'rgba(17, 17, 24, 0.75)',
+                            border: 'rgba(255, 255, 255, 0.04)',
+                            glow: 'rgba(239, 68, 68, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
             }
         }
-    </style>
+    </script>
 </head>
-<body>
+<body class="bg-brand-dark text-slate-100 font-sans selection:bg-brand-red selection:text-white overflow-x-hidden min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
 
-    <header class="animated fade-in-down-1">
-        <div class="container navbar">
-            <a href="index.html" class="logo">AJA<span>RETRO</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="cover.html" class="active">Covers</a></li> </ul>
+    <!-- Nav Bar -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</a>
+            </div>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-10 font-bold text-xs uppercase tracking-widest text-slate-400">
+                <a href="index.html" class="hover:text-white transition">Home</a>
+                <a href="about.html" class="hover:text-white transition">About</a>
+                <a href="services.html" class="hover:text-white transition">Services</a>
+                <a href="cover.html" class="text-white transition">Covers</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl">
+            <a href="index.html" class="hover:text-white transition">Home</a>
+            <a href="about.html" class="hover:text-white transition">About</a>
+            <a href="services.html" class="hover:text-white transition">Services</a>
+            <a href="cover.html" class="text-white transition">Covers</a>
+        </div>
+    </nav>
+
+    <!-- Header Hero -->
+    <header class="relative pt-44 pb-20 px-6 md:px-12 hero-grid overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-brand-red/5 blur-[120px] rounded-full -z-10"></div>
+        <div class="max-w-5xl mx-auto text-center space-y-6 relative z-10">
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white">Vocal & Song Covers</h1>
+            <p class="text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                A selection of musical covers recorded outside the developer terminal, highlighting my favorite bands.
+            </p>
         </div>
     </header>
 
-    <main>
-        <section class="page-hero">
-            <div class="container">
-                <h1 class="animated fade-in-up-1">Cover Songs<span>.</span></h1>
-                <p class="subtitle animated fade-in-up-2">
-                    Coming Soon...
-                </p>
-                <p class="animated fade-in-up-3">
-                    This page will host my song covers. As I mentioned in my bio, I'm a casual singer and a big fan of bands like Warfaze.
-                    Stay tuned!
-                </p>
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 md:px-12 pb-24 w-full space-y-16" x-data="{
+        isPlaying: false,
+        activeTrack: 'Obak Bhalobasha',
+        trackArtist: 'Warfaze Cover',
+        trackDuration: '4:15',
+        trackProgress: 24,
+
+        selectTrack(title, artist, duration) {
+            this.activeTrack = title;
+            this.trackArtist = artist;
+            this.trackDuration = duration;
+            this.trackProgress = 0;
+            this.isPlaying = true;
+        },
+
+        togglePlay() {
+            this.isPlaying = !this.isPlaying;
+        }
+    }">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+            
+            <!-- Custom Audio Player Widget -->
+            <div class="lg:col-span-5 bg-brand-card border border-brand-border p-8 rounded-[2.5rem] flex flex-col justify-between min-h-[380px] relative overflow-hidden">
+                <div class="absolute -top-24 -left-24 w-48 h-48 bg-brand-red/10 blur-[80px] rounded-full"></div>
+                
+                <div class="relative z-10 space-y-8">
+                    <!-- Title header -->
+                    <div class="flex justify-between items-center pb-4 border-b border-brand-border">
+                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Digital Audio Deck</span>
+                        <div class="flex items-end gap-1 h-6">
+                            <!-- Visualizer bars when playing -->
+                            <div class="music-bar bar-1" :style="isPlaying ? '' : 'animation: none; height: 4px;'"></div>
+                            <div class="music-bar bar-2" :style="isPlaying ? '' : 'animation: none; height: 4px;'"></div>
+                            <div class="music-bar bar-3" :style="isPlaying ? '' : 'animation: none; height: 4px;'"></div>
+                            <div class="music-bar bar-4" :style="isPlaying ? '' : 'animation: none; height: 4px;'"></div>
+                            <div class="music-bar bar-5" :style="isPlaying ? '' : 'animation: none; height: 4px;'"></div>
+                        </div>
+                    </div>
+
+                    <!-- Album Art & Track Info -->
+                    <div class="flex items-center gap-6">
+                        <div class="w-24 h-24 rounded-2xl bg-zinc-900 border border-brand-red/20 flex items-center justify-center text-4xl shadow-xl shadow-brand-red/5">
+                            🎵
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-black tracking-tight text-white uppercase italic" x-text="activeTrack"></h3>
+                            <p class="text-sm text-slate-400 mt-1 font-mono" x-text="trackArtist"></p>
+                        </div>
+                    </div>
+
+                    <!-- Progress bar slider slider -->
+                    <div class="space-y-2">
+                        <input type="range" min="0" max="100" x-model="trackProgress" class="w-full accent-brand-red bg-zinc-900 h-1 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-[10px] font-mono text-zinc-500">
+                            <span>1:04</span>
+                            <span x-text="trackDuration"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controllers -->
+                <div class="relative z-10 flex justify-center items-center gap-8 pt-6 border-t border-brand-border">
+                    <button class="text-slate-400 hover:text-white transition"><i data-lucide="skip-back" class="w-5 h-5"></i></button>
+                    <button @click="togglePlay()" class="w-16 h-16 bg-brand-red text-white rounded-full flex items-center justify-center hover:scale-105 transition shadow-lg shadow-brand-red/35">
+                        <i data-lucide="play" class="w-6 h-6 ml-0.5" x-show="!isPlaying"></i>
+                        <i data-lucide="pause" class="w-6 h-6" x-show="isPlaying"></i>
+                    </button>
+                    <button class="text-slate-400 hover:text-white transition"><i data-lucide="skip-forward" class="w-5 h-5"></i></button>
+                </div>
             </div>
-        </section>
+
+            <!-- Tracks Playlist -->
+            <div class="lg:col-span-7 bg-brand-card border border-brand-border p-8 rounded-[2.5rem] flex flex-col justify-between space-y-6">
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold uppercase tracking-wider border-b border-brand-border pb-4 text-white">Song Listings</h3>
+                    
+                    <div class="space-y-3">
+                        <!-- Song 1 -->
+                        <div @click="selectTrack('Obak Bhalobasha', 'Warfaze Cover', '4:15')" class="flex justify-between items-center p-4 bg-brand-dark/40 border border-brand-border rounded-2xl hover:border-brand-red/30 cursor-pointer transition">
+                            <div class="flex items-center gap-4">
+                                <span class="font-mono text-xs text-zinc-500">01</span>
+                                <span class="font-bold text-sm text-slate-200">Obak Bhalobasha (Warfaze)</span>
+                            </div>
+                            <span class="font-mono text-xs text-zinc-500">4:15</span>
+                        </div>
+
+                        <!-- Song 2 -->
+                        <div @click="selectTrack('Boshe Achi', 'Warfaze Cover', '3:58')" class="flex justify-between items-center p-4 bg-brand-dark/40 border border-brand-border rounded-2xl hover:border-brand-red/30 cursor-pointer transition">
+                            <div class="flex items-center gap-4">
+                                <span class="font-mono text-xs text-zinc-500">02</span>
+                                <span class="font-bold text-sm text-slate-200">Boshe Achi (Warfaze)</span>
+                            </div>
+                            <span class="font-mono text-xs text-zinc-500">3:58</span>
+                        </div>
+
+                        <!-- Song 3 -->
+                        <div @click="selectTrack('Rupkotha', 'Warfaze Cover', '4:32')" class="flex justify-between items-center p-4 bg-brand-dark/40 border border-brand-border rounded-2xl hover:border-brand-red/30 cursor-pointer transition">
+                            <div class="flex items-center gap-4">
+                                <span class="font-mono text-xs text-zinc-500">03</span>
+                                <span class="font-bold text-sm text-slate-200">Rupkotha (Warfaze)</span>
+                            </div>
+                            <span class="font-mono text-xs text-zinc-500">4:32</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-brand-border text-xs text-zinc-500 font-mono text-center">
+                    Recorded live on vocal setup. Audio compression applied.
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <footer class="animated fade-in-up-3">
-        <div class="container">
-            <p>&copy; 2025 ajaretro.dev | All Projects Open Source</p>
+    <!-- Footer -->
+    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
+                Designed for the Multithreaded Era • &copy; 2026<br>
+                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
+            </p>
         </div>
     </footer>
 
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

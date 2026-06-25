@@ -3,167 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>AJA RETRO | High-Performance Minecraft Solutions</title>
-    <meta name="description" content="AJA RETRO - Industry-leading high-performance Minecraft plugins including FoliaCore, CircuitBreaker, and RetroBedrockTotem. Engineered for the future of server management.">
-    <meta name="keywords" content="AJA RETRO, FoliaCore, CircuitBreaker, RetroBedrockTotem, Minecraft Plugins, Folia, PaperMC, Geyser, Niloy, Cybersecurity">
-    <meta name="author" content="Niloy (@AJARETRO)">
-
-    <meta property="og:title" content="AJA RETRO | Professional Software Development">
-    <meta property="og:description" content="Surgical lag removal and natively threaded Minecraft suites. Developed by Niloy.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/AJARETRO/ajaretro.github.io/main/68a15aa3-19e7-4a74-9849-ae75608be367.jpg">
-    <meta property="og:url" content="https://ajaretro.dev">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>AJA RETRO | High-Performance Server Engineering</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #050505;
-            color: #f8fafc;
-        }
-
-        .glass {
-            background: rgba(15, 15, 15, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
+        
         .hero-grid {
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+                linear-gradient(rgba(239, 68, 68, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.02) 2px, transparent 2px);
             background-size: 50px 50px;
         }
-
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card-hover:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ef4444',
+                            dark: '#050508',
+                            card: 'rgba(17, 17, 24, 0.75)',
+                            border: 'rgba(255, 255, 255, 0.04)',
+                            glow: 'rgba(239, 68, 68, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="overflow-x-hidden">
+<body class="bg-brand-dark text-slate-100 font-sans selection:bg-brand-red selection:text-white overflow-x-hidden min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
 
-    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-5">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="text-2xl font-black tracking-tighter uppercase italic">AJA<span class="text-red-600">RETRO</span></span>
+    <!-- Nav Bar -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</a>
             </div>
-            <div class="hidden md:flex items-center gap-8 font-bold text-xs text-zinc-400 uppercase tracking-widest">
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-10 font-bold text-xs uppercase tracking-widest text-slate-400">
+                <a href="index.html" class="text-white transition">Home</a>
                 <a href="about.html" class="hover:text-white transition">About</a>
-                <a href="blog.html" class="hover:text-white transition">Blog</a>
                 <a href="services.html" class="hover:text-white transition">Services</a>
                 <a href="cover.html" class="hover:text-white transition">Covers</a>
             </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl">
+            <a href="index.html" class="text-white transition">Home</a>
+            <a href="about.html" class="hover:text-white transition">About</a>
+            <a href="services.html" class="hover:text-white transition">Services</a>
+            <a href="cover.html" class="hover:text-white transition">Covers</a>
         </div>
     </nav>
 
-    <header class="relative pt-64 pb-48 px-6 hero-grid">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-red-600/5 blur-[120px] rounded-full -z-10"></div>
-        
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <h1 class="text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.85] uppercase italic">
-                Engineering <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-zinc-800">Performance.</span>
+    <!-- Hero Section -->
+    <header class="relative pt-44 pb-28 px-6 md:px-12 hero-grid overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-brand-red/5 blur-[120px] rounded-full -z-10"></div>
+        <div class="max-w-5xl mx-auto text-center space-y-8 relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-red/10 border border-brand-red/20 text-brand-red text-xs font-bold uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+                HIGH-PERFORMANCE ECOSYSTEM
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase italic leading-[0.9]">
+                ENGINEERING <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-300 to-slate-600">PERFORMANCE.</span>
             </h1>
-            <p class="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed mb-12">
-                Specialized in natively threaded suites and surgical lag prevention for high-concurrency Minecraft environments.
+            
+            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
+                Natively threaded Minecraft architectures, lag prevention filters, and secure enterprise integration services.
             </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#projects" class="px-10 py-5 bg-white text-black font-black uppercase tracking-widest rounded-2xl hover:bg-zinc-200 transition shadow-xl">
-                    View Portfolio
+
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="#projects" class="px-8 py-4 bg-white text-black font-black uppercase tracking-widest rounded-xl hover:bg-slate-200 transition text-xs shadow-lg">
+                    View Plugins
                 </a>
-                <a href="about.html" class="px-10 py-5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-2xl hover:bg-white/10 transition">
-                    Meet the Dev
+                <a href="about.html" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-xl hover:bg-white/10 transition text-xs">
+                    Meet The Developer
                 </a>
             </div>
         </div>
     </header>
 
-    <section id="projects" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex items-end justify-between mb-16 border-b border-white/5 pb-8">
+    <!-- Projects Grid -->
+    <section id="projects" class="py-24 px-6 md:px-12 bg-zinc-950/20">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <div class="border-b border-brand-border pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
-                    <h2 class="text-4xl font-black italic uppercase tracking-tighter">The Suite</h2>
-                    <p class="text-zinc-500 mt-2">Native software built for Folia and PaperMC.</p>
+                    <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">Software Catalog</h2>
+                    <p class="text-zinc-500 mt-2 text-sm md:text-base">Optimized for multithreaded region runtimes (Folia & Paper).</p>
                 </div>
-                <div class="hidden md:block text-xs font-mono text-zinc-600 uppercase tracking-widest">
+                <div class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
                     Available on Modrinth & GitHub
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="FoliaCore.html" class="glass p-10 rounded-[2.5rem] card-hover block group">
-                    <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform">⚡</div>
-                    <h3 class="text-3xl font-black mb-4 italic uppercase">FoliaCore</h3>
-                    <p class="text-zinc-400 leading-relaxed mb-6">A ground-up rewrite of the essential server suite. Natively threaded, region-aware, and built for Java 21.</p>
-                    <div class="text-[10px] font-mono text-emerald-500 uppercase tracking-widest">Performance • Economy • Teleport</div>
-                </a>
+            <!-- 2x2 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- FoliaCore -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-emerald-500/20 hover:shadow-2xl hover:shadow-emerald-500/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">⚡</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">FoliaCore</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            A complete essentials suite rewrite designed explicitly for regionized servers. Runs warp, spawn, utility commands, and chat visual frameworks asynchronously.
+                        </p>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-emerald-500/5 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">Folia Native</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">Async TPS</span>
+                        </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="FoliaCore.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-foliacore.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 text-xs font-black uppercase transition-all">Get</a>
+                        </div>
+                    </div>
+                </div>
 
-                <a href="circuitbreaker.html" class="glass p-10 rounded-[2.5rem] card-hover block group">
-                    <div class="w-16 h-16 bg-red-600/10 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform">🛑</div>
-                    <h3 class="text-3xl font-black mb-4 italic uppercase">CircuitBreaker</h3>
-                    <p class="text-zinc-400 leading-relaxed mb-6">Surgical lag prevention. Identifies high-event chunks and freezes them before they crash your main thread.</p>
-                    <div class="text-[10px] font-mono text-red-500 uppercase tracking-widest">Protection • Anti-Lag • Surgical</div>
-                </a>
+                <!-- CircuitBreaker -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-brand-red/20 hover:shadow-2xl hover:shadow-brand-red/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-brand-red/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">🛑</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">CircuitBreaker</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Surgical chunk-based event filters to isolate and defuse lag machines without affecting player performance. Instantly freezes chunk loops exceeding TPS margins.
+                        </p>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-brand-red/5 text-brand-red font-mono text-[9px] uppercase tracking-wider">Surgical Anti-Lag</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">PaperMC</span>
+                        </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="circuitbreaker.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-circuitbreaker.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-500 text-xs font-black uppercase transition-all">Get</a>
+                        </div>
+                    </div>
+                </div>
 
-                <a href="totem.html" class="glass p-10 rounded-[2.5rem] card-hover block group">
-                    <div class="w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform">💎</div>
-                    <h3 class="text-3xl font-black mb-4 italic uppercase leading-none">RetroBedrock<br>Totem</h3>
-                    <p class="text-zinc-400 leading-relaxed mb-6">Level the Geyser playing field. Android players get auto-totem from inventory to balance the hardware gap.</p>
-                    <div class="text-[10px] font-mono text-amber-500 uppercase tracking-widest">Cross-Play • Balance • PvP</div>
-                </a>
+                <!-- RetroBedrockTotem -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-amber-500/20 hover:shadow-2xl hover:shadow-amber-500/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">💎</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">BedrockTotem</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Restores balance in cross-play PvP matches. Enables Bedrock Edition Geyser players to pop totems straight from inventory, mitigating physical touch-control lag.
+                        </p>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-amber-500/5 text-amber-400 font-mono text-[9px] uppercase tracking-wider">Floodgate API</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">Cross-Play</span>
+                        </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="totem.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-totem.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-amber-500 text-black rounded-lg hover:bg-amber-400 text-xs font-black uppercase transition-all">Get</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RetroMail -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">✉️</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">RetroMail</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Secure double-opt-in SMTP gateway integration. Verifies player emails in-game, triggers commands based on verification states, and coordinates multi-server queues.
+                        </p>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-blue-500/5 text-blue-400 font-mono text-[9px] uppercase tracking-wider">SMTP Gateway</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">HMAC Secure</span>
+                        </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="retromail.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-retromail.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-500 text-xs font-black uppercase transition-all">Get</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="py-32 px-6 bg-zinc-950/50">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <a href="about.html" class="glass p-8 rounded-3xl hover:bg-white/5 transition group">
-                    <h4 class="text-lg font-bold mb-2 group-hover:text-red-600 transition">About Me</h4>
-                    <p class="text-zinc-500 text-sm">Niloy - Cybersecurity student & Vocalist.</p>
-                </a>
-                <a href="blog.html" class="glass p-8 rounded-3xl hover:bg-white/5 transition group">
-                    <h4 class="text-lg font-bold mb-2 group-hover:text-red-600 transition">Developer Blog</h4>
-                    <p class="text-zinc-500 text-sm">Deep dives into threading and JVM optimization.</p>
-                </a>
-                <a href="services.html" class="glass p-8 rounded-3xl hover:bg-white/5 transition group">
-                    <h4 class="text-lg font-bold mb-2 group-hover:text-red-600 transition">Professional Services</h4>
-                    <p class="text-zinc-500 text-sm">Custom plugin development and server optimization.</p>
-                </a>
-                <a href="cover.html" class="glass p-8 rounded-3xl hover:bg-white/5 transition group">
-                    <h4 class="text-lg font-bold mb-2 group-hover:text-red-600 transition">Song Covers</h4>
-                    <p class="text-zinc-500 text-sm">My musical journey outside of the terminal.</p>
-                </a>
-            </div>
-        </div>
-    </section>
 
-    <footer class="py-24 border-t border-white/5 text-center">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-center gap-1 mb-10">
-                <span class="text-3xl font-black tracking-tighter uppercase italic">AJA<span class="text-red-600">RETRO</span></span>
-            </div>
-            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-black leading-loose">
-                Engineered for the Regionized Era • © 2025<br>
-                <span class="text-zinc-900">Developed by Niloy</span>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
+                Designed for the Multithreaded Era • &copy; 2026<br>
+                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
             </p>
-            <div class="mt-12 flex justify-center gap-10">
-                <a href="https://github.com/AJARETRO" class="text-zinc-500 hover:text-white transition text-xs font-bold uppercase tracking-widest">GitHub</a>
-                <a href="https://modrinth.com/user/AJARETRO" class="text-zinc-500 hover:text-white transition text-xs font-bold uppercase tracking-widest">Modrinth</a>
-            </div>
         </div>
     </footer>
 
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

@@ -5,54 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CircuitBreaker | Surgical Anti-Lag</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
         @keyframes piston-push {
             0%, 100% { transform: scaleX(1); }
-            50% { transform: scaleX(1.4); }
+            50% { transform: scaleX(1.3); }
         }
         .piston-active {
-            animation: piston-push 0.15s infinite;
+            animation: piston-push 0.2s infinite;
             background-color: #ef4444 !important;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
         .grid-bg {
-            background-image: radial-gradient(#222 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-image: 
+                linear-gradient(rgba(239, 68, 68, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.02) 2px, transparent 2px);
+            background-size: 50px 50px;
         }
-        .glass {
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
         }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ef4444',
+                            dark: '#050508',
+                            card: 'rgba(17, 17, 24, 0.75)',
+                            border: 'rgba(255, 255, 255, 0.04)',
+                            glow: 'rgba(239, 68, 68, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-[#050505] text-white font-sans selection:bg-red-500 overflow-x-hidden">
+<body class="bg-brand-dark text-slate-100 font-sans selection:bg-brand-red selection:text-white overflow-x-hidden min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
 
-    <section class="max-w-7xl mx-auto pt-24 pb-12 px-6 text-center">
-        <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold uppercase tracking-widest">
-            Paper & Purpur Only
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</a>
+                <div class="h-6 w-[2px] bg-white/10 mx-3"></div>
+                <span class="text-xs font-bold text-brand-red uppercase tracking-[0.3em]">CircuitBreaker</span>
+            </div>
+            
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex items-center gap-10 font-bold text-xs uppercase tracking-widest text-slate-400">
+                <a href="#features" class="hover:text-white transition">Features</a>
+                <a href="#lab" class="hover:text-white transition">Lab Simulator</a>
+                <a href="#docs" class="hover:text-white transition">Docs Hub</a>
+                <a href="modrinth-transfer-circuitbreaker.html" class="px-6 py-3 bg-brand-red text-white rounded-xl hover:bg-red-500 transition font-black">Get Plugin</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+            </button>
         </div>
-        <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-6 italic">
-            CIRCUIT<span class="text-red-600">BREAKER</span>
-        </h1>
-        <p class="text-xl text-zinc-400 max-w-2xl mx-auto mb-10">
-            The world's first surgical <b>Chunk-Ban</b> system. Don't punish the player—stop the lag exactly where it starts.
-        </p>
 
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-20">
-            <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#1bd96a] hover:bg-[#16b358] text-[#050505] font-black transition transform hover:-translate-y-1 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1.636-12.727H8.182V16h2.182V9.273zm4.364 0h-2.182V16h2.182V9.273z"/></svg>
-                Get it on Modrinth
-            </a>
-            <a href="https://github.com/AJARETRO/CircuitBreaker" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold transition flex items-center justify-center gap-2">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                GitHub Source
-            </a>
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl bg-zinc-950">
+            <a href="#features" @click="mobileMenuOpen = false" class="hover:text-white transition">Features</a>
+            <a href="#lab" @click="mobileMenuOpen = false" class="hover:text-white transition">Lab Simulator</a>
+            <a href="#docs" @click="mobileMenuOpen = false" class="hover:text-white transition">Docs Hub</a>
+            <a href="modrinth-transfer-circuitbreaker.html" class="py-4 bg-brand-red text-white text-center rounded-xl transition font-black">Get Plugin</a>
         </div>
-    </section>
+    </nav>
 
-    <section id="lab" class="max-w-6xl mx-auto pb-32 px-6" x-data="{ 
+    <!-- Hero -->
+    <header class="relative pt-44 pb-28 px-6 md:px-12 grid-bg overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-brand-red/5 blur-[120px] rounded-full -z-10"></div>
+        
+        <div class="max-w-5xl mx-auto text-center space-y-8 relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-red/10 border border-brand-red/20 text-brand-red text-xs font-bold uppercase tracking-widest">
+                Paper & Purpur Only
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase italic leading-[0.9]">
+                SURGICAL <br>
+                <span class="text-brand-red">ANTI-LAG.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed font-medium">
+                Stop the lag machine, not the server. CircuitBreaker isolates specific chunks overflowing event checks and freezes them instantly, preserving main thread ticks.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                <a href="modrinth-transfer-circuitbreaker.html" class="px-10 py-5 bg-brand-red text-white font-black uppercase tracking-widest rounded-2xl hover:scale-105 transition shadow-xl shadow-brand-red/25 text-xs">
+                    Download CircuitBreaker
+                </a>
+                <a href="#lab" class="px-10 py-5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-2xl hover:bg-white/10 transition text-xs">
+                    Try Lab Simulator
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Lab Simulator Section -->
+    <section id="lab" class="py-24 px-6 md:px-12 bg-zinc-950/20 border-t border-brand-border" x-data="{ 
         lagOn: false, 
         strikes: 0, 
         isFrozen: false, 
@@ -78,7 +149,7 @@
             if(this.strikes <= 3) {
                 this.freezeChunk(5);
             } else {
-                this.freezeChunk(900);
+                this.freezeChunk(15);
             }
         },
 
@@ -86,7 +157,7 @@
             this.isFrozen = true;
             this.lagOn = false;
             this.freezeTimer = seconds;
-            this.status = this.strikes > 3 ? 'CHUNK BANNED (15M)' : 'CHUNK FROZEN (5S)';
+            this.status = this.strikes > 3 ? 'CHUNK BANNED (TEMP)' : 'CHUNK FROZEN (5S)';
             
             let interval = setInterval(() => {
                 this.freezeTimer--;
@@ -94,115 +165,543 @@
                     clearInterval(interval);
                     this.isFrozen = false;
                     this.status = 'SYSTEM READY';
+                    if (this.strikes > 3) this.strikes = 0;
                 }
             }, 1000);
         }
     }">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white">Lab Console Simulator</h2>
+                <p class="text-zinc-500 max-w-2xl mx-auto text-sm md:text-base">Toggle the mock lag machine to witness CircuitBreaker's chunk-freezing mechanism in real time.</p>
+            </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
-            <div class="lg:col-span-4 glass p-8 rounded-3xl flex flex-col justify-between">
-                <div>
-                    <h3 class="text-2xl font-black mb-8 italic flex items-center gap-3">
-                        <span class="relative flex h-3 w-3">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                        </span>
-                        LAB CONSOLE
-                    </h3>
-                    
-                    <div class="space-y-8">
-                        <div>
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block mb-3">Lag Machine Power</label>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Control Panel -->
+                <div class="lg:col-span-4 bg-brand-card border border-brand-border p-8 rounded-[2rem] flex flex-col justify-between space-y-8">
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold uppercase tracking-wider border-b border-brand-border pb-4 text-white">Control Panel</h3>
+                        
+                        <div class="space-y-4">
+                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">Lag Generator</label>
                             <button 
                                 @click="triggerLag()"
                                 :disabled="isFrozen"
-                                :class="lagOn ? 'bg-red-600 shadow-2xl shadow-red-600/40' : 'bg-zinc-800'"
-                                class="w-full py-5 rounded-2xl font-black transition-all active:scale-95 disabled:opacity-30">
-                                <span x-text="lagOn ? 'STOP MACHINE' : 'START MACHINE'"></span>
+                                :class="lagOn ? 'bg-brand-red shadow-lg shadow-brand-red/35' : 'bg-white/5 border border-white/10 hover:bg-white/10'"
+                                class="w-full py-4 rounded-xl font-black uppercase text-xs tracking-wider transition disabled:opacity-30">
+                                <span x-text="lagOn ? 'Stop Lag Machine' : 'Start Lag Machine'"></span>
                             </button>
                         </div>
 
-                        <div>
-                            <div class="flex justify-between mb-3">
-                                <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Strike Counter</label>
-                                <span class="text-xs font-mono text-red-500" x-text="strikes + '/3'"></span>
+                        <!-- Strikes tracker -->
+                        <div class="space-y-3 pt-4 border-t border-brand-border">
+                            <div class="flex justify-between items-center">
+                                <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Strikes Recorded</label>
+                                <span class="text-xs font-mono text-brand-red font-bold" x-text="strikes + '/3'"></span>
                             </div>
-                            <div class="grid grid-cols-3 gap-3">
-                                <template x-for="i in 3">
-                                    <div :class="strikes >= i ? 'bg-red-600 shadow-sm shadow-red-600/50' : 'bg-zinc-800'" class="h-3 rounded-full transition-all duration-500"></div>
-                                </template>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div :class="strikes >= 1 ? 'bg-brand-red' : 'bg-white/5'" class="h-2 rounded-full transition duration-300"></div>
+                                <div :class="strikes >= 2 ? 'bg-brand-red' : 'bg-white/5'" class="h-2 rounded-full transition duration-300"></div>
+                                <div :class="strikes >= 3 ? 'bg-brand-red' : 'bg-white/5'" class="h-2 rounded-full transition duration-300"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-brand-border pt-6">
+                        <div class="flex justify-between items-center text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-2">
+                            <span>Status</span>
+                            <span :class="isFrozen ? 'text-brand-red' : 'text-emerald-500'" class="font-bold" x-text="isFrozen ? 'BLOCKED' : 'MONITORING'"></span>
+                        </div>
+                        <div class="text-xl font-black tracking-tight text-white" x-text="status"></div>
+                    </div>
+                </div>
+
+                <!-- Simulation Viewport -->
+                <div class="lg:col-span-8 bg-black border border-brand-border p-8 rounded-[2rem] flex flex-col justify-between min-h-[450px] relative overflow-hidden">
+                    <div class="absolute inset-0 bg-brand-red/[0.01] pointer-events-none"></div>
+
+                    <!-- Frozen screen alert overlay -->
+                    <div x-show="isFrozen" x-transition.opacity class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-brand-red/10 backdrop-blur-md text-center p-6">
+                        <div class="w-16 h-16 rounded-full bg-brand-red/20 text-brand-red flex items-center justify-center text-3xl mb-4 animate-bounce">🔒</div>
+                        <h4 class="text-3xl font-black italic uppercase text-white">Chunk Frozen</h4>
+                        <p class="text-zinc-400 text-xs mt-2 font-mono uppercase tracking-widest">Resuming event loop in <span class="text-brand-red font-bold" x-text="freezeTimer"></span> seconds</p>
+                    </div>
+
+                    <!-- Layout Preview details -->
+                    <div class="flex justify-between items-center border-b border-brand-border pb-4 mb-6">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                            <span class="text-[10px] font-mono text-zinc-500 ml-2 uppercase">Chunk Event Console</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-zinc-500">Region [10, -8]</span>
+                    </div>
+
+                    <!-- Simulated Pistons loop visual -->
+                    <div class="flex-grow flex items-center justify-center py-10">
+                        <div class="flex gap-4 md:gap-8">
+                            <div class="flex flex-col gap-3">
+                                <div :class="lagOn ? 'piston-active' : 'bg-zinc-800'" class="w-12 h-12 rounded-xl transition border border-white/5"></div>
+                                <div class="w-12 h-20 bg-zinc-900 rounded-xl relative overflow-hidden border border-white/5">
+                                    <div x-show="lagOn" class="absolute inset-0 bg-brand-red/10 animate-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <div :class="lagOn ? 'piston-active' : 'bg-zinc-800'" class="w-12 h-12 rounded-xl transition border border-white/5"></div>
+                                <div class="w-12 h-20 bg-zinc-900 rounded-xl relative overflow-hidden border border-white/5">
+                                    <div x-show="lagOn" class="absolute inset-0 bg-brand-red/10 animate-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <div :class="lagOn ? 'piston-active' : 'bg-zinc-800'" class="w-12 h-12 rounded-xl transition border border-white/5"></div>
+                                <div class="w-12 h-20 bg-zinc-900 rounded-xl relative overflow-hidden border border-white/5">
+                                    <div x-show="lagOn" class="absolute inset-0 bg-brand-red/10 animate-pulse"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="mt-12 pt-8 border-t border-white/5">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-[10px] font-mono text-zinc-500 uppercase">Status</span>
-                        <span :class="isFrozen ? 'text-red-500' : 'text-emerald-500'" class="text-xs font-bold" x-text="isFrozen ? 'DISABLED' : 'ONLINE'"></span>
-                    </div>
-                    <div class="text-3xl font-black font-mono tracking-tighter truncate" :class="isFrozen ? 'text-red-500' : 'text-white'" x-text="status"></div>
-                    
-                    <div x-show="isFrozen" x-transition class="mt-6 bg-red-600 text-black p-4 rounded-xl text-center font-black">
-                        RESUMING IN: <span x-text="freezeTimer"></span>S
-                    </div>
-                </div>
-            </div>
-
-            <div class="lg:col-span-8 relative min-h-[500px] bg-zinc-950 rounded-3xl border border-white/5 overflow-hidden grid-bg flex items-center justify-center">
-                
-                <div x-show="isFrozen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" class="absolute inset-0 z-20 flex items-center justify-center bg-red-600/10 backdrop-blur-md">
-                    <div class="text-center">
-                        <div class="text-8xl mb-6">🔒</div>
-                        <h4 class="text-5xl font-black italic tracking-tighter">CHUNK BANNED</h4>
-                        <p class="text-red-500 font-mono mt-2 uppercase tracking-widest text-sm">Security protocol active</p>
-                    </div>
-                </div>
-
-                <div class="relative z-10 flex gap-8">
-                    <template x-for="i in 4">
-                        <div class="flex flex-col gap-4">
-                            <div :class="lagOn ? 'piston-active' : 'bg-zinc-800'" class="w-16 h-16 rounded-xl transition-all duration-200 border border-white/5"></div>
-                            <div class="w-16 h-32 bg-zinc-900/50 rounded-xl relative overflow-hidden border border-white/5">
-                                <div x-show="lagOn" class="absolute inset-0 bg-red-600/20 animate-pulse"></div>
-                            </div>
+                    <!-- System parameters metrics -->
+                    <div class="flex justify-between items-end border-t border-brand-border pt-4 mt-6">
+                        <div class="font-mono text-[9px] uppercase tracking-wider text-zinc-500 space-y-1">
+                            <div>Location: Chunk [10, -8]</div>
+                            <div>Events: <span :class="lagOn ? 'text-brand-red' : 'text-emerald-400'" class="font-bold" x-text="lagOn ? '14,200 events/t' : '4 events/t'"></span></div>
                         </div>
-                    </template>
-                </div>
-
-                <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
-                    <div class="font-mono text-[10px] text-zinc-600 space-y-1 uppercase tracking-widest">
-                        <div>Location: Chunk [12, -4]</div>
-                        <div>Events: <span :class="lagOn ? 'text-red-500' : 'text-emerald-500'" x-text="lagOn ? '18,442/t' : '12/t'"></span></div>
-                    </div>
-                    <div class="flex gap-3">
-                        <div class="px-4 py-2 bg-black border border-white/10 rounded-lg text-xs font-mono">TPS: <span :class="lagOn ? 'text-red-500' : 'text-emerald-500'" x-text="lagOn ? '9.4' : '20.0'"></span></div>
-                        <div class="px-4 py-2 bg-black border border-white/10 rounded-lg text-xs font-mono">MSPT: <span :class="lagOn ? 'text-red-500' : 'text-emerald-500'" x-text="lagOn ? '112' : '14'"></span></div>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1.5 bg-zinc-900 text-slate-300 font-mono text-[10px] rounded-lg">TPS: <strong :class="lagOn ? 'text-brand-red' : 'text-emerald-400'" x-text="lagOn ? '11.8' : '20.0'"></strong></span>
+                            <span class="px-3 py-1.5 bg-zinc-900 text-slate-300 font-mono text-[10px] rounded-lg">MSPT: <strong :class="lagOn ? 'text-brand-red' : 'text-emerald-400'" x-text="lagOn ? '89ms' : '8ms'"></strong></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="mt-32 grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div class="glass p-10 rounded-[2.5rem]">
-                <h3 class="text-3xl font-black mb-6 italic underline decoration-red-600 decoration-4 underline-offset-8">THE 3-STRIKE RULE</h3>
-                <p class="text-zinc-400 leading-relaxed text-lg">
-                    CircuitBreaker is fair. If it detects a lag machine, it freezes the chunk for <b>5 seconds</b> to let the server breathe. If the machine turns back on immediately, it happens again. On the 4th violation, the chunk is <b>Banned for 15 minutes</b>.
-                </p>
-            </div>
-            <div class="glass p-10 rounded-[2.5rem] border-amber-500/20">
-                <h3 class="text-3xl font-black mb-6 italic text-amber-500">FOLIA ALERT</h3>
-                <p class="text-zinc-400 leading-relaxed text-lg">
-                    Because Folia uses region-threading, block events are handled asynchronously. CircuitBreaker is <b>not compatible</b> with Folia and will automatically shut itself down if detected to prevent data corruption.
-                </p>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/5 text-center text-zinc-600 text-xs font-mono uppercase tracking-[0.4em]">
-        Built by AJARETRO • Protected by CircuitBreaker
+    <!-- Documentation Hub -->
+    <section id="docs" class="py-24 px-6 md:px-12 bg-zinc-950/40 border-t border-brand-border">
+        <div class="max-w-7xl mx-auto space-y-12" x-data="{
+            activeTab: 'setup',
+            searchQuery: '',
+            expanded: '',
+            commands: [
+                { 
+                    name: '/cb status', 
+                    permission: 'circuitbreaker.status', 
+                    shortDesc: 'Display global TPS, MSPT, and event monitoring statuses.', 
+                    longDesc: 'Reads thread metrics directly from the host JVM process and displays active chunk strike logs. Safe to execute during high server load.',
+                    threadContext: 'Asynchronous task executor (non-blocking)',
+                    timeComplexity: 'O(1) JVM descriptor checks',
+                    memoryComplexity: 'Zero allocation',
+                    howItHolds: 'Polls system status metrics on a separate async thread pool to keep the server free from main thread locks during frame-rate lag.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: [
+                        '[You] executed: /cb status',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[JVM Info]&lt;/span&gt; Accessing Java Runtime instrumentation APIs...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Metrics]&lt;/span&gt; CPU Load: 14.2% | Free Heap: 4.8 GB',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; TPS: <span class=&quot;text-emerald-400 font-bold&quot;&gt;20.0&lt;/span&gt; | Region MSPT: 8.2ms',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; Event strike buffer: 0 active checks'
+                    ]
+                },
+                { 
+                    name: '/cb chunks', 
+                    permission: 'circuitbreaker.chunks', 
+                    shortDesc: 'Lists chunks with active strike logs or frozen blocks.', 
+                    longDesc: 'Scans the internal concurrent hash map where violation strike counters are kept. Renders coordinate listings on the execution thread.',
+                    threadContext: 'Concurrent State Read Loop',
+                    timeComplexity: 'O(C) chunks (where C is loaded chunks)',
+                    memoryComplexity: '< 0.2 KB chunk coordinates registry snapshot',
+                    howItHolds: 'Reads coordinates directly from the internal <code>ConcurrentHashMap</code> block strike records without stopping entity loops. Very light stack footprints.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: [
+                        '[You] executed: /cb chunks',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Cache Scan]&lt;/span&gt; Querying chunk strike registry database...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Result]&lt;/span&gt; Active strikes found: 1 location',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; Marked locations:',
+                        ' - [world] Chunk X: 12, Z: -8 | Ticks: 2 strikes'
+                    ]
+                },
+                { 
+                    name: '/cb release', 
+                    permission: 'circuitbreaker.admin', 
+                    shortDesc: 'Manually unban and clear strikes from a chunk.', 
+                    longDesc: 'Clears the target coordinates key inside monitoring registries, restoring physics listener ticks and block changes in the chunk instantly.',
+                    threadContext: 'Sync status mutation callback',
+                    timeComplexity: 'O(1) hash map removal',
+                    memoryComplexity: 'Zero memory footprint',
+                    howItHolds: 'Removes coordinates key records from monitor indexes inside a single atomic operation, instantly restoring the target chunk tick operations.',
+                    args: '&lt;x&gt; &lt;z&gt; [world]',
+                    argOptions: ['12 -8 world', '0 0 world'],
+                    simSteps: [
+                        '[You] executed: /cb release 12 -8 world',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Mutation]&lt;/span&gt; Triggering atomic coordinate map removal...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Registry]&lt;/span&gt; Coordinates [12, -8] flushed from blacklist',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; Restored tick loop physics for [12, -8] in world.'
+                    ]
+                },
+                { 
+                    name: '/cb freeze', 
+                    permission: 'circuitbreaker.admin', 
+                    shortDesc: 'Instantly freeze all physics, redstone, and entities in a specific chunk.', 
+                    longDesc: 'Places coordinate markers on the block list registry, instantly cancelling block tick updates. Protects the server tick cycle from redstone lag machines.',
+                    threadContext: 'Sync Tick Intercept Thread',
+                    timeComplexity: 'O(1) key write',
+                    memoryComplexity: 'Zero memory footprint',
+                    howItHolds: 'Registers targeted chunk coordinate tags. Toggles custom event listeners which terminate block physics ticks before the server executes their update logic.',
+                    args: '&lt;x&gt; &lt;z&gt; [world]',
+                    argOptions: ['12 -8 world', '0 0 world'],
+                    simSteps: [
+                        '[You] executed: /cb freeze 12 -8 world',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Mutation]&lt;/span&gt; Registering coordinates [12, -8] to blacklist...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Physics Interceptor]&lt;/span&gt; Halting redstone update triggers...',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; Chunk coordinates [12, -8] physics frozen.'
+                    ]
+                },
+                { 
+                    name: '/cb profile', 
+                    permission: 'circuitbreaker.admin', 
+                    shortDesc: 'Launches a 10-second asynchronous snapshot of active chunk updates to detect spike culprits.', 
+                    longDesc: 'Launches a temporary task that intercepts block changes, redstone updates, and entity updates, outputting severe performance leak vectors.',
+                    threadContext: 'Asynchronous Profiler Task',
+                    timeComplexity: 'O(E) event checks',
+                    memoryComplexity: '< 1.2 MB event ring buffer during check',
+                    howItHolds: 'Uses a lightweight pre-allocated ring buffer to log events without allocations. Automatically handles task cleanup to prevent memory exhaustion.',
+                    args: '',
+                    argOptions: ['start', 'stop'],
+                    simSteps: [
+                        '[You] executed: /cb profile start',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Profiler]&lt;/span&gt; Active snapshot monitoring: RUNNING',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Profiler]&lt;/span&gt; Intercepting block physics ticks...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Profiler]&lt;/span&gt; Logging target coordinate sectors...',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; Profiler saved: /plugins/CircuitBreaker/profile.json'
+                    ]
+                },
+                { 
+                    name: '/cb ignore', 
+                    permission: 'circuitbreaker.admin', 
+                    shortDesc: 'Adds a block material to the whitelist to prevent it from counting towards physics spikes.', 
+                    longDesc: 'Excludes specific materials from physics monitoring calculations. Prevents false triggers in player decorations.',
+                    threadContext: 'Sync state config write',
+                    timeComplexity: 'O(1) registry check',
+                    memoryComplexity: 'Zero extra memory',
+                    howItHolds: 'Adds material tags to a thread-safe <code>HashSet</code>. The physics monitoring listener runs an O(1) verify check, returning early if true.',
+                    args: '&lt;block_type&gt;',
+                    argOptions: ['REDSTONE_WIRE', 'PISTON', 'OBSERVER'],
+                    simSteps: [
+                        '[You] executed: /cb ignore REDSTONE_WIRE',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Registry]&lt;/span&gt; Updating whitelist materials HashSet...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Registry]&lt;/span&gt; Material REDSTONE_WIRE registered to bypass list',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; REDSTONE_WIRE will now bypass limits.'
+                    ]
+                },
+                { 
+                    name: '/cb logs', 
+                    permission: 'circuitbreaker.admin', 
+                    shortDesc: 'Displays the last 20 severe server lag-spike event entries with exact stack-trace pointers.', 
+                    longDesc: 'Reads the tail end of the logs file asynchronously, preventing disk read overheads from freezing ticks during frame rate spikes.',
+                    threadContext: 'Asynchronous file read stream',
+                    timeComplexity: 'O(L) entries (L = last 20 log entries)',
+                    memoryComplexity: '< 0.5 KB string arrays',
+                    howItHolds: 'Accesses target file channel buffers asynchronously. Uses primitive byte parsing offsets to query log segments efficiently.',
+                    args: '',
+                    argOptions: ['clear'],
+                    simSteps: [
+                        '[You] executed: /cb logs',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[IO Thread]&lt;/span&gt; Reading circuitbreaker.log async...',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker Log Entries]&lt;/span&gt;',
+                        ' - [2026-06-25 04:12:10] CRITICAL: Chunk [12, -8] exceeded physics threshold (1530 updates/t)',
+                        ' - [2026-06-25 04:12:11] ACTION: Chunk [12, -8] placed on cooldown (Strikes: 3)'
+                    ]
+                },
+                { 
+                    name: '/cb configure', 
+                    permission: 'circuitbreaker.admin', 
+                    shortDesc: 'Dynamically sets event rate limits on-the-fly.', 
+                    longDesc: 'Sets configuration properties dynamically. Injects parameters into active monitors, updating values safely.',
+                    threadContext: 'Atomic configuration parameter updates',
+                    timeComplexity: 'O(1) atomic variable set',
+                    memoryComplexity: 'Zero memory footprint',
+                    howItHolds: 'Modifies atomic integers in the configuration memory model. Event hooks check these values instantly on every tick, adapting thresholds without restart lags.',
+                    args: '&lt;limit&gt; &lt;value&gt;',
+                    argOptions: ['max-block-events-per-tick 1500', 'strike-reset-seconds 600'],
+                    simSteps: [
+                        '[You] executed: /cb configure max-block-events-per-tick 1500',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Config API]&lt;/span&gt; Mutating active max-block-events-per-tick...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Registry]&lt;/span&gt; Parameter updated to 1500',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; Config modified. Updates active.'
+                    ]
+                },
+                { 
+                    name: '/cb reload', 
+                    permission: 'circuitbreaker.admin', 
+                    shortDesc: 'Reloads config settings from disk without restarts.', 
+                    longDesc: 'Triggers configuration reload. Re-reads config parameters from files without interrupting running game tick monitors.',
+                    threadContext: 'Async Disk IO read thread',
+                    timeComplexity: 'O(1) config parser',
+                    memoryComplexity: '< 0.1 MB temporary configuration model',
+                    howItHolds: 'Asynchronously reads the <code>config.yml</code> file from the disk, builds a temporary configuration model, validates values, and swaps the reference atomically.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: [
+                        '[You] executed: /cb reload',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[IO Thread]&lt;/span&gt; Reading plugins/CircuitBreaker/config.yml...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Parser]&lt;/span&gt; Parsing values: monitoring limits...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Registry]&lt;/span&gt; Swapping active configuration model...',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[CircuitBreaker]&lt;/span&gt; Configuration reloaded successfully.'
+                    ]
+                }
+            ],
+            filteredCommands() {
+                if (!this.searchQuery) return this.commands;
+                return this.commands.filter(c => 
+                    c.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                    c.permission.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    c.shortDesc.toLowerCase().includes(this.searchQuery.toLowerCase())
+                );
+            }
+        }">
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white">Documentation Hub</h2>
+                <p class="text-zinc-500 max-w-2xl mx-auto text-sm md:text-base">Comprehensive setup guides, command permissions, and configuration options. Click on a command row to review mechanics.</p>
+            </div>
+
+            <!-- Tab Toggles -->
+            <div class="flex justify-center border-b border-brand-border pb-4">
+                <div class="flex bg-zinc-900/60 p-1.5 rounded-xl border border-brand-border">
+                    <button @click="activeTab = 'setup'" :class="activeTab === 'setup' ? 'bg-brand-red text-white font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Setup</button>
+                    <button @click="activeTab = 'config'" :class="activeTab === 'config' ? 'bg-brand-red text-white font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Configuration</button>
+                    <button @click="activeTab = 'commands'" :class="activeTab === 'commands' ? 'bg-brand-red text-white font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Commands</button>
+                </div>
+            </div>
+
+            <!-- Setup Content -->
+            <div x-show="activeTab === 'setup'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8">
+                <h3 class="text-2xl font-black italic uppercase text-white">Installation & Setup</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm md:text-base leading-relaxed text-slate-300">
+                    <div class="space-y-4">
+                        <h4 class="text-brand-red font-bold uppercase tracking-wider text-xs">Compatibility Info</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Server engine: PaperMC or Purpur (1.16 - 1.21+)</li>
+                            <li>Folia Compatibility: <strong class="text-brand-red">Unsupported</strong> (Disabled automatically to protect threaded chunk data)</li>
+                            <li>Java Version: Java 17 or higher</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-brand-red font-bold uppercase tracking-wider text-xs">Installation Steps</h4>
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li>Download the compiled jar release file.</li>
+                            <li>Place the file into the <code>/plugins</code> directory of your Paper server.</li>
+                            <li>Start or reboot your server to generate configuration logs.</li>
+                            <li>Open <code>config.yml</code> and adjust thresholds matching your hardware specs.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Content -->
+            <div x-show="activeTab === 'config'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-6">
+                <div class="flex justify-between items-center pb-4 border-b border-brand-border">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Config.yml Reference</h3>
+                    <span class="text-[10px] font-mono text-zinc-500">YAML Syntax</span>
+                </div>
+                <pre class="bg-zinc-950 p-6 rounded-xl border border-brand-border text-xs md:text-sm font-mono overflow-x-auto text-brand-red leading-relaxed max-h-[350px] custom-scrollbar"><code># CircuitBreaker Anti-Lag Config
+# Surgical chunk monitoring thresholds
+
+monitoring:
+  # Limit block physics updates (redstone/pistons loops) per chunk per tick
+  max-block-events-per-tick: 1200
+  
+  # Limit entity updates (movement/pathfinding) per chunk per tick
+  max-entity-events-per-tick: 600
+
+actions:
+  # Cooldown duration after which chunk strikes reset (seconds)
+  strike-reset-seconds: 300
+  
+  # Duration to restrict chunk access on 4th strike (minutes)
+  ban-duration-minutes: 15</code></pre>
+            </div>
+
+            <!-- Commands Content -->
+            <div x-show="activeTab === 'commands'" x-transition class="space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-brand-card border border-brand-border p-6 rounded-2xl">
+                    <h3 class="text-xl font-black italic uppercase text-white font-sans">Plugin Command Directory</h3>
+                    <input type="text" x-model="searchQuery" placeholder="Search commands or permissions..." class="w-full sm:w-64 bg-zinc-950 border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-red">
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-[2.5rem] overflow-hidden">
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse text-xs md:text-sm min-w-[650px]">
+                            <thead>
+                                <tr class="bg-white/5 border-b border-brand-border">
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500 w-1/4">Command</th>
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500 w-1/3">Permission</th>
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500">Short Description</th>
+                                </tr>
+                            </thead>
+                            <template x-for="cmd in filteredCommands()" :key="cmd.name">
+                                <tbody class="divide-y divide-brand-border hover:bg-white/[0.005] transition" x-data="{
+                                    detailTab: 'under-the-hood',
+                                    simArgs: '',
+                                    simStatus: 'idle',
+                                    simLogs: [],
+                                    simulate() {
+                                        if (this.simStatus === 'running') return;
+                                        this.simStatus = 'running';
+                                        this.simLogs = [];
+                                        
+                                        let steps = cmd.simSteps;
+                                        let stepIdx = 0;
+                                        let interval = setInterval(() => {
+                                            if (stepIdx < steps.length) {
+                                                this.simLogs.push(steps[stepIdx]);
+                                                stepIdx++;
+                                            } else {
+                                                clearInterval(interval);
+                                                this.simStatus = 'success';
+                                            }
+                                        }, 800);
+                                    }
+                                }" x-init="$watch('expanded', val => { if(val !== cmd.name) { simLogs = []; simStatus = 'idle'; simArgs = ''; } })">
+                                    <!-- Row -->
+                                    <tr @click="expanded = (expanded === cmd.name ? '' : cmd.name)" class="cursor-pointer border-b border-brand-border/40">
+                                        <td class="p-6 font-mono font-bold text-brand-red">
+                                            <div class="flex items-center gap-2">
+                                                <i data-lucide="chevron-right" class="w-4 h-4 transition-transform text-zinc-500" :class="expanded === cmd.name ? 'rotate-90 text-brand-red' : ''"></i>
+                                                <span x-text="cmd.name"></span>
+                                            </div>
+                                        </td>
+                                        <td class="p-6 font-mono text-zinc-500" x-text="cmd.permission"></td>
+                                        <td class="p-6 text-slate-300" x-text="cmd.shortDesc"></td>
+                                    </tr>
+                                    <!-- Expanded detail row -->
+                                    <tr x-show="expanded === cmd.name" x-transition>
+                                        <td colspan="3" class="bg-zinc-950/80 p-8 border-t border-brand-border">
+                                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                                                <!-- Left Info block -->
+                                                <div class="lg:col-span-7 space-y-6">
+                                                    <div class="flex gap-4 border-b border-white/5 pb-3">
+                                                        <button @click="detailTab = 'under-the-hood'" :class="detailTab === 'under-the-hood' ? 'text-brand-red border-b-2 border-brand-red font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">Under the Hood</button>
+                                                        <button @click="detailTab = 'how-it-holds'" :class="detailTab === 'how-it-holds' ? 'text-brand-red border-b-2 border-brand-red font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">How It Holds</button>
+                                                        <button @click="detailTab = 'syntax'" :class="detailTab === 'syntax' ? 'text-brand-red border-b-2 border-brand-red font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">Perms & Syntax</button>
+                                                    </div>
+                                                    
+                                                    <!-- Under the Hood Tab -->
+                                                    <div x-show="detailTab === 'under-the-hood'" class="space-y-4" x-transition>
+                                                        <div class="space-y-1">
+                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Operation Mechanics</h5>
+                                                            <p class="text-slate-300 leading-relaxed font-sans text-xs md:text-sm" x-html="cmd.longDesc"></p>
+                                                        </div>
+                                                        <div class="space-y-1">
+                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500 font-bold">Thread Execution Context</h5>
+                                                            <span class="inline-block px-3 py-1.5 rounded bg-zinc-900 border border-brand-border text-brand-red font-mono text-xs mt-1" x-text="cmd.threadContext"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- How It Holds Tab -->
+                                                    <div x-show="detailTab === 'how-it-holds'" class="space-y-4" x-transition>
+                                                        <div class="space-y-1">
+                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Concurrency Safety & Optimization Invariants</h5>
+                                                            <p class="text-slate-300 leading-relaxed font-sans text-xs md:text-sm" x-html="cmd.howItHolds"></p>
+                                                        </div>
+                                                        <div class="grid grid-cols-2 gap-4 pt-2">
+                                                            <div class="bg-zinc-900/60 p-3 rounded-xl border border-brand-border text-[11px]">
+                                                                <span class="text-zinc-500 block uppercase font-mono text-[9px] tracking-wider mb-1">Time Complexity</span>
+                                                                <span class="text-brand-red font-bold font-mono" x-text="cmd.timeComplexity"></span>
+                                                            </div>
+                                                            <div class="bg-zinc-900/60 p-3 rounded-xl border border-brand-border text-[11px]">
+                                                                <span class="text-zinc-500 block uppercase font-mono text-[9px] tracking-wider mb-1">Heap Allocations</span>
+                                                                <span class="text-brand-red font-bold font-mono" x-text="cmd.memoryComplexity"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Syntax Tab -->
+                                                    <div x-show="detailTab === 'syntax'" class="space-y-4 text-xs font-mono" x-transition>
+                                                        <div class="space-y-1.5">
+                                                            <h5 class="text-[10px] font-sans font-bold text-zinc-500 uppercase tracking-widest">Usage Syntax</h5>
+                                                            <pre class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border text-brand-red" x-text="cmd.name + (cmd.args ? ' ' + cmd.args : '')"></pre>
+                                                        </div>
+                                                        <div class="space-y-1.5">
+                                                            <h5 class="text-[10px] font-sans font-bold text-zinc-500 uppercase tracking-widest">Required Permission Node</h5>
+                                                            <pre class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border text-slate-400" x-text="cmd.permission"></pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Right Console Sandbox -->
+                                                <div class="lg:col-span-5 flex flex-col justify-between bg-zinc-900/60 border border-brand-border p-5 rounded-2xl h-[300px]">
+                                                    <div class="flex justify-between items-center border-b border-white/5 pb-2 mb-3">
+                                                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
+                                                            <span class="w-1.5 h-1.5 bg-brand-red rounded-full inline-block animate-pulse"></span>
+                                                            Interactive Console Simulator
+                                                        </span>
+                                                        <span class="text-[9px] font-mono text-zinc-500">Java Runtime</span>
+                                                    </div>
+                                                    
+                                                    <!-- Terminal Window -->
+                                                    <div class="flex-grow bg-black/80 rounded-xl p-3.5 font-mono text-[11px] overflow-y-auto custom-scrollbar select-none text-slate-300 space-y-1.5">
+                                                        <div class="text-zinc-600">// Select parameters and press \'Run Simulation\'</div>
+                                                        <template x-for="log in simLogs">
+                                                            <div x-html="log"></div>
+                                                        </template>
+                                                        <div x-show="simStatus === 'running'" class="text-brand-red/80 animate-pulse text-[10px]">Calling native JVM instructions...</div>
+                                                    </div>
+
+                                                    <!-- Interactive Controls -->
+                                                    <div class="flex gap-2 mt-4 pt-3 border-t border-white/5">
+                                                        <template x-if="cmd.argOptions && cmd.argOptions.length > 0">
+                                                            <select x-model="simArgs" class="bg-black border border-brand-border rounded-lg px-2.5 py-1.5 text-[11px] font-mono text-slate-300 focus:outline-none focus:border-brand-red flex-grow max-w-[150px]">
+                                                                <option value="">Default Option</option>
+                                                                <template x-for="opt in cmd.argOptions" :key="opt">
+                                                                    <option :value="opt" x-text="opt"></option>
+                                                                </template>
+                                                            </select>
+                                                        </template>
+                                                        <button @click="simulate()" :disabled="simStatus === 'running'" class="flex-grow py-2 bg-brand-red text-white text-[11px] font-black uppercase tracking-wider rounded-lg hover:bg-red-500 transition-all text-center flex items-center justify-center gap-1.5 font-bold">
+                                                            <span x-text="simStatus === 'running' ? 'Executing...' : 'Run Simulation'"></span>
+                                                        </button>
+                                                        <button @click="simLogs = []; simStatus = 'idle'; simArgs = ''" class="px-3 bg-white/5 border border-white/10 text-slate-400 hover:text-white rounded-lg transition-all text-[11px]">
+                                                            Reset
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </template>
+                            <!-- If no results match query -->
+                            <tbody x-show="filteredCommands().length === 0">
+                                <tr>
+                                    <td colspan="3" class="p-12 text-center text-zinc-500 font-bold">No commands matched your query.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
+                Designed for the Multithreaded Era • &copy; 2026<br>
+                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
+            </p>
+        </div>
     </footer>
 
+    <script>
+        lucide.createIcons();
+        document.addEventListener('alpine:initialized', () => {
+            Alpine.effect(() => {
+                lucide.createIcons();
+            });
+        });
+    </script>
 </body>
 </html>

@@ -3,43 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoliaCore | The Native Essentials Suite</title>
+    <title>FoliaCore | Multithreaded Server Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-
-        :root {
-            --folia-green: #10b981;
-            --core-blue: #3b82f6;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #020617;
-            color: #f8fafc;
-            overflow-x: hidden;
-        }
-
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        .glass {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.02) 2px, transparent 2px);
+            background-size: 60px 60px;
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        .region-grid {
-            background-image: 
-                linear-gradient(rgba(16, 185, 129, 0.03) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 2px, transparent 2px);
-            background-size: 80px 80px;
         }
 
         @keyframes pulse-ring {
@@ -56,14 +37,9 @@
             position: absolute;
             left: -100%; top: -100%;
             width: 300%; height: 300%;
-            background-color: var(--folia-green);
+            background-color: #10b981;
             border-radius: 50%;
             animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 8rem);
-            line-height: 0.9;
         }
 
         .custom-scrollbar::-webkit-scrollbar {
@@ -77,347 +53,795 @@
             border-radius: 10px;
         }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ef4444',
+                            dark: '#050508',
+                            card: 'rgba(17, 17, 24, 0.75)',
+                            border: 'rgba(255, 255, 255, 0.04)',
+                            glow: 'rgba(16, 185, 129, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body x-data="{ 
-    legacy: true,
-    ecoBalance: 5240.50,
-    isProcessing: false,
-    chatChannel: 'Global',
-    gpsDist: 482,
-    showDetailedComparison: false
+<body class="bg-brand-dark text-slate-100 font-sans selection:bg-emerald-500 selection:text-white overflow-x-hidden min-h-screen flex flex-col justify-between" x-data="{
+    mobileMenuOpen: false,
+    tabHeaderTheme: 'glow',
+    showTPS: true,
+    showMSPT: true,
+    showThreads: true,
+    pingSpoof: 5,
+    
+    getPingColor() {
+        if (this.pingSpoof < 60) return 'text-emerald-500';
+        if (this.pingSpoof < 180) return 'text-yellow-500';
+        return 'text-brand-red';
+    }
 }">
 
-    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-4">
-        <div class="max-w-[1400px] mx-auto px-8 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="https://raw.githubusercontent.com/AJARETRO/ajaretro.github.io/main/68a15aa3-19e7-4a74-9849-ae75608be367.jpg" alt="FoliaCore Logo" class="w-12 h-12 rounded-xl shadow-lg shadow-emerald-500/20">
-                <span class="text-2xl font-extrabold tracking-tighter uppercase">Folia<span class="text-emerald-500">Core</span></span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</a>
+                <div class="h-6 w-[2px] bg-white/10 mx-3"></div>
+                <span class="text-xs font-bold text-emerald-500 uppercase tracking-[0.3em]">FoliaCore</span>
             </div>
-            <div class="hidden lg:flex items-center gap-10 font-bold text-xs text-zinc-400 uppercase tracking-widest">
-                <a href="#engine" class="hover:text-white transition">Engine</a>
-                <a href="#showcase" class="hover:text-white transition">Showcase</a>
-                <a href="#comparison" class="hover:text-white transition">Benchmark</a>
-                <a href="#commands" class="hover:text-white transition">Terminal</a>
-                <a href="https://github.com/AJARETRO/CircuitBreaker" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition">Source</a>
-                <a href="https://modrinth.com" class="px-6 py-3 bg-emerald-500 text-black rounded-xl hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/20">Modrinth</a>
+            
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex items-center gap-10 font-bold text-xs uppercase tracking-widest text-slate-400">
+                <a href="#performance" class="hover:text-white transition">Concurrency</a>
+                <a href="#hud-customizer" class="hover:text-white transition">HUD Customizer</a>
+                <a href="#docs" class="hover:text-white transition">Docs Hub</a>
+                <a href="modrinth-transfer-foliacore.html" class="px-6 py-3 bg-emerald-500 text-black rounded-xl hover:bg-emerald-400 transition font-black">Get FoliaCore</a>
             </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl bg-zinc-950">
+            <a href="#performance" @click="mobileMenuOpen = false" class="hover:text-white transition">Concurrency</a>
+            <a href="#hud-customizer" @click="mobileMenuOpen = false" class="hover:text-white transition">HUD Customizer</a>
+            <a href="#docs" @click="mobileMenuOpen = false" class="hover:text-white transition">Docs Hub</a>
+            <a href="modrinth-transfer-foliacore.html" class="py-4 bg-emerald-500 text-black text-center rounded-xl transition font-black">Get FoliaCore</a>
         </div>
     </nav>
 
-    <header class="relative pt-64 pb-32 px-8 overflow-hidden region-grid">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1600px] h-[900px] bg-emerald-500/5 blur-[180px] rounded-full -z-10"></div>
+    <!-- Hero -->
+    <header class="relative pt-44 pb-28 px-6 md:px-12 grid-bg overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-emerald-500/5 blur-[120px] rounded-full -z-10"></div>
         
-        <div class="max-w-[1400px] mx-auto text-center relative z-10">
-            <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-black uppercase tracking-[0.3em] mb-12">
-                <span class="glow-point w-2.5 h-2.5 bg-emerald-500 rounded-full inline-block mr-2"></span>
-                The Standard for Multithreaded Excellence
+        <div class="max-w-5xl mx-auto text-center space-y-8 relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest">
+                <span class="glow-point w-2 h-2 bg-emerald-500 rounded-full inline-block mr-1"></span>
+                THREAD-SAFE SERVER SUITE
             </div>
             
-            <h1 class="hero-title font-extrabold tracking-tighter mb-12 uppercase italic">
-                Native. <span class="text-zinc-700">Atomic.</span><br>
-                <span class="gradient-text">Absolute.</span>
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase italic leading-[0.9]">
+                NATIVE. ATOMIC. <br>
+                <span class="gradient-text">ABSOLUTE.</span>
             </h1>
             
-            <p class="text-2xl text-zinc-400 max-w-4xl mx-auto leading-relaxed mb-16 font-medium">
-                Ditch the 2011 monoliths. <b>FoliaCore</b> is a ground-up rewrite of the essential server suite, engineered specifically for the regionized architecture of Folia.
+            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed font-medium">
+                Ditch the legacy sync blockages. FoliaCore is built natively for the multithreaded region loop, processing commands, teleports, and player data on isolated chunk threads.
             </p>
 
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="https://modrinth.com" class="px-16 py-7 bg-emerald-500 text-black font-black uppercase tracking-tighter rounded-3xl hover:scale-110 transition-all shadow-2xl shadow-emerald-500/30 text-xl">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                <a href="modrinth-transfer-foliacore.html" class="px-10 py-5 bg-emerald-500 text-black font-black uppercase tracking-widest rounded-2xl hover:scale-105 transition shadow-xl shadow-emerald-500/20 text-xs">
                     Get FoliaCore
                 </a>
-                <a href="#engine" class="px-16 py-7 bg-white/5 border border-white/10 text-white font-black uppercase tracking-tighter rounded-3xl hover:bg-white/10 transition-all text-xl">
-                    Explore Engine
+                <a href="#hud-customizer" class="px-10 py-5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-2xl hover:bg-white/10 transition text-xs">
+                    Explore Tab HUD
                 </a>
             </div>
         </div>
     </header>
 
-    <section id="comparison" class="py-48 px-8 bg-zinc-950/50">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="text-center mb-24">
-                <h2 class="text-6xl font-black italic mb-6">VS <span class="text-zinc-700">LEGACY</span></h2>
-                <p class="text-xl text-zinc-500">Why FoliaCore wins every single time.</p>
+    <!-- Tech Comparison Section -->
+    <section id="performance" class="py-24 px-6 md:px-12 border-t border-brand-border bg-zinc-950/20">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white">CONCURRENCY BENCHMARKS</h2>
+                <p class="text-zinc-500 max-w-2xl mx-auto text-sm md:text-base">Optimizing server ticks with region-aware asynchronous algorithms.</p>
             </div>
 
-            <div class="glass rounded-[3.5rem] overflow-hidden border-white/5 shadow-2xl">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-white/5">
-                            <th class="p-10 text-xs font-black uppercase tracking-widest text-zinc-500 border-b border-white/5">Capability</th>
-                            <th class="p-10 text-xs font-black uppercase tracking-widest text-zinc-500 border-b border-white/5">Legacy (EssentialsX/CMI)</th>
-                            <th class="p-10 text-xs font-black uppercase tracking-widest text-emerald-500 border-b border-emerald-500/10">FoliaCore Native</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-lg">
-                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
-                            <td class="p-10 font-bold">Architecture</td>
-                            <td class="p-10 text-zinc-500">Single-Thread Monolith</td>
-                            <td class="p-10 text-emerald-400 font-bold">Regionized Multithreading</td>
-                        </tr>
-                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
-                            <td class="p-10 font-bold">Teleportation</td>
-                            <td class="p-10 text-zinc-500 italic">Sync (Main Thread Lock)</td>
-                            <td class="p-10 text-emerald-400 font-bold">Async (teleportAsync Native)</td>
-                        </tr>
-                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
-                            <td class="p-10 font-bold">Economy Flow</td>
-                            <td class="p-10 text-zinc-500">Global State (Dupes on Folia)</td>
-                            <td class="p-10 text-emerald-400 font-bold">AtomicLong Data Sets</td>
-                        </tr>
-                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
-                            <td class="p-10 font-bold">Command Delay</td>
-                            <td class="p-10 text-zinc-500">Global Warmup</td>
-                            <td class="p-10 text-emerald-400 font-bold">Thread-Specific Schedulers</td>
-                        </tr>
-                        <tr class="hover:bg-white/[0.02] transition">
-                            <td class="p-10 font-bold">Navigation</td>
-                            <td class="p-10 text-zinc-500">Coordinates Only</td>
-                            <td class="p-10 text-emerald-400 font-bold">Native Action-Bar GPS</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+                <!-- Info cards -->
+                <div class="space-y-6">
+                    <div class="bg-brand-card border border-brand-border p-8 rounded-3xl space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-emerald-400 text-lg">⚡</span>
+                            <h3 class="text-xl font-bold text-white">Async Teleportation Loop</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            FoliaCore schedules chunk loading before relocating the player entity. By executing asynchronous thread checks, the main region thread remains responsive, preventing server-wide frame spikes.
+                        </p>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-8 rounded-3xl space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-blue-400 text-lg">⚙️</span>
+                            <h3 class="text-xl font-bold text-white">Atomic State Database</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Uses Vault-compatible <code>AtomicLong</code> indices to register currency changes instantly across region cores, guaranteeing transaction safety even under heavy query loads.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Specs Comparison table -->
+                <div class="bg-brand-card border border-brand-border rounded-[2rem] overflow-hidden flex flex-col justify-between">
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse text-xs md:text-sm min-w-[500px]">
+                            <thead>
+                                <tr class="bg-white/5 border-b border-brand-border">
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500">Operation</th>
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500">Legacy Plugins</th>
+                                    <th class="p-6 font-bold uppercase tracking-widest text-emerald-400">FoliaCore</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-brand-border">
+                                <tr>
+                                    <td class="p-6 font-bold text-white">Warp Loop</td>
+                                    <td class="p-6 text-zinc-500">Sync Thread Block</td>
+                                    <td class="p-6 text-emerald-400 font-bold">Async teleportAsync</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-6 font-bold text-white">Balances</td>
+                                    <td class="p-6 text-zinc-500">File locks (Race condition)</td>
+                                    <td class="p-6 text-emerald-400 font-bold">Thread-Safe Memory Arrays</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-6 font-bold text-white">Scheduling</td>
+                                    <td class="p-6 text-zinc-500">Global BukkitScheduler</td>
+                                    <td class="p-6 text-emerald-400 font-bold">Region Schedulers</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="engine" class="py-48 px-8 border-y border-white/5 relative">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-                <div class="space-y-12">
-                    <h2 class="text-7xl font-extrabold italic leading-tight">Native <span class="text-emerald-500">Concurrency.</span></h2>
-                    <p class="text-zinc-400 text-xl leading-relaxed">
-                        In legacy servers, everything runs on one thread. In Folia, every group of chunks is its own heartbeat. FoliaCore talks to these hearts directly.
-                    </p>
-                    
-                    <div class="grid grid-cols-1 gap-8">
-                        <div class="glass p-10 rounded-[2.5rem] border-emerald-500/30">
-                            <h4 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                                <span class="text-emerald-500">⚡</span> 100% Async Teleportation
-                            </h4>
-                            <p class="text-zinc-500 text-lg">We use <code>teleportAsync</code> to load chunks on worker threads before moving the player. Result: No stutter. No main-thread lock.</p>
+    <!-- Interactive HUD Customizer -->
+    <section id="hud-customizer" class="py-24 px-6 md:px-12 bg-brand-dark/50 border-t border-brand-border">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white">Visual Customizer Demo</h2>
+                <p class="text-zinc-500 max-w-2xl mx-auto text-sm md:text-base">FoliaCore handles advanced player scoreboards, tab designs, and ping spoofing. Test the rendering parameters below.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+                <!-- Customization Panel -->
+                <div class="lg:col-span-5 bg-brand-card border border-brand-border p-8 rounded-[2.5rem] flex flex-col justify-between space-y-8">
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold uppercase tracking-wider border-b border-brand-border pb-4 text-white">HUD Settings</h3>
+                        
+                        <!-- Tab Header Select -->
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block">Tab Header Theme</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button @click="tabHeaderTheme = 'glow'" :class="tabHeaderTheme === 'glow' ? 'bg-emerald-500 text-black font-bold' : 'bg-white/5 border border-white/10 text-slate-400'" class="py-2.5 rounded-lg text-xs transition uppercase">Glow</button>
+                                <button @click="tabHeaderTheme = 'rainbow'" :class="tabHeaderTheme === 'rainbow' ? 'bg-emerald-500 text-black font-bold' : 'bg-white/5 border border-white/10 text-slate-400'" class="py-2.5 rounded-lg text-xs transition uppercase">Wave</button>
+                                <button @click="tabHeaderTheme = 'static'" :class="tabHeaderTheme === 'static' ? 'bg-emerald-500 text-black font-bold' : 'bg-white/5 border border-white/10 text-slate-400'" class="py-2.5 rounded-lg text-xs transition uppercase">Static</button>
+                            </div>
                         </div>
-                        <div class="glass p-10 rounded-[2.5rem] border-blue-500/30">
-                            <h4 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                                <span class="text-blue-500">🛡️</span> Atomic State Management
-                            </h4>
-                            <p class="text-zinc-500 text-lg">Cross-region data (like balances) are stored using <b>AtomicLongs</b>. You can process 1,000 payments per second without a single race condition.</p>
+
+                        <!-- Sidebar Info Toggles -->
+                        <div class="space-y-4 pt-4 border-t border-brand-border">
+                            <label class="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block">Scoreboard Toggles</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 text-sm text-slate-300 cursor-pointer">
+                                    <input type="checkbox" x-model="showTPS" class="rounded bg-zinc-900 border-white/10 text-emerald-500 focus:ring-0">
+                                    <span>Display TPS</span>
+                                </label>
+                                <label class="flex items-center gap-3 text-sm text-slate-300 cursor-pointer">
+                                    <input type="checkbox" x-model="showMSPT" class="rounded bg-zinc-900 border-white/10 text-emerald-500 focus:ring-0">
+                                    <span>Display Region MSPT</span>
+                                </label>
+                                <label class="flex items-center gap-3 text-sm text-slate-300 cursor-pointer">
+                                    <input type="checkbox" x-model="showThreads" class="rounded bg-zinc-900 border-white/10 text-emerald-500 focus:ring-0">
+                                    <span>Display Active Threads</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Ping Spoof Slider -->
+                        <div class="space-y-3 pt-4 border-t border-brand-border">
+                            <div class="flex justify-between">
+                                <label class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Spoofed Ping</label>
+                                <span class="text-xs font-mono text-emerald-400" x-text="pingSpoof + ' ms'"></span>
+                            </div>
+                            <input type="range" min="1" max="500" x-model="pingSpoof" class="w-full accent-emerald-500 bg-zinc-900 h-1.5 rounded-lg appearance-none cursor-pointer">
                         </div>
                     </div>
                 </div>
 
-                <div class="relative">
-                    <div class="glass rounded-[3rem] p-12 border-white/10 relative overflow-hidden">
-                        <div class="grid grid-cols-4 gap-4 mb-12">
-                            <template x-for="i in 16">
-                                <div :class="legacy && i !== 6 ? 'opacity-20' : 'opacity-100'" class="aspect-square rounded-xl bg-zinc-900 border border-white/5 relative flex items-center justify-center transition-all duration-700 overflow-hidden">
-                                    <div x-show="!legacy" class="absolute inset-0 bg-emerald-500/5 animate-pulse"></div>
-                                    <div :class="!legacy ? 'bg-emerald-500' : 'bg-red-500'" class="w-1.5 h-1.5 rounded-full shadow-[0_0_10px_currentColor]"></div>
-                                </div>
+                <!-- Preview Board -->
+                <div class="lg:col-span-7 bg-black border border-brand-border p-8 rounded-[2.5rem] flex flex-col justify-between min-h-[400px]">
+                    <!-- Window Top Header -->
+                    <div class="flex items-center justify-between border-b border-brand-border pb-4 mb-6">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                            <span class="text-[10px] font-mono text-zinc-500 ml-2 uppercase">Scoreboard HUD Preview</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-zinc-500">Java Edition 1.21</span>
+                    </div>
+
+                    <!-- HUD Rendering Frame -->
+                    <div class="flex-grow flex flex-col justify-between font-mono text-sm leading-relaxed p-6 bg-zinc-950 rounded-2xl border border-white/5 relative overflow-hidden">
+                        
+                        <!-- TAB HEADER PREVIEW -->
+                        <div class="text-center pb-6 border-b border-white/5">
+                            <template x-if="tabHeaderTheme === 'glow'">
+                                <div class="text-emerald-400 font-bold text-center animate-pulse">★ Welcome to AJA RETRO Multithreaded Core ★</div>
+                            </template>
+                            <template x-if="tabHeaderTheme === 'rainbow'">
+                                <div class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-emerald-400 to-blue-500 font-bold text-center">~ Dynamic Performance Nodes Active ~</div>
+                            </template>
+                            <template x-if="tabHeaderTheme === 'static'">
+                                <div class="text-zinc-400 text-center font-mono">ajaretro.dev | Port: 25565</div>
                             </template>
                         </div>
-                        
-                        <div class="flex justify-between items-center bg-black/50 p-6 rounded-2xl border border-white/5">
-                            <div>
-                                <div class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Execution Mode</div>
-                                <div class="font-black text-xl italic" :class="legacy ? 'text-red-500' : 'text-emerald-500'" x-text="legacy ? 'SINGLE CORE BLOCK' : 'MULTI-REGION PARALLEL'"></div>
+
+                        <!-- MAIN DISPLAY SECTION -->
+                        <div class="flex flex-col md:flex-row justify-between gap-6 py-6">
+                            <!-- Players List (Tab list view) -->
+                            <div class="flex-1 space-y-2">
+                                <div class="text-xs text-zinc-500 uppercase tracking-wider font-bold mb-3">Online Players (Tablist)</div>
+                                <div class="flex justify-between items-center text-xs bg-white/5 p-2 rounded-md">
+                                    <span class="font-bold text-slate-200">Player_1</span>
+                                    <span class="text-emerald-500">12 ms</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs bg-white/5 p-2 rounded-md">
+                                    <span class="font-bold text-slate-200">Niloy</span>
+                                    <span class="font-bold font-mono transition" :class="getPingColor()" x-text="pingSpoof + ' ms'"></span>
+                                </div>
                             </div>
-                            <button @click="legacy = !legacy" class="px-6 py-3 bg-white text-black font-black rounded-xl text-xs uppercase tracking-widest hover:scale-105 transition-all">
-                                Toggle Sim
-                            </button>
+
+                            <!-- Sidebar Scoreboard View -->
+                            <div class="bg-black/80 border border-amber-500/20 p-4 rounded-xl w-full md:w-56 shrink-0 relative">
+                                <div class="text-center font-bold text-amber-500 text-xs border-b border-amber-500/20 pb-2 mb-3">SERVER METRICS</div>
+                                <div class="space-y-2 text-[11px]">
+                                    <template x-if="showTPS">
+                                        <div class="flex justify-between">
+                                            <span class="text-zinc-500">TPS:</span>
+                                            <span class="text-emerald-400 font-bold">20.0</span>
+                                        </div>
+                                    </template>
+                                    <template x-if="showMSPT">
+                                        <div class="flex justify-between">
+                                            <span class="text-zinc-500">Region MSPT:</span>
+                                            <span class="text-emerald-400 font-bold">9.2 ms</span>
+                                        </div>
+                                    </template>
+                                    <template x-if="showThreads">
+                                        <div class="flex justify-between">
+                                            <span class="text-zinc-500">Threads:</span>
+                                            <span class="text-blue-400 font-bold">Region-Async</span>
+                                        </div>
+                                    </template>
+                                    <div class="flex justify-between border-t border-white/5 pt-2">
+                                        <span class="text-zinc-500">Server Node:</span>
+                                        <span class="text-amber-500 font-bold">Paper-Spigot</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="showcase" class="py-48 px-8">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="text-center mb-32">
-                <h2 class="text-7xl font-black italic mb-6">Interactive <span class="text-emerald-500">Showcase</span></h2>
-                <p class="text-2xl text-zinc-500 font-medium max-w-3xl mx-auto leading-relaxed">Everything you need, none of the legacy bloat. Optimized for Java 21.</p>
+    <!-- Documentation Hub -->
+    <section id="docs" class="py-24 px-6 md:px-12 bg-zinc-950/40 border-t border-brand-border">
+        <div class="max-w-7xl mx-auto space-y-12" x-data="{
+            activeTab: 'setup',
+            searchQuery: '',
+            expanded: '',
+            commands: [
+                { 
+                    name: '/spawn', 
+                    permission: 'foliacore.spawn', 
+                    shortDesc: 'Teleports you to the server spawn location.', 
+                    longDesc: 'Triggers an async chunk loading queue targeting the spawn coordinates configuration. Once chunks are fully loaded in the thread context, the player coordinates are updated safely.',
+                    threadContext: 'Async Region Thread (RegionScheduler)',
+                    timeComplexity: 'O(log N) chunk coordinate mapping',
+                    memoryComplexity: '< 0.05 KB object retention',
+                    howItHolds: 'Mutates player location using Folia\'s <code>teleportAsync</code> API. It loads target chunk async before warping, resolving the legacy Bukkit tick-lock problem. Player inputs are intercepted and lock-checked to prevent race conditions during teleport delays.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: [
+                        '[You] executed: /spawn',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[JVM Thread]&lt;/span&gt; Dispatched Event to RegionScheduler',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Async Task]&lt;/span&gt; Pre-loading target spawn chunks...',
+                        '<span class=&quot;text-emerald-400&quot;&gt;[FoliaCore]&lt;/span&gt; Teleporting in 3s. Stay still...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[2.0s]&lt;/span&gt; Chunks loaded successfully.',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[3.0s]&lt;/span&gt; Handing off Player Entity to target Region...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Teleport successful!'
+                    ]
+                },
+                { 
+                    name: '/warp', 
+                    permission: 'foliacore.warp', 
+                    shortDesc: 'Teleports you to a specific saved warp spot.', 
+                    longDesc: 'Queries the warp location database, schedules an async chunk pre-load callback on the target location. Reduces CPU freeze during teleport transitions.',
+                    threadContext: 'Asynchronous Chunk Loader Task',
+                    timeComplexity: 'O(1) database lookup + async disk pre-load',
+                    memoryComplexity: '< 0.1 KB per warp record',
+                    howItHolds: 'Warp locations are fetched from a read-optimized, thread-safe memory registry. Preloading chunk sectors reduces disk seek queue latency during cross-region transitions, preserving high tick rates.',
+                    args: '&lt;name&gt;',
+                    argOptions: ['survival', 'pvp_arena', 'vip_lounge', 'shop'],
+                    simSteps: [
+                        '[You] executed: /warp survival',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[DB API]&lt;/span&gt; Querying warp location registry...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Async Thread]&lt;/span&gt; Coordinates found: X: -200, Z: 540',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Async Thread]&lt;/span&gt; Preparing chunk loading context...',
+                        '<span class=&quot;text-emerald-400&quot;&gt;[FoliaCore]&lt;/span&gt; Preparing teleport to warp \'survival\'...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Teleport successful!'
+                    ]
+                },
+                { 
+                    name: '/kit', 
+                    permission: 'foliacore.kit', 
+                    shortDesc: 'Claims item stacks predefined in configuration arrays.', 
+                    longDesc: 'Loads items arrays, performs cooldown verification, and injects item descriptors directly into player slots on the region tick.',
+                    threadContext: 'Active Region Tick Thread (EntityScheduler)',
+                    timeComplexity: 'O(I) item loops (where I is items in kit)',
+                    memoryComplexity: 'Zero heap allocations (uses pre-cached item stacks)',
+                    howItHolds: 'Prevents item duplication exploits on Folia by forcing inventory transaction checks inside the entity tick. Kit claiming cooldowns are cached in a thread-safe <code>ConcurrentHashMap</code> backed by atomic saves to flatfiles.',
+                    args: '&lt;name&gt;',
+                    argOptions: ['starter', 'vip', 'elite', 'legendary'],
+                    simSteps: [
+                        '[You] executed: /kit starter',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Cache Check]&lt;/span&gt; Verifying cooldown lock...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Atomic Register]&lt;/span&gt; Lock cleared (No active cooldown)',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Entity Thread]&lt;/span&gt; Opening secure inventory mutation window...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Kit \'starter\' claimed! (Cooldown: 24h)'
+                    ]
+                },
+                { 
+                    name: '/ping', 
+                    permission: 'foliacore.ping', 
+                    shortDesc: 'Calculates active network connection latency values.', 
+                    longDesc: 'Accesses target player connection socket descriptor to parse native ping statistics without generating scheduler ticks.',
+                    threadContext: 'Atomic Thread-Safe read operation',
+                    timeComplexity: 'O(1) memory lookup',
+                    memoryComplexity: 'Zero allocation (primitive return)',
+                    howItHolds: 'Reads latency statistics straight from the underlying client socket wrapper. It does not spawn ticks, run schedulers, or invoke blocking operations, making it completely immune to load spikes.',
+                    args: '[player]',
+                    argOptions: ['Niloy', 'Juhaed', 'Ayeman'],
+                    simSteps: [
+                        '[You] executed: /ping Niloy',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Socket API]&lt;/span&gt; Pulling client connection channel descriptors...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[TCP Metrics]&lt;/span&gt; Active TCP roundtrip: 12ms',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Niloy\'s ping: 12ms'
+                    ]
+                },
+                { 
+                    name: '/fly', 
+                    permission: 'foliacore.fly', 
+                    shortDesc: 'Enables or disables standard survival flight modes.', 
+                    longDesc: 'Toggles allowFlight parameter flags inside the player properties model. Safely mutates player states across thread loops.',
+                    threadContext: 'Entity Region Tick Context',
+                    timeComplexity: 'O(1) boolean mutate',
+                    memoryComplexity: 'Zero heap footprint',
+                    howItHolds: 'Updates flying flags inside the native player properties record. The flight listener intercepts velocity modification packets, updating physics contexts concurrently.',
+                    args: '[player]',
+                    argOptions: ['enable', 'disable'],
+                    simSteps: [
+                        '[You] executed: /fly',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Player Tick]&lt;/span&gt; Intercepting flight properties model...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Physics API]&lt;/span&gt; Recalculating gravity vectors...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Flight mode: ENABLED'
+                    ]
+                },
+                { 
+                    name: '/heal', 
+                    permission: 'foliacore.heal', 
+                    shortDesc: 'Restores health, food, and active potion effects.', 
+                    longDesc: 'Resets health attributes to max, sets food level to 20, and removes negative potion effects during current region tick.',
+                    threadContext: 'Entity Mutator (Region Tick)',
+                    timeComplexity: 'O(1) attribute modifications',
+                    memoryComplexity: 'Zero heap allocations',
+                    howItHolds: 'Performs double-locking checks to ensure entity fields are mutated safely inside the tick lifecycle. Removes active potion effects securely from tick buffers.',
+                    args: '[player]',
+                    argOptions: ['Niloy', 'Self'],
+                    simSteps: [
+                        '[You] executed: /heal',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Region Tick]&lt;/span&gt; Mutating entity health points: 20/20',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Region Tick]&lt;/span&gt; Mutating food exhaustion metric: 0.0',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Potion API]&lt;/span&gt; Flushing active negative status maps...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Health and food restored!'
+                    ]
+                },
+                { 
+                    name: '/workbench', 
+                    permission: 'foliacore.workbench', 
+                    shortDesc: 'Opens a mobile crafting interface screen.', 
+                    longDesc: 'Instantiates virtual crafting GUI block, hooks into player transaction registers directly inside region thread loops.',
+                    threadContext: 'Inventory UI container transaction',
+                    timeComplexity: 'O(1) screen instantiator',
+                    memoryComplexity: '< 0.4 KB temporary screen buffer',
+                    howItHolds: 'Spawns a decoupled virtual crafting table interface container. Intercepts transaction events using transactional event checks, preventing inventory item duplication exploits.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: [
+                        '[You] executed: /workbench',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[GUI Thread]&lt;/span&gt; Instantiating container layout...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Region Tick]&lt;/span&gt; Hooking transaction intercepts...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Opened virtual workbench.'
+                    ]
+                },
+                { 
+                    name: '/enderchest', 
+                    permission: 'foliacore.enderchest', 
+                    shortDesc: 'Opens your ender chest vault container.', 
+                    longDesc: 'Retrieves deserialized enderChest inventory object and renders container canvas on region core threads.',
+                    threadContext: 'EnderChest Inventory container callback thread',
+                    timeComplexity: 'O(1) lookup',
+                    memoryComplexity: 'Zero extra heap allocations',
+                    howItHolds: 'Reads the player\'s deserialized ender chest array directly from player files, rendering slots in the interface. Locks transaction actions inside the active region container.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: [
+                        '[You] executed: /enderchest',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[DB API]&lt;/span&gt; Fetching ender chest database records...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Inventory Loop]&lt;/span&gt; Binding slots to UI...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Opened Ender Chest vault.'
+                    ]
+                },
+                { 
+                    name: '/trash', 
+                    permission: 'foliacore.trash', 
+                    shortDesc: 'Opens trash disposal container GUI.', 
+                    longDesc: 'Opens an empty transaction container. Items left inside are discarded on close callback to prevent memory leaking.',
+                    threadContext: 'Temporary inventory garbage collector',
+                    timeComplexity: 'O(1) screen allocation',
+                    memoryComplexity: '< 0.2 KB container instance',
+                    howItHolds: 'Opens a clean virtual inventory canvas. Garbage collection flags items left inside as eligible for JVM GC when closed, avoiding memory leaks.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: [
+                        '[You] executed: /trash',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[UI Engine]&lt;/span&gt; Allocating disposal screen...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Event Loop]&lt;/span&gt; Item destruction hooks registered',
+                        '<span class=&quot;text-emerald-400&quot;&gt;[FoliaCore]&lt;/span&gt; Opened trash container.'
+                    ]
+                },
+                { 
+                    name: '/vanish', 
+                    permission: 'foliacore.vanish', 
+                    shortDesc: 'Hides player models and coordinates from user lists.', 
+                    longDesc: 'Removes player entity updates from visual pipelines and hides player list slots globally across all server clusters.',
+                    threadContext: 'Global player routing context',
+                    timeComplexity: 'O(P) connection checks (P = player count)',
+                    memoryComplexity: 'Zero footprint (toggles primitive markers)',
+                    howItHolds: 'Toggles visibility settings, sending NMS entity destroy packets for the vanished player to other clients. Packet channels are intercepted in Nio pipelines to prevent location leak packets.',
+                    args: '',
+                    argOptions: ['status'],
+                    simSteps: [
+                        '[You] executed: /vanish',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Network Thread]&lt;/span&gt; Toggling visibility bits...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Packet Interceptor]&lt;/span&gt; Dispatching EntityDestroy packet to all players',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Packet Interceptor]&lt;/span&gt; Blocking coordinate trackers...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Vanish mode: ENABLED'
+                    ]
+                },
+                { 
+                    name: '/createkit', 
+                    permission: 'foliacore.admin.kit', 
+                    shortDesc: 'Saves your current hotbar configurations as a kit.', 
+                    longDesc: 'Converts item stacks inside inventory arrays to serialized configurations and writes output to config files asynchronously.',
+                    threadContext: 'Asynchronous File IO operation',
+                    timeComplexity: 'O(I) item checks + async disk write',
+                    memoryComplexity: '< 1.5 KB configuration write buffer',
+                    howItHolds: 'Reads the player\'s active inventory stack parameters, serializes item descriptors to key-value structures, and hands it off to an asynchronous disk thread to prevent file IO latency spikes on the main thread.',
+                    args: '&lt;name&gt;',
+                    argOptions: ['new_starter', 'test_kit'],
+                    simSteps: [
+                        '[You] executed: /createkit test_kit',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Entity Thread]&lt;/span&gt; Scanning player inventory layout...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Serializer]&lt;/span&gt; Encoding 36 items to YAML format...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Async IO]&lt;/span&gt; Queueing write task to kits.yml...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Kit \'test_kit\' saved successfully!'
+                    ]
+                },
+                { 
+                    name: '/antiraid', 
+                    permission: 'foliacore.admin.antiraid', 
+                    shortDesc: 'Locks down server placements and entity interactions.', 
+                    longDesc: 'Toggles a global security intercept flag. When active, all incoming block placement, break, and entity interaction events from non-admins are blocked.',
+                    threadContext: 'Atomic global configuration intercept',
+                    timeComplexity: 'O(1) atomic check',
+                    memoryComplexity: 'Zero extra memory',
+                    howItHolds: 'Toggles an atomic boolean flag. When active, high-frequency listeners (block placement, breaks, redstone ticks) terminate instantly on evaluation, blocking malicious movements within nanoseconds without lag.',
+                    args: '',
+                    argOptions: ['enable', 'disable'],
+                    simSteps: [
+                        '[You] executed: /antiraid',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Security Core]&lt;/span&gt; Toggling atomic intercept block...',
+                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[FoliaCore] SECURITY ALARM: Anti-Raid mode toggled ON!&lt;/span&gt;',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Monitor]&lt;/span&gt; Active block placement events blocked: 0',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Monitor]&lt;/span&gt; Active entity spawn events blocked: 0'
+                    ]
+                }
+            ],
+            filteredCommands() {
+                if (!this.searchQuery) return this.commands;
+                return this.commands.filter(c => 
+                    c.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                    c.permission.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    c.shortDesc.toLowerCase().includes(this.searchQuery.toLowerCase())
+                );
+            }
+        }">
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white">Documentation Hub</h2>
+                <p class="text-zinc-500 max-w-2xl mx-auto text-sm md:text-base">Comprehensive setup guides, command parameters, and configuration files. Click on any command to expand details.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-4 glass p-12 rounded-[3.5rem] flex flex-col justify-between">
-                    <div>
-                        <div class="text-4xl mb-8">💰</div>
-                        <h3 class="text-3xl font-black mb-4 italic">Atomic Economy</h3>
-                        <p class="text-zinc-400 text-lg leading-relaxed mb-10">Vault provider built into the core. No external database needed for lightning-fast concurrent transactions.</p>
-                    </div>
-                    <div class="bg-black/50 p-8 rounded-3xl border border-white/5">
-                        <div class="flex justify-between mb-4">
-                            <span class="text-xs text-zinc-500 font-mono uppercase">User Balance</span>
-                            <span class="text-emerald-400 font-mono" x-text="'$' + ecoBalance.toFixed(2)"></span>
-                        </div>
-                        <button 
-                            @click="isProcessing = true; setTimeout(() => { ecoBalance -= 50; isProcessing = false }, 400)"
-                            :disabled="isProcessing"
-                            class="w-full py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 font-black text-sm uppercase hover:bg-emerald-500 hover:text-black transition-all">
-                            <span x-text="isProcessing ? 'Processing...' : 'Simulate /pay $50'"></span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-4 glass p-12 rounded-[3.5rem] flex flex-col justify-between border-blue-500/20 bg-blue-500/5">
-                    <div>
-                        <div class="text-4xl mb-8">🧭</div>
-                        <h3 class="text-3xl font-black mb-4 italic text-blue-400">Action Bar GPS</h3>
-                        <p class="text-zinc-300 text-lg leading-relaxed mb-10">Real-time navigation without scoreboard spam. A minimalist action-bar compass that updates on region tick.</p>
-                    </div>
-                    <div class="bg-zinc-950 p-8 rounded-3xl border border-blue-500/20">
-                        <input type="range" x-model="gpsDist" min="0" max="1000" class="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500 mb-6">
-                        <div class="text-center font-mono">
-                            <div class="text-zinc-600 text-[10px] mb-2 uppercase tracking-widest">In-Game Preview</div>
-                            <div class="text-emerald-400 text-lg tracking-[0.6em]">
-                                [ S &nbsp; <span class="text-blue-500 animate-pulse">▲</span> &nbsp; SW ]
-                            </div>
-                            <div class="text-xs text-zinc-500 mt-2" x-text="'Distance: ' + gpsDist + 'm'"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-4 glass p-12 rounded-[3.5rem] flex flex-col justify-between">
-                    <div>
-                        <div class="text-4xl mb-8">💬</div>
-                        <h3 class="text-3xl font-black mb-4 italic">Social Hub</h3>
-                        <p class="text-zinc-400 text-lg leading-relaxed mb-10">Advanced chat channels with async formatting. Switch between Global, World, and Regional talk seamlessly.</p>
-                    </div>
-                    <div class="bg-black/50 p-6 rounded-3xl border border-white/5 space-y-3">
-                        <template x-for="ch in ['Global', 'World', 'Local']">
-                            <button 
-                                @click="chatChannel = ch"
-                                :class="chatChannel === ch ? 'bg-zinc-800 text-white border-white/20' : 'text-zinc-500 border-transparent'"
-                                class="w-full py-2 px-4 rounded-lg border text-xs font-bold transition-all text-left flex justify-between uppercase tracking-widest">
-                                <span x-text="ch"></span>
-                                <span x-show="chatChannel === ch" class="text-emerald-500">Active</span>
-                            </button>
-                        </template>
-                    </div>
+            <!-- Tab Toggles -->
+            <div class="flex justify-center border-b border-brand-border pb-4">
+                <div class="flex bg-zinc-900/60 p-1.5 rounded-xl border border-brand-border">
+                    <button @click="activeTab = 'setup'" :class="activeTab === 'setup' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Setup</button>
+                    <button @click="activeTab = 'config'" :class="activeTab === 'config' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Configuration</button>
+                    <button @click="activeTab = 'commands'" :class="activeTab === 'commands' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Commands</button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="commands" class="py-48 px-8 bg-zinc-950/50">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-20">
-                <div class="lg:col-span-5">
-                    <h2 class="text-6xl font-black italic mb-8 uppercase tracking-tighter text-emerald-500">The Core<br><span class="text-white underline decoration-white/10 underline-offset-8">Terminal.</span></h2>
-                    <p class="text-zinc-400 text-xl leading-relaxed mb-12">Total transparency on permissions. Most player commands are enabled by default for a plug-and-play experience.</p>
-                    
+            <!-- Setup Content -->
+            <div x-show="activeTab === 'setup'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8">
+                <h3 class="text-2xl font-black italic uppercase text-white">Installation & Setup</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm md:text-base leading-relaxed text-slate-300">
                     <div class="space-y-4">
-                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all cursor-default">
-                            <div class="font-mono text-emerald-500 text-sm mb-1">foliacore.tpa</div>
-                            <div class="text-zinc-300 font-bold">Teleportation access</div>
-                        </div>
-                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all cursor-default">
-                            <div class="font-mono text-emerald-500 text-sm mb-1">foliacore.gps</div>
-                            <div class="text-zinc-300 font-bold">Navigation tools</div>
-                        </div>
-                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all cursor-default">
-                            <div class="font-mono text-emerald-500 text-sm mb-1">foliacore.eco</div>
-                            <div class="text-zinc-300 font-bold">Admin economy control</div>
-                        </div>
+                        <h4 class="text-emerald-400 font-bold uppercase tracking-wider text-xs">Requirements</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Folia Server Software (or Paper/Spigot build 1.20+)</li>
+                            <li>Java 21 Runtime Environment</li>
+                            <li>Vault Plugin (optional, for economy hooks)</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-emerald-400 font-bold uppercase tracking-wider text-xs">Step-by-step</h4>
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li>Download the latest release jar of FoliaCore.</li>
+                            <li>Place the jar into the <code>/plugins</code> directory.</li>
+                            <li>Restart the server node to generate configuration files.</li>
+                            <li>Edit <code>plugins/FoliaCore/config.yml</code> to customize settings.</li>
+                        </ol>
                     </div>
                 </div>
+            </div>
 
-                <div class="lg:col-span-7">
-                    <div class="glass rounded-[3rem] overflow-hidden border-white/10 shadow-2xl">
-                        <div class="bg-white/5 p-6 border-b border-white/5 flex items-center justify-between">
-                            <div class="flex gap-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
-                            </div>
-                            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">FoliaCore Suite v1.0.4</span>
-                        </div>
-                        <div class="p-10 h-[500px] overflow-y-auto custom-scrollbar font-mono text-sm space-y-6">
-                            <div class="flex gap-4">
-                                <span class="text-emerald-500 shrink-0">/tpahere &lt;p&gt;</span>
-                                <span class="text-zinc-500 italic">Request player to teleport to you safely</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="text-emerald-500 shrink-0">/sethome [n]</span>
-                                <span class="text-zinc-500 italic">Save your current region location</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="text-emerald-500 shrink-0">/marker set</span>
-                                <span class="text-zinc-500 italic">Create a waypoint for the GPS system</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="text-emerald-500 shrink-0">/nick &lt;name&gt;</span>
-                                <span class="text-zinc-500 italic">Change display name (RGB supported)</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="text-emerald-500 shrink-0">/kit preview</span>
-                                <span class="text-zinc-500 italic">Open GUI to see kit contents</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="text-emerald-500 shrink-0">/mail send</span>
-                                <span class="text-zinc-500 italic">Send async messages to offline friends</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="text-emerald-500 shrink-0">/team create</span>
-                                <span class="text-zinc-500 italic">Initialize a new native clan thread</span>
-                            </div>
-                            <div class="pt-8 text-zinc-600 text-xs uppercase tracking-widest border-t border-white/5">
-                                [ System ] 48 commands currently active in the suite.
-                            </div>
-                        </div>
+            <!-- Configuration Content -->
+            <div x-show="activeTab === 'config'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-6">
+                <div class="flex justify-between items-center pb-4 border-b border-brand-border">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Config.yml Reference</h3>
+                    <span class="text-[10px] font-mono text-zinc-500">YAML Syntax</span>
+                </div>
+                <pre class="bg-zinc-950 p-6 rounded-xl border border-brand-border text-xs md:text-sm font-mono overflow-x-auto text-emerald-400 leading-relaxed max-h-[350px] custom-scrollbar"><code># FoliaCore Essential Configuration File
+# Optimized for asynchronous multithreaded performance
+
+spawn:
+  teleport-async: true
+  warmup-ticks: 60      # 3 seconds delay for players
+  cooldown-ticks: 120   # 6 seconds delay between teleports
+
+economy:
+  vault-hook: true
+  initial-balance: 1000.00
+  atomic-saves: true    # Enable multithreaded database locks
+
+tablist:
+  enable-animations: true
+  update-ticks: 20      # Refresh tab colors every 1 second
+  ping-spoof: false     # Set to true to show custom latency metrics</code></pre>
+            </div>
+
+            <!-- Commands Content -->
+            <div x-show="activeTab === 'commands'" x-transition class="space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-brand-card border border-brand-border p-6 rounded-2xl">
+                    <h3 class="text-xl font-black italic uppercase text-white font-sans">Plugin Command Directory</h3>
+                    <input type="text" x-model="searchQuery" placeholder="Search commands or permissions..." class="w-full sm:w-64 bg-zinc-950 border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-[2.5rem] overflow-hidden">
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse text-xs md:text-sm min-w-[650px]">
+                            <thead>
+                                <tr class="bg-white/5 border-b border-brand-border">
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500 w-1/4">Command</th>
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500 w-1/3">Permission</th>
+                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500">Short Description</th>
+                                </tr>
+                            </thead>
+                            <template x-for="cmd in filteredCommands()" :key="cmd.name">
+                                <tbody class="divide-y divide-brand-border hover:bg-white/[0.005] transition" x-data="{
+                                    detailTab: 'under-the-hood',
+                                    simArgs: '',
+                                    simStatus: 'idle',
+                                    simLogs: [],
+                                    simulate() {
+                                        if (this.simStatus === 'running') return;
+                                        this.simStatus = 'running';
+                                        this.simLogs = [];
+                                        
+                                        let steps = cmd.simSteps;
+                                        let stepIdx = 0;
+                                        let interval = setInterval(() => {
+                                            if (stepIdx < steps.length) {
+                                                this.simLogs.push(steps[stepIdx]);
+                                                stepIdx++;
+                                            } else {
+                                                clearInterval(interval);
+                                                this.simStatus = 'success';
+                                            }
+                                        }, 800);
+                                    }
+                                }" x-init="$watch('expanded', val => { if(val !== cmd.name) { simLogs = []; simStatus = 'idle'; simArgs = ''; } })">
+                                    <!-- Row -->
+                                    <tr @click="expanded = (expanded === cmd.name ? '' : cmd.name)" class="cursor-pointer border-b border-brand-border/40">
+                                        <td class="p-6 font-mono font-bold text-emerald-400">
+                                            <div class="flex items-center gap-2">
+                                                <i data-lucide="chevron-right" class="w-4 h-4 transition-transform text-zinc-500" :class="expanded === cmd.name ? 'rotate-90 text-emerald-400' : ''"></i>
+                                                <span x-text="cmd.name"></span>
+                                            </div>
+                                        </td>
+                                        <td class="p-6 font-mono text-zinc-500" x-text="cmd.permission"></td>
+                                        <td class="p-6 text-slate-300" x-text="cmd.shortDesc"></td>
+                                    </tr>
+                                    <!-- Expanded detail row -->
+                                    <tr x-show="expanded === cmd.name" x-transition>
+                                        <td colspan="3" class="bg-zinc-950/80 p-8 border-t border-brand-border">
+                                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                                                <!-- Left Info block -->
+                                                <div class="lg:col-span-7 space-y-6">
+                                                    <div class="flex gap-4 border-b border-white/5 pb-3">
+                                                        <button @click="detailTab = 'under-the-hood'" :class="detailTab === 'under-the-hood' ? 'text-emerald-400 border-b-2 border-emerald-500 font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">Under the Hood</button>
+                                                        <button @click="detailTab = 'how-it-holds'" :class="detailTab === 'how-it-holds' ? 'text-emerald-400 border-b-2 border-emerald-500 font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">How It Holds</button>
+                                                        <button @click="detailTab = 'syntax'" :class="detailTab === 'syntax' ? 'text-emerald-400 border-b-2 border-emerald-500 font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">Perms & Syntax</button>
+                                                    </div>
+                                                    
+                                                    <!-- Under the Hood Tab -->
+                                                    <div x-show="detailTab === 'under-the-hood'" class="space-y-4" x-transition>
+                                                        <div class="space-y-1">
+                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Operation Mechanics</h5>
+                                                            <p class="text-slate-300 leading-relaxed font-sans text-xs md:text-sm" x-html="cmd.longDesc"></p>
+                                                        </div>
+                                                        <div class="space-y-1">
+                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500 font-bold">Thread Execution Context</h5>
+                                                            <span class="inline-block px-3 py-1.5 rounded bg-zinc-900 border border-brand-border text-emerald-400 font-mono text-xs mt-1" x-text="cmd.threadContext"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- How It Holds Tab -->
+                                                    <div x-show="detailTab === 'how-it-holds'" class="space-y-4" x-transition>
+                                                        <div class="space-y-1">
+                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Concurrency Safety & Optimization Invariants</h5>
+                                                            <p class="text-slate-300 leading-relaxed font-sans text-xs md:text-sm" x-html="cmd.howItHolds"></p>
+                                                        </div>
+                                                        <div class="grid grid-cols-2 gap-4 pt-2">
+                                                            <div class="bg-zinc-900/60 p-3 rounded-xl border border-brand-border text-[11px]">
+                                                                <span class="text-zinc-500 block uppercase font-mono text-[9px] tracking-wider mb-1">Time Complexity</span>
+                                                                <span class="text-emerald-400 font-bold font-mono" x-text="cmd.timeComplexity"></span>
+                                                            </div>
+                                                            <div class="bg-zinc-900/60 p-3 rounded-xl border border-brand-border text-[11px]">
+                                                                <span class="text-zinc-500 block uppercase font-mono text-[9px] tracking-wider mb-1">Heap Allocations</span>
+                                                                <span class="text-emerald-400 font-bold font-mono" x-text="cmd.memoryComplexity"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Syntax Tab -->
+                                                    <div x-show="detailTab === 'syntax'" class="space-y-4 text-xs font-mono" x-transition>
+                                                        <div class="space-y-1.5">
+                                                            <h5 class="text-[10px] font-sans font-bold text-zinc-500 uppercase tracking-widest">Usage Syntax</h5>
+                                                            <pre class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border text-emerald-300" x-text="cmd.name + (cmd.args ? ' ' + cmd.args : '')"></pre>
+                                                        </div>
+                                                        <div class="space-y-1.5">
+                                                            <h5 class="text-[10px] font-sans font-bold text-zinc-500 uppercase tracking-widest">Required Permission Node</h5>
+                                                            <pre class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border text-slate-400" x-text="cmd.permission"></pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Right Console Sandbox -->
+                                                <div class="lg:col-span-5 flex flex-col justify-between bg-zinc-900/60 border border-brand-border p-5 rounded-2xl h-[300px]">
+                                                    <div class="flex justify-between items-center border-b border-white/5 pb-2 mb-3">
+                                                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
+                                                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
+                                                            Interactive Console Simulator
+                                                        </span>
+                                                        <span class="text-[9px] font-mono text-zinc-500">Java Runtime</span>
+                                                    </div>
+                                                    
+                                                    <!-- Terminal Window -->
+                                                    <div class="flex-grow bg-black/80 rounded-xl p-3.5 font-mono text-[11px] overflow-y-auto custom-scrollbar select-none text-slate-300 space-y-1.5">
+                                                        <div class="text-zinc-600">// Select parameters and press \'Run Simulation\'</div>
+                                                        <template x-for="log in simLogs">
+                                                            <div x-html="log"></div>
+                                                        </template>
+                                                        <div x-show="simStatus === 'running'" class="text-emerald-400/80 animate-pulse text-[10px]">Calling native JVM instructions...</div>
+                                                    </div>
+
+                                                    <!-- Interactive Controls -->
+                                                    <div class="flex gap-2 mt-4 pt-3 border-t border-white/5">
+                                                        <template x-if="cmd.argOptions && cmd.argOptions.length > 0">
+                                                            <select x-model="simArgs" class="bg-black border border-brand-border rounded-lg px-2.5 py-1.5 text-[11px] font-mono text-slate-300 focus:outline-none focus:border-emerald-500 flex-grow max-w-[150px]">
+                                                                <option value="">Default Option</option>
+                                                                <template x-for="opt in cmd.argOptions" :key="opt">
+                                                                    <option :value="opt" x-text="opt"></option>
+                                                                </template>
+                                                            </select>
+                                                        </template>
+                                                        <button @click="simulate()" :disabled="simStatus === 'running'" class="flex-grow py-2 bg-emerald-500 text-black text-[11px] font-black uppercase tracking-wider rounded-lg hover:bg-emerald-400 transition-all text-center flex items-center justify-center gap-1.5">
+                                                            <span x-text="simStatus === 'running' ? 'Executing...' : 'Run Simulation'"></span>
+                                                        </button>
+                                                        <button @click="simLogs = []; simStatus = 'idle'; simArgs = ''" class="px-3 bg-white/5 border border-white/10 text-slate-400 hover:text-white rounded-lg transition-all text-[11px]">
+                                                            Reset
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </template>
+                            <!-- If no results match query -->
+                            <tbody x-show="filteredCommands().length === 0">
+                                <tr>
+                                    <td colspan="3" class="p-12 text-center text-zinc-500 font-bold">No commands matched your query.</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-48 px-8 bg-black/40">
-        <div class="max-w-6xl mx-auto glass p-20 rounded-[4rem] border-emerald-500/30 relative overflow-hidden shadow-2xl">
-            <div class="absolute -top-32 -left-32 w-96 h-96 bg-emerald-500/5 blur-[140px] rounded-full"></div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-20 items-center">
-                <div class="md:col-span-1">
-                    <div class="w-48 h-48 rounded-[3rem] border-4 border-emerald-500 p-2 mx-auto rotate-6 shadow-2xl shadow-emerald-500/20 bg-zinc-900 overflow-hidden">
-                        <img src="https://ajaretro.dev/avatar.jpg" alt="Niloy" class="w-full h-full rounded-[2.5rem] grayscale hover:grayscale-0 transition duration-700 object-cover" onerror="this.src='https://ui-avatars.com/api/?name=AJ+Retro&background=10b981&color=fff&size=512'">
-                    </div>
-                </div>
-                
-                <div class="md:col-span-2 text-left">
-                    <div class="text-emerald-500 font-black tracking-[0.5em] uppercase text-sm mb-4">Lead Developer</div>
-                    <h3 class="text-6xl font-black italic mb-8 tracking-tighter">Niloy / <span class="text-white">@AJARETRO</span></h3>
-                    
-                    <div class="text-zinc-400 text-xl leading-relaxed space-y-6 mb-12">
-                        <p><b>Cybersecurity & Networking</b> student with a focus on high-concurrency systems. Professional developer in the industry since <b>2019</b>.</p>
-                        <p>I build for the <b>Anarchy</b> and <b>Survival</b> communities, where server stability isn't a luxury—it's the only thing that matters. Self-taught vocalist by night, full-time dev by day.</p>
-                    </div>
-
-                    <div class="flex flex-wrap gap-8">
-                        <a href="https://ajaretro.dev/about.html" target="_blank" class="px-8 py-3 bg-white/5 rounded-xl text-xs font-black uppercase tracking-widest border border-white/10 hover:bg-white/10 transition">Full Bio</a>
-                        <a href="https://github.com/AJARETRO" target="_blank" class="px-8 py-3 bg-white/5 rounded-xl text-xs font-black uppercase tracking-widest border border-white/10 hover:bg-white/10 transition">GitHub</a>
-                        <a href="https://ajaretro.dev" target="_blank" class="px-8 py-3 bg-emerald-500 text-black rounded-xl text-xs font-black uppercase tracking-widest hover:scale-110 transition">Portfolio</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-32 text-center bg-black border-t border-white/5 relative overflow-hidden">
-        <div class="absolute inset-0 region-grid opacity-20 pointer-events-none"></div>
-        <div class="max-w-[1400px] mx-auto px-8 relative z-10 flex flex-col items-center">
-            <img src="https://raw.githubusercontent.com/AJARETRO/ajaretro.github.io/main/68a15aa3-19e7-4a74-9849-ae75608be367.jpg" alt="Logo" class="w-16 h-16 rounded-2xl mb-12">
-            <p class="text-zinc-400 text-sm uppercase tracking-[0.8em] font-black leading-loose">
-                FoliaCore • AJARETRO © 2024<br>
-                <span class="text-zinc-800">Engineered for the Regionized Era</span>
+    <!-- Footer -->
+    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
+                Designed for the Multithreaded Era • &copy; 2026<br>
+                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
             </p>
-            
-            <div class="mt-16 flex gap-10 text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
-                <span>Java 21+ Required</span>
-                <span>Modrinth Certified</span>
-                <span>Open Source</span>
-            </div>
         </div>
     </footer>
 
+    <script>
+        lucide.createIcons();
+        
+        // Listen for Alpine updates to re-render lucide icons inside custom table items
+        document.addEventListener('alpine:initialized', () => {
+            Alpine.effect(() => {
+                lucide.createIcons();
+            });
+        });
+    </script>
 </body>
 </html>
