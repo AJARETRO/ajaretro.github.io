@@ -3,70 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Not Found | AjaRetro Devs</title>
+    <title>404 Not Found | AJA RETRO</title>
     
-    <!-- Tailwind CSS -->
     <script src="/js/tailwind.js"></script>
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #f0f0f0;
+    <script src="/js/alpine.js" defer></script>
+    <script src="/js/lucide.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-red': '#EF4444',
+                        'brand-dark': '#09090b',
+                        'brand-card': '#121214',
+                        'brand-border': '#222226'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
         }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
     </style>
 </head>
-<body class="antialiased flex flex-col min-h-screen">
+<body class="bg-brand-dark text-slate-100 font-sans selection:bg-brand-red selection:text-white overflow-x-hidden min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
 
-    <!-- Header -->
-    <header class="w-full z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
-            <!-- SVG Logo -->
-            <a href="/index.html" aria-label="AjaRetro Homepage">
-                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#4F46E5"/>
-                            <stop offset="100%" stop-color="#22D3EE"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-        </nav>
-    </header>
+    <!-- Nav Bar -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="/index.html" class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</a>
+            </div>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-10 font-bold text-xs uppercase tracking-widest text-slate-400">
+                <a href="/index.html" class="hover:text-white transition">Home</a>
+                <a href="/about.html" class="hover:text-white transition">About</a>
+                <a href="/services.html" class="hover:text-white transition">Services</a>
+                <a href="/cover.html" class="hover:text-white transition">Covers</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl" style="display: none;">
+            <a href="/index.html" class="hover:text-white transition">Home</a>
+            <a href="/about.html" class="hover:text-white transition">About</a>
+            <a href="/services.html" class="hover:text-white transition">Services</a>
+            <a href="/cover.html" class="hover:text-white transition">Covers</a>
+        </div>
+    </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow flex items-center justify-center text-center">
+    <main class="flex-grow flex items-center justify-center text-center pt-32">
         <div class="container mx-auto px-4 py-16">
-            <div class="max-w-md mx-auto">
-                <img src="https://i.imgflip.com/a3v4va.jpg" alt="Disappointed Cricket Fan Meme" class="w-full rounded-lg shadow-lg">
+            <div class="max-w-md mx-auto relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-brand-red to-zinc-800 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                <img src="https://i.imgflip.com/a3v4va.jpg" alt="Disappointed Cricket Fan Meme" class="relative w-full rounded-2xl border border-brand-border shadow-2xl">
             </div>
-            <h1 class="text-6xl md:text-8xl font-black text-white mt-12">404</h1>
-            <p class="text-xl md:text-2xl text-indigo-400 font-semibold mt-2">Page Not Found</p>
-            <p class="text-gray-400 mt-6 max-w-lg mx-auto">
+            <h1 class="text-6xl md:text-8xl font-black text-white mt-12 italic uppercase tracking-tighter">404</h1>
+            <p class="text-xl md:text-2xl text-brand-red font-black italic uppercase tracking-wider mt-2">Page Not Found</p>
+            <p class="text-slate-400 mt-6 max-w-lg mx-auto text-sm leading-relaxed">
                 Looks like you're as lost as our hope was during that cricket match. The page you're looking for doesn't exist.
             </p>
-            <a href="/index.html" class="mt-10 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
+            <a href="/index.html" class="mt-10 inline-block bg-brand-red hover:bg-red-600 text-white font-bold py-3.5 px-8 rounded-2xl text-xs uppercase tracking-widest shadow-lg shadow-brand-red/20 transition-all duration-300 transform hover:-translate-y-0.5">
                 Go Back Home
             </a>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="py-6 bg-black">
-        <div class="container mx-auto px-4 text-center text-gray-600 text-sm">
-            <p>&copy; 2025 AjaRetro Devs. All Rights Reserved.</p>
+    <footer class="py-6 border-t border-brand-border bg-brand-dark">
+        <div class="container mx-auto px-4 text-center text-zinc-500 text-xs font-mono uppercase tracking-wider">
+            <p>&copy; 2026 AJA RETRO. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <script>
+        // Initialize lucide icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>
