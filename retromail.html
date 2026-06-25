@@ -248,8 +248,15 @@
                                 <span class="text-[10px] text-zinc-500 font-mono mt-1">Brevo / Gmail / SES</span>
                             </div>
                         </div>
-                        <div class="text-center font-mono text-[9px] sm:text-xs text-zinc-500 tracking-wider md:tracking-widest border border-white/5 px-4 py-3 rounded-xl md:rounded-full bg-black max-w-full break-words leading-relaxed">
-                            FLOW: Player (/verify) ➔ Direct SMTP TLS Send ➔ SMTP Inbox Callback
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center font-mono text-[10px] sm:text-xs text-zinc-500 border border-white/5 px-4 py-3 rounded-2xl bg-black max-w-full leading-relaxed">
+                            <span class="font-bold text-slate-300">FLOW:</span>
+                            <span class="bg-white/5 px-2 py-0.5 rounded text-blue-400">Player (/verify)</span>
+                            <span class="text-zinc-600 hidden sm:inline">➔</span>
+                            <span class="text-zinc-600 sm:hidden">▼</span>
+                            <span class="bg-white/5 px-2 py-0.5 rounded text-blue-400">Direct SMTP TLS Send</span>
+                            <span class="text-zinc-600 hidden sm:inline">➔</span>
+                            <span class="text-zinc-600 sm:hidden">▼</span>
+                            <span class="bg-white/5 px-2 py-0.5 rounded text-blue-400">SMTP Inbox Callback</span>
                         </div>
                     </div>
 
