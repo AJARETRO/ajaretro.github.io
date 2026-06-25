@@ -230,31 +230,31 @@
                     <div class="absolute inset-0 bg-blue-600/[0.02] pointer-events-none"></div>
                     
                     <!-- standalone diagram -->
-                    <div x-show="!multiServer" x-transition class="flex flex-col items-center justify-between w-full space-y-12">
-                        <div class="flex items-center gap-24">
-                            <div class="flex flex-col items-center bg-zinc-900 border border-white/10 p-6 rounded-2xl text-center w-40">
+                    <div x-show="!multiServer" x-transition class="flex flex-col items-center justify-between w-full space-y-8 md:space-y-12">
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 lg:gap-24 w-full">
+                            <div class="flex flex-col items-center bg-zinc-900 border border-white/10 p-6 rounded-2xl text-center w-full max-w-[10rem] md:w-40">
                                 <div class="text-3xl mb-2">🖥️</div>
                                 <span class="font-bold text-sm">Paper Server</span>
                                 <span class="text-[10px] text-zinc-500 font-mono mt-1">SMTP & Rewards</span>
                             </div>
 
                             <div class="flex items-center justify-center text-blue-500 animate-pulse">
-                                <i data-lucide="arrow-right" class="w-12 h-12"></i>
+                                <i data-lucide="arrow-right" class="w-8 h-8 md:w-12 md:h-12 rotate-90 md:rotate-0"></i>
                             </div>
 
-                            <div class="flex flex-col items-center bg-zinc-900 border border-blue-500/20 p-6 rounded-2xl text-center w-40">
+                            <div class="flex flex-col items-center bg-zinc-900 border border-blue-500/20 p-6 rounded-2xl text-center w-full max-w-[10rem] md:w-40">
                                 <div class="text-3xl mb-2">📧</div>
                                 <span class="font-bold text-sm text-blue-400">SMTP Gateway</span>
                                 <span class="text-[10px] text-zinc-500 font-mono mt-1">Brevo / Gmail / SES</span>
                             </div>
                         </div>
-                        <div class="text-center font-mono text-xs text-zinc-500 tracking-widest border border-white/5 px-6 py-3 rounded-full bg-black">
+                        <div class="text-center font-mono text-[9px] sm:text-xs text-zinc-500 tracking-wider md:tracking-widest border border-white/5 px-4 py-3 rounded-xl md:rounded-full bg-black max-w-full break-words leading-relaxed">
                             FLOW: Player (/verify) ➔ Direct SMTP TLS Send ➔ SMTP Inbox Callback
                         </div>
                     </div>
 
                     <!-- multi-server diagram -->
-                    <div x-show="multiServer" x-transition class="flex flex-col items-center justify-between w-full space-y-12">
+                    <div x-show="multiServer" x-transition class="flex flex-col items-center justify-between w-full space-y-8 md:space-y-12">
                         <div class="flex flex-col items-center justify-center space-y-6 w-full">
                             <!-- Proxy -->
                             <div class="flex flex-col items-center bg-blue-900/20 border border-blue-500/30 p-5 rounded-2xl text-center w-48">
@@ -263,7 +263,12 @@
                                 <span class="text-[9px] text-zinc-500 font-mono">Verifications Coordinator</span>
                             </div>
 
-                            <div class="flex items-center gap-16">
+                            <!-- Connection lines -->
+                            <div class="flex items-center justify-center text-blue-500/50">
+                                <i data-lucide="chevrons-down" class="w-6 h-6 animate-bounce"></i>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row items-center gap-4 md:gap-16">
                                 <div class="flex flex-col items-center bg-zinc-900 border border-white/10 p-4 rounded-xl text-center w-32">
                                     <div class="text-xl mb-1">🖥️</div>
                                     <span class="font-bold text-xs">Lobby Spigot</span>
@@ -274,8 +279,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center font-mono text-[10px] text-zinc-400 border border-red-500/10 px-6 py-3 rounded-full bg-red-950/10 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-red-600 animate-ping inline-block"></span>
+                        <div class="text-center font-mono text-[8px] sm:text-[10px] text-zinc-400 border border-red-500/10 px-4 sm:px-6 py-3 rounded-xl md:rounded-full bg-red-950/10 flex items-center justify-center gap-2 max-w-full break-words leading-relaxed">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping inline-block flex-shrink-0"></span>
                             <span>SECURED BY HMAC-SHA256 SIGNATURE VERIFICATION</span>
                         </div>
                     </div>
