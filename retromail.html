@@ -918,8 +918,7 @@ security:
                         <div class="bg-black p-4 rounded-xl border border-white/5 space-y-2">
                             <h6 class="text-white font-bold text-xs">Template Integration Example:</h6>
                             <p class="text-zinc-400 text-xs font-sans">You can use these placeholders inside your verification HTML template or configuration body text:</p>
-                            <pre class="bg-zinc-950 p-3 rounded-lg border border-white/5 text-[10px] text-blue-400 font-mono"><code>&lt;p&gt;Welcome to &lt;strong&gt;{server-name}&lt;/strong&gt;!&lt;/p&gt;
-&lt;p&gt;Join our community on Discord: &lt;a href="{discord-link}"&gt;{discord-link}&lt;/a&gt;&lt;/p&gt;</code></pre>
+                            <pre class="bg-zinc-950 p-3 rounded-lg border border-white/5 text-[10px] text-blue-400 font-mono"><code x-text="'&lt;p&gt;Welcome to &lt;strong&gt;{server-name}&lt;/strong&gt;!&lt;/p&gt;\n&lt;p&gt;Join our community on Discord: &lt;a href=&quot;{discord-link}&quot;&gt;{discord-link}&lt;/a&gt;&lt;/p&gt;'"></code></pre>
                         </div>
                     </div>
                 </div>
