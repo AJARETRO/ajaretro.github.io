@@ -586,6 +586,93 @@
                         '<span class=&quot;text-zinc-500&quot;&gt;[Monitor]&lt;/span&gt; Active block placement events blocked: 0',
                         '<span class=&quot;text-zinc-500&quot;&gt;[Monitor]&lt;/span&gt; Active entity spawn events blocked: 0'
                     ]
+                },
+                { 
+                    name: '/msg', 
+                    permission: 'foliacore.msg', 
+                    shortDesc: 'Send a private direct message to an online player.', 
+                    longDesc: 'Locates target player connection channel and dispatches message packet asynchronously to their target region thread.',
+                    threadContext: 'Asynchronous message routing',
+                    timeComplexity: 'O(1) player lookup',
+                    memoryComplexity: '< 0.2 KB text payload',
+                    howItHolds: 'Bypasses legacy Bukkit main thread message bottlenecks by queueing text delivery directly into Folia\'s regionalized chat packet pipelines.',
+                    args: '&lt;player&gt; &lt;message...&gt;',
+                    argOptions: ['Niloy "Hey, are you online?"'],
+                    simSteps: [
+                        '[You] executed: /msg Niloy "Hey, are you online?"',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Chat Routing]&lt;/span&gt; Locating player session...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; [Me -> Niloy]: Hey, are you online?'
+                    ]
+                },
+                { 
+                    name: '/reply', 
+                    permission: 'foliacore.reply', 
+                    shortDesc: 'Reply directly to the last player who messaged you.', 
+                    longDesc: 'Queries the last active direct message contact UUID registry and routes message payload to them.',
+                    threadContext: 'Thread-safe memory lookup',
+                    timeComplexity: 'O(1) ConcurrentHashMap query',
+                    memoryComplexity: '< 0.1 KB payload allocation',
+                    howItHolds: 'Reads target UUID from a thread-safe mapping container and routes message payload to the receiver\'s tick region.',
+                    args: '&lt;message...&gt;',
+                    argOptions: ['"Got it, joining now!"'],
+                    simSteps: [
+                        '[You] executed: /reply "Got it, joining now!"',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Chat Routing]&lt;/span&gt; Fetching last contact registry...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; [Me -> Niloy]: Got it, joining now!'
+                    ]
+                },
+                { 
+                    name: '/mail', 
+                    permission: 'foliacore.mail.send', 
+                    shortDesc: 'Manages sending, reading, and clearing offline player mail records.', 
+                    longDesc: 'Reads or writes messages stored in database tables. Allows players to leave messages for offline users.',
+                    threadContext: 'Asynchronous Database Transaction',
+                    timeComplexity: 'O(1) database transaction',
+                    memoryComplexity: '< 1.2 KB mail cache buffer',
+                    howItHolds: 'Uses non-blocking asynchronous IO routines to process mail send, fetch, or delete parameters without introducing scheduler frame drops.',
+                    args: 'read/clear/send &lt;player&gt; &lt;msg...&gt;',
+                    argOptions: ['read', 'send Niloy "Check spawn chest"'],
+                    simSteps: [
+                        '[You] executed: /mail read',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Querying user inbox...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore Mailbox]&lt;/span&gt; You have 1 unread message:',
+                        ' - From Niloy: "Check chest at spawn" (2h ago)'
+                    ]
+                },
+                { 
+                    name: '/nick', 
+                    permission: 'foliacore.nick', 
+                    shortDesc: 'Sets your custom chat nickname or clears it.', 
+                    longDesc: 'Modifies nickname variables in the player profile model. Validates and formats HEX color configurations.',
+                    threadContext: 'Sync Player Profile mutation',
+                    timeComplexity: 'O(1) profile update',
+                    memoryComplexity: '< 0.1 KB profile footprint',
+                    howItHolds: 'Applies updates to nickname fields, verifying formatting tags against regular expressions prior to saving profile caches.',
+                    args: '&lt;nickname&gt;',
+                    argOptions: ['&aRetroLegend', 'off'],
+                    simSteps: [
+                        '[You] executed: /nick &aRetroLegend',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[Profile API]&lt;/span&gt; Validating color code permissions...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Your nickname has been updated to: §aRetroLegend'
+                    ]
+                },
+                { 
+                    name: '/foliacore', 
+                    permission: 'foliacore.reload', 
+                    shortDesc: 'Main administration command to reload configurations and display stats.', 
+                    longDesc: 'Reloads config files from disk, re-registers modules, and updates the display tablist and sidebars.',
+                    threadContext: 'Async Disk IO + Display swap',
+                    timeComplexity: 'O(1) reload loop',
+                    memoryComplexity: '< 0.2 MB temporary configuration cache',
+                    howItHolds: 'Reads yml setups from disk asynchronously, parses elements, swaps active configuration models, and rebuilds visual animation frames.',
+                    args: 'reload/version/help',
+                    argOptions: ['reload', 'version', 'help'],
+                    simSteps: [
+                        '[You] executed: /foliacore reload',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[IO Thread]&lt;/span&gt; Reloading config.yml & tab-sidebar.yml...',
+                        '<span class=&quot;text-zinc-500&quot;&gt;[DisplayManager]&lt;/span&gt; Rebuilding layout displays...',
+                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Configurations reloaded successfully.'
+                    ]
                 }
             ],
             filteredCommands() {
@@ -641,23 +728,69 @@
                     <h3 class="text-2xl font-black italic uppercase text-white">Config.yml Reference</h3>
                     <span class="text-[10px] font-mono text-zinc-500">YAML Syntax</span>
                 </div>
-                <pre class="bg-zinc-950 p-6 rounded-xl border border-brand-border text-xs md:text-sm font-mono overflow-x-auto text-emerald-400 leading-relaxed max-h-[350px] custom-scrollbar"><code># FoliaCore Essential Configuration File
-# Optimized for asynchronous multithreaded performance
+                <pre class="bg-zinc-950 p-6 rounded-xl border border-brand-border text-xs md:text-sm font-mono overflow-x-auto text-emerald-400 leading-relaxed max-h-[350px] custom-scrollbar"><code># FoliaCore Configuration
+# Central settings and module controls
 
-spawn:
-  teleport-async: true
-  warmup-ticks: 60      # 3 seconds delay for players
-  cooldown-ticks: 120   # 6 seconds delay between teleports
+# Module Toggles - Set to false to disable entire subsystems
+modules:
+  teleport: true
+  kits: true
+  chat: true
+  markers: true
+  teams: true
+  staff: true
+  system: true
+  utility: true
+  tab: true
+  sidebar: true
 
-economy:
-  vault-hook: true
-  initial-balance: 1000.00
-  atomic-saves: true    # Enable multithreaded database locks
+# System Settings
+system:
+  # Maintenance Mode - Kicks players without foliacore.admin
+  maintenance-mode: false
+  maintenance-kick-message: "&cServer is in maintenance mode. Admins only."
+  
+  # First Spawn - Teleports new players to a configured location
+  first-spawn-enabled: true
+  
+  # Entity Cleanup - Removes items and excess mobs when regional TPS drops
+  entity-cleanup-enabled: true
+  entity-cleanup-interval: 300
+  minimum-tps-threshold: 16
+  
+  # Auto Broadcaster - Sends messages at intervals
+  auto-broadcaster-enabled: true
+  auto-broadcast-interval: 600
+
+# --------------------------------------------------
+# Display Visual Blueprint (tab-sidebar.yml config)
+# --------------------------------------------------
+animations:
+  global-update-interval-ticks: 20
+  tab-animation:
+    enabled: true
+    update-interval-ticks: 20
+  sidebar-animation:
+    enabled: true
+    update-interval-ticks: 20
 
 tablist:
-  enable-animations: true
-  update-ticks: 20      # Refresh tab colors every 1 second
-  ping-spoof: false     # Set to true to show custom latency metrics</code></pre>
+  enabled: true
+  global-playerlist: true
+  sort:
+    enabled: true
+    type: WEIGHT # WEIGHT, PERMISSION, ALPHABETICAL
+    weights:
+      owner: 1
+      admin: 2
+      moderator: 3
+      default: 10
+  names:
+    format: "<gray>[</gray><gradient:#00B4FF:#77D9FF><bold>FoliaCore</bold></gradient><gray>]</gray> <white>%player_name%</white>"
+  header-footer:
+    enabled: true
+    header-method: "header_wave"
+    footer-method: "footer_wave"</code></pre>
             </div>
 
             <!-- Commands Content -->

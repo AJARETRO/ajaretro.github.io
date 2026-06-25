@@ -504,22 +504,29 @@
                     <h3 class="text-2xl font-black italic uppercase text-white">Config.yml Reference</h3>
                     <span class="text-[10px] font-mono text-zinc-500">YAML Syntax</span>
                 </div>
-                <pre class="bg-zinc-950 p-6 rounded-xl border border-brand-border text-xs md:text-sm font-mono overflow-x-auto text-brand-red leading-relaxed max-h-[350px] custom-scrollbar"><code># CircuitBreaker Anti-Lag Config
-# Surgical chunk monitoring thresholds
+                <pre class="bg-zinc-950 p-6 rounded-xl border border-brand-border text-xs md:text-sm font-mono overflow-x-auto text-brand-red leading-relaxed max-h-[350px] custom-scrollbar"><code># CircuitBreaker Configuration File
+# Core switches and monitoring parameters
 
-monitoring:
-  # Limit block physics updates (redstone/pistons loops) per chunk per tick
-  max-block-events-per-tick: 1200
-  
-  # Limit entity updates (movement/pathfinding) per chunk per tick
-  max-entity-events-per-tick: 600
+# Master toggle for the anti-lag system
+enabled: true
 
-actions:
-  # Cooldown duration after which chunk strikes reset (seconds)
-  strike-reset-seconds: 300
-  
-  # Duration to restrict chunk access on 4th strike (minutes)
-  ban-duration-minutes: 15</code></pre>
+# --- Lag Detection Thresholds ---
+# Number of block physics updates in 1 second (20 ticks) to register a strike
+lag-threshold: 5000
+
+# Number of strikes a chunk accumulates before being frozen
+strike-limit: 3
+
+# Minutes of clean performance before strikes are reset
+strike-reset-minutes: 15
+
+# --- Action Settings ---
+# Duration (in ticks) to apply a soft reset to the chunk (200 ticks = 10s)
+soft-reset-duration-ticks: 200
+
+# Duration (in ticks) to hard freeze the chunk (6000 ticks = 5m)
+# Set to -1 to freeze permanently until unfrozen by an administrator
+freeze-duration-ticks: 6000</code></pre>
             </div>
 
             <!-- Commands Content -->
