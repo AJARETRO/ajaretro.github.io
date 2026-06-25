@@ -66,9 +66,12 @@
     <!-- Main Content -->
     <main class="flex-grow flex items-center justify-center text-center pt-32">
         <div class="container mx-auto px-4 py-16">
-            <div class="max-w-md mx-auto relative group">
+            <div x-data="{ currentImg: Math.floor(Math.random() * 2), images: ['https://i.imgflip.com/a3v4va.jpg', '/images.jpeg'] }" class="max-w-md mx-auto relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r from-brand-red to-zinc-800 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                <img src="https://i.imgflip.com/a3v4va.jpg" alt="Disappointed Cricket Fan Meme" class="relative w-full rounded-2xl border border-brand-border shadow-2xl">
+                <img :src="images[currentImg]" alt="404 Meme" class="relative w-full rounded-2xl border border-brand-border shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.01]" @click="currentImg = (currentImg + 1) % images.length">
+                <div class="absolute bottom-4 right-4 bg-brand-dark/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-brand-border text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400 pointer-events-none select-none">
+                    Click to switch meme
+                </div>
             </div>
             <h1 class="text-6xl md:text-8xl font-black text-white mt-12 italic uppercase tracking-tighter">404</h1>
             <p class="text-xl md:text-2xl text-brand-red font-black italic uppercase tracking-wider mt-2">Page Not Found</p>
