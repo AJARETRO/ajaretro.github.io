@@ -344,6 +344,45 @@
         </div>
     </section>
 
+    <!-- Redstone Malpractice Case Study Section -->
+    <section id="redstone-lag" class="py-24 px-6 md:px-12 bg-black border-t border-brand-border">
+        <div class="max-w-4xl mx-auto space-y-12">
+            <div class="space-y-4">
+                <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white leading-tight">
+                    How Redstone Clocks Lag Servers <br>
+                    <span class="text-brand-red">& Why CircuitBreaker Stops It.</span>
+                </h2>
+                <p class="text-zinc-400 text-sm md:text-base leading-relaxed">
+                    Redstone machinery is core to Minecraft, but it is also the easiest tool to weaponize. Griefers and uninformed players build simple setups that force millions of updates on the server thread, resulting in unplayable TPS. Here is exactly how it happens.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-4">
+                    <div class="w-12 h-12 bg-brand-red/10 rounded-2xl flex items-center justify-center text-xl text-brand-red font-bold">⚡</div>
+                    <h3 class="text-xl font-bold uppercase text-white">The Malpractice: Redstone Chains</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        A typical lag machine uses observer clocks facing each other, rapid comparator clocks, or arrays of sticky pistons moving blocks back and forth. 
+                    </p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        This causes the server to constantly recalculate block states, light changes, and collision updates. Since Minecraft ticks occur on a single thread, these block updates block the CPU, dropping TPS from 20 to 5.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card border border-emerald-500/10 border-brand-border p-8 rounded-[2rem] space-y-4">
+                    <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-xl text-emerald-400 font-bold">🛡️</div>
+                    <h3 class="text-xl font-bold uppercase text-white">The Remedy: Surgical Interception</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Instead of banning redstone or shutting down the world, CircuitBreaker monitors the physics updates per chunk.
+                    </p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        If updates exceed 20,000/sec, the chunk gets flagged. On strike 3, the plugin locks that chunk's physics loop. The lag machine freezes instantly, while neighboring chunks and normal player contraptions remain active.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Live Telemetry Section -->
     <section id="telemetry" class="py-24 px-6 md:px-12 bg-zinc-950/20 border-t border-brand-border relative overflow-hidden" x-data="{
         stats: {
