@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Favicon / Brand Logo for Google Search -->
+    <link rel="icon" type="image/png" href="/logo-google.png">
+    <link rel="apple-touch-icon" href="/logo-google.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Server Optimization Guide: Tuning config.yml for Maximum TPS | AjaRetro Devs</title>
+    <meta name="description" content="A practical optimization guide for Minecraft server owners. Learn how to configure Paper, Spigot, and CircuitBreaker config files to maintain 20 TPS.">
+    <meta name="keywords" content="how to reduce TPS lag Minecraft server, best optimization plugins Spigot, minecraft server performance tuning, prevent tick lag plugins, paper yml optimization, spigot yml config lag">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ajaretro.dev/blog/circuitbreaker-blog-2.html">
+    <meta property="og:title" content="Minecraft Server Optimization Guide: Tuning config.yml for Maximum TPS | AjaRetro Devs">
+    <meta property="og:description" content="A practical optimization guide for Minecraft server owners. Learn how to configure Paper, Spigot, and CircuitBreaker config files to maintain 20 TPS.">
+    <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ajaretro.dev/blog/circuitbreaker-blog-2.html">
+    <meta property="twitter:title" content="Minecraft Server Optimization Guide: Tuning config.yml for Maximum TPS | AjaRetro Devs">
+    <meta property="twitter:description" content="A practical optimization guide for Minecraft server owners. Learn how to configure Paper, Spigot, and CircuitBreaker config files to maintain 20 TPS.">
+    <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- JSON-LD Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Minecraft Server Optimization Guide: Tuning config.yml for Maximum TPS",
+      "description": "A practical optimization guide for Minecraft server owners. Learn how to configure Paper, Spigot, and CircuitBreaker config files to maintain 20 TPS.",
+      "image": "https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg",
+      "author": {
+        "@type": "Person",
+        "name": "Ahmed Juhaed Ayeman Niloy"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AjaRetro Devs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ajaretro.dev/logo-google.png"
+        }
+      },
+      "datePublished": "2026-06-28T19:54:00Z"
+    }
+    </script>
+    <script src="/js/tailwind.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #f0f0f0;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        .prose {
+            color: #d1d5db;
+        }
+        .prose h2 {
+            color: #fff;
+        }
+        .prose h3 {
+            color: #e5e7eb;
+        }
+        .prose a {
+            color: #818cf8;
+            text-decoration: none;
+        }
+        .prose a:hover {
+            text-decoration: underline;
+        }
+        .prose strong {
+            color: #fff;
+        }
+        .glass-card {
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-black bg-opacity-50 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
+            <a href="../index.html" aria-label="AjaRetro Homepage" class="flex items-center space-x-3">
+                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#4F46E5"/>
+                            <stop offset="100%" stop-color="#22D3EE"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold text-white hidden sm:inline">AjaRetro Devs</span>
+            </a>
+            <a href="../index.html#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">Get a Quote</a>
+        </nav>
+    </header>
+
+    <!-- Main Blog Post Content -->
+    <main class="container mx-auto px-4 py-16 md:py-24">
+        <article class="prose prose-lg max-w-4xl mx-auto">
+            <!-- Post Header -->
+            <div class="text-center mb-12">
+                <p class="text-indigo-400 font-semibold">Minecraft Server Performance Guide</p>
+                <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mt-2">Minecraft Server Optimization: Tuning Configuration Files for Maximum TPS</h1>
+                <p class="mt-4 text-lg text-gray-400">Stop blindly installing plugins. Learn how to tune paper.yml, spigot.yml, and CircuitBreaker settings to unlock flawless server performance.</p>
+            </div>
+
+            <!-- Post Body -->
+            <p>Every Minecraft server administrator eventually reaches the same roadblock: lag. You rent a high-end server node, install your favorite plugins, and start inviting players. But as soon as the player count grows past 20 or 30, the server TPS begins to crawl.</p>
+            <p>While many admins immediately blame hardware, the real culprit is usually **un-optimized configuration files**. In this guide, we'll walk through the most important performance configurations in Spigot, Paper, and CircuitBreaker to lock your server at a solid 20 TPS.</p>
+
+            <h2 class="mt-12">1. The Foundation: spigot.yml Tweaks</h2>
+            <p>The standard Spigot settings are configured for single-player style vanilla mechanics, which is highly inefficient for multiplayer networks. Open your `spigot.yml` and modify these keys:</p>
+            <ul>
+                <li><strong>`entity-activation-range`:</strong> This governs how close players must be to an entity for its AI to tick. Reduce `animals` to `16`, `monsters` to `24`, and `misc` to `4`. This saves massive CPU ticks on idle entities.</li>
+                <li><strong>`merge-radius`:</strong> Increase the merge radius for items (`item: 3.5`) and exp (`exp: 4.0`). This forces items lying on the ground to merge into a single item entity, reducing the server's render task load.</li>
+                <li><strong>`max-tick-time`:</strong> Set both `tile` and `entity` to `1000`. This prevents the server from locking up or freezing if an entity lag spike occurs.</li>
+            </ul>
+
+            <h2 class="mt-12">2. The Engine: paper.yml Performance Configurations</h2>
+            <p>PaperMC introduces highly effective settings to mitigate lag. Make these modifications in `config/paper-world-defaults.yml`:</p>
+            <ul>
+                <li><strong>`despawn-ranges`:</strong> Adjust monster despawn ranges. Set `soft` to `28` and `hard` to `96` to quickly clean up mobs in unloaded chunks.</li>
+                <li><strong>`max-auto-save-chunks-per-tick`:</strong> Set this to `6`. This distributes chunk auto-saving tasks evenly across server ticks, removing the "autosave lag spike" every 5 minutes.</li>
+                <li><strong>`chunks.prevent-moving-into-unloaded-chunks`:</strong> Set this to `true`. This prevents players (especially those flying with elytra) from generating huge loads by loading new chunks faster than the server can process.</li>
+            </ul>
+
+            <h2 class="mt-12">3. The Shield: CircuitBreaker Anti-Lag Tuning</h2>
+            <p>Tuning your core server configs reduces general resource usage, but it won't stop malicious or accidental lag machines. That is where **CircuitBreaker** comes in. In your `CircuitBreaker/config.yml`:</p>
+            
+            <div class="glass-card p-6 my-8 border border-white/10">
+                <pre class="text-xs text-indigo-300 font-mono">
+# Physics lag protection threshold
+lag-threshold: 25000       # Trigger warning at 25,000 physics updates/sec
+strike-limit: 3            # Allow 3 soft resets before freezing
+freeze-duration-ticks: 6000 # Freeze chunk for 5 minutes (6000 ticks)
+
+# Entity Culling (Optional)
+entity-culling:
+  enabled: true
+  scan-interval-seconds: 15
+  threshold: 400           # Cull chunk if it exceeds 400 entities
+                </pre>
+            </div>
+
+            <p>By keeping the physics threshold at `25,000` events per second, you ensure that normal player redstone clocks function perfectly, while automatically capturing and freezing massive repeating observer or piston chains within seconds.</p>
+
+            <h2 class="mt-12">Summary</h2>
+            <p>Optimization is not a one-time step. Keep your entity activation ranges narrow, pre-generate your world map using tools like **Chunky**, and run **CircuitBreaker** to protect your physics threads from sudden griefing attacks. Together, these settings ensure a lag-free environment that keeps your players online.</p>
+            
+            <div class="text-center mt-16">
+                <a href="../circuitbreaker.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-lg text-lg no-underline inline-block">Learn More About CircuitBreaker</a>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-black/50">
+        <div class="container mx-auto px-4 text-center text-gray-600">
+             <a href="../blog.html" class="text-gray-400 hover:text-white transition-colors">&larr; Back to Blog Index</a>
+            <p class="text-sm mt-4">&copy; 2026 AjaRetro Devs. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

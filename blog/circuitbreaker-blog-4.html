@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Favicon / Brand Logo for Google Search -->
+    <link rel="icon" type="image/png" href="/logo-google.png">
+    <link rel="apple-touch-icon" href="/logo-google.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Lag vs. Physics Lag: Which is Killing Your Minecraft Server? | AjaRetro Devs</title>
+    <meta name="description" content="An in-depth comparison of entity lag versus physics lag in Minecraft. Learn how to diagnose both on your server and use CircuitBreaker to solve them.">
+    <meta name="keywords" content="minecraft entity lag, mob farm lag, block physics lag, spigot entity culling plugin, how to fix server lag, reduce tps lag minecraft server">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ajaretro.dev/blog/circuitbreaker-blog-4.html">
+    <meta property="og:title" content="Entity Lag vs. Physics Lag: Which is Killing Your Minecraft Server? | AjaRetro Devs">
+    <meta property="og:description" content="An in-depth comparison of entity lag versus physics lag in Minecraft. Learn how to diagnose both on your server and use CircuitBreaker to solve them.">
+    <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ajaretro.dev/blog/circuitbreaker-blog-4.html">
+    <meta property="twitter:title" content="Entity Lag vs. Physics Lag: Which is Killing Your Minecraft Server? | AjaRetro Devs">
+    <meta property="twitter:description" content="An in-depth comparison of entity lag versus physics lag in Minecraft. Learn how to diagnose both on your server and use CircuitBreaker to solve them.">
+    <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- JSON-LD Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Entity Lag vs. Physics Lag: Which is Killing Your Minecraft Server?",
+      "description": "An in-depth comparison of entity lag versus physics lag in Minecraft. Learn how to diagnose both on your server and use CircuitBreaker to solve them.",
+      "image": "https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg",
+      "author": {
+        "@type": "Person",
+        "name": "Ahmed Juhaed Ayeman Niloy"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AjaRetro Devs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ajaretro.dev/logo-google.png"
+        }
+      },
+      "datePublished": "2026-06-28T19:54:00Z"
+    }
+    </script>
+    <script src="/js/tailwind.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #f0f0f0;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        .prose {
+            color: #d1d5db;
+        }
+        .prose h2 {
+            color: #fff;
+        }
+        .prose h3 {
+            color: #e5e7eb;
+        }
+        .prose a {
+            color: #818cf8;
+            text-decoration: none;
+        }
+        .prose a:hover {
+            text-decoration: underline;
+        }
+        .prose strong {
+            color: #fff;
+        }
+        .glass-card {
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-black bg-opacity-50 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
+            <a href="../index.html" aria-label="AjaRetro Homepage" class="flex items-center space-x-3">
+                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#4F46E5"/>
+                            <stop offset="100%" stop-color="#22D3EE"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold text-white hidden sm:inline">AjaRetro Devs</span>
+            </a>
+            <a href="../index.html#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">Get a Quote</a>
+        </nav>
+    </header>
+
+    <!-- Main Blog Post Content -->
+    <main class="container mx-auto px-4 py-16 md:py-24">
+        <article class="prose prose-lg max-w-4xl mx-auto">
+            <!-- Post Header -->
+            <div class="text-center mb-12">
+                <p class="text-indigo-400 font-semibold">Minecraft Server Diagnostics</p>
+                <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mt-2">Entity Lag vs. Physics Lag: Which is Killing Your Minecraft Server?</h1>
+                <p class="mt-4 text-lg text-gray-400">Not all lag is created equal. Learn the difference between entity lag and physics loop lag, and configure your defenses to stop both.</p>
+            </div>
+
+            <!-- Post Body -->
+            <p>If you run a Minecraft server, you've probably heard players complain about "lag." But when you type `/tps`, you see the TPS dropping without knowing why. Diagnosing lag can be frustrating because **lag has different root causes**.</p>
+            <p>The two most common culprits are **Entity Lag** and **Physics Lag**. In this guide, we'll explain how they differ, how to diagnose them, and how **CircuitBreaker** provides a unified defense against both.</p>
+
+            <h2 class="mt-12">Entity Lag: Too Many Objects to Track</h2>
+            <p>Entity lag occurs when there are too many individual, active entities loaded in your server worlds. An entity is anything that can move, tick, or interact, including monsters, animals, item drops, and item frames.</p>
+            <ul class="space-y-2">
+                <li><strong>The Cause:</strong> Massive mob farms (e.g. 500 chickens in a single block), massive amounts of floating items on the ground from auto-farms, or thousands of armor stands in lobby regions.</li>
+                <li><strong>The Mechanism:</strong> The server must calculate pathfinding, collisions, gravity, and movements for every single entity on every tick, which quickly overwhelms the CPU thread.</li>
+            </ul>
+
+            <h2 class="mt-12">Physics Lag: Infinite Block Updates</h2>
+            <p>Physics lag occurs when block state changes propagate infinitely through a world, triggering heavy event checks inside Minecraft's physics engine.</p>
+            <ul class="space-y-2">
+                <li><strong>The Cause:</strong> Redstone clocks, repeating observer chains, piston arrays, and water/lava flow loops.</li>
+                <li><strong>The Mechanism:</strong> Every block state change calls a `BlockPhysicsEvent`, forcing the server to check neighboring blocks. When griefers build loops, the event queue gets flooded.</li>
+            </ul>
+
+            <h2 class="mt-12">Comparison: Entity vs. Physics Lag</h2>
+            <div class="glass-card p-6 my-8 border border-white/10">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-white/10 text-indigo-400 uppercase tracking-widest text-xs">
+                            <th class="py-3">Feature</th>
+                            <th class="py-3">Entity Lag</th>
+                            <th class="py-3">Physics Lag</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        <tr>
+                            <td class="py-3 font-bold">Main Culprit</td>
+                            <td class="py-3">Mob farms, item drops, entities</td>
+                            <td class="py-3">Redstone loops, pistons, observers</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold">Detection Metric</td>
+                            <td class="py-3">Entity count per chunk</td>
+                            <td class="py-3">Physics events per second</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold">Lag Impact</td>
+                            <td class="py-3">Consistent, slow TPS decrease</td>
+                            <td class="py-3">Sudden, violent TPS drop to 5 or lower</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="mt-12">The Dual Defense: How CircuitBreaker Solves Both</h2>
+            <p>Instead of installing separate plugins to manage entities and physics, **CircuitBreaker provides a dual-layer defense system**:</p>
+            <ol class="space-y-4 my-6">
+                <li>
+                    <strong>Layer 1: The Physics Shield (v1.0):</strong> Automatically monitors physics updates per chunk. When a loop exceeds threshold limits, it performs a soft reset, and finally a surgical hard freeze on the laggy chunk.
+                </li>
+                <li>
+                    <strong>Layer 2: The Smart Culler (v2.0):</strong> Scans chunks for excessive entity counts. If a chunk contains more than 500 entities, it selectively removes unimportant mobs while **fully protecting named entities, tamed pets, and villagers**.
+                </li>
+            </ol>
+
+            <h2 class="mt-12">Conclusion</h2>
+            <p>Diagnosing lag is the first step toward a smooth Minecraft server. By configuring **CircuitBreaker** to protect against both physics loops and entity overflow, you ensure your server remains stable and your community enjoys a lag-free experience.</p>
+            
+            <div class="text-center mt-16">
+                <a href="../circuitbreaker.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-lg text-lg no-underline inline-block">Secure Your Server with CircuitBreaker</a>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-black/50">
+        <div class="container mx-auto px-4 text-center text-gray-600">
+             <a href="../blog.html" class="text-gray-400 hover:text-white transition-colors">&larr; Back to Blog Index</a>
+            <p class="text-sm mt-4">&copy; 2026 AjaRetro Devs. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
