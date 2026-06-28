@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetroMail - Inbox Demo</title>
+    <title>RetroMail - Inbox</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
@@ -83,13 +83,12 @@
     <div id="app" class="w-full min-h-screen md:min-h-0 md:h-[90vh] max-w-7xl flex flex-col justify-between" v-cloak>
         
         <!-- MAIN DASHBOARD -->
-        <div class="w-full min-h-screen md:min-h-0 md:h-[90vh] flex flex-col glass-panel md:rounded-2xl overflow-hidden animate-fadeIn">
+        <div class="w-full min-h-screen md:min-h-0 md:h-[90vh] flex flex-col glass-panel md:rounded-2xl overflow-hidden">
             <!-- Top Header Navbar -->
             <div class="w-full border-b border-white/5 px-6 py-4 flex items-center justify-between bg-slate-900/40 backdrop-blur-md shrink-0 relative z-40">
                 <!-- Logo Header (Top Left) -->
-                <a href="inbox.html" class="flex items-center gap-2 select-none">
+                <a href="/inbox.html" class="flex items-center gap-2 select-none">
                     <h1 class="font-outfit text-2xl font-extrabold tracking-wider leading-none"><span class="text-red-600">{{ branding.serverName || 'RetroMail' }}</span></h1>
-                    <span class="bg-red-600/20 text-red-400 text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded border border-red-500/25">Demo Mode</span>
                 </a>
 
                 <!-- Dropdown for profile/pfp (Top Right) -->
@@ -110,25 +109,28 @@
                         </div>
 
                         <!-- Pages in Top Down Bar -->
-                        <a href="inbox.html" class="bg-red-600/25 text-white border border-red-500/30 w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
+                        <a href="/inbox.html" class="bg-red-600/25 text-white border border-red-500/30 w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
                             <span class="flex items-center gap-3"><i class="fa-solid fa-inbox text-sm"></i> Inbox</span>
                             <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow-sm shadow-red-900/40">{{ mails.length }}</span>
                         </a>
                         <button @click="openComposeModal(); navDropdownOpen = false" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white transition duration-200 text-xs font-bold shadow-md shadow-red-950/20">
                             <i class="fa-solid fa-pen text-xs"></i> Send Outbound
                         </button>
-                        <a href="settings.html" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
+                        <a href="/settings.html" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
                             <i class="fa-solid fa-sliders text-sm"></i> Settings
                         </a>
-                        <a v-if="profile.role === 'ADMIN'" href="admin.html" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
+                        <a v-if="profile.role === 'ADMIN'" href="/admin.html" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
                             <i class="fa-solid fa-shield-halved text-sm"></i> Administration
                         </a>
-                        <div class="border-t border-white/5 my-1.5"></div>
-                        <a href="https://discord.gg/pxgPCfngXx" target="_blank" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
+                        <div class="border-t border-white/5 my-1.5" v-if="branding.discordLink || branding.forumLink || branding.documentationLink"></div>
+                        <a v-if="branding.discordLink" :href="branding.discordLink" target="_blank" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
                             <i class="fa-brands fa-discord text-sm"></i> Discord
                         </a>
-                        <a href="../retromail.html" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
-                            <i class="fa-solid fa-book text-sm"></i> Back to Site
+                        <a v-if="branding.forumLink" :href="branding.forumLink" target="_blank" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
+                            <i class="fa-solid fa-comments text-sm"></i> Forums
+                        </a>
+                        <a v-if="branding.documentationLink" :href="branding.documentationLink" target="_blank" class="hover:bg-white/5 text-gray-400 hover:text-gray-200 border border-transparent w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold">
+                            <i class="fa-solid fa-book text-sm"></i> Documentation
                         </a>
                         <div class="border-t border-white/5 my-1.5"></div>
                         <button @click="handleLogout" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-red-950/20 text-red-400 hover:text-red-300 transition duration-200 text-xs font-semibold border border-transparent hover:border-red-950/40">
@@ -140,9 +142,10 @@
 
             <!-- Content Area -->
             <div class="flex-grow flex flex-col min-h-0 min-w-0 bg-slate-950/20">
-                <!-- Info Banner -->
-                <div class="bg-blue-950/50 border-b border-blue-800 text-blue-300 px-6 py-2 text-xs font-semibold flex items-center justify-between gap-4">
-                    <span><i class="fa-solid fa-circle-info mr-2 text-sm text-blue-400"></i> You are running the RetroMail simulated panel in <b>Demo Mode</b>. You can compose and receive mails in memory.</span>
+                <!-- Temporary Password Warning Banner -->
+                <div v-if="profile.tempPassword" class="bg-amber-950/60 border-b border-amber-800 text-amber-300 px-6 py-3 text-xs font-semibold flex items-center justify-between gap-4">
+                    <span><i class="fa-solid fa-circle-exclamation mr-2 text-sm"></i> You are using a temporary password. Please update your password immediately inside Settings.</span>
+                    <a href="/settings.html" class="bg-amber-600 text-white px-3 py-1 rounded-md font-bold hover:bg-amber-700 transition">Update Password</a>
                 </div>
 
                 <!-- Inbox Layout -->
@@ -152,7 +155,7 @@
                         <div class="p-4 border-b border-white/5 flex flex-col gap-3">
                             <div class="flex items-center justify-between">
                                 <h3 class="font-outfit font-bold text-lg text-slate-200">Mailbox</h3>
-                                <button @click="resetMails" class="text-gray-400 hover:text-white transition text-xs" title="Reset Demo Mails"><i class="fa-solid fa-rotate-left mr-1"></i> Reset Data</button>
+                                <button @click="fetchDashboardData" class="text-gray-400 hover:text-white transition" title="Refresh"><i class="fa-solid fa-rotate"></i></button>
                             </div>
                             <!-- Folder Selection Tabs -->
                             <div class="flex bg-black/40 rounded-xl p-1 border border-white/5">
@@ -211,10 +214,7 @@
                             <div class="border-b border-white/5 pb-4 flex flex-col gap-2">
                                 <div class="flex flex-wrap items-center justify-between gap-2">
                                     <h2 class="font-outfit font-bold text-xl text-slate-100">{{ activeMail.subject ? activeMail.subject : '(No Subject)' }}</h2>
-                                    <div class="flex items-center gap-2">
-                                        <button @click="replyToMail" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5"><i class="fa-solid fa-reply"></i> Reply</button>
-                                        <button @click="deleteMail(activeMail.id)" class="bg-red-950/40 text-red-400 hover:text-red-300 border border-red-900/30 font-bold text-xs px-3 py-2 rounded-xl transition flex items-center gap-1.5"><i class="fa-solid fa-trash"></i> Delete</button>
-                                    </div>
+                                    <button @click="replyToMail" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5"><i class="fa-solid fa-reply"></i> Reply</button>
                                 </div>
                                 <div class="flex items-center gap-2 text-xs">
                                     <span class="text-gray-400">From:</span> <span class="font-semibold text-red-300">{{ activeMail.mailFrom }}</span>
@@ -225,7 +225,7 @@
                                 <div class="text-[11px] text-gray-500 mt-1"><i class="fa-regular fa-clock mr-1"></i> {{ activeMail.receivedAt }}</div>
                             </div>
                             
-                            <!-- SECURE EMAIL BODY RENDERER -->
+                            <!-- SECURE EMAIL BODY RENDERER (Sandboxed iframe + pointer-events check) -->
                             <div class="flex-grow rounded-xl overflow-hidden bg-white/5 border border-white/5 p-4 min-h-[300px]">
                                 <iframe :srcdoc="getSafeHtmlContent(activeMail)" sandbox="allow-popups" :class="{ 'pointer-events-none': navDropdownOpen }" class="w-full h-full border-0 bg-transparent text-slate-300"></iframe>
                             </div>
@@ -246,6 +246,10 @@
                     <button @click="closeComposeModal" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
                 <form @submit.prevent="sendOutboundMail" class="flex flex-col gap-4">
+                    <div v-if="profile.role === 'ADMIN'">
+                        <label class="block text-gray-400 text-xs font-semibold mb-1.5 uppercase tracking-wider">Sender (From) <span class="text-xs text-red-500 font-normal lowercase">(admin override)</span></label>
+                        <input type="email" v-model="composeModal.from" maxlength="254" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$" title="Must be a valid sender email address format" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm" placeholder="Leave empty for default (username@domain.com)">
+                    </div>
                     <div>
                         <label class="block text-gray-400 text-xs font-semibold mb-1.5 uppercase tracking-wider">Recipient (To)</label>
                         <input type="email" v-model="composeModal.to" required maxlength="254" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$" title="Must be a valid recipient email address format" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm" placeholder="client@email.com">
@@ -281,8 +285,8 @@
                 const activeMail = ref(null);
                 const mailboxFolder = ref('inbox');
                 
-                const incomingMails = computed(() => mails.value.filter(m => !m.mailFrom.includes('(Outbound)')));
-                const outgoingMails = computed(() => mails.value.filter(m => m.mailFrom.includes('(Outbound)')));
+                const incomingMails = computed(() => mails.value.filter(m => !m.mailFrom.includes('(')));
+                const outgoingMails = computed(() => mails.value.filter(m => m.mailFrom.includes('(')));
                 const filteredMails = computed(() => mailboxFolder.value === 'sent' ? outgoingMails.value : incomingMails.value);
 
                 const mailsPerPage = ref(10);
@@ -303,14 +307,15 @@
                 });
 
                 const branding = ref({
-                    serverName: 'RetroMail Demo',
-                    discordLink: 'https://discord.gg/pxgPCfngXx',
+                    serverName: '',
+                    discordLink: '',
                     documentationLink: '',
                     forumLink: ''
                 });
 
                 const composeModal = ref({
                     open: false,
+                    from: '',
                     to: '',
                     subject: '',
                     body: '',
@@ -323,76 +328,76 @@
                 const fetchDashboardData = async () => {
                     const token = localStorage.getItem(tokenKey);
                     if (!token) {
-                        window.location.href = 'index.html';
+                        window.location.href = '/index.html';
                         return;
                     }
 
-                    const cachedProfile = localStorage.getItem('retromail_profile');
-                    if (cachedProfile) {
-                        profile.value = JSON.parse(cachedProfile);
-                    } else {
-                        handleLogout();
-                        return;
-                    }
+                    try {
+                        const response = await fetch('/api/dashboard', {
+                            headers: { 'Authorization': 'Bearer ' + token }
+                        });
 
-                    const cachedMails = localStorage.getItem('retromail_mails');
-                    if (cachedMails) {
-                        mails.value = JSON.parse(cachedMails);
+                        if (response.status === 401) {
+                            handleLogout();
+                            return;
+                        }
+
+                        const data = await response.json();
+                        profile.value = data.profile;
+                        mails.value = data.mails;
+                        if (data.branding) {
+                            branding.value = data.branding;
+                        }
+                    } catch (e) {
+                        console.error('Failed to fetch data', e);
                     }
                 };
 
                 const handleLogout = async () => {
+                    const token = localStorage.getItem(tokenKey);
+                    if (token) {
+                        try {
+                            await fetch('/api/logout', {
+                                headers: { 'Authorization': 'Bearer ' + token }
+                            });
+                        } catch(e){}
+                    }
                     localStorage.removeItem(tokenKey);
-                    localStorage.removeItem('retromail_profile');
-                    window.location.href = 'index.html';
-                };
-
-                const deleteMail = (id) => {
-                    if (!confirm('Are you sure you want to delete this email?')) return;
-                    mails.value = mails.value.filter(m => m.id !== id);
-                    localStorage.setItem('retromail_mails', JSON.stringify(mails.value));
-                    activeMail.value = null;
-                };
-
-                const resetMails = () => {
-                    if (!confirm('Are you sure you want to reset all email data to defaults?')) return;
-                    localStorage.removeItem('retromail_initialized');
-                    localStorage.removeItem('retromail_mails');
-                    localStorage.removeItem('retromail_staff');
-                    localStorage.removeItem('retromail_tokens');
-                    
-                    // Trigger re-initialization on next reload
-                    window.location.reload();
+                    window.location.href = '/index.html';
                 };
 
                 const openComposeModal = () => {
-                    composeModal.value = { open: true, to: '', subject: '', body: '', isHtml: false };
+                    composeModal.value = { open: true, from: '', to: '', subject: '', body: '', isHtml: false };
                 };
-                
                 const closeComposeModal = () => {
                     composeModal.value.open = false;
                 };
-                
                 const sendOutboundMail = async () => {
-                    const newMail = {
-                        id: Date.now(),
-                        mailFrom: profile.value.username + "@ajaretro.dev (Outbound)",
-                        mailTo: composeModal.value.to,
-                        subject: composeModal.value.subject,
-                        body: composeModal.value.body,
-                        isHtml: composeModal.value.isHtml,
-                        receivedAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
-                    };
-                    mails.value.unshift(newMail);
-                    localStorage.setItem('retromail_mails', JSON.stringify(mails.value));
-                    closeComposeModal();
-                    alert("Simulated Outbound Email sent successfully!");
+                    const token = localStorage.getItem(tokenKey);
+                    try {
+                        const response = await fetch('/api/send', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify(composeModal.value)
+                        });
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            closeComposeModal();
+                            await fetchDashboardData();
+                        }
+                    } catch(e){
+                        console.error('Failed to send mail', e);
+                    }
                 };
 
                 const replyToMail = () => {
                     if (!activeMail.value) return;
                     composeModal.value = {
                         open: true,
+                        from: '',
                         to: activeMail.value.mailFrom.replace(/<[^>]*>/, '').trim(),
                         subject: 'Re: ' + activeMail.value.subject,
                         body: '\n\n----- Original Message -----\nFrom: ' + activeMail.value.mailFrom + '\nDate: ' + activeMail.value.receivedAt + '\nSubject: ' + activeMail.value.subject + '\n\n',
@@ -476,8 +481,6 @@
                     navDropdownOpen,
                     fetchDashboardData,
                     handleLogout,
-                    deleteMail,
-                    resetMails,
                     openComposeModal,
                     closeComposeModal,
                     sendOutboundMail,
