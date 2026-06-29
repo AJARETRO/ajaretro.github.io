@@ -126,36 +126,36 @@
             <p>To address both needs, we utilize a **split-tier pricing model** (Free Standalone vs. Paid Commercial) for **RetroMail**. Let's look at exactly how both tiers function and how to choose the right one for your network.</p>
 
             <h2 class="mt-12">1. RetroMail Community Edition (Free)</h2>
-            <p>The **RetroMail Community Edition** is published for free on Modrinth and SpigotMC. It is designed to help small, single-server setups and network hubs verify player emails securely without upfront costs.</p>
+            <p>The **RetroMail Community Edition** is published for free on Modrinth and SpigotMC. It is designed to be fully featured, offering all proxy features, database configurations, and web front-ends without paywall limitations.</p>
             <ul>
-                <li><strong>⚙️ Standalone Core Verification:</strong> Includes full double-opt-in SMTP email verification. Players type their email in-game, receive an activation code in their inbox, and unlock reward commands upon verification.</li>
-                <li><strong>🔗 Multi-Server Network Sync:</strong> Yes! Unlike other premium plugins, multi-server network synchronization via BungeeCord and Velocity is **100% free**. The plugin code itself has no restrictions preventing Bungee/Velocity channel sync or local MySQL coordination on the free version.</li>
-                <li><strong>💾 Local Storage & Config:</strong> Verification records and player data are stored locally in SQLite or MySQL databases, and configurations are managed through standard local `.yml` files.</li>
-                <li><strong>👥 Community Support:</strong> Support is handled through community Discord channels and public GitHub issue boards.</li>
+                <li><strong>⚙️ Standalone Core Verification:</strong> Includes full double-opt-in SMTP email verification, player cooldowns, and customizable reward commands.</li>
+                <li><strong>🔗 Multi-Server Network Sync:</strong> Fully supported! Coordinate queues, sync databases, and verify player states across BungeeCord and Velocity proxy nodes without restrictions.</li>
+                <li><strong>💾 Enterprise Storage:</strong> Remote connection integration for MongoDB, Redis, and MySQL clusters is fully functional.</li>
+                <li><strong>🌐 Web Front-End:</strong> Free access to our responsive administrator Web Console & Visual Composer. You can track player metrics and send newsletters from your browser.</li>
+                <li><strong>⚠️ The Branding Disadvantage:</strong> The Community Edition appends a mandatory "Mail System by AJA_RETRO" developer watermark to the bottom of all sent player emails. Not having a white-labeled sender identity can hurt your playerbase's perception of your network and make it look less premium or custom.</li>
             </ul>
-            <p>The Community Edition is fully functional, has no time limits, and will remain free for server owners forever.</p>
 
             <h2 class="mt-12">2. RetroMail Commercial License (Paid)</h2>
-            <p>The **RetroMail Commercial License** is built specifically for commercial networks and server owners who want full automation, visual mailing tools, clean white-labeled branding, and direct priority support.</p>
+            <p>The **RetroMail Commercial License** is built for server networks looking to establish a professional, white-labeled brand presence, get direct developer access, and secure high-availability priority support.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
                 <div class="glass-card p-6 border border-indigo-500/20">
-                    <h3 class="mt-0 text-indigo-400">Watermark Removal</h3>
+                    <h3 class="mt-0 text-indigo-400">White-Label & Watermark Removal</h3>
                     <p class="text-sm leading-relaxed mt-2">
-                        Commercial licenses remove the default "Mail System by AJA_RETRO" watermark appended at the bottom of verification emails, allowing you to present a 100% clean and white-labeled brand to your players.
+                        Removes the mandatory "Mail System by AJA_RETRO" watermark from all verification and announcement emails, helping you maintain a premium, clean, custom-branded identity for your server.
                     </p>
                 </div>
                 <div class="glass-card p-6 border border-slate-500/20">
-                    <h3 class="mt-0 text-slate-400">Full-Stack Web Dashboard</h3>
+                    <h3 class="mt-0 text-slate-400">Dedicated SLA Support</h3>
                     <p class="text-sm leading-relaxed mt-2">
-                        Access to the responsive administration web portal (front-end). Admins can view real-time player verification analytics, customize newsletter themes visually in a browser editor, manage licenses, and send mass emails using a secure web composer interface.
+                        Receive a direct line of communication to Ahmed Ayeman (AJA RETRO) for prioritized developer support, custom integrations, database migrations, and hotfix requests.
                     </p>
                 </div>
             </div>
 
             <ul>
                 <li><strong>🔑 Automated License Verification:</strong> Paid installations link securely to our centralized licensing server using HMAC-SHA256 signature verification.</li>
-                <li><strong>📞 Dedicated Developer Retainer:</strong> Commercial clients receive direct developer support with guaranteed SLA response times to handle custom patch requests, API integrations, and database migrations.</li>
+                <li><strong>🛠️ Custom Patches:</strong> Request tailored adjustments or hooks specifically matched to your custom network architecture.</li>
             </ul>
 
             <h2 class="mt-12">Comparison: Standalone vs. Commercial</h2>
@@ -181,23 +181,23 @@
                         </tr>
                         <tr>
                             <td class="py-3 font-bold">Proxy Sync (Bungee/Velocity)</td>
-                            <td class="py-3">🟢 Fully Supported (Free)</td>
-                            <td class="py-3">🟢 Fully Supported (Free)</td>
+                            <td class="py-3">🟢 Included (Free)</td>
+                            <td class="py-3">🟢 Included (Free)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 font-bold">Storage Options</td>
-                            <td class="py-3">Local SQLite & MySQL</td>
-                            <td class="py-3">Remote MySQL & MongoDB sync</td>
+                            <td class="py-3 font-bold">Storage Options (MySQL/Redis/MongoDB)</td>
+                            <td class="py-3">🟢 Included (Free)</td>
+                            <td class="py-3">🟢 Included (Free)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold">Web Front-End & visual composer</td>
+                            <td class="py-3">🟢 Included (Free)</td>
+                            <td class="py-3">🟢 Included (Free)</td>
                         </tr>
                         <tr>
                             <td class="py-3 font-bold">Developer Watermark</td>
-                            <td class="py-3">Appended to Emails</td>
-                            <td class="py-3">❌ Removed (Clean Branding)</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 font-bold">Web Front-End</td>
-                            <td class="py-3">❌ Not Available</td>
-                            <td class="py-3">🟢 Web Console & Visual Composer</td>
+                            <td class="py-3">⚠️ Appended to sent emails</td>
+                            <td class="py-3">❌ Removed (100% White-Labeled)</td>
                         </tr>
                         <tr>
                             <td class="py-3 font-bold">Developer Support</td>
