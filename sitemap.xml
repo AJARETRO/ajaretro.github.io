@@ -2,90 +2,112 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ajaretro.dev/index.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/about.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/services.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/cover.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/totem.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/circuitbreaker.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/FoliaCore.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/retromail.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/retromail-blog-1.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/retromail-blog-2.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/retromail-blog-3.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-case-study.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-blog-2.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-blog-3.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-blog-4.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/why-anti-p2w-griefing-hurts-servers.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/cost-to-run-minecraft-network.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/foliacore-blog-1.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/foliacore-blog-2.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/foliacore-blog-3.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/hiring-custom-minecraft-developers.html</loc>
+    <lastmod>2026-06-29</lastmod>
     <priority>0.80</priority>
   </url>
 </urlset>
