@@ -6,22 +6,22 @@
     <link rel="apple-touch-icon" href="/logo-google.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Plugin Pricing: How Free vs. Commercial Licenses Work | AjaRetro Devs</title>
-    <meta name="description" content="An open look at our plugin pricing model. Learn what is included in the free standalone versions and how paid commercial licenses support large server networks.">
-    <meta name="keywords" content="minecraft plugin pricing, spigot commercial license, free vs paid minecraft plugins, retromail pricing model, foliacore licensing, custom minecraft plugin cost, how to grow a minecraft server">
+    <title>RetroMail Pricing Model: How Free vs. Commercial Editions Work | AjaRetro Devs</title>
+    <meta name="description" content="An open breakdown of the RetroMail pricing model. Learn about the free Community Edition with full multi-server sync, and what the Commercial License unlocks.">
+    <meta name="keywords" content="minecraft plugin pricing, retromail pricing model, free vs paid minecraft plugins, velocity sync free, bungeecord email verification, how to grow a minecraft server">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://ajaretro.dev/blog/minecraft-plugin-pricing-model.html">
-    <meta property="og:title" content="Minecraft Plugin Pricing: How Free vs. Commercial Licenses Work | AjaRetro Devs">
-    <meta property="og:description" content="An open look at our plugin pricing model. Learn what is included in the free standalone versions and how paid commercial licenses support large server networks.">
+    <meta property="og:url" content="https://ajaretro.dev/blog/retromail-pricing-model.html">
+    <meta property="og:title" content="RetroMail Pricing Model: How Free vs. Commercial Editions Work | AjaRetro Devs">
+    <meta property="og:description" content="An open breakdown of the RetroMail pricing model. Learn about the free Community Edition with full multi-server sync, and what the Commercial License unlocks.">
     <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://ajaretro.dev/blog/minecraft-plugin-pricing-model.html">
-    <meta property="twitter:title" content="Minecraft Plugin Pricing: How Free vs. Commercial Licenses Work | AjaRetro Devs">
-    <meta property="twitter:description" content="An open look at our plugin pricing model. Learn what is included in the free standalone versions and how paid commercial licenses support large server networks.">
+    <meta property="twitter:url" content="https://ajaretro.dev/blog/retromail-pricing-model.html">
+    <meta property="twitter:title" content="RetroMail Pricing Model: How Free vs. Commercial Editions Work | AjaRetro Devs">
+    <meta property="twitter:description" content="An open breakdown of the RetroMail pricing model. Learn about the free Community Edition with full multi-server sync, and what the Commercial License unlocks.">
     <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
 
     <!-- JSON-LD Structured Data for Google -->
@@ -29,8 +29,8 @@
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "Minecraft Plugin Pricing: How Free vs. Commercial Licenses Work",
-      "description": "An open look at our plugin pricing model. Learn what is included in the free standalone versions and how paid commercial licenses support large server networks.",
+      "headline": "RetroMail Pricing Model: How Free vs. Commercial Editions Work",
+      "description": "An open breakdown of the RetroMail pricing model. Learn about the free Community Edition with full multi-server sync, and what the Commercial License unlocks.",
       "image": "https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg",
       "author": {
         "@type": "Person",
@@ -44,7 +44,7 @@
           "url": "https://ajaretro.dev/logo-google.png"
         }
       },
-      "datePublished": "2026-06-29T05:03:00Z"
+      "datePublished": "2026-06-29T05:17:00Z"
     }
     </script>
     <script src="/js/tailwind.js"></script>
@@ -116,32 +116,33 @@
         <article class="prose prose-lg max-w-4xl mx-auto">
             <!-- Post Header -->
             <div class="text-center mb-12">
-                <p class="text-indigo-400 font-semibold">Minecraft Plugin Business Model</p>
-                <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mt-2">Minecraft Plugin Pricing: How Free vs. Commercial Licenses Work</h1>
-                <p class="mt-4 text-lg text-gray-400">Discover the structure of our software pricing model. Learn what is included in the Community Edition and what the Commercial License unlocks.</p>
+                <p class="text-indigo-400 font-semibold">RetroMail Licensing Model</p>
+                <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mt-2">RetroMail Pricing Model: How Free vs. Commercial Editions Work</h1>
+                <p class="mt-4 text-lg text-gray-400">Discover the structure of our software pricing model. Learn about the free Community Edition with full multi-server sync, and what the Commercial License unlocks.</p>
             </div>
 
             <!-- Post Body -->
             <p>Monetizing software in the Minecraft ecosystem is a delicate balance. On one side, developers need to cover hosting costs and devote hundreds of hours to writing optimized code. On the other side, server owners need accessible tools to grow their networks.</p>
-            <p>To address both needs, we utilize a **split-tier pricing model** (Free Standalone vs. Paid Commercial) across our premium plugins like RetroMail and CircuitBreaker. Let's look at exactly how both tiers function and how to choose the right one for your network.</p>
+            <p>To address both needs, we utilize a **split-tier pricing model** (Free Standalone vs. Paid Commercial) for **RetroMail**. Let's look at exactly how both tiers function and how to choose the right one for your network.</p>
 
             <h2 class="mt-12">1. RetroMail Community Edition (Free)</h2>
-            <p>The **RetroMail Community Edition** is published for free on Modrinth and SpigotMC. It is designed to help small, single-server setups and hobbyist networks verify player emails securely without upfront costs.</p>
+            <p>The **RetroMail Community Edition** is published for free on Modrinth and SpigotMC. It is designed to help small, single-server setups and network hubs verify player emails securely without upfront costs.</p>
             <ul>
                 <li><strong>⚙️ Standalone Core Verification:</strong> Includes full double-opt-in SMTP email verification. Players type their email in-game, receive an activation code in their inbox, and unlock reward commands upon verification.</li>
-                <li><strong>💾 Local Storage & Config:</strong> Verification records and player data are stored locally in a single SQLite database, and configurations are managed through standard local `.yml` files.</li>
+                <li><strong>🔗 Multi-Server Network Sync:</strong> Yes! Unlike other premium plugins, multi-server network synchronization via BungeeCord and Velocity is **100% free**. The plugin code itself has no restrictions preventing Bungee/Velocity channel sync or local MySQL coordination on the free version.</li>
+                <li><strong>💾 Local Storage & Config:</strong> Verification records and player data are stored locally in SQLite or MySQL databases, and configurations are managed through standard local `.yml` files.</li>
                 <li><strong>👥 Community Support:</strong> Support is handled through community Discord channels and public GitHub issue boards.</li>
             </ul>
-            <p>The Community Edition is fully functional, free of advertisements, and will remain free for server owners forever.</p>
+            <p>The Community Edition is fully functional, has no time limits, and will remain free for server owners forever.</p>
 
             <h2 class="mt-12">2. RetroMail Commercial License (Paid)</h2>
-            <p>The **RetroMail Commercial License** is built specifically for scaling Minecraft networks (BungeeCord/Velocity setups), commercial networks, and server owners who want full automation, visual styling tools, and direct priority support.</p>
+            <p>The **RetroMail Commercial License** is built specifically for commercial networks and server owners who want full automation, visual mailing tools, clean white-labeled branding, and direct priority support.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
                 <div class="glass-card p-6 border border-indigo-500/20">
-                    <h3 class="mt-0 text-indigo-400">Multi-Server Network Sync</h3>
+                    <h3 class="mt-0 text-indigo-400">Watermark Removal</h3>
                     <p class="text-sm leading-relaxed mt-2">
-                        Paid commercial licenses unlock Velocity and BungeeCord proxy integrations. Player verification queues, reward commands, and sync states are coordinated globally via Redis and MySQL databases, ensuring players don't have to re-verify when switching server nodes.
+                        Commercial licenses remove the default "Mail System by AJA_RETRO" watermark appended at the bottom of verification emails, allowing you to present a 100% clean and white-labeled brand to your players.
                     </p>
                 </div>
                 <div class="glass-card p-6 border border-slate-500/20">
@@ -179,14 +180,19 @@
                             <td class="py-3">Included (Full)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 font-bold">Proxy Sync</td>
-                            <td class="py-3">Single Node Only</td>
-                            <td class="py-3">Bungee/Velocity (Unlimited Nodes)</td>
+                            <td class="py-3 font-bold">Proxy Sync (Bungee/Velocity)</td>
+                            <td class="py-3">🟢 Fully Supported (Free)</td>
+                            <td class="py-3">🟢 Fully Supported (Free)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 font-bold">Storage</td>
-                            <td class="py-3">Local (YAML/SQLite)</td>
-                            <td class="py-3">Remote (MongoDB/Redis)</td>
+                            <td class="py-3 font-bold">Storage Options</td>
+                            <td class="py-3">Local SQLite & MySQL</td>
+                            <td class="py-3">Remote MySQL & MongoDB sync</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold">Developer Watermark</td>
+                            <td class="py-3">Appended to Emails</td>
+                            <td class="py-3">❌ Removed (Clean Branding)</td>
                         </tr>
                         <tr>
                             <td class="py-3 font-bold">Web Front-End</td>
@@ -203,7 +209,7 @@
             </div>
 
             <h2 class="mt-12">Conclusion</h2>
-            <p>Our pricing model is built to scale *with* your server. As your player base grows and your setup transitions from a single server to a network cluster, you can transition from the free standalone tier to the commercial license to unlock multi-server sync, web panels, and dedicated support.</p>
+            <p>Our pricing model is built to scale *with* your server. As your player base grows and your setup transitions from a single server to a network cluster, you can transition from the free standalone tier to the commercial license to unlock clean white-labeling, web panels, and dedicated support.</p>
             
             <div class="text-center mt-16">
                 <a href="../index.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-lg text-lg no-underline inline-block">View Our Plugin Ecosystem</a>
