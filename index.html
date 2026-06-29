@@ -166,154 +166,92 @@
                 </div>
             </div>
 
-            <!-- Interactive Product Showcase Carousel -->
-            <!-- Interactive Product Console / Showcase Deck -->
-            <div class="glass-card border border-brand-border bg-brand-card/20 backdrop-blur-xl rounded-[2.5rem] overflow-hidden" x-data="{ activeTab: 'foliacore' }">
-                <div class="grid grid-cols-1 lg:grid-cols-12">
-                    
-                    <!-- Left Sidebar: Selection Tabs -->
-                    <div class="lg:col-span-4 border-r border-brand-border bg-black/40 p-6 flex flex-col justify-center gap-3">
-                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest px-3 mb-2">Select Software</span>
-                        
-                        <!-- Tab 1: FoliaCore -->
-                        <button @click="activeTab = 'foliacore'" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all duration-300 border" :class="activeTab === 'foliacore' ? 'bg-emerald-500/10 border-emerald-500/30 text-white shadow-lg shadow-emerald-500/5' : 'bg-transparent border-transparent text-slate-400 hover:text-white hover:bg-white/5'">
-                            <span class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-lg">⚡</span>
-                            <div>
-                                <h4 class="font-black text-sm uppercase tracking-wider">FoliaCore</h4>
-                                <span class="text-[9px] font-mono text-emerald-400/70 uppercase">Folia Native</span>
-                            </div>
-                        </button>
-
-                        <!-- Tab 2: CircuitBreaker -->
-                        <button @click="activeTab = 'circuitbreaker'" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all duration-300 border" :class="activeTab === 'circuitbreaker' ? 'bg-brand-red/10 border-brand-red/30 text-white shadow-lg shadow-brand-red/5' : 'bg-transparent border-transparent text-slate-400 hover:text-white hover:bg-white/5'">
-                            <span class="w-10 h-10 rounded-xl bg-brand-red/10 flex items-center justify-center text-lg">🛑</span>
-                            <div>
-                                <h4 class="font-black text-sm uppercase tracking-wider">CircuitBreaker</h4>
-                                <span class="text-[9px] font-mono text-brand-red/70 uppercase">Anti-Lag Engine</span>
-                            </div>
-                        </button>
-
-                        <!-- Tab 3: BedrockTotem -->
-                        <button @click="activeTab = 'totem'" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all duration-300 border" :class="activeTab === 'totem' ? 'bg-amber-500/10 border-amber-500/30 text-white shadow-lg shadow-amber-500/5' : 'bg-transparent border-transparent text-slate-400 hover:text-white hover:bg-white/5'">
-                            <span class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-lg">💎</span>
-                            <div>
-                                <h4 class="font-black text-sm uppercase tracking-wider">BedrockTotem</h4>
-                                <span class="text-[9px] font-mono text-amber-400/70 uppercase">Geyser Balance</span>
-                            </div>
-                        </button>
-
-                        <!-- Tab 4: RetroMail -->
-                        <button @click="activeTab = 'retromail'" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all duration-300 border" :class="activeTab === 'retromail' ? 'bg-blue-500/10 border-blue-500/30 text-white shadow-lg shadow-blue-500/5' : 'bg-transparent border-transparent text-slate-400 hover:text-white hover:bg-white/5'">
-                            <span class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-lg">✉️</span>
-                            <div>
-                                <h4 class="font-black text-sm uppercase tracking-wider">RetroMail</h4>
-                                <span class="text-[9px] font-mono text-blue-400/70 uppercase">SMTP Server</span>
-                            </div>
-                        </button>
+            <!-- 2x2 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- FoliaCore -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-emerald-500/20 hover:shadow-2xl hover:shadow-emerald-500/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">⚡</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">FoliaCore</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            A complete essentials suite rewrite designed explicitly for regionized servers. Runs warp, spawn, utility commands, and chat visual frameworks asynchronously.
+                        </p>
                     </div>
-
-                    <!-- Right Main Area: Selected Details -->
-                    <div class="lg:col-span-8 p-8 md:p-12 flex flex-col justify-between min-h-[450px]">
-                        
-                        <!-- FoliaCore Panel -->
-                        <div x-show="activeTab === 'foliacore'" x-transition.opacity.duration.300 class="space-y-8 h-full flex flex-col justify-between">
-                            <div class="space-y-6">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Active System Spec</span>
-                                    <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">Asynchronous TPS</span>
-                                </div>
-                                <h3 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tighter">FoliaCore</h3>
-                                <p class="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">
-                                    A complete essentials suite rewrite designed explicitly for regionized servers. Runs warp, spawn, utility commands, and chat visual frameworks asynchronously.
-                                </p>
-                            </div>
-                            <div class="pt-8 border-t border-brand-border flex flex-col sm:flex-row gap-6 items-center justify-between">
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">Async TPS</span>
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">Multi-Thread</span>
-                                </div>
-                                <div class="flex gap-4 w-full sm:w-auto">
-                                    <a href="FoliaCore.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-xs font-black uppercase tracking-wider transition-all">Docs</a>
-                                    <a href="modrinth-transfer-foliacore.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-emerald-500 text-black rounded-xl hover:bg-emerald-400 text-xs font-black uppercase tracking-wider transition-all">Get</a>
-                                </div>
-                            </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-emerald-500/5 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">Folia Native</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">Async TPS</span>
                         </div>
-
-                        <!-- CircuitBreaker Panel -->
-                        <div x-show="activeTab === 'circuitbreaker'" x-transition.opacity.duration.300 class="space-y-8 h-full flex flex-col justify-between" style="display: none;">
-                            <div class="space-y-6">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Active System Spec</span>
-                                    <span class="px-2.5 py-1 rounded bg-brand-red/10 text-brand-red font-mono text-[9px] uppercase tracking-wider">Active Monitoring</span>
-                                </div>
-                                <h3 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tighter">CircuitBreaker</h3>
-                                <p class="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">
-                                    Surgical chunk-based event filters to isolate and defuse lag machines without affecting player performance. Instantly freezes chunk loops exceeding TPS margins.
-                                </p>
-                            </div>
-                            <div class="pt-8 border-t border-brand-border flex flex-col sm:flex-row gap-6 items-center justify-between">
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">Chunk Isolation</span>
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">PaperMC</span>
-                                </div>
-                                <div class="flex gap-4 w-full sm:w-auto">
-                                    <a href="blog/circuitbreaker-case-study.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-xs font-black uppercase tracking-wider transition-all">Blog</a>
-                                    <a href="circuitbreaker.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-xs font-black uppercase tracking-wider transition-all">Docs</a>
-                                    <a href="modrinth-transfer-circuitbreaker.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-brand-red text-white rounded-xl hover:bg-red-600 text-xs font-black uppercase tracking-wider transition-all">Get</a>
-                                </div>
-                            </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="FoliaCore.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-foliacore.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 text-xs font-black uppercase transition-all">Get</a>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- BedrockTotem Panel -->
-                        <div x-show="activeTab === 'totem'" x-transition.opacity.duration.300 class="space-y-8 h-full flex flex-col justify-between" style="display: none;">
-                            <div class="space-y-6">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Active System Spec</span>
-                                    <span class="px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 font-mono text-[9px] uppercase tracking-wider">Geyser Balance</span>
-                                </div>
-                                <h3 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tighter">BedrockTotem</h3>
-                                <p class="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">
-                                    Restores balance in cross-play PvP matches. Enables Bedrock Edition Geyser players to pop totems straight from inventory, mitigating physical touch-control lag.
-                                </p>
-                            </div>
-                            <div class="pt-8 border-t border-brand-border flex flex-col sm:flex-row gap-6 items-center justify-between">
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">Floodgate API</span>
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">Cross-Play</span>
-                                </div>
-                                <div class="flex gap-4 w-full sm:w-auto">
-                                    <a href="blog/bedrock-vs-java-pvp-balance.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-xs font-black uppercase tracking-wider transition-all">Blog</a>
-                                    <a href="totem.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-xs font-black uppercase tracking-wider transition-all">Docs</a>
-                                    <a href="modrinth-transfer-totem.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-amber-500 text-black rounded-xl hover:bg-amber-400 text-xs font-black uppercase tracking-wider transition-all">Get</a>
-                                </div>
-                            </div>
+                <!-- CircuitBreaker -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-brand-red/20 hover:shadow-2xl hover:shadow-brand-red/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-brand-red/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">🛑</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">CircuitBreaker</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Surgical chunk-based event filters to isolate and defuse lag machines without affecting player performance. Instantly freezes chunk loops exceeding TPS margins.
+                        </p>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-brand-red/5 text-brand-red font-mono text-[9px] uppercase tracking-wider">Surgical Anti-Lag</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">PaperMC</span>
                         </div>
-
-                        <!-- RetroMail Panel -->
-                        <div x-show="activeTab === 'retromail'" x-transition.opacity.duration.300 class="space-y-8 h-full flex flex-col justify-between" style="display: none;">
-                            <div class="space-y-6">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Active System Spec</span>
-                                    <span class="px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 font-mono text-[9px] uppercase tracking-wider">SMTP Gateway</span>
-                                </div>
-                                <h3 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tighter">RetroMail</h3>
-                                <p class="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">
-                                    Secure double-opt-in SMTP gateway integration. Verifies player emails in-game, triggers commands based on verification states, and coordinates multi-server queues.
-                                </p>
-                            </div>
-                            <div class="pt-8 border-t border-brand-border flex flex-col sm:flex-row gap-6 items-center justify-between">
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">HMAC Secure</span>
-                                    <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[10px] uppercase tracking-wider">Visual Composer</span>
-                                </div>
-                                <div class="flex gap-4 w-full sm:w-auto">
-                                    <a href="blog/retromail-pricing-model.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-xs font-black uppercase tracking-wider transition-all">Blog</a>
-                                    <a href="retromail.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-xs font-black uppercase tracking-wider transition-all">Docs</a>
-                                    <a href="modrinth-transfer-retromail.html" class="flex-1 sm:flex-none text-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-500 text-xs font-black uppercase tracking-wider transition-all">Get</a>
-                                </div>
-                            </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="blog/circuitbreaker-case-study.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Blog</a>
+                            <a href="circuitbreaker.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-circuitbreaker.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-brand-red text-white rounded-lg hover:bg-red-500 text-xs font-black uppercase transition-all">Get</a>
                         </div>
+                    </div>
+                </div>
 
+                <!-- RetroBedrockTotem -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-amber-500/20 hover:shadow-2xl hover:shadow-amber-500/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">💎</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">BedrockTotem</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Restores balance in cross-play PvP matches. Enables Bedrock Edition Geyser players to pop totems straight from inventory, mitigating physical touch-control lag.
+                        </p>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-amber-500/5 text-amber-400 font-mono text-[9px] uppercase tracking-wider">Floodgate API</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">Cross-Play</span>
+                        </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="blog/bedrock-vs-java-pvp-balance.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Blog</a>
+                            <a href="totem.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-totem.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-amber-500 text-black rounded-lg hover:bg-amber-400 text-xs font-black uppercase transition-all">Get</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RetroMail -->
+                <div class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] flex flex-col justify-between hover:border-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/5 transition-all group">
+                    <div class="space-y-6">
+                        <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-115 transition">✉️</div>
+                        <h3 class="text-3xl font-black italic uppercase text-white">RetroMail</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Secure double-opt-in SMTP gateway integration. Verifies player emails in-game, triggers commands based on verification states, and coordinates multi-server queues.
+                        </p>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-brand-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <span class="px-2.5 py-1 rounded-md bg-blue-500/5 text-blue-400 font-mono text-[9px] uppercase tracking-wider">SMTP Gateway</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-mono text-[9px] uppercase tracking-wider">HMAC Secure</span>
+                        </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="blog/retromail-pricing-model.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Blog</a>
+                            <a href="retromail.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 text-xs font-black uppercase transition-all">Docs</a>
+                            <a href="modrinth-transfer-retromail.html" class="flex-1 sm:flex-none text-center px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-500 text-xs font-black uppercase transition-all">Get</a>
+                        </div>
                     </div>
                 </div>
             </div>
