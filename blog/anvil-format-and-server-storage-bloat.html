@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Favicon / Brand Logo for Google Search -->
+    <link rel="icon" type="image/png" href="/logo-google.png">
+    <link rel="apple-touch-icon" href="/logo-google.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Anatomy of Minecraft Anvil Storage: How Sector Allocation Bloats Your Region Files | AjaRetro Devs</title>
+    <meta name="description" content="Learn how Minecraft's Anvil MCA storage system allocates space, why a single traveled block creates a 5MB region file, and how to prevent server bloat.">
+    <meta name="keywords" content="minecraft anvil format, mca region file, sector allocation minecraft, minecraft server storage bloat, optimize region files, retroworldpurger, spigot storage optimization">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ajaretro.dev/blog/anvil-format-and-server-storage-bloat.html">
+    <meta property="og:title" content="The Anatomy of Minecraft Anvil Storage: How Sector Allocation Bloats Your Region Files | AjaRetro Devs">
+    <meta property="og:description" content="Learn how Minecraft's Anvil MCA storage system allocates space, why a single traveled block creates a 5MB region file, and how to prevent server bloat.">
+    <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ajaretro.dev/blog/anvil-format-and-server-storage-bloat.html">
+    <meta property="twitter:title" content="The Anatomy of Minecraft Anvil Storage: How Sector Allocation Bloats Your Region Files | AjaRetro Devs">
+    <meta property="twitter:description" content="Learn how Minecraft's Anvil MCA storage system allocates space, why a single traveled block creates a 5MB region file, and how to prevent server bloat.">
+    <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- JSON-LD Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "The Anatomy of Minecraft Anvil Storage: How Sector Allocation Bloats Your Region Files",
+      "description": "Learn how Minecraft's Anvil MCA storage system allocates space, why a single traveled block creates a 5MB region file, and how to prevent server bloat.",
+      "image": "https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg",
+      "author": {
+        "@type": "Person",
+        "name": "Ahmed Juhaed Ayeman Niloy"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AjaRetro Devs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ajaretro.dev/logo-google.png"
+        }
+      },
+      "datePublished": "2026-06-30T03:20:00Z"
+    }
+    </script>
+    <script src="/js/tailwind.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #d1d5db;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: #ffffff;
+        }
+        .prose a {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+        .prose a:hover {
+            text-decoration: underline;
+        }
+        .glass-card {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-black bg-opacity-50 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
+            <a href="../index.html" aria-label="AjaRetro Homepage" class="flex items-center space-x-3">
+                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#8b5cf6"/>
+                            <stop offset="100%" stop-color="#ec4899"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold text-white hidden sm:inline">AjaRetro Devs</span>
+            </a>
+            <a href="../index.html#contact" class="bg-violet-600 hover:bg-violet-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">Get a Quote</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-16 md:py-24 max-w-4xl">
+        <article class="prose prose-lg mx-auto space-y-8">
+            <!-- Post Header -->
+            <div class="text-center mb-12 space-y-4">
+                <p class="text-violet-400 font-semibold uppercase tracking-widest text-xs">Minecraft Multi-Threading Architecture</p>
+                <h1 class="text-3xl md:text-5xl font-black text-white leading-tight mt-2">The Anatomy of Minecraft Anvil Storage: How Sector Allocation Bloats Your Region Files</h1>
+                <p class="text-base md:text-lg text-gray-400">Discover the internal mechanics of Minecraft's region storage. Learn how a single block transition creates massive disk space overhead.</p>
+            </div>
+
+            <!-- Post Body -->
+            <p>
+                Minecraft servers consume disk space at a disproportionate rate compared to other multiplayer games. While a game like Counter-Strike or Rust stores basic player coordinates and build files measured in Megabytes, a single Minecraft server can easily balloon to hundreds of Gigabytes or even Terabytes within weeks.
+            </p>
+            <p>
+                To understand why this happens, we have to look past the gameplay and examine the **Anvil storage format**, specifically how the server allocates blocks inside **`.mca` region files**.
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">The Region and Chunk Grid</h2>
+            <p>
+                Minecraft does not save chunks as individual files. Doing so would overwhelm the operating system's filesystem with millions of tiny files, grinding drive performance to a halt.
+            </p>
+            <p>
+                Instead, the game groups chunks into **Region Files** (`.mca` files stored inside the <code>/region</code>, <code>/poi</code>, and <code>/entities</code> folders):
+                <ul class="list-disc pl-6 space-y-2 mt-4 text-sm text-gray-400">
+                    <li>Each region file represents a grid of <strong>32 &times; 32 chunks</strong> (a 512 &times; 512 block area).</li>
+                    <li>A region file is named based on coordinates, e.g., <code>r.0.0.mca</code> covers coordinates from 0,0 to 511,511.</li>
+                </ul>
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">Sector Allocation: The 4096-Byte Rule</h2>
+            <p>
+                An MCA file operates like a mini-filesystem. At the very beginning of the file is an 8 KB header:
+                <ul class="list-disc pl-6 space-y-2 mt-4 text-sm text-gray-400">
+                    <li>The first 4 KB contains a table of chunk offsets, indicating where each chunk's data starts in the file.</li>
+                    <li>The second 4 KB stores timestamps indicating when each chunk was last modified.</li>
+                </ul>
+            </p>
+            <p>
+                Behind this header, chunk data is saved in blocks of **4096 bytes (4 KB)**, known as **Sectors**.
+            </p>
+            <p>
+                When the server writes a chunk, it compresses the chunk data (using zlib or ZSTD) and rounds the file size up to the nearest multiple of 4 KB. If a chunk compresses to 5 KB, it is allocated **2 sectors (8 KB)**. The extra 3 KB is wasted space, acting as padding.
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">The 4.5 MB Bloat Case</h2>
+            <p>
+                Here is where the massive bloat occurs. Suppose a player flies in a diagonal line, touching just **one single chunk** at the corner of a brand-new region grid (e.g. at block coordinate 512, 512, which belongs to `r.1.1.mca`).
+            </p>
+            <p>
+                Even though only one chunk is loaded:
+                <ol class="list-decimal pl-6 space-y-2 mt-4 text-sm text-gray-400">
+                    <li>The server must create the file <code>r.1.1.mca</code>.</li>
+                    <li>The filesystem allocates the 8 KB headers.</li>
+                    <li>The single chunk is generated, compressed, and written (taking roughly 8 KB).</li>
+                    <li>Because of filesystem sector limits on the hard drive and MCA headers, the OS allocates block sizes on the drive. More importantly, as the player continues traveling, more region files are created.</li>
+                </ol>
+                If players travel widely, they generate hundreds of region files. Even if each region file contains only 1 or 2 loaded chunks, **the filesystem must allocate space for all these files**. This causes "sparse file bloat," where a server folder looks massive on disk even if actual player modifications are tiny.
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">Mitigating Bloat at the Source</h2>
+            <p>
+                Instead of running offline cleaning scripts (like MCA Selector) which take hours, require stopping the server, and risk corrupting files, servers can prevent the writes from happening in the first place.
+            </p>
+            <p>
+                By using <a href="../retroworldpurger.html">RetroWorldPurger</a>:
+                <ul class="list-disc pl-6 space-y-2 mt-4 text-sm text-gray-400">
+                    <li>If a chunk has no modifications and the player leaves quickly, the server unloads the chunk with the save flag set to false.</li>
+                    <li>The sector writes never occur.</li>
+                    <li>The MCA region file remains small or is never created at all.</li>
+                </ul>
+                This keeps region files compact, prevents drive sector fragmentation, and reduces backup transfer times by up to **90%**.
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">Conclusion</h2>
+            <p>
+                Understanding sector allocation shows why casual exploration ruins server storage efficiency. Protecting your server from bloated region files requires an active, inline chunk filter that halts unmodified writes before they reach the NVMe SSD.
+            </p>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
+                Designed for the Multithreaded Era • &copy; 2026<br>
+                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

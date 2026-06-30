@@ -130,4 +130,19 @@
     <lastmod>2026-06-29</lastmod>
     <priority>0.80</priority>
   </url>
+  <url>
+    <loc>https://ajaretro.dev/blog/why-2b2ts-80tb-world-is-mostly-empty.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/blog/cross-border-redstone-and-chunk-purging-safety.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/blog/anvil-format-and-server-storage-bloat.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <priority>0.80</priority>
+  </url>
 </urlset>

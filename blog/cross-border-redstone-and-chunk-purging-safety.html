@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Favicon / Brand Logo for Google Search -->
+    <link rel="icon" type="image/png" href="/logo-google.png">
+    <link rel="apple-touch-icon" href="/logo-google.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redstone & Automation Across Borders: Why Simple Chunk Cleaners Break Anarchy Worlds | AjaRetro Devs</title>
+    <meta name="description" content="Discover how pistons, water flow, and dispensers crossing chunk lines break traditional chunk purging plugins, and how to build a safe propagation solution.">
+    <meta name="keywords" content="minecraft redstone chunk border, piston boundary lag, water flow chunk border, minecraft chunk cleaner bug, safe chunk purging, retroworldpurger, minecraft systems development">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ajaretro.dev/blog/cross-border-redstone-and-chunk-purging-safety.html">
+    <meta property="og:title" content="Redstone & Automation Across Borders: Why Simple Chunk Cleaners Break Anarchy Worlds | AjaRetro Devs">
+    <meta property="og:description" content="Discover how pistons, water flow, and dispensers crossing chunk lines break traditional chunk purging plugins, and how to build a safe propagation solution.">
+    <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ajaretro.dev/blog/cross-border-redstone-and-chunk-purging-safety.html">
+    <meta property="twitter:title" content="Redstone & Automation Across Borders: Why Simple Chunk Cleaners Break Anarchy Worlds | AjaRetro Devs">
+    <meta property="twitter:description" content="Discover how pistons, water flow, and dispensers crossing chunk lines break traditional chunk purging plugins, and how to build a safe propagation solution.">
+    <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
+
+    <!-- JSON-LD Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Redstone & Automation Across Borders: Why Simple Chunk Cleaners Break Anarchy Worlds",
+      "description": "Discover how pistons, water flow, and dispensers crossing chunk lines break traditional chunk purging plugins, and how to build a safe propagation solution.",
+      "image": "https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg",
+      "author": {
+        "@type": "Person",
+        "name": "Ahmed Juhaed Ayeman Niloy"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AjaRetro Devs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ajaretro.dev/logo-google.png"
+        }
+      },
+      "datePublished": "2026-06-30T03:20:00Z"
+    }
+    </script>
+    <script src="/js/tailwind.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #d1d5db;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: #ffffff;
+        }
+        .prose a {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+        .prose a:hover {
+            text-decoration: underline;
+        }
+        .glass-card {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-black bg-opacity-50 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto p-4 md:p-6 flex justify-between items-center">
+            <a href="../index.html" aria-label="AjaRetro Homepage" class="flex items-center space-x-3">
+                <svg class="h-8 w-auto text-white" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#8b5cf6"/>
+                            <stop offset="100%" stop-color="#ec4899"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M40 0 L10 50 L40 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M70 15 V 85 C 70 95 60 95 55 85" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 0 L130 50 L100 100" stroke="url(#logoGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold text-white hidden sm:inline">AjaRetro Devs</span>
+            </a>
+            <a href="../index.html#contact" class="bg-violet-600 hover:bg-violet-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">Get a Quote</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-16 md:py-24 max-w-4xl">
+        <article class="prose prose-lg mx-auto space-y-8">
+            <!-- Post Header -->
+            <div class="text-center mb-12 space-y-4">
+                <p class="text-violet-400 font-semibold uppercase tracking-widest text-xs">Minecraft Server Diagnostics & Engineering</p>
+                <h1 class="text-3xl md:text-5xl font-black text-white leading-tight mt-2">Redstone & Automation Across Borders: Why Simple Chunk Cleaners Break Anarchy Worlds</h1>
+                <p class="text-base md:text-lg text-gray-400">Simple chunk cleaning algorithms suffer from major blind spots. Learn why cross-border actions can destroy builds and how we resolve this safely.</p>
+            </div>
+
+            <!-- Post Body -->
+            <p>
+                To maintain stable performance, many large Minecraft servers utilize chunk-cleaning tools to discard unmodified chunks. The logic is simple: if a player has not built in a chunk, let the server discard it upon unloading to prevent storage bloat.
+            </p>
+            <p>
+                However, standard chunk cleaners possess a **devastating blind spot**: **they only track actions occurring inside the chunk itself**. 
+            </p>
+            <p>
+                In anarchy or technical Minecraft environments, builds are rarely self-contained. Redstone flying machines cross thousands of blocks, pistons push blocks across boundaries, water flows down slopes into adjacent chunks, and saplings grow into massive trees spilling over borders. If a chunk cleaner unloads and purges these adjacent chunks, it **wipes out player builds, breaks redstone machinery, and corrupts world data**.
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">The Border Cascades</h2>
+            <p>
+                To understand why standard chunk cleaners break redstone and automation, we must analyze the three classic failure cases:
+            </p>
+
+            <div class="space-y-6 my-8">
+                <!-- Case 1 -->
+                <div class="glass-card p-6 border border-violet-500/10">
+                    <h3 class="mt-0 text-violet-400 text-lg font-bold">1. Piston Bridges</h3>
+                    <p class="text-sm mt-2 text-gray-300">
+                        When a piston pushed by a redstone loop extends, it moves blocks into the adjacent chunk. If the destination chunk is unmarked because the player never stood in it or placed blocks there directly, a simple cleaner will discard it upon unload. This deletes the pushed blocks, leaving the piston head floating and breaking the machine loop.
+                    </p>
+                </div>
+                <!-- Case 2 -->
+                <div class="glass-card p-6 border border-violet-500/10">
+                    <h3 class="mt-0 text-violet-400 text-lg font-bold">2. Fluid Flows & Cobblestone Generators</h3>
+                    <p class="text-sm mt-2 text-gray-300">
+                        If a player places a water source that flows across a border, the fluid changes the blocks in the next chunk. When that chunk unloads, a simple cleaner purges it because no player directly placed blocks inside it. Next time the chunk loads, the flowing water disappears or behaves erratically, breaking automated cobblestone or obsidian factories.
+                    </p>
+                </div>
+                <!-- Case 3 -->
+                <div class="glass-card p-6 border border-violet-500/10">
+                    <h3 class="mt-0 text-violet-400 text-lg font-bold">3. Structure Growths</h3>
+                    <p class="text-sm mt-2 text-gray-300">
+                        When a player grows a mega-spruce or dark oak tree right on a chunk boundary, the logs and leaf blocks spawn inside the adjacent chunks. Without boundary awareness, the cleaner treats these leaf and log blocks as vanilla tree generation, wipes the chunks, and splits the tree in half.
+                    </p>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold mt-10">Solving the Boundary Problem</h2>
+            <p>
+                A truly safe storage optimizer must track **cross-border event propagation**. This is the core engineering design behind <a href="../retroworldpurger.html">RetroWorldPurger</a>.
+            </p>
+            <p>
+                Instead of listening to basic block placement, RetroWorldPurger implements **border-aware listeners**:
+                <ul class="list-disc pl-6 space-y-2 mt-4 text-sm text-gray-400">
+                    <li><strong>Piston Events:</strong> Tracks <code>BlockPistonExtendEvent</code> and <code>BlockPistonRetractEvent</code>. The plugin loops through all pushed blocks, flagging both the origin and destination chunks as modified.</li>
+                    <li><strong>Fluid Events:</strong> Tracks <code>BlockFromToEvent</code>. If water or lava crosses a border, the plugin checks if the source chunk was modified by a player. If it was, the modification state propagates to the destination chunk.</li>
+                    <li><strong>Dispenser & Projectile Events:</strong> If a dispenser fires items/fluids or an arrow strikes a button/target across a boundary, the plugin flags the target chunk.</li>
+                    <li><strong>Structure Growth Events:</strong> Monitors <code>StructureGrowEvent</code>, looping through all generated blocks and marking every unique chunk hosting the new structures.</li>
+                </ul>
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">MSPT Optimization on Folia</h2>
+            <p>
+                Because these listeners run constantly on high-traffic servers, they must not introduce performance overhead. RetroWorldPurger ensures **zero MSPT impact** by checking the Persistent Data Container (PDC) flag *before* performing write operations:
+            </p>
+            <pre class="text-xs md:text-sm font-mono text-slate-300 leading-relaxed bg-zinc-950/50 p-6 rounded-xl border border-brand-border"><code>private void markChunk(Chunk chunk) {
+    PersistentDataContainer pdc = chunk.getPersistentDataContainer();
+    if (!pdc.has(MODIFIED_KEY, PersistentDataType.BYTE)) {
+        pdc.set(MODIFIED_KEY, PersistentDataType.BYTE, (byte) 1);
+    }
+}</code></pre>
+            <p>
+                This short-circuit check prevents the CPU from performing expensive disk writes or database lookups repeatedly for active chunks that are already marked safe.
+            </p>
+
+            <h2 class="text-2xl font-bold mt-10">Conclusion</h2>
+            <p>
+                Chunk cleaning cannot be simple. By using a border-aware solution like RetroWorldPurger, server owners can safely reclaim massive amounts of disk space without the fear of breaking player bases, automated farms, or redstone setups.
+            </p>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
+            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
+                Designed for the Multithreaded Era • &copy; 2026<br>
+                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
