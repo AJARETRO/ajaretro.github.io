@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/logo-google.png">
     <link rel="apple-touch-icon" href="/logo-google.png">
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transferring to Modrinth | AJA RETRO</title>
     <script src="/js/tailwind.js"></script>
@@ -12,25 +13,25 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
 
-        body {{
+        body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #050505;
             color: #f8fafc;
             overflow: hidden;
-        }}
+        }
 
-        .glass {{
+        .glass {
             background: rgba(15, 15, 15, 0.7);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-        }}
+        }
 
-        .grid-bg {{
+        .grid-bg {
             background-image: 
                 linear-gradient(rgba(239, 68, 68, 0.02) 2px, transparent 2px),
                 linear-gradient(90deg, rgba(239, 68, 68, 0.02) 2px, transparent 2px);
             background-size: 60px 60px;
-        }}
+        }
     </style>
 </head>
 <body class="grid-bg min-h-screen flex flex-col justify-between items-center py-10 px-6">
@@ -100,23 +101,23 @@
         const totalDuration = 3;
         const dashArray = 301.6;
 
-        const interval = setInterval(() => {{
+        const interval = setInterval(() => {
             timeLeft--;
-            if (timeLeft >= 0) {{
+            if (timeLeft >= 0) {
                 countdownEl.innerText = timeLeft;
                 // Calculate dashoffset
                 const offset = dashArray - (dashArray * (timeLeft / totalDuration));
                 progressBar.style.strokeDashoffset = offset;
-            }}
+            }
             
-            if (timeLeft <= 0) {{
+            if (timeLeft <= 0) {
                 clearInterval(interval);
                 countdownEl.innerText = "✓";
-                setTimeout(() => {{
+                setTimeout(() => {
                     window.location.href = redirectUrl;
-                }}, 200);
-            }}
-        }}, 1000);
+                }, 200);
+            }
+        }, 1000);
     </script>
 </body>
 </html>

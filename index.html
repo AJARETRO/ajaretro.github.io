@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/logo-google.png">
     <link rel="apple-touch-icon" href="/logo-google.png">
     <meta charset="UTF-8">
+    <link rel="canonical" href="https://ajaretro.dev/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJA RETRO | Ahmed Juhaed Ayeman Niloy | High-Performance Server Engineering</title>
     <meta name="description" content="Welcome to the official portal of Ahmed Juhaed Ayeman Niloy (AJA RETRO / AJA NILOY / RETRO), developing next-generation multithreaded systems, Minecraft Spigot/Folia plugins (FoliaCore, RetroMail Email Verification), and network security filters.">
@@ -279,7 +280,124 @@
         </div>
     </section>
 
+    <!-- Research Grid -->
+    <section id="research" class="py-24 px-6 md:px-12 bg-zinc-950/40 border-t border-brand-border">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <div class="border-b border-brand-border pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                    <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-white">Research &amp; Case Studies</h2>
+                    <p class="text-zinc-500 mt-2 text-sm md:text-base">Deep dives into Minecraft hosting, storage engine benchmarks, and multithreaded architectures.</p>
+                </div>
+                <div class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+                    Developer Logs &amp; Analysis
+                </div>
+            </div>
 
+            <!-- Categories Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Server Architecture & Performance -->
+                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] flex flex-col justify-between hover:border-emerald-500/20 transition-all">
+                    <div class="space-y-6">
+                        <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xl">⚡</div>
+                        <h3 class="text-xl font-bold uppercase tracking-wider text-white">Performance &amp; Clusters</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">Optimization guidelines, regional tick allocation, and multi-server scaling.</p>
+                        <ul class="space-y-3 font-medium text-xs text-slate-400">
+                            <li>
+                                <a href="blog/foliacore-blog-1.html" class="hover:text-emerald-400 transition flex items-center gap-1.5">&middot; Folia vs Legacy Utilities</a>
+                            </li>
+                            <li>
+                                <a href="blog/foliacore-blog-2.html" class="hover:text-emerald-400 transition flex items-center gap-1.5">&middot; Zero MSPT Impact Engineering</a>
+                            </li>
+                            <li>
+                                <a href="blog/foliacore-blog-3.html" class="hover:text-emerald-400 transition flex items-center gap-1.5">&middot; Building 1,000+ Player Cluster</a>
+                            </li>
+                            <li>
+                                <a href="blog/circuitbreaker-blog-2.html" class="hover:text-emerald-400 transition flex items-center gap-1.5">&middot; config.yml Tuning Guide</a>
+                            </li>
+                            <li>
+                                <a href="blog/circuitbreaker-blog-3.html" class="hover:text-emerald-400 transition flex items-center gap-1.5">&middot; Block Physics Loop Lag</a>
+                            </li>
+                            <li>
+                                <a href="blog/circuitbreaker-blog-4.html" class="hover:text-emerald-400 transition flex items-center gap-1.5">&middot; Entity vs Physics Lag</a>
+                            </li>
+                            <li>
+                                <a href="blog/circuitbreaker-case-study.html" class="hover:text-emerald-400 transition flex items-center gap-1.5">&middot; Lag Machine Defense Case Study</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Storage Engineering & Data Management -->
+                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] flex flex-col justify-between hover:border-violet-500/20 transition-all">
+                    <div class="space-y-6">
+                        <div class="w-12 h-12 bg-violet-500/10 rounded-xl flex items-center justify-center text-xl">🧹</div>
+                        <h3 class="text-xl font-bold uppercase tracking-wider text-white">Storage &amp; Data</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">Anvil format file structures, region sector allocation, and anarchy storage limits.</p>
+                        <ul class="space-y-3 font-medium text-xs text-slate-400">
+                            <li>
+                                <a href="blog/anvil-format-and-server-storage-bloat.html" class="hover:text-violet-400 transition flex items-center gap-1.5">&middot; Anatomy of Anvil Storage</a>
+                            </li>
+                            <li>
+                                <a href="blog/why-2b2ts-80tb-world-is-mostly-empty.html" class="hover:text-violet-400 transition flex items-center gap-1.5">&middot; Why 2b2t's 80TB is Empty</a>
+                            </li>
+                            <li>
+                                <a href="blog/cross-border-redstone-and-chunk-purging-safety.html" class="hover:text-violet-400 transition flex items-center gap-1.5">&middot; Redstone &amp; Purging Safety</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Player Engagement & Server Growth -->
+                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] flex flex-col justify-between hover:border-blue-500/20 transition-all">
+                    <div class="space-y-6">
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-xl">✉️</div>
+                        <h3 class="text-xl font-bold uppercase tracking-wider text-white">Engagement &amp; PvP</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">SMTP verification gateways, player retention metrics, and Bedrock client PvP balance.</p>
+                        <ul class="space-y-3 font-medium text-xs text-slate-400">
+                            <li>
+                                <a href="blog/retromail-blog-1.html" class="hover:text-blue-400 transition flex items-center gap-1.5">&middot; Minecraft SMTP Verification</a>
+                            </li>
+                            <li>
+                                <a href="blog/retromail-blog-2.html" class="hover:text-blue-400 transition flex items-center gap-1.5">&middot; How We Lost 80% of Players</a>
+                            </li>
+                            <li>
+                                <a href="blog/retromail-blog-3.html" class="hover:text-blue-400 transition flex items-center gap-1.5">&middot; RetroMail vs Standalone Apps</a>
+                            </li>
+                            <li>
+                                <a href="blog/bedrock-vs-java-pvp-balance.html" class="hover:text-blue-400 transition flex items-center gap-1.5">&middot; Crossplay PvP Disadvantage</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Monetization & Server Economics -->
+                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] flex flex-col justify-between hover:border-red-500/20 transition-all">
+                    <div class="space-y-6">
+                        <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-xl">💎</div>
+                        <h3 class="text-xl font-bold uppercase tracking-wider text-white">Monetization &amp; Business</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">Server operating expenses, hosting economics, and anti-P2W disruption analysis.</p>
+                        <ul class="space-y-3 font-medium text-xs text-slate-400">
+                            <li>
+                                <a href="blog/why-anti-p2w-griefing-hurts-servers.html" class="hover:text-red-400 transition flex items-center gap-1.5">&middot; How Anti-P2W Hurts Servers</a>
+                            </li>
+                            <li>
+                                <a href="blog/cost-to-run-minecraft-network.html" class="hover:text-red-400 transition flex items-center gap-1.5">&middot; Server Network Real Budgets</a>
+                            </li>
+                            <li>
+                                <a href="blog/retromail-pricing-model.html" class="hover:text-red-400 transition flex items-center gap-1.5">&middot; RetroMail Pricing Model</a>
+                            </li>
+                            <li>
+                                <a href="blog/hiring-custom-minecraft-developers.html" class="hover:text-red-400 transition flex items-center gap-1.5">&middot; Hiring Custom Developers</a>
+                            </li>
+                            <li>
+                                <a href="blog/custom-plugin-development-services.html" class="hover:text-red-400 transition flex items-center gap-1.5">&middot; Custom Plugin Dev Lifecycle</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
