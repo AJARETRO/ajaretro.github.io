@@ -429,330 +429,301 @@
             activeTab: 'setup',
             searchQuery: '',
             expanded: '',
+            selectedModule: 'all',
             commands: [
                 { 
                     name: '/spawn', 
+                    module: 'teleport',
                     permission: 'foliacore.spawn', 
                     shortDesc: 'Teleports you to the server spawn location.', 
-                    longDesc: 'Triggers an async chunk loading queue targeting the spawn coordinates configuration. Once chunks are fully loaded in the thread context, the player coordinates are updated safely.',
+                    longDesc: 'Triggers an async chunk loading queue targeting the spawn coordinates configuration. Once chunks are fully loaded in the thread context, the player coordinates are updated safely.', 
                     threadContext: 'Async Region Thread (RegionScheduler)',
                     timeComplexity: 'O(log N) chunk coordinate mapping',
                     memoryComplexity: '< 0.05 KB object retention',
                     howItHolds: 'Mutates player location using Folia\'s <code>teleportAsync</code> API. It loads target chunk async before warping, resolving the legacy Bukkit tick-lock problem. Player inputs are intercepted and lock-checked to prevent race conditions during teleport delays.',
                     args: '',
                     argOptions: [],
-                    simSteps: [
-                        '[You] executed: /spawn',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[JVM Thread]&lt;/span&gt; Dispatched Event to RegionScheduler',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Async Task]&lt;/span&gt; Pre-loading target spawn chunks...',
-                        '<span class=&quot;text-emerald-400&quot;&gt;[FoliaCore]&lt;/span&gt; Teleporting in 3s. Stay still...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[2.0s]&lt;/span&gt; Chunks loaded successfully.',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[3.0s]&lt;/span&gt; Handing off Player Entity to target Region...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Teleport successful!'
-                    ]
+                    simSteps: ['[You] executed: /spawn', '<span class="text-zinc-500">[JVM Thread]</span> Dispatched Event to RegionScheduler', '<span class="text-zinc-500">[Async Task]</span> Pre-loading target spawn chunks...', '<span class="text-emerald-400">[FoliaCore]</span> Teleporting in 3s. Stay still...', '<span class="text-zinc-500">[2.0s]</span> Chunks loaded successfully.', '<span class="text-zinc-500">[3.0s]</span> Handing off Player Entity to target Region...', '<span class="text-emerald-500">[FoliaCore]</span> Teleport successful!']
                 },
                 { 
                     name: '/warp', 
+                    module: 'teleport',
                     permission: 'foliacore.warp', 
                     shortDesc: 'Teleports you to a specific saved warp spot.', 
-                    longDesc: 'Queries the warp location database, schedules an async chunk pre-load callback on the target location. Reduces CPU freeze during teleport transitions.',
+                    longDesc: 'Queries the warp location database, schedules an async chunk pre-load callback on the target location. Reduces CPU freeze during teleport transitions.', 
                     threadContext: 'Asynchronous Chunk Loader Task',
                     timeComplexity: 'O(1) database lookup + async disk pre-load',
                     memoryComplexity: '< 0.1 KB per warp record',
                     howItHolds: 'Warp locations are fetched from a read-optimized, thread-safe memory registry. Preloading chunk sectors reduces disk seek queue latency during cross-region transitions, preserving high tick rates.',
-                    args: '&lt;name&gt;',
+                    args: '<name>',
                     argOptions: ['survival', 'pvp_arena', 'vip_lounge', 'shop'],
-                    simSteps: [
-                        '[You] executed: /warp survival',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[DB API]&lt;/span&gt; Querying warp location registry...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Async Thread]&lt;/span&gt; Coordinates found: X: -200, Z: 540',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Async Thread]&lt;/span&gt; Preparing chunk loading context...',
-                        '<span class=&quot;text-emerald-400&quot;&gt;[FoliaCore]&lt;/span&gt; Preparing teleport to warp \'survival\'...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Teleport successful!'
-                    ]
+                    simSteps: ['[You] executed: /warp survival', '<span class="text-zinc-500">[DB API]</span> Querying warp location registry...', '<span class="text-zinc-500">[Async Thread]</span> Coordinates found: X: -200, Z: 540', '<span class="text-zinc-500">[Async Thread]</span> Preparing chunk loading context...', '<span class="text-emerald-400">[FoliaCore]</span> Preparing teleport to warp \'survival\'...', '<span class="text-emerald-500">[FoliaCore]</span> Teleport successful!']
+                },
+                { 
+                    name: '/tpo', 
+                    module: 'teleport',
+                    permission: 'foliacore.tpo', 
+                    shortDesc: 'Teleports to a player, overriding teleport toggle locks.', 
+                    longDesc: 'Ignores target player\'s teleport toggle states and instantly queues a location handoff on the RegionScheduler.', 
+                    threadContext: 'Async Region Handoff (RegionScheduler)',
+                    timeComplexity: 'O(log N)',
+                    memoryComplexity: '< 0.04 KB',
+                    howItHolds: 'Directly registers a teleport dispatch queue bypass, ignoring player-toggled invite maps to force admin placement safely.',
+                    args: '<player>',
+                    argOptions: ['Niloy'],
+                    simSteps: ['[You] executed: /tpo Niloy', '<span class="text-zinc-500">[Admin Bypass]</span> Skipping teleport toggle checks...', '<span class="text-emerald-500">[FoliaCore]</span> Teleporting to Niloy...']
+                },
+                { 
+                    name: '/balance', 
+                    module: 'economy',
+                    permission: 'foliacore.balance', 
+                    shortDesc: 'States the current balance of a player.', 
+                    longDesc: 'Retrieves current account balance from flat-file or MySQL caching, avoiding regional thread locks during lookup.', 
+                    threadContext: 'Asynchronous Database Fetch (non-blocking)',
+                    timeComplexity: 'O(1) memory lookup',
+                    memoryComplexity: '< 0.02 KB balance primitive',
+                    howItHolds: 'Bypasses synchronous Vault calls. Account states are read from non-blocking MySQL connections or local cache, preventing TPS loss.',
+                    args: '[player]',
+                    argOptions: ['Niloy', 'Juhaed'],
+                    simSteps: ['[You] executed: /balance', '<span class="text-zinc-500">[Database]</span> Fetching balance for UUID...', '<span class="text-emerald-500">[Economy]</span> Balance: $1,250.00']
+                },
+                { 
+                    name: '/pay', 
+                    module: 'economy',
+                    permission: 'foliacore.pay', 
+                    shortDesc: 'Transfers money from your account to another player.', 
+                    longDesc: 'Performs transactional checks off-thread, verifies sufficient funds, and updates recipient and sender balances atomically.', 
+                    threadContext: 'Async Transactional Callback Thread',
+                    timeComplexity: 'O(1) balance modifications',
+                    memoryComplexity: '< 0.1 KB transaction footprint',
+                    howItHolds: 'Uses double-entry balance updates. Ensures transactions fail gracefully if either account state is locked during regional handoffs.',
+                    args: '<player> <amount>',
+                    argOptions: ['Niloy 150', 'Juhaed 50'],
+                    simSteps: ['[You] executed: /pay Niloy 150', '<span class="text-zinc-500">[DB API]</span> Checking sender balance ($1250)...', '<span class="text-zinc-500">[DB API]</span> Transferring funds to Niloy...', '<span class="text-emerald-500">[Economy]</span> Sent $150.00 to Niloy. New Balance: $1,100.00']
+                },
+                { 
+                    name: '/eco', 
+                    module: 'economy',
+                    permission: 'foliacore.eco', 
+                    shortDesc: 'Admin command to manage player balances.', 
+                    longDesc: 'Updates player balances directly in flat-file or database storage and pushes state updates to VaultUnlocked.', 
+                    threadContext: 'Async Database Update',
+                    timeComplexity: 'O(1) database commit',
+                    memoryComplexity: '< 0.05 KB state',
+                    howItHolds: 'Ensures database writes do not halt Minecraft ticks by using HikariCP asynchronous pool executor.',
+                    args: 'give/take/set <player> <amount>',
+                    argOptions: ['give Niloy 1000', 'set Juhaed 5000'],
+                    simSteps: ['[You] executed: /eco give Niloy 1000', '<span class="text-zinc-500">[Admin Log]</span> Eco transaction logged', '<span class="text-emerald-500">[Economy]</span> Added $1,000.00 to Niloy. New Balance: $2,250.00']
+                },
+                { 
+                    name: '/jail', 
+                    module: 'jail',
+                    permission: 'foliacore.jail', 
+                    shortDesc: 'Jails a player, sending them to the designated jail cell.', 
+                    longDesc: 'Loads the target player\'s jail status, logs coordinates, and schedules a region-safe teleport to the cell.', 
+                    threadContext: 'RegionScheduler Task Handoff',
+                    timeComplexity: 'O(1) state registry write',
+                    memoryComplexity: '< 0.08 KB storage',
+                    howItHolds: 'Prevents players from breaking blocks or moving outside jail cells using a regional event listener that checks coordinates.',
+                    args: '<player> <jailname> [duration]',
+                    argOptions: ['Niloy dungeon 10m'],
+                    simSteps: ['[You] executed: /jail Niloy dungeon 10m', '<span class="text-zinc-500">[JailManager]</span> Jailing Niloy for 10m...', '<span class="text-emerald-500">[Jail]</span> Niloy has been jailed in dungeon.']
+                },
+                { 
+                    name: '/unjail', 
+                    module: 'jail',
+                    permission: 'foliacore.unjail', 
+                    shortDesc: 'Unjails a player, returning them to their previous location.', 
+                    longDesc: 'Clears player jail state and teleports them back to their pre-jail or spawn coordinates.', 
+                    threadContext: 'RegionScheduler Task Handoff',
+                    timeComplexity: 'O(1) state clear',
+                    memoryComplexity: 'Zero footprint',
+                    howItHolds: 'Queries the database for unjail targets, removes active listener check markers, and schedules the return warp.',
+                    args: '<player>',
+                    argOptions: ['Niloy'],
+                    simSteps: ['[You] executed: /unjail Niloy', '<span class="text-zinc-500">[JailManager]</span> Clearing jail state for Niloy...', '<span class="text-emerald-500">[Jail]</span> Niloy has been released from jail.']
+                },
+                { 
+                    name: '/discord', 
+                    module: 'chat',
+                    permission: 'foliacore.discord', 
+                    shortDesc: 'Displays server Discord invite links.', 
+                    longDesc: 'Renders configuration Discord invites and displays connection status to the WebSocket bot.', 
+                    threadContext: 'Sync Player Action',
+                    timeComplexity: 'O(1)',
+                    memoryComplexity: 'Zero allocations',
+                    howItHolds: 'Displays pre-cached rich hover links without file accesses or external network delays.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: ['[You] executed: /discord', '<span class="text-emerald-500">[Discord]</span> Join our Discord: https://discord.gg/foliacore']
+                },
+                { 
+                    name: '/link', 
+                    module: 'chat',
+                    permission: 'foliacore.link', 
+                    shortDesc: 'Generates a 6-digit link code for Discord bot verification.', 
+                    longDesc: 'Generates a temporary code in memory that bridges Minecraft players with Discord accounts using WebSockets.', 
+                    threadContext: 'Concurrent memory registry write',
+                    timeComplexity: 'O(1) generation',
+                    memoryComplexity: '< 0.05 KB code caching',
+                    howItHolds: 'Links are stored in a thread-safe registry with automatic expiration keys to avoid memory leaks.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: ['[You] executed: /link', '<span class="text-zinc-500">[DiscordLink]</span> Code generated...', '<span class="text-emerald-500">[Link]</span> Your code is: §f849021§r. Type §f/link 849021§r on Discord.']
+                },
+                { 
+                    name: '/msg', 
+                    module: 'chat',
+                    permission: 'foliacore.msg', 
+                    shortDesc: 'Send a private direct message to an online player.', 
+                    longDesc: 'Locates target player connection channel and dispatches message packet asynchronously to their target region thread.', 
+                    threadContext: 'Asynchronous message routing',
+                    timeComplexity: 'O(1) player lookup',
+                    memoryComplexity: '< 0.2 KB text payload',
+                    howItHolds: 'Bypasses legacy Bukkit main thread message bottlenecks by queueing text delivery directly into Folia\'s regionalized chat packet pipelines.',
+                    args: '<player> <message...>',
+                    argOptions: ['Niloy "Hey, are you online?"'],
+                    simSteps: ['[You] executed: /msg Niloy "Hey, are you online?"', '<span class="text-zinc-500">[Chat Routing]</span> Locating player session...', '<span class="text-emerald-500">[FoliaCore]</span> [Me -> Niloy]: Hey, are you online?']
                 },
                 { 
                     name: '/kit', 
+                    module: 'utility',
                     permission: 'foliacore.kit', 
                     shortDesc: 'Claims item stacks predefined in configuration arrays.', 
-                    longDesc: 'Loads items arrays, performs cooldown verification, and injects item descriptors directly into player slots on the region tick.',
+                    longDesc: 'Loads items arrays, performs cooldown verification, and injects item descriptors directly into player slots on the region tick.', 
                     threadContext: 'Active Region Tick Thread (EntityScheduler)',
                     timeComplexity: 'O(I) item loops (where I is items in kit)',
                     memoryComplexity: 'Zero heap allocations (uses pre-cached item stacks)',
                     howItHolds: 'Prevents item duplication exploits on Folia by forcing inventory transaction checks inside the entity tick. Kit claiming cooldowns are cached in a thread-safe <code>ConcurrentHashMap</code> backed by atomic saves to flatfiles.',
-                    args: '&lt;name&gt;',
+                    args: '<name>',
                     argOptions: ['starter', 'vip', 'elite', 'legendary'],
-                    simSteps: [
-                        '[You] executed: /kit starter',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Cache Check]&lt;/span&gt; Verifying cooldown lock...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Atomic Register]&lt;/span&gt; Lock cleared (No active cooldown)',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Entity Thread]&lt;/span&gt; Opening secure inventory mutation window...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Kit \'starter\' claimed! (Cooldown: 24h)'
-                    ]
+                    simSteps: ['[You] executed: /kit starter', '<span class="text-zinc-500">[Cache Check]</span> Verifying cooldown lock...', '<span class="text-zinc-500">[Atomic Register]</span> Lock cleared (No active cooldown)', '<span class="text-zinc-500">[Entity Thread]</span> Opening secure inventory mutation window...', '<span class="text-emerald-500">[FoliaCore]</span> Kit \'starter\' claimed! (Cooldown: 24h)']
                 },
                 { 
                     name: '/ping', 
+                    module: 'utility',
                     permission: 'foliacore.ping', 
                     shortDesc: 'Calculates active network connection latency values.', 
-                    longDesc: 'Accesses target player connection socket descriptor to parse native ping statistics without generating scheduler ticks.',
+                    longDesc: 'Accesses target player connection socket descriptor to parse native ping statistics without generating scheduler ticks.', 
                     threadContext: 'Atomic Thread-Safe read operation',
                     timeComplexity: 'O(1) memory lookup',
                     memoryComplexity: 'Zero allocation (primitive return)',
                     howItHolds: 'Reads latency statistics straight from the underlying client socket wrapper. It does not spawn ticks, run schedulers, or invoke blocking operations, making it completely immune to load spikes.',
                     args: '[player]',
                     argOptions: ['Niloy', 'Juhaed', 'Ayeman'],
-                    simSteps: [
-                        '[You] executed: /ping Niloy',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Socket API]&lt;/span&gt; Pulling client connection channel descriptors...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[TCP Metrics]&lt;/span&gt; Active TCP roundtrip: 12ms',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Niloy\'s ping: 12ms'
-                    ]
+                    simSteps: ['[You] executed: /ping Niloy', '<span class="text-zinc-500">[Socket API]</span> Pulling client connection channel descriptors...', '<span class="text-zinc-500">[TCP Metrics]</span> Active TCP roundtrip: 12ms', '<span class="text-emerald-500">[FoliaCore]</span> Niloy\'s ping: 12ms']
                 },
                 { 
-                    name: '/fly', 
-                    permission: 'foliacore.fly', 
-                    shortDesc: 'Enables or disables standard survival flight modes.', 
-                    longDesc: 'Toggles allowFlight parameter flags inside the player properties model. Safely mutates player states across thread loops.',
-                    threadContext: 'Entity Region Tick Context',
-                    timeComplexity: 'O(1) boolean mutate',
-                    memoryComplexity: 'Zero heap footprint',
-                    howItHolds: 'Updates flying flags inside the native player properties record. The flight listener intercepts velocity modification packets, updating physics contexts concurrently.',
-                    args: '[player]',
-                    argOptions: ['enable', 'disable'],
-                    simSteps: [
-                        '[You] executed: /fly',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Player Tick]&lt;/span&gt; Intercepting flight properties model...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Physics API]&lt;/span&gt; Recalculating gravity vectors...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Flight mode: ENABLED'
-                    ]
+                    name: '/powertool', 
+                    module: 'utility',
+                    permission: 'foliacore.powertool', 
+                    shortDesc: 'Binds a command to your currently held item.', 
+                    longDesc: 'Stores a command string mapped to an item type in the player\'s memory record, executing it on click.', 
+                    threadContext: 'Concurrent Map Registry',
+                    timeComplexity: 'O(1)',
+                    memoryComplexity: '< 0.1 KB command binding string',
+                    howItHolds: 'Listens to player arm-swing packets and executes the bound command via standard dispatch pipelines on the player\'s regional thread.',
+                    args: '[command]',
+                    argOptions: ['lightning', 'fireball'],
+                    simSteps: ['[You] executed: /powertool lightning', '<span class="text-zinc-500">[Powertool]</span> Binding lightning to BLAZE_ROD...', '<span class="text-emerald-500">[Powertool]</span> Powertool bound successfully. Left-click to invoke.']
                 },
                 { 
-                    name: '/heal', 
-                    permission: 'foliacore.heal', 
-                    shortDesc: 'Restores health, food, and active potion effects.', 
-                    longDesc: 'Resets health attributes to max, sets food level to 20, and removes negative potion effects during current region tick.',
-                    threadContext: 'Entity Mutator (Region Tick)',
-                    timeComplexity: 'O(1) attribute modifications',
-                    memoryComplexity: 'Zero heap allocations',
-                    howItHolds: 'Performs double-locking checks to ensure entity fields are mutated safely inside the tick lifecycle. Removes active potion effects securely from tick buffers.',
-                    args: '[player]',
-                    argOptions: ['Niloy', 'Self'],
-                    simSteps: [
-                        '[You] executed: /heal',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Region Tick]&lt;/span&gt; Mutating entity health points: 20/20',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Region Tick]&lt;/span&gt; Mutating food exhaustion metric: 0.0',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Potion API]&lt;/span&gt; Flushing active negative status maps...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Health and food restored!'
-                    ]
-                },
-                { 
-                    name: '/workbench', 
-                    permission: 'foliacore.workbench', 
-                    shortDesc: 'Opens a mobile crafting interface screen.', 
-                    longDesc: 'Instantiates virtual crafting GUI block, hooks into player transaction registers directly inside region thread loops.',
+                    name: '/anvil', 
+                    module: 'worktables',
+                    permission: 'foliacore.anvil', 
+                    shortDesc: 'Opens a virtual anvil interface.', 
+                    longDesc: 'Creates a decoupled anvil inventory container context, opening the UI on the region tick.', 
                     threadContext: 'Inventory UI container transaction',
-                    timeComplexity: 'O(1) screen instantiator',
-                    memoryComplexity: '< 0.4 KB temporary screen buffer',
-                    howItHolds: 'Spawns a decoupled virtual crafting table interface container. Intercepts transaction events using transactional event checks, preventing inventory item duplication exploits.',
+                    timeComplexity: 'O(1)',
+                    memoryComplexity: '< 0.3 KB temporary layout',
+                    howItHolds: 'Hooks into GUI click events to prevent item extraction exploits during region thread transfers.',
                     args: '',
                     argOptions: [],
-                    simSteps: [
-                        '[You] executed: /workbench',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[GUI Thread]&lt;/span&gt; Instantiating container layout...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Region Tick]&lt;/span&gt; Hooking transaction intercepts...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Opened virtual workbench.'
-                    ]
+                    simSteps: ['[You] executed: /anvil', '<span class="text-zinc-500">[GUI Thread]</span> Loading anvil canvas...', '<span class="text-emerald-500">[FoliaCore]</span> Opened virtual anvil.']
                 },
                 { 
-                    name: '/enderchest', 
-                    permission: 'foliacore.enderchest', 
-                    shortDesc: 'Opens your ender chest vault container.', 
-                    longDesc: 'Retrieves deserialized enderChest inventory object and renders container canvas on region core threads.',
-                    threadContext: 'EnderChest Inventory container callback thread',
-                    timeComplexity: 'O(1) lookup',
-                    memoryComplexity: 'Zero extra heap allocations',
-                    howItHolds: 'Reads the player\'s deserialized ender chest array directly from player files, rendering slots in the interface. Locks transaction actions inside the active region container.',
+                    name: '/grindstone', 
+                    module: 'worktables',
+                    permission: 'foliacore.grindstone', 
+                    shortDesc: 'Opens a virtual grindstone interface.', 
+                    longDesc: 'Spawns a client-side container bound to the player\'s position, running transactions on the regional tick.', 
+                    threadContext: 'Inventory UI Container',
+                    timeComplexity: 'O(1)',
+                    memoryComplexity: '< 0.25 KB',
+                    howItHolds: 'Monitors block inventory updates and handles tool repair actions dynamically within Folia\'s container framework.',
                     args: '',
                     argOptions: [],
-                    simSteps: [
-                        '[You] executed: /enderchest',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[DB API]&lt;/span&gt; Fetching ender chest database records...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Inventory Loop]&lt;/span&gt; Binding slots to UI...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Opened Ender Chest vault.'
-                    ]
-                },
-                { 
-                    name: '/trash', 
-                    permission: 'foliacore.trash', 
-                    shortDesc: 'Opens trash disposal container GUI.', 
-                    longDesc: 'Opens an empty transaction container. Items left inside are discarded on close callback to prevent memory leaking.',
-                    threadContext: 'Temporary inventory garbage collector',
-                    timeComplexity: 'O(1) screen allocation',
-                    memoryComplexity: '< 0.2 KB container instance',
-                    howItHolds: 'Opens a clean virtual inventory canvas. Garbage collection flags items left inside as eligible for JVM GC when closed, avoiding memory leaks.',
-                    args: '',
-                    argOptions: [],
-                    simSteps: [
-                        '[You] executed: /trash',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[UI Engine]&lt;/span&gt; Allocating disposal screen...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Event Loop]&lt;/span&gt; Item destruction hooks registered',
-                        '<span class=&quot;text-emerald-400&quot;&gt;[FoliaCore]&lt;/span&gt; Opened trash container.'
-                    ]
+                    simSteps: ['[You] executed: /grindstone', '<span class="text-zinc-500">[GUI Thread]</span> Instantiating grindstone UI...', '<span class="text-emerald-500">[FoliaCore]</span> Opened virtual grindstone.']
                 },
                 { 
                     name: '/vanish', 
+                    module: 'staff',
                     permission: 'foliacore.vanish', 
                     shortDesc: 'Hides player models and coordinates from user lists.', 
-                    longDesc: 'Removes player entity updates from visual pipelines and hides player list slots globally across all server clusters.',
+                    longDesc: 'Removes player entity updates from visual pipelines and hides player list slots globally across all server clusters.', 
                     threadContext: 'Global player routing context',
                     timeComplexity: 'O(P) connection checks (P = player count)',
                     memoryComplexity: 'Zero footprint (toggles primitive markers)',
                     howItHolds: 'Toggles visibility settings, sending NMS entity destroy packets for the vanished player to other clients. Packet channels are intercepted in Nio pipelines to prevent location leak packets.',
                     args: '',
                     argOptions: ['status'],
-                    simSteps: [
-                        '[You] executed: /vanish',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Network Thread]&lt;/span&gt; Toggling visibility bits...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Packet Interceptor]&lt;/span&gt; Dispatching EntityDestroy packet to all players',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Packet Interceptor]&lt;/span&gt; Blocking coordinate trackers...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Vanish mode: ENABLED'
-                    ]
+                    simSteps: ['[You] executed: /vanish', '<span class="text-zinc-500">[Network Thread]</span> Toggling visibility bits...', '<span class="text-zinc-500">[Packet Interceptor]</span> Dispatching EntityDestroy packet to all players', '<span class="text-zinc-500">[Packet Interceptor]</span> Blocking coordinate trackers...', '<span class="text-emerald-500">[FoliaCore]</span> Vanish mode: ENABLED']
                 },
                 { 
-                    name: '/createkit', 
-                    permission: 'foliacore.admin.kit', 
-                    shortDesc: 'Saves your current hotbar configurations as a kit.', 
-                    longDesc: 'Converts item stacks inside inventory arrays to serialized configurations and writes output to config files asynchronously.',
-                    threadContext: 'Asynchronous File IO operation',
-                    timeComplexity: 'O(I) item checks + async disk write',
-                    memoryComplexity: '< 1.5 KB configuration write buffer',
-                    howItHolds: 'Reads the player\'s active inventory stack parameters, serializes item descriptors to key-value structures, and hands it off to an asynchronous disk thread to prevent file IO latency spikes on the main thread.',
-                    args: '&lt;name&gt;',
-                    argOptions: ['new_starter', 'test_kit'],
-                    simSteps: [
-                        '[You] executed: /createkit test_kit',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Entity Thread]&lt;/span&gt; Scanning player inventory layout...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Serializer]&lt;/span&gt; Encoding 36 items to YAML format...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Async IO]&lt;/span&gt; Queueing write task to kits.yml...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Kit \'test_kit\' saved successfully!'
-                    ]
+                    name: '/banip', 
+                    module: 'staff',
+                    permission: 'foliacore.banip', 
+                    shortDesc: 'IP bans a player or connection address.', 
+                    longDesc: 'Adds IP address to the blacklist database and terminates all current sessions matching the IP.', 
+                    threadContext: 'Asynchronous Database Write',
+                    timeComplexity: 'O(1)',
+                    memoryComplexity: '< 0.05 KB IP registry cache',
+                    howItHolds: 'Locks IP logins globally and intercepts Netty handshake pipelines to block connections at the socket level.',
+                    args: '<player/IP> [reason]',
+                    argOptions: ['GrieferPlayer "IP Ban"'],
+                    simSteps: ['[You] executed: /banip GrieferPlayer "Malicious action"', '<span class="text-zinc-500">[IP Ban]</span> Resolving GrieferPlayer IP (192.168.1.100)...', '<span class="text-zinc-500">[DB Sync]</span> Committing IP block...', '<span class="text-emerald-500">[Ban]</span> GrieferPlayer IP has been blacklisted.']
                 },
                 { 
-                    name: '/antiraid', 
-                    permission: 'foliacore.admin.antiraid', 
-                    shortDesc: 'Locks down server placements and entity interactions.', 
-                    longDesc: 'Toggles a global security intercept flag. When active, all incoming block placement, break, and entity interaction events from non-admins are blocked.',
-                    threadContext: 'Atomic global configuration intercept',
-                    timeComplexity: 'O(1) atomic check',
-                    memoryComplexity: 'Zero extra memory',
-                    howItHolds: 'Toggles an atomic boolean flag. When active, high-frequency listeners (block placement, breaks, redstone ticks) terminate instantly on evaluation, blocking malicious movements within nanoseconds without lag.',
-                    args: '',
-                    argOptions: ['enable', 'disable'],
-                    simSteps: [
-                        '[You] executed: /antiraid',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Security Core]&lt;/span&gt; Toggling atomic intercept block...',
-                        '<span class=&quot;text-brand-red font-bold&quot;&gt;[FoliaCore] SECURITY ALARM: Anti-Raid mode toggled ON!&lt;/span&gt;',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Monitor]&lt;/span&gt; Active block placement events blocked: 0',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Monitor]&lt;/span&gt; Active entity spawn events blocked: 0'
-                    ]
+                    name: '/antioch', 
+                    module: 'thor',
+                    permission: 'foliacore.antioch', 
+                    shortDesc: 'Spawns a primed TNT block at your crosshairs.', 
+                    longDesc: 'Calculates targeted block coordinates, schedules an active TNT entity spawn on the local regional thread.', 
+                    threadContext: 'Active Region Tick (EntityScheduler)',
+                    timeComplexity: 'O(log N) chunk coordinate lookup',
+                    memoryComplexity: '< 0.05 KB entity instantiation',
+                    howItHolds: 'Spawns a primed TNT entity directly on the current region thread, ensuring zero impact on adjacent game threads.',
+                    args: '[message]',
+                    argOptions: ['"Kaboom!"'],
+                    simSteps: ['[You] executed: /antioch "Kaboom!"', '<span class="text-zinc-500">[Antioch]</span> Broad-casting: Antioch grenade launched!', '<span class="text-zinc-500">[Entity Tick]</span> Spawning Primed TNT...', '<span class="text-emerald-500">[FoliaCore]</span> Surprise! Boom!']
                 },
                 { 
-                    name: '/msg', 
-                    permission: 'foliacore.msg', 
-                    shortDesc: 'Send a private direct message to an online player.', 
-                    longDesc: 'Locates target player connection channel and dispatches message packet asynchronously to their target region thread.',
-                    threadContext: 'Asynchronous message routing',
-                    timeComplexity: 'O(1) player lookup',
-                    memoryComplexity: '< 0.2 KB text payload',
-                    howItHolds: 'Bypasses legacy Bukkit main thread message bottlenecks by queueing text delivery directly into Folia\'s regionalized chat packet pipelines.',
-                    args: '&lt;player&gt; &lt;message...&gt;',
-                    argOptions: ['Niloy &quot;Hey, are you online?&quot;'],
-                    simSteps: [
-                        '[You] executed: /msg Niloy &quot;Hey, are you online?&quot;',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Chat Routing]&lt;/span&gt; Locating player session...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; [Me -> Niloy]: Hey, are you online?'
-                    ]
-                },
-                { 
-                    name: '/reply', 
-                    permission: 'foliacore.reply', 
-                    shortDesc: 'Reply directly to the last player who messaged you.', 
-                    longDesc: 'Queries the last active direct message contact UUID registry and routes message payload to them.',
-                    threadContext: 'Thread-safe memory lookup',
-                    timeComplexity: 'O(1) ConcurrentHashMap query',
-                    memoryComplexity: '< 0.1 KB payload allocation',
-                    howItHolds: 'Reads target UUID from a thread-safe mapping container and routes message payload to the receiver\'s tick region.',
-                    args: '&lt;message...&gt;',
-                    argOptions: ['&quot;Got it, joining now!&quot;'],
-                    simSteps: [
-                        '[You] executed: /reply &quot;Got it, joining now!&quot;',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Chat Routing]&lt;/span&gt; Fetching last contact registry...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; [Me -> Niloy]: Got it, joining now!'
-                    ]
-                },
-                { 
-                    name: '/mail', 
-                    permission: 'foliacore.mail.send', 
-                    shortDesc: 'Manages sending, reading, and clearing offline player mail records.', 
-                    longDesc: 'Reads or writes messages stored in database tables. Allows players to leave messages for offline users.',
-                    threadContext: 'Asynchronous Database Transaction',
-                    timeComplexity: 'O(1) database transaction',
-                    memoryComplexity: '< 1.2 KB mail cache buffer',
-                    howItHolds: 'Uses non-blocking asynchronous IO routines to process mail send, fetch, or delete parameters without introducing scheduler frame drops.',
-                    args: 'read/clear/send &lt;player&gt; &lt;msg...&gt;',
-                    argOptions: ['read', 'send Niloy &quot;Check spawn chest&quot;'],
-                    simSteps: [
-                        '[You] executed: /mail read',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Querying user inbox...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore Mailbox]&lt;/span&gt; You have 1 unread message:',
-                        ' - From Niloy: &quot;Check chest at spawn&quot; (2h ago)'
-                    ]
-                },
-                { 
-                    name: '/nick', 
-                    permission: 'foliacore.nick', 
-                    shortDesc: 'Sets your custom chat nickname or clears it.', 
-                    longDesc: 'Modifies nickname variables in the player profile model. Validates and formats HEX color configurations.',
-                    threadContext: 'Sync Player Profile mutation',
-                    timeComplexity: 'O(1) profile update',
-                    memoryComplexity: '< 0.1 KB profile footprint',
-                    howItHolds: 'Applies updates to nickname fields, verifying formatting tags against regular expressions prior to saving profile caches.',
-                    args: '&lt;nickname&gt;',
-                    argOptions: ['&aRetroLegend', 'off'],
-                    simSteps: [
-                        '[You] executed: /nick &aRetroLegend',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Profile API]&lt;/span&gt; Validating color code permissions...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Your nickname has been updated to: §aRetroLegend'
-                    ]
-                },
-                { 
-                    name: '/foliacore', 
-                    permission: 'foliacore.reload', 
-                    shortDesc: 'Main administration command to reload configurations and display stats.', 
-                    longDesc: 'Reloads config files from disk, re-registers modules, and updates the display tablist and sidebars.',
-                    threadContext: 'Async Disk IO + Display swap',
-                    timeComplexity: 'O(1) reload loop',
-                    memoryComplexity: '< 0.2 MB temporary configuration cache',
-                    howItHolds: 'Reads yml setups from disk asynchronously, parses elements, swaps active configuration models, and rebuilds visual animation frames.',
-                    args: 'reload/version/help',
-                    argOptions: ['reload', 'version', 'help'],
-                    simSteps: [
-                        '[You] executed: /foliacore reload',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[IO Thread]&lt;/span&gt; Reloading config.yml & tab-sidebar.yml...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[DisplayManager]&lt;/span&gt; Rebuilding layout displays...',
-                        '<span class=&quot;text-emerald-500&quot;&gt;[FoliaCore]&lt;/span&gt; Configurations reloaded successfully.'
-                    ]
+                    name: '/lightning', 
+                    module: 'thor',
+                    permission: 'foliacore.lightning', 
+                    shortDesc: 'Strikes lightning at your crosshairs.', 
+                    longDesc: 'Spawns a lightning effect and damage vector at target coordinates on the local region thread.', 
+                    threadContext: 'Active Region Tick',
+                    timeComplexity: 'O(log N)',
+                    memoryComplexity: 'Zero allocations',
+                    howItHolds: 'Dispatches a lightning strike event to the local region\'s entity manager, handling block changes asynchronously.',
+                    args: '[player]',
+                    argOptions: ['Niloy'],
+                    simSteps: ['[You] executed: /lightning Niloy', '<span class="text-zinc-500">[Region Tick]</span> Striking lightning at Niloy coordinates...', '<span class="text-emerald-500">[FoliaCore]</span> Thunder struck!']
                 }
             ],
             filteredCommands() {
-                if (!this.searchQuery) return this.commands;
-                return this.commands.filter(c => 
+                let list = this.commands;
+                if (this.selectedModule !== 'all') {
+                    list = list.filter(c => c.module === this.selectedModule);
+                }
+                if (!this.searchQuery) return list;
+                return list.filter(c => 
                     c.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
                     c.permission.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     c.shortDesc.toLowerCase().includes(this.searchQuery.toLowerCase())
                 );
-            }
-        }">
+            }}">
             <div class="text-center space-y-4">
                 <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white">Documentation Hub</h2>
                 <p class="text-zinc-500 max-w-2xl mx-auto text-sm md:text-base">Comprehensive setup guides, command parameters, and configuration files. Click on any command to expand details.</p>
@@ -935,9 +906,30 @@ tablist:
 
             <!-- Commands Content -->
             <div x-show="activeTab === 'commands'" x-transition class="space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-brand-card border border-brand-border p-6 rounded-2xl">
-                    <h3 class="text-xl font-black italic uppercase text-white font-sans">Plugin Command Directory</h3>
-                    <input type="text" x-model="searchQuery" placeholder="Search commands or permissions..." class="w-full sm:w-64 bg-zinc-950 border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                <div class="bg-brand-card border border-brand-border p-6 rounded-2xl space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="text-xl font-black italic uppercase text-white font-sans">Plugin Command Directory</h3>
+                        <input type="text" x-model="searchQuery" placeholder="Search commands or permissions..." class="w-full sm:w-64 bg-zinc-950 border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <!-- Module Selection Pills -->
+                    <div class="flex flex-wrap gap-2 pt-2 border-t border-brand-border/40">
+                        <template x-for="mod in [
+                            { id: 'all', label: 'All Modules' },
+                            { id: 'teleport', label: 'Teleports' },
+                            { id: 'economy', label: 'Economy' },
+                            { id: 'jail', label: 'Jails' },
+                            { id: 'chat', label: 'Chat & Discord' },
+                            { id: 'utility', label: 'Utilities' },
+                            { id: 'worktables', label: 'Worktables' },
+                            { id: 'staff', label: 'Staff & Admin' },
+                            { id: 'thor', label: 'Chaos & Fun' }
+                        ]">
+                            <button @click="selectedModule = mod.id" 
+                                    :class="selectedModule === mod.id ? 'bg-emerald-500 text-black font-bold' : 'bg-zinc-900 text-zinc-400 border border-brand-border hover:border-zinc-500'" 
+                                    class="px-4 py-1.5 rounded-lg text-[10px] uppercase tracking-wider transition-all" 
+                                    x-text="mod.label"></button>
+                        </template>
+                    </div>
                 </div>
 
                 <div class="bg-brand-card border border-brand-border rounded-[2.5rem] overflow-hidden">
