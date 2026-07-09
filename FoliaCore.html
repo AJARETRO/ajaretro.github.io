@@ -423,14 +423,9 @@
         </div>
     </section>
 
-    <!-- Documentation Hub -->
-    <section id="docs" class="py-24 px-6 md:px-12 bg-zinc-950/40 border-t border-brand-border">
-        <div class="max-w-7xl mx-auto space-y-12" x-data="{
-            activeTab: 'setup',
-            searchQuery: '',
-            expanded: '',
-            selectedModule: 'all',
-            commands: [
+    <!-- COMMANDS_DATA_START -->
+    <script>
+        window.foliaCommands = [
                 { 
                     name: '/actionbarmsg', 
                     module: 'utility',
@@ -5751,7 +5746,18 @@
                     argOptions: [],
                     simSteps: ['[You] executed: /worthlist']
                 }
-            ],
+            ];
+    </script>
+    <!-- COMMANDS_DATA_END -->
+
+    <!-- Documentation Hub -->
+    <section id="docs" class="py-24 px-6 md:px-12 bg-zinc-950/40 border-t border-brand-border">
+        <div class="max-w-7xl mx-auto space-y-12" x-data="{
+            activeTab: 'setup',
+            searchQuery: '',
+            expanded: '',
+            selectedModule: 'all',
+            commands: window.foliaCommands,
             filteredCommands() {
                 let list = this.commands;
                 if (this.selectedModule !== 'all') {
