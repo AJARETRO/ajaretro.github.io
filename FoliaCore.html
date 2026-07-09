@@ -684,6 +684,20 @@
                     simSteps: ['[You] executed: /clearchat', '<span class="text-zinc-500">[Region Tick]</span> Dispatching command context...', '<span class="text-emerald-500">[FoliaCore]</span> Command /clearchat executed successfully!']
                 },
                 { 
+                    name: '/cmi', 
+                    module: 'utility',
+                    permission: 'foliacore.cmi', 
+                    shortDesc: 'Core administration or gameplay trigger for /cmi.', 
+                    longDesc: 'Executes /cmi securely inside regional task domains to maintain high performance.', 
+                    threadContext: 'Entity Region Tick Thread',
+                    timeComplexity: 'O(1) tick lookup',
+                    memoryComplexity: 'Zero allocations',
+                    howItHolds: 'Executes on targeted regional schedule loops.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: ['[You] executed: /cmi']
+                },
+                { 
                     name: '/compass', 
                     module: 'utility',
                     permission: 'foliacore.compass', 
@@ -906,6 +920,20 @@
                     args: '[player]',
                     argOptions: ['Niloy'],
                     simSteps: ['[You] executed: /ext Niloy', '<span class="text-zinc-500">[Region Tick]</span> Dispatching command context...', '<span class="text-emerald-500">[FoliaCore]</span> Command /ext executed successfully!']
+                },
+                { 
+                    name: '/fc', 
+                    module: 'utility',
+                    permission: 'foliacore.fc', 
+                    shortDesc: 'Core administration or gameplay trigger for /fc.', 
+                    longDesc: 'Executes /fc securely inside regional task domains to maintain high performance.', 
+                    threadContext: 'Entity Region Tick Thread',
+                    timeComplexity: 'O(1) tick lookup',
+                    memoryComplexity: 'Zero allocations',
+                    howItHolds: 'Executes on targeted regional schedule loops.',
+                    args: '',
+                    argOptions: [],
+                    simSteps: ['[You] executed: /fc']
                 },
                 { 
                     name: '/feed', 
