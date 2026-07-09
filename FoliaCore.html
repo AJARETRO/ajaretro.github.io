@@ -5771,10 +5771,12 @@
 
             <!-- Tab Toggles -->
             <div class="flex justify-center border-b border-brand-border pb-4">
-                <div class="flex bg-zinc-900/60 p-1.5 rounded-xl border border-brand-border">
-                    <button @click="activeTab = 'setup'" :class="activeTab === 'setup' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Setup</button>
-                    <button @click="activeTab = 'config'" :class="activeTab === 'config' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Configuration</button>
-                    <button @click="activeTab = 'commands'" :class="activeTab === 'commands' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Commands</button>
+                <div class="flex flex-wrap justify-center bg-zinc-900/60 p-1.5 rounded-xl border border-brand-border gap-1">
+                    <button @click="activeTab = 'setup'" :class="activeTab === 'setup' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-4 py-2 rounded-lg text-[11px] uppercase tracking-wider transition-all">Setup</button>
+                    <button @click="activeTab = 'config'" :class="activeTab === 'config' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-4 py-2 rounded-lg text-[11px] uppercase tracking-wider transition-all">General Config</button>
+                    <button @click="activeTab = 'modules'" :class="activeTab === 'modules' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-4 py-2 rounded-lg text-[11px] uppercase tracking-wider transition-all">Subsystem Modules</button>
+                    <button @click="activeTab = 'commands'" :class="activeTab === 'commands' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-4 py-2 rounded-lg text-[11px] uppercase tracking-wider transition-all">Commands</button>
+                    <button @click="activeTab = 'bstats'" :class="activeTab === 'bstats' ? 'bg-emerald-500 text-black font-bold' : 'text-zinc-400'" class="px-4 py-2 rounded-lg text-[11px] uppercase tracking-wider transition-all">Live Telemetry</button>
                 </div>
             </div>
 
@@ -5939,6 +5941,117 @@ tablist:
                             <p class="text-xs text-zinc-400 leading-relaxed">
                                 Distributes animated tablist formats and sidebars dynamically using the visual blueprint system to handle updates without server ticks drop.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subsystem Modules Content -->
+            <div x-show="activeTab === 'modules'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8">
+                <div class="flex justify-between items-center pb-4 border-b border-brand-border">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Subsystem Modules Configuration</h3>
+                    <span class="text-[10px] font-mono text-zinc-500">Modular YAMLs</span>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    FoliaCore breaks down all control settings into separate config files in the <code>/plugins/FoliaCore/modules/</code> directory. Each module can be completely turned off to optimize server threads or avoid resource duplication.
+                </p>
+
+                <div x-data="{ activeModuleTab: 'economy' }" class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
+                    <!-- Left Sidebar Switcher -->
+                    <div class="lg:col-span-4 flex flex-col gap-2 bg-zinc-950/40 p-4 rounded-2xl border border-brand-border">
+                        <template x-for="mod in [
+                            { id: 'economy', name: 'economy.yml' },
+                            { id: 'teleport', name: 'teleport.yml' },
+                            { id: 'jails', name: 'jails.yml' },
+                            { id: 'chat', name: 'chat.yml' },
+                            { id: 'discord', name: 'discord.yml' }
+                        ]">
+                            <button @click="activeModuleTab = mod.id" 
+                                    :class="activeModuleTab === mod.id ? 'bg-emerald-500 text-black font-bold' : 'bg-white/5 text-slate-400 hover:text-white border border-brand-border'" 
+                                    class="w-full text-left px-4 py-2.5 rounded-xl text-xs font-mono transition-all"
+                                    x-text="mod.name"></button>
+                        </template>
+                    </div>
+
+                    <!-- Right Code Block -->
+                    <div class="lg:col-span-8 bg-black border border-brand-border p-6 rounded-2xl">
+                        <div x-show="activeModuleTab === 'economy'" class="space-y-4">
+                            <h4 class="text-emerald-400 font-bold font-mono text-sm">Economy Module Settings</h4>
+                            <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 max-h-[250px] overflow-y-auto custom-scrollbar"><code># economy.yml configuration
+enabled: true
+vault-hook: true
+initial-balance: 100.0
+tax-rate: 0.02
+enable-pay-confirmations: true</code></pre>
+                        </div>
+                        <div x-show="activeModuleTab === 'teleport'" class="space-y-4">
+                            <h4 class="text-emerald-400 font-bold font-mono text-sm">Teleport Module Settings</h4>
+                            <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 max-h-[250px] overflow-y-auto custom-scrollbar"><code># teleport.yml configuration
+enabled: true
+cooldown-seconds: 3
+warmup-seconds: 5
+particle-effects: true
+safe-tp-lookup: true</code></pre>
+                        </div>
+                        <div x-show="activeModuleTab === 'jails'" class="space-y-4">
+                            <h4 class="text-emerald-400 font-bold font-mono text-sm">Jails Module Settings</h4>
+                            <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 max-h-[250px] overflow-y-auto custom-scrollbar"><code># jails.yml configuration
+enabled: true
+prevent-block-break: true
+prevent-commands:
+  - msg
+  - tpa
+  - spawn</code></pre>
+                        </div>
+                        <div x-show="activeModuleTab === 'chat'" class="space-y-4">
+                            <h4 class="text-emerald-400 font-bold font-mono text-sm">Chat Module Settings</h4>
+                            <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 max-h-[250px] overflow-y-auto custom-scrollbar"><code># chat.yml configuration
+enabled: true
+format: "&7[%group%] &f%player%: &7%message%"
+shout-range: 150
+anti-spam-seconds: 1</code></pre>
+                        </div>
+                        <div x-show="activeModuleTab === 'discord'" class="space-y-4">
+                            <h4 class="text-emerald-400 font-bold font-mono text-sm">Discord Module Settings</h4>
+                            <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 max-h-[250px] overflow-y-auto custom-scrollbar"><code># discord.yml configuration
+enabled: true
+bot-token: "INSERT_TOKEN"
+channel-id: "INSERT_CHANNEL"
+sync-chat: true</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- bStats Telemetry Content -->
+            <div x-show="activeTab === 'bstats'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8">
+                <div class="flex justify-between items-center pb-4 border-b border-brand-border">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Live Telemetry & Analytics</h3>
+                    <span class="text-[10px] font-mono text-zinc-500">bStats ID 28430</span>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    We track high-performance parameters to ensure all region threads operate correctly without locking. View live global telemetry charts below.
+                </p>
+
+                <!-- Grid of Charts -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Chart 1 -->
+                    <div class="bg-black/40 border border-brand-border p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+                        <h4 class="text-sm font-bold text-white uppercase italic tracking-wide">Servers Using FoliaCore</h4>
+                        <div class="w-full flex justify-center py-4 bg-zinc-950/60 rounded-xl border border-brand-border overflow-hidden">
+                            <img src="https://bstats.org/signatures/bukkit/FoliaCore.svg" alt="bStats Servers Chart" class="max-w-full">
+                        </div>
+                    </div>
+
+                    <!-- Chart 2 -->
+                    <div class="bg-black/40 border border-brand-border p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+                        <h4 class="text-sm font-bold text-white uppercase italic tracking-wide font-mono">bStats Global Stats</h4>
+                        <div class="w-full h-[200px] flex items-center justify-center bg-zinc-950/60 rounded-xl border border-brand-border text-center p-6 text-xs text-zinc-500">
+                            <div class="space-y-2">
+                                <i data-lucide="line-chart" class="w-8 h-8 text-emerald-500 mx-auto animate-pulse"></i>
+                                <p class="font-bold text-white">Public metrics active on <span class="text-emerald-400">bStats</span></p>
+                                <p>Interactive data dashboards detailing OS runtimes, regional player counts, and JVM versions.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
