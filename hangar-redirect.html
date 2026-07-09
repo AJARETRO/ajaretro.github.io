@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Transferring to Hangar | AJA RETRO</title>
+    <!-- Favicon / Brand Logo for Google Search -->
+    <link rel="icon" type="image/png" href="/logo-google.png">
+    <link rel="apple-touch-icon" href="/logo-google.png">
+    <script src="/js/tailwind.js"></script>
+    <script src="/js/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050505;
+            color: #f8fafc;
+            overflow: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(239, 68, 68, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.02) 2px, transparent 2px);
+            background-size: 60px 60px;
+        }
+    </style>
+</head>
+<body class="grid-bg min-h-screen flex flex-col justify-between items-center py-10 px-6">
+
+    <!-- Header -->
+    <header class="w-full max-w-7xl flex justify-center">
+        <div class="flex items-center gap-2">
+            <a href="index.html" class="text-2xl font-black tracking-tighter uppercase italic"><span class="text-red-600">AJA</span>RETRO</a>
+        </div>
+    </header>
+
+    <!-- Main Card -->
+    <main class="glass p-12 rounded-[3rem] border border-white/5 shadow-2xl max-w-md w-full text-center relative overflow-hidden my-auto">
+        <div class="absolute -top-24 -left-24 w-48 h-48 bg-red-600/10 blur-[80px] rounded-full"></div>
+        <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-red-600/10 blur-[80px] rounded-full"></div>
+
+        <div class="relative z-10 space-y-8">
+            <!-- Icon -->
+            <div class="w-20 h-20 bg-red-600/10 border border-red-500/20 text-red-500 rounded-3xl flex items-center justify-center mx-auto animate-pulse">
+                <i data-lucide="box" class="w-10 h-10"></i>
+            </div>
+
+            <!-- Title & Status -->
+            <div class="space-y-3">
+                <h2 class="text-2xl font-black tracking-tight italic uppercase">SECURE REDIRECT</h2>
+                <p class="text-zinc-500 text-sm">Redirecting to <strong class="text-white">Hangar Profile</strong></p>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="flex flex-col items-center justify-center py-4">
+                <div class="relative w-28 h-28 flex items-center justify-center">
+                    <!-- Progress ring -->
+                    <svg class="absolute inset-0 w-full h-full transform -rotate-90">
+                        <circle cx="56" cy="56" r="48" stroke="rgba(255,255,255,0.05)" stroke-width="4" fill="transparent" />
+                        <circle id="progress-bar" cx="56" cy="56" r="48" stroke="#ef4444" stroke-width="4" fill="transparent"
+                                stroke-dasharray="301.6" stroke-dashoffset="0" class="transition-all duration-1000 ease-linear" />
+                    </svg>
+                    <span id="countdown" class="text-4xl font-mono font-black text-white">3</span>
+                </div>
+            </div>
+
+            <!-- Manual Redirect Button -->
+            <div class="space-y-4 pt-4">
+                <a href="https://hangar.papermc.io/AJA_RETRO" class="block py-4 bg-red-600 hover:bg-red-700 text-white font-black rounded-2xl text-xs uppercase tracking-widest transition-all shadow-xl shadow-red-500/15">
+                    Skip & Redirect Now
+                </a>
+                <a href="index.html" class="block text-zinc-500 hover:text-white transition text-xs font-bold uppercase tracking-wider">
+                    Cancel & Go Home
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center text-zinc-700 text-[10px] uppercase tracking-[0.5em] font-bold">
+        &copy; 2026 AJARETRO • Security Proxy Gateway
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const redirectUrl = "https://hangar.papermc.io/AJA_RETRO";
+        const countdownEl = document.getElementById('countdown');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let timeLeft = 3;
+        const totalDuration = 3;
+        const dashArray = 301.6;
+
+        const interval = setInterval(() => {
+            timeLeft--;
+            if (timeLeft >= 0) {
+                countdownEl.innerText = timeLeft;
+                // Calculate dashoffset
+                const offset = dashArray - (dashArray * (timeLeft / totalDuration));
+                progressBar.style.strokeDashoffset = offset;
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                countdownEl.innerText = "✓";
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, 200);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
