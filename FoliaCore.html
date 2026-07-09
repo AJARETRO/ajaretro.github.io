@@ -136,7 +136,7 @@
       },
       "license": "https://opensource.org/licenses/MIT",
       "description": "A complete high-performance essentials suite rewrite designed explicitly for regionized Minecraft servers running Folia. Runs warp, spawn, utility commands, and chat frameworks asynchronously.",
-      "softwareVersion": "v5.9-Valkyrie"
+      "softwareVersion": "v6.0-Ragnarok"
     }
     </script>
 </head>
@@ -5846,6 +5846,12 @@ system:
   entity-cleanup-enabled: true
   entity-cleanup-interval: 300
   minimum-tps-threshold: 16
+  # Entities that should NEVER be cleaned up (case-insensitive types)
+  ignored-entity-types:
+    - VILLAGER
+    - IRON_GOLEM
+    - ARMOR_STAND
+    - WANDERING_TRADER
   
   # Auto Broadcaster - Sends messages at intervals
   auto-broadcaster-enabled: true
@@ -5954,16 +5960,9 @@ tablist:
             </div>
 
             <!-- Interactive Config Creator Content -->
-            <div x-show="activeTab === 'creator'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8">
-                <div class="flex justify-between items-center pb-4 border-b border-brand-border">
-                    <h3 class="text-2xl font-black italic uppercase text-white">Visual Config Creator</h3>
-                    <span class="text-[10px] font-mono text-zinc-500">Live YAML Generation</span>
-                </div>
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    Customize your FoliaCore configuration settings dynamically below. Toggles and numbers are converted into highly optimized, Folia-ready YAML formatting in real-time.
-                </p>
-
-                <div x-data="{
+            <div x-show="activeTab === 'creator'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8"
+                 x-data="{
+                    activeFile: 'config.yml',
                     mods: {
                         teleport: true,
                         kits: true,
@@ -5978,89 +5977,302 @@ tablist:
                     },
                     maintenanceMode: false,
                     firstSpawn: true,
-                    entityCleanup: true,
+                    entityCleanup: false,
                     cleanupInterval: 300,
                     broadcaster: true,
-                    broadcastInterval: 600
-                }" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <!-- Options Panel -->
+                    broadcastInterval: 600,
+                    
+                    mysqlEnabled: true,
+                    dbHost: '127.0.0.1',
+                    dbName: 'foliacore',
+                    dbUser: 'foliacore',
+                    debugLevel: 1,
+                    saveToggles: true,
+                    usePAPI: true,
+                    useMiniMessage: true,
+                    tabAnimation: true,
+                    sidebarAnimation: true,
+                    tabUpdateTicks: 20,
+                    objectiveType: 'PING',
+                    
+                    broadcastPrefix: '<gray>[</gray><gradient:#00B4FF:#77D9FF><bold>Broadcast</bold></gradient><gray>]</gray> ',
+                    broadcastMsgs: [
+                        'Welcome to our server! Use /help to get started.',
+                        'FoliaCore v6.0-Ragnarok is active on this node.',
+                        'Report bugs or player griefs using /report.'
+                    ],
+                    newMsg: '',
+                    
+                    starterEnabled: true,
+                    starterCooldown: 3600,
+                    starterItems: [
+                        'iron_sword 1',
+                        'iron_pickaxe 1',
+                        'bread 16'
+                    ],
+                    newKitItem: '',
+                    
+                    antiVpn: true,
+                    antiVpnKey: 'free-api-key-here',
+                    countryBlock: false,
+                    blockedCountries: 'CN, RU, BR',
+                    
+                    addBroadcastMsg() {
+                        if (this.newMsg.trim()) {
+                            this.broadcastMsgs.push(this.newMsg.trim());
+                            this.newMsg = '';
+                        }
+                    },
+                    removeBroadcastMsg(index) {
+                        this.broadcastMsgs.splice(index, 1);
+                    },
+                    addKitItem() {
+                        if (this.newKitItem.trim()) {
+                            this.starterItems.push(this.newKitItem.trim());
+                            this.newKitItem = '';
+                        }
+                    },
+                    removeKitItem(index) {
+                        this.starterItems.splice(index, 1);
+                    }
+                 }">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-brand-border">
+                    <div class="space-y-1">
+                        <h3 class="text-2xl font-black italic uppercase text-white">Config Editor Suite</h3>
+                        <p class="text-xs text-zinc-500">Live Visual Config Editors for all FoliaCore setting files</p>
+                    </div>
+                    <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20">Reactive YAML Engine</span>
+                </div>
+                
+                <!-- File Selector Tabs -->
+                <div class="flex flex-wrap gap-2 border-b border-brand-border/40 pb-4">
+                    <button @click="activeFile = 'config.yml'" :class="activeFile === 'config.yml' ? 'bg-emerald-500 text-black font-bold' : 'bg-zinc-900 text-zinc-400 border border-brand-border'" class="px-4 py-1.5 rounded-lg text-xs uppercase tracking-wider transition-all">config.yml</button>
+                    <button @click="activeFile = 'tab-sidebar.yml'" :class="activeFile === 'tab-sidebar.yml' ? 'bg-emerald-500 text-black font-bold' : 'bg-zinc-900 text-zinc-400 border border-brand-border'" class="px-4 py-1.5 rounded-lg text-xs uppercase tracking-wider transition-all">tab-sidebar.yml</button>
+                    <button @click="activeFile = 'autobroadcasts.yml'" :class="activeFile === 'autobroadcasts.yml' ? 'bg-emerald-500 text-black font-bold' : 'bg-zinc-900 text-zinc-400 border border-brand-border'" class="px-4 py-1.5 rounded-lg text-xs uppercase tracking-wider transition-all">autobroadcasts.yml</button>
+                    <button @click="activeFile = 'kits.yml'" :class="activeFile === 'kits.yml' ? 'bg-emerald-500 text-black font-bold' : 'bg-zinc-900 text-zinc-400 border border-brand-border'" class="px-4 py-1.5 rounded-lg text-xs uppercase tracking-wider transition-all">kits.yml</button>
+                    <button @click="activeFile = 'security.yml'" :class="activeFile === 'security.yml' ? 'bg-emerald-500 text-black font-bold' : 'bg-zinc-900 text-zinc-400 border border-brand-border'" class="px-4 py-1.5 rounded-lg text-xs uppercase tracking-wider transition-all">security.yml</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Options Panel -->
                     <div class="lg:col-span-6 space-y-6 bg-zinc-950/40 p-6 rounded-2xl border border-brand-border">
-                        <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pb-2 border-b border-brand-border/40">Subsystem Module Toggles</h4>
                         
-                        <div class="grid grid-cols-2 gap-4">
-                            <template x-for="(val, mod) in mods">
+                        <!-- config.yml options -->
+                        <div x-show="activeFile === 'config.yml'" class="space-y-6">
+                            <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pb-2 border-b border-brand-border/40">Subsystem Module Toggles</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <template x-for="(val, mod) in mods">
+                                    <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40">
+                                        <span class="text-xs font-mono text-slate-300 uppercase" x-text="mod"></span>
+                                        <button @click="mods[mod] = !mods[mod]" 
+                                                :class="mods[mod] ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                                class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                                x-text="mods[mod] ? 'ON' : 'OFF'"></button>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pt-4 pb-2 border-b border-brand-border/40">System Settings</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-black/30 rounded-lg border border-brand-border/40">
+                                    <div class="space-y-0.5">
+                                        <span class="text-xs font-mono text-slate-300">Maintenance Mode</span>
+                                        <p class="text-[10px] text-zinc-500">Restricts player join permissions</p>
+                                    </div>
+                                    <button @click="maintenanceMode = !maintenanceMode" 
+                                            :class="maintenanceMode ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                            class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                            x-text="maintenanceMode ? 'ON' : 'OFF'"></button>
+                                </div>
+
+                                <div class="p-3 bg-black/30 rounded-lg border border-brand-border/40 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="space-y-0.5">
+                                            <span class="text-xs font-mono text-slate-300">TPS Entity Cleanup</span>
+                                            <p class="text-[10px] text-zinc-500">Auto-cull entities during lag spikes</p>
+                                        </div>
+                                        <button @click="entityCleanup = !entityCleanup" 
+                                                :class="entityCleanup ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                                class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                                x-text="entityCleanup ? 'ON' : 'OFF'"></button>
+                                    </div>
+                                    <div x-show="entityCleanup" class="flex items-center gap-4">
+                                        <label class="text-[10px] text-zinc-400 font-mono">Interval (seconds):</label>
+                                        <input type="number" x-model.number="cleanupInterval" class="bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded w-24 focus:outline-none focus:border-emerald-500">
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-black/30 rounded-lg border border-brand-border/40 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="space-y-0.5">
+                                            <span class="text-xs font-mono text-slate-300">Auto Broadcaster</span>
+                                            <p class="text-[10px] text-zinc-500">Periodic server announcements</p>
+                                        </div>
+                                        <button @click="broadcaster = !broadcaster" 
+                                                :class="broadcaster ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                                class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                                x-text="broadcaster ? 'ON' : 'OFF'"></button>
+                                    </div>
+                                    <div x-show="broadcaster" class="flex items-center gap-4">
+                                        <label class="text-[10px] text-zinc-400 font-mono">Interval (seconds):</label>
+                                        <input type="number" x-model.number="broadcastInterval" class="bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded w-24 focus:outline-none focus:border-emerald-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab-sidebar.yml options -->
+                        <div x-show="activeFile === 'tab-sidebar.yml'" class="space-y-6">
+                            <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pb-2 border-b border-brand-border/40">Database & Connection Pool</h4>
+                            <div class="space-y-4">
                                 <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40">
-                                    <span class="text-xs font-mono text-slate-300 uppercase" x-text="mod"></span>
-                                    <button @click="mods[mod] = !mods[mod]" 
-                                            :class="mods[mod] ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                    <span class="text-xs font-mono text-slate-300">Use MySQL Database</span>
+                                    <button @click="mysqlEnabled = !mysqlEnabled" 
+                                            :class="mysqlEnabled ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
                                             class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
-                                            x-text="mods[mod] ? 'ON' : 'OFF'"></button>
+                                            x-text="mysqlEnabled ? 'ON' : 'OFF'"></button>
                                 </div>
-                            </template>
-                        </div>
-
-                        <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pt-4 pb-2 border-b border-brand-border/40">System Settings</h4>
-                        
-                        <div class="space-y-4">
-                            <!-- Maintenance -->
-                            <div class="flex items-center justify-between p-3 bg-black/30 rounded-lg border border-brand-border/40">
-                                <div class="space-y-0.5">
-                                    <span class="text-xs font-mono text-slate-300">Maintenance Mode</span>
-                                    <p class="text-[10px] text-zinc-500">Restricts player join permissions</p>
-                                </div>
-                                <button @click="maintenanceMode = !maintenanceMode" 
-                                        :class="maintenanceMode ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
-                                        class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
-                                        x-text="maintenanceMode ? 'ON' : 'OFF'"></button>
-                            </div>
-
-                            <!-- Cleanup -->
-                            <div class="p-3 bg-black/30 rounded-lg border border-brand-border/40 space-y-3">
-                                <div class="flex items-center justify-between">
-                                    <div class="space-y-0.5">
-                                        <span class="text-xs font-mono text-slate-300">TPS Entity Cleanup</span>
-                                        <p class="text-[10px] text-zinc-500">Auto-cull entities during lag spikes</p>
+                                <div x-show="mysqlEnabled" class="grid grid-cols-2 gap-4 pt-2">
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] text-zinc-400 font-mono">Host:</label>
+                                        <input type="text" x-model="dbHost" class="w-full bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
                                     </div>
-                                    <button @click="entityCleanup = !entityCleanup" 
-                                            :class="entityCleanup ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
-                                            class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
-                                            x-text="entityCleanup ? 'ON' : 'OFF'"></button>
-                                </div>
-                                <div x-show="entityCleanup" class="flex items-center gap-4">
-                                    <label class="text-[10px] text-zinc-400 font-mono">Interval (seconds):</label>
-                                    <input type="number" x-model.number="cleanupInterval" class="bg-black border border-brand-border/60 text-xs text-white font-mono px-2 py-1 rounded w-24 focus:outline-none focus:border-emerald-500">
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] text-zinc-400 font-mono">Database Name:</label>
+                                        <input type="text" x-model="dbName" class="w-full bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Broadcaster -->
-                            <div class="p-3 bg-black/30 rounded-lg border border-brand-border/40 space-y-3">
-                                <div class="flex items-center justify-between">
-                                    <div class="space-y-0.5">
-                                        <span class="text-xs font-mono text-slate-300">Auto Broadcaster</span>
-                                        <p class="text-[10px] text-zinc-500">Periodic server announcements</p>
-                                    </div>
-                                    <button @click="broadcaster = !broadcaster" 
-                                            :class="broadcaster ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                            <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pt-4 pb-2 border-b border-brand-border/40">Display Features</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40">
+                                    <span class="text-xs font-mono text-slate-300">Tablist Animations</span>
+                                    <button @click="tabAnimation = !tabAnimation" 
+                                            :class="tabAnimation ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
                                             class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
-                                            x-text="broadcaster ? 'ON' : 'OFF'"></button>
+                                            x-text="tabAnimation ? 'ON' : 'OFF'"></button>
                                 </div>
-                                <div x-show="broadcaster" class="flex items-center gap-4">
-                                    <label class="text-[10px] text-zinc-400 font-mono">Interval (seconds):</label>
-                                    <input type="number" x-model.number="broadcastInterval" class="bg-black border border-brand-border/60 text-xs text-white font-mono px-2 py-1 rounded w-24 focus:outline-none focus:border-emerald-500">
+                                <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40">
+                                    <span class="text-xs font-mono text-slate-300">Sidebar Animations</span>
+                                    <button @click="sidebarAnimation = !sidebarAnimation" 
+                                            :class="sidebarAnimation ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                            class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                            x-text="sidebarAnimation ? 'ON' : 'OFF'"></button>
+                                </div>
+                                <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40">
+                                    <span class="text-xs font-mono text-slate-300">Objective Slot Type</span>
+                                    <select x-model="objectiveType" class="bg-black border border-brand-border/60 rounded px-2 py-1 text-xs font-mono text-slate-300 focus:outline-none focus:border-emerald-500">
+                                        <option value="PING">PING</option>
+                                        <option value="HEALTH">HEALTH</option>
+                                        <option value="NONE">NONE</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- autobroadcasts.yml options -->
+                        <div x-show="activeFile === 'autobroadcasts.yml'" class="space-y-6">
+                            <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pb-2 border-b border-brand-border/40">Broadcaster Customization</h4>
+                            <div class="space-y-4">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] text-zinc-400 font-mono">Broadcast Prefix:</label>
+                                    <input type="text" x-model="broadcastPrefix" class="w-full bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] text-zinc-400 font-mono block">Announcement Messages:</label>
+                                    <div class="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar pr-1">
+                                        <template x-for="(msg, idx) in broadcastMsgs" :key="idx">
+                                            <div class="flex items-center gap-2 bg-black/30 p-2 rounded border border-brand-border/40">
+                                                <input type="text" x-model="broadcastMsgs[idx]" class="flex-grow bg-transparent text-xs text-slate-300 font-mono focus:outline-none">
+                                                <button @click="removeBroadcastMsg(idx)" class="text-red-400 hover:text-red-300 text-xs font-bold px-1.5">&times;</button>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div class="flex gap-2 pt-2">
+                                        <input type="text" x-model="newMsg" placeholder="Add new message..." @keydown.enter="addBroadcastMsg()" class="flex-grow bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
+                                        <button @click="addBroadcastMsg()" class="bg-emerald-500 text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-emerald-400">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- kits.yml options -->
+                        <div x-show="activeFile === 'kits.yml'" class="space-y-6">
+                            <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pb-2 border-b border-brand-border/40">Kits Settings</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40">
+                                    <span class="text-xs font-mono text-slate-300">Enable Starter Kit</span>
+                                    <button @click="starterEnabled = !starterEnabled" 
+                                            :class="starterEnabled ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                            class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                            x-text="starterEnabled ? 'ON' : 'OFF'"></button>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] text-zinc-400 font-mono">Starter Kit Cooldown (seconds):</label>
+                                    <input type="number" x-model.number="starterCooldown" class="w-full bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] text-zinc-400 font-mono block">Kit Item Stack List:</label>
+                                    <div class="space-y-2 max-h-[180px] overflow-y-auto custom-scrollbar pr-1">
+                                        <template x-for="(item, idx) in starterItems" :key="idx">
+                                            <div class="flex items-center gap-2 bg-black/30 p-2 rounded border border-brand-border/40">
+                                                <input type="text" x-model="starterItems[idx]" class="flex-grow bg-transparent text-xs text-slate-300 font-mono focus:outline-none">
+                                                <button @click="removeKitItem(idx)" class="text-red-400 hover:text-red-300 text-xs font-bold px-1.5">&times;</button>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div class="flex gap-2 pt-2">
+                                        <input type="text" x-model="newKitItem" placeholder="e.g. apple 32" @keydown.enter="addKitItem()" class="flex-grow bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
+                                        <button @click="addKitItem()" class="bg-emerald-500 text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-emerald-400">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- security.yml options -->
+                        <div x-show="activeFile === 'security.yml'" class="space-y-6">
+                            <h4 class="text-sm font-bold text-white uppercase italic tracking-wide pb-2 border-b border-brand-border/40">Security Settings</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40">
+                                    <span class="text-xs font-mono text-slate-300">Anti-VPN Check Gate</span>
+                                    <button @click="antiVpn = !antiVpn" 
+                                            :class="antiVpn ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                            class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                            x-text="antiVpn ? 'ON' : 'OFF'"></button>
+                                </div>
+                                <div x-show="antiVpn" class="space-y-1">
+                                    <label class="text-[10px] text-zinc-400 font-mono">Anti-VPN Endpoint API Key:</label>
+                                    <input type="text" x-model="antiVpnKey" class="w-full bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div class="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-brand-border/40 border-t pt-4">
+                                    <span class="text-xs font-mono text-slate-300">Country Join Whitelist</span>
+                                    <button @click="countryBlock = !countryBlock" 
+                                            :class="countryBlock ? 'bg-emerald-500 text-black' : 'bg-zinc-800 text-zinc-500'" 
+                                            class="px-2.5 py-1 rounded text-[10px] font-bold uppercase transition-all"
+                                            x-text="countryBlock ? 'ON' : 'OFF'"></button>
+                                </div>
+                                <div x-show="countryBlock" class="space-y-1">
+                                    <label class="text-[10px] text-zinc-400 font-mono">Allowed Country Codes (comma-separated):</label>
+                                    <input type="text" x-model="blockedCountries" class="w-full bg-black border border-brand-border/60 text-xs text-white font-mono px-2.5 py-1.5 rounded focus:outline-none focus:border-emerald-500">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Output Panel -->
                     <div class="lg:col-span-6 bg-black border border-brand-border p-6 rounded-2xl flex flex-col justify-between">
                         <div class="space-y-4">
                             <div class="flex justify-between items-center pb-2 border-b border-brand-border/40">
-                                <h4 class="text-emerald-400 font-bold font-mono text-sm">Generated config.yml</h4>
+                                <h4 class="text-emerald-400 font-bold font-mono text-sm" x-text="'Generated ' + activeFile"></h4>
                                 <button @click="navigator.clipboard.writeText($refs.yamlCode.innerText); alert('Config copied to clipboard!')" class="text-[10px] bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition-all font-mono">Copy Code</button>
                             </div>
-                            <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 min-h-[350px] overflow-y-auto custom-scrollbar"><code x-ref="yamlCode"># FoliaCore Generated Configuration
-# Upgrade: v5.9-VALKYRIE (Velocity Async Location Kernel Yielding Regional Isolated Engine)
+                            
+                            <!-- config.yml output -->
+                            <div x-show="activeFile === 'config.yml'">
+                                <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 min-h-[350px] overflow-y-auto custom-scrollbar"><code x-ref="yamlCode"># FoliaCore Generated Configuration
+# Upgrade: v6.0-RAGNAROK (Regional Async Gateway Network And Resource Optimizer Kernel)
 
 modules:
   teleport: <span x-text="mods.teleport"></span>
@@ -6081,13 +6293,97 @@ system:
   entity-cleanup-enabled: <span x-text="entityCleanup"></span>
   entity-cleanup-interval: <span x-text="cleanupInterval"></span>
   minimum-tps-threshold: 16
+  ignored-entity-types:
+    - VILLAGER
+    - IRON_GOLEM
+    - ARMOR_STAND
+    - WANDERING_TRADER
   auto-broadcaster-enabled: <span x-text="broadcaster"></span>
   auto-broadcast-interval: <span x-text="broadcastInterval"></span></code></pre>
+                            </div>
+
+                            <!-- tab-sidebar.yml output -->
+                            <div x-show="activeFile === 'tab-sidebar.yml'">
+                                <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 min-h-[350px] overflow-y-auto custom-scrollbar"><code># FoliaCore tab-sidebar.yml configuration
+version: "v6.0-Ragnarok"
+
+database:
+  mysql-enabled: <span x-text="mysqlEnabled"></span>
+  host: "<span x-text="dbHost"></span>"
+  port: 3306
+  database: "<span x-text="dbName"></span>"
+  username: "<span x-text="dbUser"></span>"
+  password: "change-me"
+  use-ssl: false
+  pool-size: 8
+
+settings:
+  debug-level: <span x-text="debugLevel"></span>
+  save-user-toggles: <span x-text="saveToggles"></span>
+  use-placeholderapi: <span x-text="usePAPI"></span>
+  use-mini-message: <span x-text="useMiniMessage"></span>
+
+animations:
+  global-update-interval-ticks: 20
+  tab-animation:
+    enabled: <span x-text="tabAnimation"></span>
+    update-interval-ticks: <span x-text="tabUpdateTicks"></span>
+  sidebar-animation:
+    enabled: <span x-text="sidebarAnimation"></span>
+    update-interval-ticks: <span x-text="tabUpdateTicks"></span>
+
+tablist:
+  enabled: true
+  global-playerlist: true
+  objective:
+    enabled: true
+    type: <span x-text="objectiveType"></span>
+  names:
+    format: "<gray>[</gray><gradient:#00B4FF:#77D9FF><bold>FoliaCore</bold></gradient><gray>]</gray> <white>%player_name%</white>"</code></pre>
+                            </div>
+
+                            <!-- autobroadcasts.yml output -->
+                            <div x-show="activeFile === 'autobroadcasts.yml'">
+                                <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 min-h-[350px] overflow-y-auto custom-scrollbar"><code># FoliaCore autobroadcasts.yml configuration
+enabled: <span x-text="broadcaster"></span>
+interval: <span x-text="broadcastInterval"></span>
+prefix: "<span x-text="broadcastPrefix"></span>"
+messages:
+<template x-for="msg in broadcastMsgs">  - '<span x-text="msg"></span>'
+</template></code></pre>
+                            </div>
+
+                            <!-- kits.yml output -->
+                            <div x-show="activeFile === 'kits.yml'">
+                                <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 min-h-[350px] overflow-y-auto custom-scrollbar"><code># FoliaCore kits.yml configuration
+kits:
+  starter:
+    enabled: <span x-text="starterEnabled"></span>
+    cooldown: <span x-text="starterCooldown"></span>
+    items:
+<template x-for="item in starterItems">      - '<span x-text="item"></span>'
+</template></code></pre>
+                            </div>
+
+                            <!-- security.yml output -->
+                            <div x-show="activeFile === 'security.yml'">
+                                <pre class="bg-zinc-950 p-4 rounded-xl border border-brand-border text-xs font-mono text-slate-300 min-h-[350px] overflow-y-auto custom-scrollbar"><code># FoliaCore security.yml configuration
+security:
+  anti-vpn:
+    enabled: <span x-text="antiVpn"></span>
+    api-key: "<span x-text="antiVpnKey"></span>"
+  country-block:
+    enabled: <span x-text="countryBlock"></span>
+    blocked-countries:
+<template x-for="code in blockedCountries.split(',')">      - '<span x-text="code.trim()"></span>'
+</template></code></pre>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-
+            
             <!-- Subsystem Modules Content -->
             <div x-show="activeTab === 'modules'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8">
                 <div class="flex justify-between items-center pb-4 border-b border-brand-border">
