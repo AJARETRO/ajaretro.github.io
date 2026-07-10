@@ -119,7 +119,7 @@
       },
       "license": "Proprietary (All Rights Reserved)",
       "description": "Surgical chunk-based event filters to isolate and defuse lag machines on Minecraft servers without affecting player performance. Instantly freezes chunk loops exceeding TPS margins.",
-      "softwareVersion": "1.0.0"
+      "softwareVersion": "2.4-Aegis"
     }
     </script>
 </head>
@@ -826,7 +826,14 @@ soft-reset-duration-ticks: 200
 
 # Duration (in ticks) to hard freeze the chunk (6000 ticks = 5m)
 # Set to -1 to freeze permanently until unfrozen by an administrator
-freeze-duration-ticks: 6000</code></pre>
+freeze-duration-ticks: 6000
+
+# --- Alert Settings ---
+# Send alert notifications to online administrators
+notify-admins: true
+
+# Chat message sent directly to players inside the chunk when it gets frozen
+chunk-frozen-message: "&cThis chunk has been frozen due to excessive lag detection!"</code></pre>
             </div>
 
             <!-- Commands Content -->
