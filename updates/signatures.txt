@@ -1,0 +1,17 @@
+# DeMalware-RETRO Remote Signatures Database
+# Pushed directly from ajaretro.dev malware analysis queue
+#
+# Suspicious/Backdoored class paths and payloads
+dev.skyrage.Main
+dev.skyrage.Payload
+dev.skyrage.Webstealer
+com.backdoor.Backdoor
+com.backdoor.ForceOP
+com.backdoor.OpCommand
+org.spigotmc.anti.AntiSpamListener
+org.bukkit.help.BukkitHelpCommands
+dev.backdoor.Main
+dev.backdoor.Payload
+dev.malware.HostIntegrity
+net.minecraft.server.management.OpGrant
+com.mchelp.JarPluginScanner
