@@ -9,16 +9,16 @@ RetroMail commercial licenses can be purchased and managed directly via our lice
 
 ### 🛠️ Portal License Tiers
 
-* **Tier 1 (Personal) | $20 / 30 Days**  
+* **Tier 1 (Personal) | $10 / 30 Days**  
   Supports up to **4** concurrent server instances. Perfect for small setups and developer environments.
   
-* **Tier 2 (Pro) | $35 / 30 Days**  
+* **Tier 2 (Pro) | $18 / 30 Days**  
   Supports up to **8** concurrent server instances. Includes 15-minute zero-downtime key rotation overlap.
   
-* **Tier 3 (Enterprise) | $60 / 30 Days**  
+* **Tier 3 (Enterprise) | $30 / 30 Days**  
   Supports up to **14** concurrent server instances. Includes 15-minute zero-downtime key rotation overlap and priority rate limit validations.
   
-* **Tier 4 (Overdrive) | $90 / 30 Days**  
+* **Tier 4 (Overdrive) | $45 / 30 Days**  
   Supports up to **24** concurrent server instances. Includes all Enterprise benefits plus remote key emergency freezing and instant reactivation control.
 
 ---
