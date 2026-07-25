@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Favicon / Brand Logo for Google Search -->
+    <link rel="icon" type="image/png" href="/logo-google.png">
+    <link rel="apple-touch-icon" href="/logo-google.png">
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://ajaretro.dev/superboard.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperBoard-RETRO | Open Source 3D Board, Card & Arcade Games Engine</title>
+    <meta name="description" content="SuperBoard-RETRO is an open-source 3D board, card, and retro arcade mini-games engine for Paper, Folia, and GeyserMC servers. Built with BlockDisplay entities for zero lag.">
+    <meta name="keywords" content="SuperBoard-RETRO, Minecraft minigames plugin, 3D chess minecraft, minecraft uno plugin, folia minigames, geysermc board games, minecraft blockdisplay minigames, paper minigames plugin">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ajaretro.dev/superboard.html">
+    <meta property="og:title" content="SuperBoard-RETRO | Open Source 3D Board & Arcade Engine">
+    <meta property="og:description" content="Open-source 3D board, card, and retro arcade minigames engine for Paper, Folia, and GeyserMC servers. Render 3D tabletop games directly in Minecraft with zero lag.">
+    <meta property="og:image" content="https://ajaretro.dev/images/chess_board_3d.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ajaretro.dev/superboard.html">
+    <meta property="twitter:title" content="SuperBoard-RETRO | Open Source 3D Board & Arcade Engine">
+    <meta property="twitter:description" content="Open-source 3D board, card, and retro arcade minigames engine for Paper, Folia, and GeyserMC servers.">
+    <meta property="twitter:image" content="https://ajaretro.dev/images/chess_board_3d.jpg">
+
+    <!-- JSON-LD Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SuperBoard-RETRO",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Minecraft (Paper, Folia, Spigot, GeyserMC)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Ahmed Juhaed Ayeman Niloy",
+        "alternateName": "AJA RETRO"
+      },
+      "downloadUrl": "https://modrinth.com/mod/superboard-retro",
+      "description": "Open-source 3D board, card, and retro arcade games plugin for Paper, Folia, and GeyserMC servers."
+    }
+    </script>
+    <script src="/js/tailwind.js"></script>
+    <script src="/js/alpine.js" defer></script>
+    <script src="/js/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050505;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        .glass {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ff5555 0%, #ffaa00 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-glow {
+            box-shadow: 0 0 100px -20px rgba(255, 85, 85, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-100 antialiased selection:bg-red-500 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 via-amber-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-red-500/20 group-hover:scale-105 transition-transform">
+                    SB
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-lg tracking-tight">SuperBoard<span class="text-amber-500">-RETRO</span></span>
+                    <span class="text-xs text-slate-400 font-medium">by AJA RETRO</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                <a href="/" class="hover:text-white transition-colors">Home</a>
+                <a href="/demalware.html" class="hover:text-white transition-colors">DeMalware-RETRO</a>
+                <a href="#features" class="hover:text-white transition-colors">Game Modes</a>
+                <a href="#customization" class="hover:text-white transition-colors">Game Naming</a>
+                <a href="#security" class="hover:text-white transition-colors">Security</a>
+                <a href="#documentation" class="hover:text-white transition-colors">Docs</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/AJARETRO/SuperBoard-RETRO" target="_blank" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-semibold transition-all">
+                    <i data-lucide="github" class="w-4 h-4"></i> GitHub
+                </a>
+                <a href="https://modrinth.com/mod/superboard-retro" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/20 hover:scale-105 transition-all">
+                    <i data-lucide="download" class="w-4 h-4"></i> Free Download
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-36 pb-20 px-6 max-w-7xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-8">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> 100% Free & Open Source 3D Minigames Engine
+        </div>
+
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+            Enterprise 3D Board, Card &<br>
+            <span class="gradient-text">Arcade Games Engine</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-normal">
+            SuperBoard-RETRO renders physical 3D board games directly inside the Minecraft world using modern <code class="text-amber-400 mono font-bold">BlockDisplay</code> and <code class="text-amber-400 mono font-bold">Interaction</code> entities. Fully compatible with Paper, Folia, and GeyserMC (Bedrock)!
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-4 mb-16">
+            <a href="https://cdn.modrinth.com/data/SB3rLLFg/versions/ZhMS9PDI/SuperBoard-RETRO-1.0.0.jar" class="flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-extrabold text-base shadow-xl shadow-red-500/25 hover:scale-105 transition-all">
+                <i data-lucide="download" class="w-5 h-5"></i> Download SuperBoard-RETRO v1.0.0 (.jar)
+            </a>
+            <a href="https://github.com/AJARETRO/SuperBoard-RETRO" target="_blank" class="flex items-center gap-3 px-8 py-4 rounded-xl glass hover:bg-white/10 text-white font-bold text-base border border-white/10 transition-all">
+                <i data-lucide="code" class="w-5 h-5"></i> View Source on GitHub
+            </a>
+        </div>
+
+        <!-- Metric Badges -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            <div class="glass p-6 rounded-2xl border border-white/5">
+                <div class="text-3xl font-extrabold text-amber-400 mb-1">18+</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Game Modes</div>
+            </div>
+            <div class="glass p-6 rounded-2xl border border-white/5">
+                <div class="text-3xl font-extrabold text-emerald-400 mb-1">O(1)</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Click Latency</div>
+            </div>
+            <div class="glass p-6 rounded-2xl border border-white/5">
+                <div class="text-3xl font-extrabold text-blue-400 mb-1">Folia & Geyser</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Native Support</div>
+            </div>
+            <div class="glass p-6 rounded-2xl border border-white/5">
+                <div class="text-3xl font-extrabold text-purple-400 mb-1">Glicko-2</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Ranked ELO System</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Categories & Stock Showcase -->
+    <section id="features" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-4">4 Rich Game Categories</h2>
+            <p class="text-slate-400 text-lg">Explore 3D strategy tabletop, classic card games, retro arcade, and puzzles.</p>
+        </div>
+
+        <div class="space-y-16">
+            <!-- 1. Strategy Tabletop -->
+            <div class="glass rounded-3xl p-8 border border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase">
+                        Category 1: Strategy Tabletop
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-white">3D Chess & Strategy Tabletop</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Features a complete pure-Java FEN validator and PGN exporter. Play 1v1 PvP or challenge stock PvE mob bot difficulties (Zombie Peasant, Skeleton Tactician, Warden Grandmaster).
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> <strong>Chess:</strong> FEN validator, bullet/blitz clocks & PGN export.</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> <strong>Checkers:</strong> 8x8 forced jumps & promotion.</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> <strong>Reversi & Naval Combat:</strong> Piece flipping & hidden grid bombing.</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> <strong>Four-in-a-Row:</strong> 3D gravity board.</li>
+                    </ul>
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                    <img src="/images/chess_board_3d.jpg" alt="SuperBoard 3D Chess Tabletop Game" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+
+            <!-- 2. Card & Tile Games -->
+            <div class="glass rounded-3xl p-8 border border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden">
+                <div class="order-2 lg:order-1 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                    <img src="/images/color_match_cards.jpg" alt="SuperBoard Color Match Card Minigame" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="order-1 lg:order-2 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold uppercase">
+                        Category 2: Card & Tile Games
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-white">Color Match & Classic Cards</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Enjoy 4-player card matching action! Play color and number cards, draw-fours, and skips in a DMCA-safe, fully customizable card engine.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> <strong>Color Match:</strong> DMCA-safe UNO-style 4-player matching card game.</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> <strong>Solitaire:</strong> Klondike card stacking on 3D felt tables.</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> <strong>Mahjong Solitaire & Dominoes:</strong> 3D tile clearance & chain matching.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 3. Retro Arcade Games -->
+            <div class="glass rounded-3xl p-8 border border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs font-bold uppercase">
+                        Category 3: Retro Arcade & Reflex
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-white">Retro Arcade & Reflex Minigames</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        High-speed arcade action directly on display boards! Snake, Block Stacking, and reaction speed tests powered by display entity animations.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-red-400"></i> <strong>Snake:</strong> 60 FPS smooth arcade grid movement.</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-red-400"></i> <strong>Block Stack:</strong> Tetris-style falling blocks with line clears.</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-red-400"></i> <strong>Whack-A-Mole & Flappy Bee:</strong> Reaction speed & single-button altitude flap.</li>
+                    </ul>
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                    <img src="/images/arcade_retro_3d.jpg" alt="SuperBoard 3D Retro Arcade Games" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customizable Game Names Section -->
+    <section id="customization" class="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-bold uppercase mb-4">
+                    DMCA Protection & Server Rebranding
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold mb-6">Fully Customizable Game Display Names</h2>
+                <p class="text-slate-400 leading-relaxed mb-6">
+                    To avoid trademark conflicts (such as UNO or Tetris) and allow server networks to rebrand game modes to fit custom server lore, SuperBoard-RETRO lets developers change any game title directly in <code class="text-amber-400 mono">config.yml</code>!
+                </p>
+                <div class="glass p-6 rounded-2xl border border-white/10 space-y-3 font-mono text-sm">
+                    <div class="text-slate-400"># config.yml</div>
+                    <div class="text-amber-400">game-display-names:</div>
+                    <div class="pl-4 text-slate-200">COLOR_MATCH: <span class="text-emerald-400">"Color Match Royale"</span></div>
+                    <div class="pl-4 text-slate-200">TETRIS: <span class="text-emerald-400">"Block Stack Arcade"</span></div>
+                    <div class="pl-4 text-slate-200">WORDLE: <span class="text-emerald-400">"Word Guess"</span></div>
+                    <div class="pl-4 text-slate-200">CHESS: <span class="text-emerald-400">"Grandmaster Chess"</span></div>
+                </div>
+            </div>
+            <div class="glass p-8 rounded-3xl border border-white/10 space-y-6">
+                <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i> Why Rebranding Matters
+                </h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Default game mode keys use neutral names like <strong>Color Match</strong> instead of trademarked brand names. Developers can hot-reload these names anytime with <code class="text-amber-400 mono">/superboard reload</code>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section: DeMalware Integration -->
+    <section id="security" class="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
+        <div class="glass p-10 rounded-3xl border border-red-500/20 relative overflow-hidden">
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-red-600/10 rounded-full blur-3xl"></div>
+            
+            <div class="max-w-3xl relative z-10 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold uppercase">
+                    <i data-lucide="shield" class="w-4 h-4"></i> Early-Boot Security Sentinel
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white">Automated DeMalware-RETRO Awareness</h2>
+                <p class="text-slate-300 leading-relaxed">
+                    SuperBoard-RETRO actively checks server memory on startup for <a href="/demalware.html" class="text-red-400 underline font-bold hover:text-red-300">DeMalware-RETRO</a>. If missing, it outputs a friendly security recommendation in the server console to keep your host safe against backdoor trojans (like l/M/x) and ForceOP vulnerabilities.
+                </p>
+                <div class="bg-black/80 p-5 rounded-xl border border-white/10 font-mono text-xs text-slate-300 leading-relaxed">
+                    <span class="text-slate-500">[15:30:00 INFO]:</span> ==================================================================<br>
+                    <span class="text-amber-400">[15:30:00 INFO]: 💡 [Security Notice] DeMalware-RETRO is not detected on this server.</span><br>
+                    <span class="text-slate-400">[15:30:00 INFO]:    For maximum protection against malicious plugins, zero-days, and</span><br>
+                    <span class="text-slate-400">[15:30:00 INFO]:    bytecode backdoors, consider installing DeMalware-RETRO.</span><br>
+                    <span class="text-emerald-400">[15:30:00 INFO]:    Free Download: https://modrinth.com/mod/demalware-retro</span><br>
+                    <span class="text-slate-500">[15:30:00 INFO]:</span> ==================================================================
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/10 text-center text-slate-500 text-sm">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <span class="font-extrabold text-white">SuperBoard-RETRO</span> by <a href="https://ajaretro.dev" class="text-amber-400 hover:underline">AJA RETRO</a>. Released under the MIT License.
+            </div>
+            <div class="flex items-center gap-6 text-slate-400">
+                <a href="https://modrinth.com/mod/superboard-retro" target="_blank" class="hover:text-white">Modrinth</a>
+                <a href="https://github.com/AJARETRO/SuperBoard-RETRO" target="_blank" class="hover:text-white">GitHub</a>
+                <a href="/demalware.html" class="hover:text-white">DeMalware-RETRO</a>
+                <a href="/retromail.html" class="hover:text-white">RetroMail</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
