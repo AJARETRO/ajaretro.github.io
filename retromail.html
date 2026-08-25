@@ -1,1218 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <!-- Favicon / Brand Logo for Google Search -->
-    <link rel="icon" type="image/png" href="/logo-google.png">
-    <link rel="apple-touch-icon" href="/logo-google.png">
     <meta charset="UTF-8">
-    <link rel="canonical" href="https://ajaretro.dev/retromail.html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetroMail | Minecraft Email Verification & SMTP Newsletter System</title>
-    <meta name="description" content="RetroMail is the premier Minecraft email verification plugin and SMTP newsletter system for Paper, Spigot, Folia, and Velocity networks. Connect players to real email clients and send bulk updates.">
-    <meta name="keywords" content="RetroMail, Minecraft email verification, verify player email minecraft, minecraft smtp verification reward, velocity email verification, bungeecord newsletter, minecraft mailing list, paper email verify, smtp for minecraft">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ajaretro.dev/retromail.html">
-    <meta property="og:title" content="RetroMail | Minecraft Email Verification & SMTP Newsletter Plugin">
-    <meta property="og:description" content="RetroMail is the premier Minecraft email verification plugin and SMTP newsletter system for Paper, Spigot, Folia, and Velocity networks. Connect players to real email clients and send bulk updates.">
-    <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://ajaretro.dev/retromail.html">
-    <meta property="twitter:title" content="RetroMail | Minecraft Email Verification & SMTP Newsletter Plugin">
-    <meta property="twitter:description" content="RetroMail is the premier Minecraft email verification plugin and SMTP newsletter system for Paper, Spigot, Folia, and Velocity networks. Connect players to real email clients and send bulk updates.">
-    <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
-
-    <!-- JSON-LD Structured Data for Google -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "RetroMail",
-      "applicationCategory": "GameApplication",
-      "operatingSystem": "Minecraft (Spigot, Paper, Folia, Velocity, BungeeCord)",
-      "offers": {
-        "@type": "Offer",
-        "price": "0.00",
-        "priceCurrency": "USD"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Ahmed Juhaed Ayeman Niloy",
-        "alternateName": "AJA RETRO"
-      },
-      "downloadUrl": "https://modrinth.com/plugin/retromail",
-      "description": "Secure double-opt-in SMTP gateway integration that verifies player emails in-game and coordinates multi-server proxy queues."
-    }
-    </script>
+    <title>RetroMail v1.0.7-DEADEYE | SMTP Email Verification Gateway</title>
+    <link rel="icon" type="image/png" href="/logo-google.png">
     <script src="/js/tailwind.js"></script>
     <script src="/js/alpine.js" defer></script>
     <script src="/js/lucide.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #050505;
-            color: #f8fafc;
-            overflow-x: hidden;
-        }
-
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        .glass {
-            background: rgba(15, 15, 15, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .mail-grid {
-            background-image: 
-                linear-gradient(rgba(59, 130, 246, 0.03) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 2px, transparent 2px);
-            background-size: 60px 60px;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #3b82f6 0%, #ef4444 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @keyframes pulse-ring {
-            0% { transform: scale(0.33); opacity: 1; }
-            80%, 100% { opacity: 0; }
-        }
-
-        .glow-point {
-            position: relative;
-        }
-
-        .glow-point::before {
-            content: '';
-            position: absolute;
-            left: -100%; top: -100%;
-            width: 300%; height: 300%;
-            background-color: #3b82f6;
-            border-radius: 50%;
-            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #09090b; color: #f4f4f5; }
+        .glass-panel { background: rgba(24, 24, 27, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
     </style>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "RetroMail",
-      "operatingSystem": "Minecraft (Spigot, Velocity)",
-      "applicationCategory": "GameApplication",
-      "offers": {
-        "@type": "Offer",
-        "price": "0.00",
-        "priceCurrency": "USD"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Ahmed Juhaed Ayeman Niloy",
-        "alternateName": "AJA RETRO"
-      },
-      "license": "Proprietary (All Rights Reserved)",
-      "description": "Secure double-opt-in SMTP gateway integration for Minecraft. Verifies player emails in-game, triggers commands based on verification states, and coordinates multi-server queues.",
-      "softwareVersion": "1.0.7-deadeye"
-    }
-    </script>
 </head>
-<body class="overflow-x-hidden mail-grid" x-data="{
-    // Simulation state
-    multiServer: false,
-    mcUsername: 'Niloy',
-    mcEmail: 'niloy@ajaretro.dev',
-    simState: 'idle', // idle, sending, inbox, verified
-    verificationCode: 'RM-8492-AX',
-    inboxOpen: false,
-    mobileMenuOpen: false,
+<body class="antialiased selection:bg-blue-500 selection:text-white min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
+    <div class="fixed top-0 left-1/3 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none z-0"></div>
+    
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#09090b]/80 backdrop-blur-2xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-cyan-500 flex items-center justify-center font-black text-white shadow-lg shadow-red-500/25 group-hover:scale-105 transition-all">
+                    AR
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black text-xl tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
+                    <span class="text-[10px] text-zinc-400 font-mono tracking-widest uppercase">Open Source Ecosystem</span>
+                </div>
+            </a>
 
-    startVerification() {
-        if (!this.mcUsername || !this.mcEmail) return;
-        this.simState = 'sending';
-        setTimeout(() => {
-            this.simState = 'inbox';
-            this.inboxOpen = true;
-        }, 1500);
-    },
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-widest">
+                <a href="index.html" class="text-zinc-400 hover:text-white transition-colors flex items-center">Home</a>
+                <a href="demalware.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="shield" class="w-3.5 h-3.5 inline mr-1"></i>DeMalware</a>
+                <a href="retromail.html" class="text-white border-b-2 border-red-500 pb-1 flex items-center"><i data-lucide="mail" class="w-3.5 h-3.5 inline mr-1"></i>RetroMail</a>
+                <a href="circuitbreaker.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="activity" class="w-3.5 h-3.5 inline mr-1"></i>CircuitBreaker</a>
+                <a href="FoliaCore.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="zap" class="w-3.5 h-3.5 inline mr-1"></i>FoliaCore</a>
+                <a href="retroworldpurger.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="hard-drive" class="w-3.5 h-3.5 inline mr-1"></i>WorldPurger</a>
+                <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="text-zinc-400 hover:text-white transition-colors">Modrinth</a>
+                <a href="https://github.com/AJARETRO" target="_blank" class="text-zinc-400 hover:text-white transition-colors">GitHub</a>
+            </nav>
 
-    completeVerification() {
-        this.simState = 'verifying';
-        setTimeout(() => {
-            this.simState = 'verified';
-            this.inboxOpen = false;
-        }, 1200);
-    },
-
-    resetSim() {
-        this.simState = 'idle';
-        this.mcUsername = 'Niloy';
-        this.mcEmail = 'niloy@ajaretro.dev';
-        this.inboxOpen = false;
-    }
-}">
-
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-4 px-6">
-        <div class="max-w-[1400px] mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="text-2xl font-black tracking-tighter uppercase italic"><span class="text-red-600">AJA</span>RETRO</a>
-                <div class="h-6 w-[2px] bg-white/10 mx-3"></div>
-                <span class="text-xs font-bold text-blue-500 uppercase tracking-[0.3em]">RetroMail</span>
-            </div>
-            <div class="hidden lg:flex items-center gap-10 font-bold text-xs text-zinc-400 uppercase tracking-widest">
-                <a href="index.html" class="hover:text-white transition">Home</a>
-                <a href="blog.html" class="hover:text-white transition">Blog</a>
-                <a href="#features" class="hover:text-white transition">Features</a>
-                <a href="#security" class="hover:text-white transition">Security & Legal</a>
-                <a href="#architecture" class="hover:text-white transition">Architecture</a>
-                <a href="#simulator" class="hover:text-white transition">In-Game Simulator</a>
-                <a href="demo/index.html" class="text-red-400 hover:text-red-300 transition">Web Panel Demo</a>
-                <a href="modrinth-transfer-retromail.html" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition shadow-lg shadow-blue-500/20">Get Plugin</a>
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-red-600/30 hover:scale-105 transition-all flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Download Free
+                </a>
             </div>
 
-            <!-- Mobile Menu Toggle -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2.5 rounded-2xl text-zinc-300 hover:text-white hover:bg-white/5 border border-white/10">
                 <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
                 <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl bg-zinc-950">
-            <a href="index.html" class="hover:text-white transition">Home</a>
-            <a href="blog.html" class="hover:text-white transition">Blog</a>
-            <a href="#features" @click="mobileMenuOpen = false" class="hover:text-white transition">Features</a>
-            <a href="#security" @click="mobileMenuOpen = false" class="hover:text-white transition">Security & Legal</a>
-            <a href="#architecture" @click="mobileMenuOpen = false" class="hover:text-white transition">Architecture</a>
-            <a href="#simulator" @click="mobileMenuOpen = false" class="hover:text-white transition">In-Game Simulator</a>
-            <a href="demo/index.html" class="text-red-400 hover:text-red-300 transition">Web Panel Demo</a>
-            <a href="modrinth-transfer-retromail.html" class="py-4 bg-blue-600 text-white text-center rounded-xl transition font-black">Get Plugin</a>
-        </div>
-    </nav>
-
-    <!-- Hero -->
-    <header class="relative pt-64 pb-32 px-8 overflow-hidden">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1600px] h-[900px] bg-blue-600/5 blur-[180px] rounded-full -z-10"></div>
-        
-        <div class="max-w-[1400px] mx-auto text-center relative z-10">
-            <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-black uppercase tracking-[0.3em] mb-12">
-                <span class="glow-point w-2.5 h-2.5 bg-blue-500 rounded-full inline-block mr-2"></span>
-                Secure. Compliant. High-Performance.
-            </div>
-            
-            <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-12 uppercase italic leading-none">
-                Minecraft SMTP <br>
-                <span class="gradient-text">Redefined.</span>
-            </h1>
-            
-            <p class="text-2xl text-zinc-400 max-w-4xl mx-auto leading-relaxed mb-16 font-medium">
-                Bridge the gap between your server and your players. Send lightning-fast SMTP email verifications, newsletters, and rewards with built-in spam protection and full data compliance.
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-6 items-center flex-wrap">
-                <a href="modrinth-transfer-retromail.html" class="px-12 py-6 bg-blue-600 text-white font-black uppercase tracking-tighter rounded-3xl hover:scale-105 transition-all shadow-2xl shadow-blue-500/30 text-lg">
-                    Download RetroMail
-                </a>
-                <a href="#simulator" class="px-12 py-6 bg-white/5 border border-white/10 text-white font-black uppercase tracking-tighter rounded-3xl hover:bg-white/10 transition-all text-lg">
-                    In-Game Simulator
-                </a>
-                <a href="demo/index.html" class="px-12 py-6 bg-red-600/20 border border-red-500/30 text-red-400 font-black uppercase tracking-tighter rounded-3xl hover:bg-red-600/35 transition-all text-lg shadow-xl shadow-red-950/40">
-                    Web Panel Demo <i class="fa-solid fa-arrow-up-right-from-square ml-1.5 text-sm"></i>
-                </a>
-            </div>
+        <div x-show="mobileMenuOpen" x-transition class="lg:hidden bg-[#09090b]/95 backdrop-blur-2xl border-b border-white/10 px-8 py-6 flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-zinc-300">
+            <a href="index.html" class="hover:text-white">Home</a>
+            <a href="demalware.html" class="hover:text-cyan-400">DeMalware Antivirus (v3.0.9-VIGIL)</a>
+            <a href="retromail.html" class="hover:text-blue-400">RetroMail SMTP (v1.0.7-DEADEYE)</a>
+            <a href="circuitbreaker.html" class="hover:text-red-400">CircuitBreaker (v2.5-VANGUARD)</a>
+            <a href="FoliaCore.html" class="hover:text-emerald-400">FoliaCore (v6.1-RAGNAROK)</a>
+            <a href="retroworldpurger.html" class="hover:text-purple-400">WorldPurger (v1.0.1-PURGE)</a>
         </div>
     </header>
-
-    <!-- Architecture Toggle Section -->
-    <section id="architecture" class="py-32 px-8 bg-zinc-950/40 border-y border-white/5">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="text-center mb-24">
-                <h2 class="text-5xl font-black italic mb-6 uppercase">Flexible Deployment</h2>
-                <p class="text-zinc-500 text-lg">Optimized for single servers and large networks alike.</p>
-                
-                <div class="inline-flex bg-zinc-900/80 p-2 rounded-2xl border border-white/5 mt-10">
-                    <button @click="multiServer = false" :class="!multiServer ? 'bg-blue-600 text-white shadow-xl' : 'text-zinc-500'" class="px-8 py-3 rounded-xl text-sm font-black uppercase tracking-wider transition-all">
-                        Single Server (Standalone)
-                    </button>
-                    <button @click="multiServer = true" :class="multiServer ? 'bg-blue-600 text-white shadow-xl' : 'text-zinc-500'" class="px-8 py-3 rounded-xl text-sm font-black uppercase tracking-wider transition-all">
-                        Multi-Server (Network)
-                    </button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-                <!-- Details -->
-                <div class="lg:col-span-5 space-y-8">
-                    <div x-show="!multiServer" x-transition:enter="transition duration-300" class="space-y-6">
-                        <div class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest">
-                            Default: Standalone Mode
-                        </div>
-                        <h3 class="text-4xl font-black italic">SIMPLE & DIRECT</h3>
-                        <p class="text-zinc-400 leading-relaxed text-lg">
-                            Perfect for survival, creative, or skyblock servers that operate independently. All database records, SMTP connections, and command rewards run directly on your single server node.
-                        </p>
-                        <ul class="space-y-4">
-                            <li class="flex items-center gap-3 text-zinc-300">
-                                <i data-lucide="check" class="text-emerald-500 w-5 h-5"></i>
-                                <span>Zero-proxy dependencies</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-zinc-300">
-                                <i data-lucide="check" class="text-emerald-500 w-5 h-5"></i>
-                                <span>Local SQLite store out-of-the-box</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-zinc-300">
-                                <i data-lucide="check" class="text-emerald-500 w-5 h-5"></i>
-                                <span>Direct SMTP TLS connection</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div x-show="multiServer" x-transition:enter="transition duration-300" class="space-y-6">
-                        <div class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest">
-                            Enterprise-Grade Network Mode
-                        </div>
-                        <h3 class="text-4xl font-black italic">SYNCHRONIZED NETWORK</h3>
-                        <p class="text-zinc-400 leading-relaxed text-lg">
-                            Built for BungeeCord and Velocity networks. The proxy handles the verification queue and routes secure player data between backends using signed cryptographic channels.
-                        </p>
-                        <ul class="space-y-4">
-                            <li class="flex items-center gap-3 text-zinc-300">
-                                <i data-lucide="check" class="text-blue-500 w-5 h-5"></i>
-                                <span>HMAC-SHA256 authenticated messaging</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-zinc-300">
-                                <i data-lucide="check" class="text-blue-500 w-5 h-5"></i>
-                                <span>Prevent duplicate reward claims on sub-servers</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-zinc-300">
-                                <i data-lucide="check" class="text-blue-500 w-5 h-5"></i>
-                                <span>Shared MySQL database syncing</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Interactive diagram -->
-                <div class="lg:col-span-7 bg-zinc-950 p-10 rounded-[3rem] border border-white/5 relative overflow-hidden flex flex-col justify-center min-h-[450px]">
-                    <div class="absolute inset-0 bg-blue-600/[0.02] pointer-events-none"></div>
-                    
-                    <!-- standalone diagram -->
-                    <div x-show="!multiServer" x-transition class="flex flex-col items-center justify-between w-full space-y-8 md:space-y-12">
-                        <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 lg:gap-24 w-full">
-                            <div class="flex flex-col items-center bg-zinc-900 border border-white/10 p-6 rounded-2xl text-center w-full max-w-[10rem] md:w-40">
-                                <div class="text-3xl mb-2">🖥️</div>
-                                <span class="font-bold text-sm">Paper Server</span>
-                                <span class="text-[10px] text-zinc-500 font-mono mt-1">SMTP & Rewards</span>
-                            </div>
-
-                            <div class="flex items-center justify-center text-blue-500 animate-pulse">
-                                <i data-lucide="arrow-right" class="w-8 h-8 md:w-12 md:h-12 rotate-90 md:rotate-0"></i>
-                            </div>
-
-                            <div class="flex flex-col items-center bg-zinc-900 border border-blue-500/20 p-6 rounded-2xl text-center w-full max-w-[10rem] md:w-40">
-                                <div class="text-3xl mb-2">📧</div>
-                                <span class="font-bold text-sm text-blue-400">SMTP Gateway</span>
-                                <span class="text-[10px] text-zinc-500 font-mono mt-1">Brevo / Gmail / SES</span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center font-mono text-[10px] sm:text-xs text-zinc-500 border border-white/5 px-4 py-3 rounded-2xl bg-black max-w-full leading-relaxed">
-                            <span class="font-bold text-slate-300">FLOW:</span>
-                            <span class="bg-white/5 px-2 py-0.5 rounded text-blue-400">Player (/verify)</span>
-                            <span class="text-zinc-600 hidden sm:inline">➔</span>
-                            <span class="text-zinc-600 sm:hidden">▼</span>
-                            <span class="bg-white/5 px-2 py-0.5 rounded text-blue-400">Direct SMTP TLS Send</span>
-                            <span class="text-zinc-600 hidden sm:inline">➔</span>
-                            <span class="text-zinc-600 sm:hidden">▼</span>
-                            <span class="bg-white/5 px-2 py-0.5 rounded text-blue-400">SMTP Inbox Callback</span>
-                        </div>
-                    </div>
-
-                    <!-- multi-server diagram -->
-                    <div x-show="multiServer" x-transition class="flex flex-col items-center justify-between w-full space-y-8 md:space-y-12">
-                        <div class="flex flex-col items-center justify-center space-y-6 w-full">
-                            <!-- Proxy -->
-                            <div class="flex flex-col items-center bg-blue-900/20 border border-blue-500/30 p-5 rounded-2xl text-center w-48">
-                                <div class="text-2xl mb-1">🔗</div>
-                                <span class="font-bold text-sm text-blue-300">Proxy (Velocity)</span>
-                                <span class="text-[9px] text-zinc-500 font-mono">Verifications Coordinator</span>
-                            </div>
-
-                            <!-- Connection lines -->
-                            <div class="flex items-center justify-center text-blue-500/50">
-                                <i data-lucide="chevrons-down" class="w-6 h-6 animate-bounce"></i>
-                            </div>
-
-                            <div class="flex flex-col sm:flex-row items-center gap-4 md:gap-16">
-                                <div class="flex flex-col items-center bg-zinc-900 border border-white/10 p-4 rounded-xl text-center w-32">
-                                    <div class="text-xl mb-1">🖥️</div>
-                                    <span class="font-bold text-xs">Lobby Spigot</span>
-                                </div>
-                                <div class="flex flex-col items-center bg-zinc-900 border border-white/10 p-4 rounded-xl text-center w-32">
-                                    <div class="text-xl mb-1">⚔️</div>
-                                    <span class="font-bold text-xs">Survival Spigot</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center font-mono text-[8px] sm:text-[10px] text-zinc-400 border border-red-500/10 px-4 sm:px-6 py-3 rounded-xl md:rounded-full bg-red-950/10 flex items-center justify-center gap-2 max-w-full break-words leading-relaxed">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping inline-block flex-shrink-0"></span>
-                            <span>SECURED BY HMAC-SHA256 SIGNATURE VERIFICATION</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interactive Live Demo Simulator -->
-    <section id="simulator" class="py-48 px-8">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="text-center mb-24">
-                <h2 class="text-6xl font-black italic mb-6">Interactive <span class="text-blue-500">Live Simulator</span></h2>
-                <p class="text-zinc-500 text-lg">Experience how verification rewards look in-game and in your email inbox.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
-                <!-- Console Game View -->
-                <div class="lg:col-span-6 bg-zinc-950 rounded-[3rem] p-10 border border-white/5 flex flex-col justify-between min-h-[500px]">
-                    <div>
-                        <div class="flex justify-between items-center pb-6 border-b border-white/5 mb-6">
-                            <div class="flex items-center gap-2">
-                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                                <span class="text-xs font-mono text-zinc-500 ml-2 uppercase">Minecraft Server Terminal</span>
-                            </div>
-                            <span class="px-3 py-1 rounded bg-zinc-800 text-[10px] font-mono text-zinc-400">IP: 15.235.167.48</span>
-                        </div>
-
-                        <!-- Chat output simulator -->
-                        <div class="font-mono text-sm space-y-4 min-h-[250px] overflow-y-auto custom-scrollbar">
-                            <div><span class="text-zinc-500">[04:32:00 INFO]:</span> Server starting on port 25565...</div>
-                            <div><span class="text-zinc-500">[04:32:02 INFO]:</span> [RetroMail] SMTP Client initiated successfully (TLS enabled).</div>
-                            <div><span class="text-zinc-500">[04:32:03 INFO]:</span> Player Niloy joined the game.</div>
-                            
-                            <template x-if="simState === 'idle'">
-                                <div class="text-zinc-400 italic">Type in your credentials to run the /verify command...</div>
-                            </template>
-
-                            <template x-if="simState === 'sending'">
-                                <div class="space-y-2">
-                                    <div class="text-yellow-400"><span class="text-zinc-500">[04:32:15 INFO]:</span> [RetroMail] Processing /verify for user <span x-text="mcUsername"></span>...</div>
-                                    <div class="text-zinc-400"><span class="text-zinc-500">[04:32:16 INFO]:</span> [RetroMail] Preparing mail envelope targeting <span x-text="mcEmail"></span>...</div>
-                                    <div class="text-blue-400"><span class="text-zinc-500">[04:32:16 INFO]:</span> [RetroMail] Dispatching verification email securely.</div>
-                                </div>
-                            </template>
-
-                            <template x-if="simState === 'inbox'">
-                                <div class="space-y-2">
-                                    <div class="text-blue-400"><span class="text-zinc-500">[04:32:17 INFO]:</span> [RetroMail] Email sent! Waiting for validation callback.</div>
-                                    <div class="text-zinc-500 font-bold">Please check the Simulated Inbox card on the right!</div>
-                                </div>
-                            </template>
-
-                            <template x-if="simState === 'verifying'">
-                                <div class="text-yellow-400"><span class="text-zinc-500">[04:32:25 INFO]:</span> [RetroMail] Received secure validation callback token for <span x-text="mcUsername"></span>. Authenticating...</div>
-                            </template>
-
-                            <template x-if="simState === 'verified'">
-                                <div class="space-y-2 text-emerald-400">
-                                    <div><span class="text-zinc-500">[04:32:26 INFO]:</span> [RetroMail] Signature validated successfully for <span x-text="mcUsername"></span>!</div>
-                                    <div>[RetroMail] Running verification rewards command sequence...</div>
-                                    <div class="bg-emerald-950/20 border border-emerald-500/20 p-3 rounded-lg text-xs text-white">
-                                        <span class="text-emerald-400 font-bold">★ Verification Reward Unlocked! ★</span><br>
-                                        +500 Coins added to your account.<br>
-                                        +Rank: <span class="bg-amber-600 px-1.5 py-0.5 rounded text-[10px] font-bold">VIP</span> assigned.
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-
-                    <!-- Input form -->
-                    <div class="pt-6 border-t border-white/5 space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block mb-2">Username</label>
-                                <input type="text" x-model="mcUsername" class="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500" :disabled="simState !== 'idle'">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block mb-2">Email Address</label>
-                                <input type="email" x-model="mcEmail" class="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500" :disabled="simState !== 'idle'">
-                            </div>
-                        </div>
-
-                        <div class="flex gap-4">
-                            <button @click="startVerification()" :disabled="simState !== 'idle'" class="flex-1 py-4 bg-blue-600 disabled:bg-zinc-800 text-white font-black rounded-xl uppercase tracking-wider text-xs hover:bg-blue-500 transition active:scale-95">
-                                Run Verification Command
-                            </button>
-                            <button @click="resetSim()" class="px-6 py-4 bg-zinc-900 border border-white/10 text-zinc-400 font-black rounded-xl uppercase tracking-wider text-xs hover:bg-white/5 transition">
-                                Reset
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Simulated Email Inbox View -->
-                <div class="lg:col-span-6 bg-zinc-900/60 rounded-[3rem] p-10 border border-white/5 flex flex-col justify-between min-h-[500px]">
-                    <div>
-                        <div class="flex justify-between items-center pb-6 border-b border-white/5 mb-6">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="mail" class="text-blue-500 w-5 h-5"></i>
-                                <span class="text-xs font-bold uppercase tracking-widest text-zinc-400">Simulated Player Mailbox</span>
-                            </div>
-                            <span class="text-[10px] font-mono text-zinc-500">Opt-in Sandbox</span>
-                        </div>
-
-                        <div class="min-h-[300px]">
-                            <!-- Empty mailbox -->
-                            <div x-show="!inboxOpen && simState === 'idle'" class="flex flex-col items-center justify-center text-center min-h-[300px]">
-                                <div class="text-5xl mb-4">📭</div>
-                                <h4 class="font-bold text-zinc-400">Inbox is empty</h4>
-                                <p class="text-xs text-zinc-600 mt-2">Trigger verification in the terminal on the left.</p>
-                            </div>
-
-                            <!-- Sending loading state -->
-                            <div x-show="simState === 'sending'" class="flex flex-col items-center justify-center text-center min-h-[300px]">
-                                <div class="animate-bounce text-5xl mb-4">📨</div>
-                                <h4 class="font-bold text-yellow-500">Incoming Mail...</h4>
-                                <p class="text-xs text-zinc-600 mt-2">SMTP gateway sending payload securely...</p>
-                            </div>
-
-                            <!-- Real Verification Email template -->
-                            <div x-show="inboxOpen && simState === 'inbox'" class="bg-white text-zinc-900 p-6 rounded-2xl border border-zinc-200 space-y-6">
-                                <div class="border-b border-zinc-100 pb-4">
-                                    <div class="flex justify-between text-xs text-zinc-500">
-                                        <span>From: <strong class="text-zinc-800">AJA RETRO Network</strong> (noreply@ajaretro.dev)</span>
-                                        <span>Just now</span>
-                                    </div>
-                                    <h4 class="font-black text-lg text-zinc-800 mt-2">Verify your Minecraft Email Address</h4>
-                                </div>
-                                <div class="text-sm text-zinc-600 space-y-4">
-                                    <p>Hello <strong class="text-zinc-800" x-text="mcUsername"></strong>,</p>
-                                    <p>Thank you for playing on AJARETRO. Please verify your email to secure your account and unlock your verification rewards.</p>
-                                    
-                                    <div class="py-4 text-center">
-                                        <button @click="completeVerification()" class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-xs uppercase tracking-widest transition shadow-lg shadow-red-500/20">
-                                            Confirm Verification
-                                        </button>
-                                    </div>
-
-                                    <div class="p-3 bg-zinc-50 border border-zinc-100 rounded-lg text-xs font-mono text-center">
-                                        Token Code: <span class="font-bold text-zinc-800" x-text="verificationCode"></span>
-                                    </div>
-
-                                    <p class="text-[10px] text-zinc-400">If you did not request this, please ignore this email. We respect your data privacy.</p>
-                                </div>
-                            </div>
-
-                            <!-- Post-verification state -->
-                            <div x-show="simState === 'verified'" class="flex flex-col items-center justify-center text-center min-h-[300px]">
-                                <div class="text-5xl mb-4">🎉</div>
-                                <h4 class="font-bold text-emerald-500">Verification Successful!</h4>
-                                <p class="text-xs text-zinc-400 mt-2">Command rewards executed. Database status: Verified.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Security, Convenience & Legal Compliance -->
-    <section id="security" class="py-32 px-8 bg-zinc-950 border-t border-white/5">
-        <div class="max-w-[1200px] mx-auto">
-            <div class="text-center mb-24">
-                <h2 class="text-5xl font-black italic mb-6">SECURE & COMPLIANT BY DESIGN</h2>
-                <p class="text-zinc-500 text-lg">Why RetroMail is safe for servers and users.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="glass p-10 rounded-[2.5rem]">
-                    <div class="w-12 h-12 rounded-xl bg-red-600/10 flex items-center justify-center text-red-500 mb-6">
-                        <i data-lucide="shield-check" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-black italic mb-4">LEGAL OK</h3>
-                    <p class="text-zinc-500 leading-relaxed text-sm">
-                        RetroMail enforces absolute privacy compliance. Unlike legacy plugins that dump lists of emails to logfiles or unencrypted configs, RetroMail hashes sensitive keys, enforces double-opt-in, and uses encrypted local DB buffers.
-                    </p>
-                </div>
-
-                <div class="glass p-10 rounded-[2.5rem]">
-                    <div class="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-500 mb-6">
-                        <i data-lucide="lock" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-black italic mb-4">HMAC VERIFICATION</h3>
-                    <p class="text-zinc-500 leading-relaxed text-sm">
-                        No malicious entities can spoof callbacks or intercept player logs. RetroMail validates every server-to-server transaction on your proxy net using secure HMAC-SHA256 tokens matching local server descriptors.
-                    </p>
-                </div>
-
-                <div class="glass p-10 rounded-[2.5rem]">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-600/10 flex items-center justify-center text-emerald-500 mb-6">
-                        <i data-lucide="thumbs-up" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-black italic mb-4">CONVENIENCE</h3>
-                    <p class="text-zinc-500 leading-relaxed text-sm">
-                        Integrated commands, customizable HTML templates, support for external SMTP gateways (Brevo Affiliation, Amazon SES, SendGrid, Gmail TLS), and zero lag during operations. Simple command logic that just works.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Documentation Hub -->
-    <section id="docs" class="py-24 px-6 md:px-12 bg-zinc-950/40 border-t border-brand-border animate-fade-up" style="animation-delay: 0.5s;">
-        <div class="max-w-7xl mx-auto space-y-12" x-data="{
-            activeTab: 'setup',
-            searchQuery: '',
-            expanded: '',
-            commands: [
-                { 
-                    name: '/email', 
-                    permission: 'smtp.user.use', 
-                    shortDesc: 'Opens the in-game interactive email settings and subscription GUI menu.', 
-                    longDesc: 'Validates player permission nodes and opens the virtual inventory GUI representing user subscription parameters.',
-                    threadContext: 'Sync player action (GUI opens on Bukkit main thread)',
-                    timeComplexity: 'O(1) menu container build',
-                    memoryComplexity: '< 0.2 KB temporary UI payload',
-                    howItHolds: 'Constructs a chest container inventory view dynamically on the server tick loop and presents it to the player, pulling database indicators asynchronously prior to load.',
-                    args: '[menu]',
-                    argOptions: ['menu'],
-                    simSteps: [
-                        '[You] executed: /email',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Client]&lt;/span&gt; Checking permissions and loading GUI...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[RetroMail]&lt;/span&gt; Rendering GUI layout elements...',
-                        '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; In-game Email Settings GUI opened successfully.'
-                    ]
-                },
-                { 
-                    name: '/email verify', 
-                    permission: 'smtp.user.use', 
-                    shortDesc: 'Submits the 6-digit confirmation code sent to your email to complete double opt-in verification.', 
-                    longDesc: 'Matches the verification code input by the user against database pending entries and triggers rewards.',
-                    threadContext: 'Async database check + Sync player reward trigger',
-                    timeComplexity: 'O(1) database status lookups',
-                    memoryComplexity: '< 0.1 KB transaction scope',
-                    howItHolds: 'Executes the database status lookup asynchronously to avoid thread blocking. If verified, runs reward scripts securely on the main thread.',
-                    args: '&lt;code&gt;',
-                    argOptions: ['849201', '123456'],
-                    simSteps: [
-                        '[You] executed: /email verify 849201',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Verifier]&lt;/span&gt; Matching token 849201 for player UUID...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Success! Marking subscription state as VERIFIED...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Console Reward Engine]&lt;/span&gt; Dispatching reward items & XP to player...',
-                        '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; Verification successful! You are now subscribed.'
-                    ]
-                },
-                { 
-                    name: '/email unsubscribe', 
-                    permission: 'smtp.user.use', 
-                    shortDesc: 'Unsubscribes your email address and deletes subscription metrics.', 
-                    longDesc: 'Flushes subscriber metadata tables and sends broadcast packets across Proxy servers for sync.',
-                    threadContext: 'Asynchronous database mutation',
-                    timeComplexity: 'O(1) data update',
-                    memoryComplexity: '< 0.05 KB query memory footprint',
-                    howItHolds: 'Performs non-blocking deletion parameters on the SQLite/MySQL databases, then triggers network-wide channel packet broadcasts.',
-                    args: '',
-                    argOptions: [],
-                    simSteps: [
-                        '[You] executed: /email unsubscribe',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Purging email records for UUID...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[ProxySync]&lt;/span&gt; Broadcasting unsubscribe flags to sub-servers...',
-                        '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; You have been unsubscribed from newsletters.'
-                    ]
-                },
-                { 
-                    name: '/email mass', 
-                    permission: 'smtp.admin.massmail', 
-                    shortDesc: 'Sends a newsletter plain-text announcement to all verified network subscribers.', 
-                    longDesc: 'Fetches verified subscriber profiles from storage and queues individual SMTP dispatches in the worker pool.',
-                    threadContext: 'Asynchronous SMTP pipeline',
-                    timeComplexity: 'O(S) iteration loops (S = subscribers)',
-                    memoryComplexity: '< 1.5 KB payload caching',
-                    howItHolds: 'Queries verified subscriber rows asynchronously, compiling them into a loop queue that delivers mails without locking up server ticks.',
-                    args: '&lt;subject&gt; &lt;body...&gt;',
-                    argOptions: ['&quot;Event Alert&quot; &quot;The seasonal tournament starts tomorrow at 6 PM!&quot;'],
-                    simSteps: [
-                        '[You] executed: /email mass &quot;Event Alert&quot; &quot;Starts tomorrow!&quot;',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Loading verified recipient targets list...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[SMTP Gateway]&lt;/span&gt; Queueing plain-text dispatches for 184 subscribers...',
-                        '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; Sending mass email to 184 subscribers in the background...'
-                    ]
-                },
-                { 
-                    name: '/email test', 
-                    permission: 'smtp.admin.massmail', 
-                    shortDesc: 'Sends a design template check to verify SMTP gateway connection paths and styling logs.', 
-                    longDesc: 'Loads an HTML/text file from the data folder and dispatches a test message to evaluate credentials validity.',
-                    threadContext: 'Asynchronous disk IO & SMTP check',
-                    timeComplexity: 'O(1) thread-safe delivery',
-                    memoryComplexity: '< 8 KB template read buffer',
-                    howItHolds: 'Performs basic directory path validation checks. Reads HTML source files asynchronously, injecting tags before starting SMTP TLS tests.',
-                    args: '&lt;template_file&gt; &lt;target_email&gt;',
-                    argOptions: ['email_template.html test@domain.com'],
-                    simSteps: [
-                        '[You] executed: /email test email_template.html test@domain.com',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[IO Thread]&lt;/span&gt; Opening template file email_template.html...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[SMTP Client]&lt;/span&gt; Authenticating with SMTP relay over TLS...',
-                        '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; Dispatched test email using email_template.html to test@domain.com in the background.'
-                    ]
-                },
-                { 
-                    name: '/email create-staff', 
-                    permission: 'Console Execution Only', 
-                    shortDesc: 'Registers a new administrator/staff profile for the Web Dashboard panel.', 
-                    longDesc: 'Encrypts security records, generates dynamic credentials, hashes data, and sends confirmation emails.',
-                    threadContext: 'Asynchronous encryption & db write',
-                    timeComplexity: 'O(1) hash routine',
-                    memoryComplexity: '< 0.5 KB security state',
-                    howItHolds: 'Can only be triggered from the terminal console. Generates secure random credentials, hashes passwords, updates SQL, and emails details via template.',
-                    args: '&lt;username&gt; &lt;email&gt; &lt;role&gt;',
-                    argOptions: ['niloyadmin admin@ajaretro.dev ADMIN'],
-                    simSteps: [
-                        '[Console] executed: /email create-staff niloyadmin admin@ajaretro.dev ADMIN',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Security]&lt;/span&gt; Compiling salt hash for temporary password...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Inserting profile row for niloyadmin...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[SMTP]&lt;/span&gt; Transmitting dashboard URL and credentials to admin@ajaretro.dev...',
-                        '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; Successfully created staff account for niloyadmin. Credentials have been emailed.'
-                    ]
-                },
-                { 
-                    name: '/mass-email', 
-                    permission: 'smtp.admin.massmail', 
-                    shortDesc: 'Sends a dynamic HTML template file newsletter to all verified subscribers.', 
-                    longDesc: 'Loads formatted HTML pages, replaces placeholder parameters, and dispatches them in parallel threads.',
-                    threadContext: 'Async Disk IO + Asynchronous mailing task',
-                    timeComplexity: 'O(S) compiler loops (S = subscribers)',
-                    memoryComplexity: '< 16 KB file compilation caching',
-                    howItHolds: 'Safely reads template flatfiles from plugins directory via async stream. Parses variables and schedules email blocks to run.',
-                    args: '&lt;file&gt; [subject...]',
-                    argOptions: ['announcement.html &quot;Season V Release Details!&quot;'],
-                    simSteps: [
-                        '[You] executed: /mass-email announcement.html &quot;Season V Release!&quot;',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[IO Thread]&lt;/span&gt; Reading HTML template content...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[Database]&lt;/span&gt; Checking active subscriber list...',
-                        '<span class=&quot;text-zinc-500&quot;&gt;[SMTP]&lt;/span&gt; Running SMTP delivery queues...',
-                        '<span class=&quot;text-blue-500&quot;&gt;[RetroMail]&lt;/span&gt; Sending mass email using announcement.html to 184 subscribers in the background...'
-                    ]
-                }
-            ],
-            filteredCommands() {
-                if (!this.searchQuery) return this.commands;
-                return this.commands.filter(c => 
-                    c.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                    c.shortDesc.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                    c.permission.toLowerCase().includes(this.searchQuery.toLowerCase())
-                );
-            }
-        }">
-            <div class="text-center space-y-4">
-                <h2 class="text-3xl md:text-5xl font-black italic uppercase text-white">Documentation Hub</h2>
-                <p class="text-zinc-500 max-w-2xl mx-auto text-sm md:text-base">Comprehensive setup parameters, command permissions, and network setup options.</p>
-            </div>
-
-            <!-- Tab Toggles -->
-            <div class="flex justify-center border-b border-brand-border pb-4">
-                <div class="flex bg-zinc-900/60 p-1.5 rounded-xl border border-brand-border">
-                    <button @click="activeTab = 'setup'" :class="activeTab === 'setup' ? 'bg-blue-600 text-white font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Setup</button>
-                    <button @click="activeTab = 'config'" :class="activeTab === 'config' ? 'bg-blue-600 text-white font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Configuration</button>
-                    <button @click="activeTab = 'commands'" :class="activeTab === 'commands' ? 'bg-blue-600 text-white font-bold' : 'text-zinc-400'" class="px-6 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Commands</button>
-                </div>
-            </div>
-
-            <!-- Setup Content -->
-            <div x-show="activeTab === 'setup'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-8">
-                <h3 class="text-2xl font-black italic uppercase text-white">Installation & Setup</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm md:text-base leading-relaxed text-slate-300">
-                    <div class="space-y-4">
-                        <h4 class="text-blue-500 font-bold uppercase tracking-wider text-xs">System Prerequisites</h4>
-                        <ul class="list-disc pl-5 space-y-2">
-                            <li>Java 17 or Java 21 runtime</li>
-                            <li>SMTP Server Credentials (e.g. Brevo affiliate SMTP credentials, Amazon SES, or SendGrid)</li>
-                            <li>Vault (optional, to reward players with coins)</li>
-                        </ul>
-                    </div>
-                    <div class="space-y-4">
-                        <h4 class="text-blue-500 font-bold uppercase tracking-wider text-xs">Installation Flow</h4>
-                        <ol class="list-decimal pl-5 space-y-2">
-                            <li>Download the compiled RetroMail/PaperSMTP jar release.</li>
-                            <li>Place the jar in the <code>/plugins</code> folder of your server.</li>
-                            <li>Reboot the node to generate the default configuration.</li>
-                            <li>Configure your credentials under the <code>smtp</code> block in <code>config.yml</code>.</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Configuration Content -->
-            <div x-show="activeTab === 'config'" x-transition class="bg-brand-card border border-brand-border p-8 md:p-12 rounded-[2.5rem] space-y-6" x-data="{ configSubTab: 'yaml' }">
-                <!-- Sub Tab Toggles -->
-                <div class="flex flex-wrap gap-2 pb-4 border-b border-brand-border">
-                    <button @click="configSubTab = 'yaml'" :class="configSubTab === 'yaml' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold' : 'text-zinc-400 hover:text-zinc-200 border border-transparent'" class="px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all">Raw Config.yml</button>
-                    <button @click="configSubTab = 'explain'" :class="configSubTab === 'explain' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold' : 'text-zinc-400 hover:text-zinc-200 border border-transparent'" class="px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all">Parameters Explained</button>
-                    <button @click="configSubTab = 'brevo'" :class="configSubTab === 'brevo' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold' : 'text-zinc-400 hover:text-zinc-200 border border-transparent'" class="px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all">Brevo Setup</button>
-                    <button @click="configSubTab = 'spam'" :class="configSubTab === 'spam' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold' : 'text-zinc-400 hover:text-zinc-200 border border-transparent'" class="px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all">Spam Prevention</button>
-                    <button @click="configSubTab = 'placeholders'" :class="configSubTab === 'placeholders' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold' : 'text-zinc-400 hover:text-zinc-200 border border-transparent'" class="px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all">Branding & Placeholders</button>
-                </div>
-
-                <!-- Sub Tab: YAML -->
-                <div x-show="configSubTab === 'yaml'" class="space-y-4" x-transition>
-                    <div class="flex justify-between items-center">
-                        <h4 class="text-sm font-bold text-white uppercase tracking-wider">Default Config.yml</h4>
-                        <span class="text-[10px] font-mono text-zinc-500">YAML Syntax</span>
-                    </div>
-                    <pre class="bg-zinc-950 p-6 rounded-xl border border-brand-border text-xs md:text-sm font-mono overflow-x-auto text-blue-400 leading-relaxed max-h-[350px] custom-scrollbar"><code># RetroMail Configuration File
-# Optimized for asynchronous in-game newsletter sub triggers
-
-database:
-  # Supported types: 'sqlite' or 'mysql'
-  type: 'sqlite'
-  
-  # Configuration for SQLite
-  sqlite:
-    file: 'subscriptions.db'
     
-  # Configuration for MySQL/MariaDB (for multi-server network setups)
-  mysql:
-    host: '127.0.0.1'
-    port: 3306
-    database: 'papersmtp'
-    username: 'pelican'
-    password: 'YOUR_DATABASE_PASSWORD'
-
-# SMTP Mail Server Settings
-smtp:
-  host: 'smtp.gmail.com'
-  port: 587
-  username: 'niloyahmed2484@gmail.com'
-  password: 'YOUR_SMTP_PASSWORD_HERE'
-  ssl: false
-  starttls: true
-  from-address: 'update@ajaretro.dev'
-  from-name: 'Retro Network'
-
-# Email Verification Template
-verification-email:
-  subject: 'Verify your email on Retro Network'
-  use-html: true
-  html-file: 'email_template.html'
-  body: "Hello {player},\n\nYour Minecraft email verification code is: {code}\n\nEnter this code in-game using /email verify {code} or via the in-game GUI menu to complete your subscription.\n\nRegards,\nRetro Network Staff"
-
-# Verification Rewards (Commands are run via Console)
-rewards:
-  enabled: true
-  commands:
-    - "give {player} diamond 5"
-    - "xp add {player} 100 points"
-  messages:
-    - "§a§l[RetroMail] §7Thank you for verifying your email! You have received your rewards."
-
-# Rate limit cooldown in seconds before a player can request another verification code
-email-cooldown: 60
-
-# Staff Web Mail Handler Configuration
-mail-handler:
-  enabled: true
-  port: 8080
-  domain: "ajaretro.dev"
-  # Protected mail addresses restricted only to ADMIN users
-  restricted-mailboxes:
-    - "billing@ajaretro.dev"
-    - "root@ajaretro.dev"
-    - "admin@ajaretro.dev"
-
-  # IMAP catch-all mailbox polling for receiving incoming replies
-  imap:
-    host: "imap.gmail.com"
-    port: 993
-    ssl: true
-    username: "niloyahmed2484@gmail.com"
-    password: "YOUR_IMAP_PASSWORD_HERE"
-    poll-interval-seconds: 30
-
-# Web Dashboard Branding & Links
-branding:
-  server-name: 'Retro Network'
-  discord-link: 'https://discord.gg/pxgPCfngXx'
-  documentation-link: 'https://docs.ajaretro.dev'
-  forum-link: 'https://forum.ajaretro.dev'
-
-# Security Settings
-security:
-  # Secret token to secure and authenticate communication between Proxy and backend servers.
-  secret-token: "YOUR_PROXY_SECRET_TOKEN"</code></pre>
-                </div>
-
-                <!-- Sub Tab: Explain -->
-                <div x-show="configSubTab === 'explain'" class="space-y-4" x-transition>
-                    <h4 class="text-sm font-bold text-white uppercase tracking-wider text-xs">Configuration Options Explained</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar text-xs md:text-sm">
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">database.type</div>
-                            <p class="text-zinc-400">Determines the database storage backend. Set to <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">sqlite</code> for local, zero-setup files, or <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">mysql</code> to sync subscription states across multi-server networks.</p>
-                        </div>
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">smtp.host & port</div>
-                            <p class="text-zinc-400">Connection host and port for your SMTP service. Use port <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">587</code> with TLS enabled (recommended) or <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">465</code> for strict SSL.</p>
-                        </div>
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">smtp.ssl & starttls</div>
-                            <p class="text-zinc-400">Configures connection encryption layers. Enable <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">starttls</code> for secure SMTP handshakes, or <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">ssl</code> for legacy SSL wrappers.</p>
-                        </div>
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">smtp.from-address & from-name</div>
-                            <p class="text-zinc-400">Defines the sender email and name displayed to users. The sending email domain must be validated in DNS to protect against spam filtering.</p>
-                        </div>
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">verification-email.use-html</div>
-                            <p class="text-zinc-400">When enabled (<code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">true</code>), outputs high-quality dynamic HTML template emails. If disabled, defaults to raw text layout.</p>
-                        </div>
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">rewards.commands & messages</div>
-                            <p class="text-zinc-400">Commands to execute via console (e.g. Perms, Econ, Items) and chat messages to dispatch upon successful verification. Supports the player name placeholder <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">{player}</code>.</p>
-                        </div>
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">mail-handler.enabled & port</div>
-                            <p class="text-zinc-400">Fires up the embedded high-performance REST web server listening on the defined port to serve the web portal files to dashboard users.</p>
-                        </div>
-                        <div class="bg-zinc-950 p-5 rounded-2xl border border-brand-border space-y-2 hover:border-blue-500/30 transition-all">
-                            <div class="font-mono text-blue-400 font-bold">branding Configuration Block</div>
-                            <p class="text-zinc-400">Alters the links and header server name dynamically inside both the Web Dashboard and outgoing emails (via email placeholders).</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sub Tab: Brevo -->
-                <div x-show="configSubTab === 'brevo'" class="space-y-4" x-transition>
-                    <h4 class="text-sm font-bold text-white uppercase tracking-wider font-sans">Brevo SMTP Integration Guide</h4>
-                    <div class="bg-zinc-950 p-6 rounded-2xl border border-brand-border space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed">
-                        <p>Brevo provides a high-reliability cloud SMTP relay. You can register for a free account containing 300 free emails per day, which is perfect for most server communities.</p>
-                        <ol class="list-decimal pl-5 space-y-3">
-                            <li>Register at <a href="https://www.brevo.com" target="_blank" class="text-blue-400 hover:underline font-bold">Brevo.com</a>.</li>
-                            <li>Go to your dashboard, click your profile menu, and select <strong class="text-white">"SMTP & API"</strong>.</li>
-                            <li>Under the <strong class="text-white">"SMTP"</strong> tab, find your Host (<code class="bg-zinc-900 px-1.5 py-0.5 rounded font-mono text-blue-300">smtp-relay.brevo.com</code>), Port (<code class="bg-zinc-900 px-1.5 py-0.5 rounded font-mono text-blue-300">587</code>), and Login user.</li>
-                            <li>Click <strong class="text-blue-400">"Generate a new SMTP key"</strong>, name it, and copy the password token.</li>
-                            <li>Insert the copied properties into your <code class="bg-zinc-900 px-1.5 py-0.5 rounded font-mono text-blue-300">config.yml</code>:</li>
-                        </ol>
-                        <pre class="bg-black p-4 rounded-xl border border-white/5 font-mono text-[11px] text-blue-400 leading-relaxed"><code>smtp:
-  host: 'smtp-relay.brevo.com'
-  port: 587
-  username: 'your-brevo-registered-email@domain.com'
-  password: 'your-generated-smtp-key'
-  ssl: false
-  starttls: true</code></pre>
-                    </div>
-                </div>
-
-                <!-- Sub Tab: Spam -->
-                <div x-show="configSubTab === 'spam'" class="space-y-4" x-transition>
-                    <h4 class="text-sm font-bold text-white uppercase tracking-wider text-xs">Preventing Emails from falling into Spam</h4>
-                    <div class="bg-zinc-950 p-6 rounded-2xl border border-brand-border space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed">
-                        <p>To guarantee emails land in the primary inbox rather than the spam folder, you must add the following TXT authentication records to your DNS provider (e.g. Cloudflare):</p>
-                        
-                        <div class="space-y-3">
-                            <div class="bg-black p-4 rounded-xl border border-white/5">
-                                <div class="flex items-center justify-between mb-1">
-                                    <strong class="text-white font-mono text-xs">SPF Record (Sender Policy Framework)</strong>
-                                    <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded font-bold uppercase">Required</span>
-                                </div>
-                                <p class="text-zinc-400 text-xs mb-2">Declares authorized SMTP sending servers for your domain.</p>
-                                <div class="font-mono text-[11px] text-blue-400">
-                                    <strong>Type:</strong> TXT &nbsp;|&nbsp; <strong>Name:</strong> @ &nbsp;|&nbsp; <strong>Value:</strong> v=spf1 include:spf.sendinblue.com ~all
-                                </div>
-                            </div>
-
-                            <div class="bg-black p-4 rounded-xl border border-white/5">
-                                <div class="flex items-center justify-between mb-1">
-                                    <strong class="text-white font-mono text-xs">DKIM Record (DomainKeys Identified Mail)</strong>
-                                    <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded font-bold uppercase">Required</span>
-                                </div>
-                                <p class="text-zinc-400 text-xs mb-2">Cryptographically signs outgoing headers to prove they weren't spoofed.</p>
-                                <div class="font-mono text-[11px] text-blue-400">
-                                    <strong>Type:</strong> TXT &nbsp;|&nbsp; <strong>Name:</strong> mail._domainkey &nbsp;|&nbsp; <strong>Value:</strong> [Copy DKIM key from Brevo console]
-                                </div>
-                            </div>
-
-                            <div class="bg-black p-4 rounded-xl border border-white/5">
-                                <div class="flex items-center justify-between mb-1">
-                                    <strong class="text-white font-mono text-xs">DMARC Record Policy</strong>
-                                    <span class="text-[9px] bg-blue-500/20 text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded font-bold uppercase">Recommended</span>
-                                </div>
-                                <p class="text-zinc-400 text-xs mb-2">Instructs receiving servers how to handle emails failing SPF/DKIM checkouts.</p>
-                                <div class="font-mono text-[11px] text-blue-400">
-                                    <strong>Type:</strong> TXT &nbsp;|&nbsp; <strong>Name:</strong> _dmarc &nbsp;|&nbsp; <strong>Value:</strong> v=DMARC1; p=quarantine; pct=100; rua=mailto:reports@yourdomain.com
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-xs space-y-1">
-                            <h5 class="text-red-400 font-bold uppercase">Important Domain Rule</h5>
-                            <p class="text-zinc-400">Do NOT use generic emails (like <code class="bg-black text-red-300 font-mono px-1 rounded">yourname@gmail.com</code>) inside your <code class="bg-black text-red-300 font-mono px-1 rounded">smtp.from-address</code>. Sending Gmail addresses through third-party relays violates strict DMARC checks, triggering automatic spam folder routing. Use a custom domain instead (e.g. <code class="bg-black text-emerald-300 font-mono px-1 rounded">noreply@ajaretro.dev</code>).</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sub Tab: Placeholders -->
-                <div x-show="configSubTab === 'placeholders'" class="space-y-4" x-transition>
-                    <h4 class="text-sm font-bold text-white uppercase tracking-wider text-xs">Dynamic Branding & Placeholders</h4>
-                    <div class="bg-zinc-950 p-6 rounded-2xl border border-brand-border space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed">
-                        <div class="flex items-center gap-2 text-emerald-400 font-bold">
-                            <span>✔</span>
-                            <span>Branding config applies to BOTH the web interface and outgoing emails!</span>
-                        </div>
-                        <p>By defining your project links under the <code class="bg-zinc-900 px-1 py-0.5 rounded text-blue-300 font-mono">branding</code> config section, the changes will automatically display on the web portals AND substitute as placeholders in all templates dispatched by the mail server.</p>
-                        
-                        <h5 class="text-white font-bold uppercase tracking-wider text-[11px]">Supported Email Placeholders</h5>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
-                            <div class="bg-black p-3.5 rounded-xl border border-white/5">
-                                <span class="text-blue-400">{server-name}</span>
-                                <p class="text-zinc-500 font-sans text-xs mt-1">Replaces with the configured server name.</p>
-                            </div>
-                            <div class="bg-black p-3.5 rounded-xl border border-white/5">
-                                <span class="text-blue-400">{discord-link}</span>
-                                <p class="text-zinc-500 font-sans text-xs mt-1">Replaces with your Discord invite link.</p>
-                            </div>
-                            <div class="bg-black p-3.5 rounded-xl border border-white/5">
-                                <span class="text-blue-400">{documentation-link}</span>
-                                <p class="text-zinc-500 font-sans text-xs mt-1">Replaces with your documentation URL.</p>
-                            </div>
-                            <div class="bg-black p-3.5 rounded-xl border border-white/5">
-                                <span class="text-blue-400">{forum-link}</span>
-                                <p class="text-zinc-500 font-sans text-xs mt-1">Replaces with your forum address.</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-black p-4 rounded-xl border border-white/5 space-y-2">
-                            <h6 class="text-white font-bold text-xs">Template Integration Example:</h6>
-                            <p class="text-zinc-400 text-xs font-sans">You can use these placeholders inside your verification HTML template or configuration body text:</p>
-                            <pre class="bg-zinc-950 p-3 rounded-lg border border-white/5 text-[10px] text-blue-400 font-mono"><code x-text="'&lt;p&gt;Welcome to &lt;strong&gt;{server-name}&lt;/strong&gt;!&lt;/p&gt;\n&lt;p&gt;Join our community on Discord: &lt;a href=&quot;{discord-link}&quot;&gt;{discord-link}&lt;/a&gt;&lt;/p&gt;'"></code></pre>
-                        </div>
-                    </div>
-                </div>
+    <main class="flex-grow pt-32 relative z-10">
+        <section class="py-20 px-6 max-w-7xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 font-mono text-xs uppercase tracking-wider mb-6">
+                📧 DOUBLE OPT-IN SMTP EMAIL VERIFICATION
             </div>
-
-            <!-- Commands Content -->
-            <div x-show="activeTab === 'commands'" x-transition class="space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-brand-card border border-brand-border p-6 rounded-2xl">
-                    <h3 class="text-xl font-black italic uppercase text-white">Plugin Command Directory</h3>
-                    <input type="text" x-model="searchQuery" placeholder="Search commands or permissions..." class="w-full sm:w-64 bg-zinc-950 border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                </div>
-
-                <div class="bg-brand-card border border-brand-border rounded-[2.5rem] overflow-hidden">
-                    <div class="overflow-x-auto w-full">
-                        <table class="w-full text-left border-collapse text-xs md:text-sm min-w-[650px]">
-                            <thead>
-                                <tr class="bg-white/5 border-b border-brand-border">
-                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500 w-1/4">Command</th>
-                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500 w-1/3">Permission</th>
-                                    <th class="p-6 font-bold uppercase tracking-widest text-zinc-500">Description</th>
-                                </tr>
-                            </thead>
-                            <template x-for="cmd in filteredCommands()" :key="cmd.name">
-                                <tbody class="divide-y divide-brand-border hover:bg-white/[0.005] transition" x-data="{
-                                    detailTab: 'under-the-hood',
-                                    simArgs: '',
-                                    simStatus: 'idle',
-                                    simLogs: [],
-                                    simulate() {
-                                        if (this.simStatus === 'running') return;
-                                        this.simStatus = 'running';
-                                        this.simLogs = [];
-                                        
-                                        let steps = cmd.simSteps;
-                                        let stepIdx = 0;
-                                        let interval = setInterval(() => {
-                                            if (stepIdx < steps.length) {
-                                                this.simLogs.push(steps[stepIdx]);
-                                                stepIdx++;
-                                            } else {
-                                                clearInterval(interval);
-                                                this.simStatus = 'success';
-                                            }
-                                        }, 800);
-                                    }
-                                }" x-init="$watch('expanded', val => { if(val !== cmd.name) { simLogs = []; simStatus = 'idle'; simArgs = ''; } })">
-                                    <!-- Row -->
-                                    <tr @click="expanded = (expanded === cmd.name ? '' : cmd.name)" class="cursor-pointer border-b border-brand-border/40">
-                                        <td class="p-6 font-mono font-bold text-blue-400 w-1/4">
-                                            <div class="flex items-center gap-2">
-                                                <i data-lucide="chevron-right" class="w-4 h-4 transition-transform text-zinc-500" :class="expanded === cmd.name ? 'rotate-90 text-blue-400' : ''"></i>
-                                                <span x-text="cmd.name"></span>
-                                            </div>
-                                        </td>
-                                        <td class="p-6 font-mono text-zinc-500 w-1/3" x-text="cmd.permission"></td>
-                                        <td class="p-6 text-slate-300" x-text="cmd.shortDesc"></td>
-                                    </tr>
-                                    <!-- Expanded detail row -->
-                                    <tr x-show="expanded === cmd.name" x-transition>
-                                        <td colspan="3" class="bg-zinc-950/80 p-8 border-t border-brand-border">
-                                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                                                <!-- Left Info block -->
-                                                <div class="lg:col-span-7 space-y-6">
-                                                    <div class="flex gap-4 border-b border-white/5 pb-3">
-                                                        <button @click="detailTab = 'under-the-hood'" :class="detailTab === 'under-the-hood' ? 'text-blue-500 border-b-2 border-blue-500 font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">Under the Hood</button>
-                                                        <button @click="detailTab = 'how-it-holds'" :class="detailTab === 'how-it-holds' ? 'text-blue-500 border-b-2 border-blue-500 font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">How It Holds</button>
-                                                        <button @click="detailTab = 'syntax'" :class="detailTab === 'syntax' ? 'text-blue-500 border-b-2 border-blue-500 font-bold' : 'text-zinc-500 hover:text-zinc-300'" class="pb-1.5 text-xs uppercase tracking-wider transition">Perms & Syntax</button>
-                                                    </div>
-                                                    
-                                                    <!-- Under the Hood Tab -->
-                                                    <div x-show="detailTab === 'under-the-hood'" class="space-y-4" x-transition>
-                                                        <div class="space-y-1">
-                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Operation Mechanics</h5>
-                                                            <p class="text-slate-300 leading-relaxed font-sans text-xs md:text-sm" x-html="cmd.longDesc"></p>
-                                                        </div>
-                                                        <div class="space-y-1">
-                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500 font-bold">Thread Execution Context</h5>
-                                                            <span class="inline-block px-3 py-1.5 rounded bg-zinc-900 border border-brand-border text-blue-500 font-mono text-xs mt-1" x-text="cmd.threadContext"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- How It Holds Tab -->
-                                                    <div x-show="detailTab === 'how-it-holds'" class="space-y-4" x-transition>
-                                                        <div class="space-y-1">
-                                                            <h5 class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Concurrency Safety & Optimization Invariants</h5>
-                                                            <p class="text-slate-300 leading-relaxed font-sans text-xs md:text-sm" x-html="cmd.howItHolds"></p>
-                                                        </div>
-                                                        <div class="grid grid-cols-2 gap-4 pt-2">
-                                                            <div class="bg-zinc-900/60 p-3 rounded-xl border border-brand-border text-[11px]">
-                                                                <span class="text-zinc-500 block uppercase font-mono text-[9px] tracking-wider mb-1">Time Complexity</span>
-                                                                <span class="text-blue-500 font-bold font-mono" x-text="cmd.timeComplexity"></span>
-                                                            </div>
-                                                            <div class="bg-zinc-900/60 p-3 rounded-xl border border-brand-border text-[11px]">
-                                                                <span class="text-blue-500 font-bold font-mono" x-text="cmd.memoryComplexity"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Syntax Tab -->
-                                                    <div x-show="detailTab === 'syntax'" class="space-y-4 text-xs font-mono" x-transition>
-                                                        <div class="space-y-1.5">
-                                                            <h5 class="text-[10px] font-sans font-bold text-zinc-500 uppercase tracking-widest">Usage Syntax</h5>
-                                                            <pre class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border text-blue-400" x-text="cmd.name + (cmd.args ? ' ' + cmd.args : '')"></pre>
-                                                        </div>
-                                                        <div class="space-y-1.5">
-                                                            <h5 class="text-[10px] font-sans font-bold text-zinc-500 uppercase tracking-widest">Required Permission Node</h5>
-                                                            <pre class="bg-zinc-900 p-3.5 rounded-xl border border-brand-border text-slate-400" x-text="cmd.permission"></pre>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Right Console Sandbox -->
-                                                <div class="lg:col-span-5 flex flex-col justify-between bg-zinc-900/60 border border-brand-border p-5 rounded-2xl h-[300px]">
-                                                    <div class="flex justify-between items-center border-b border-white/5 pb-2 mb-3">
-                                                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
-                                                            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full inline-block animate-pulse"></span>
-                                                            Interactive Console Simulator
-                                                        </span>
-                                                        <span class="text-[9px] font-mono text-zinc-500">Java Runtime</span>
-                                                    </div>
-                                                    
-                                                    <!-- Terminal Window -->
-                                                    <div class="flex-grow bg-black/80 rounded-xl p-3.5 font-mono text-[11px] overflow-y-auto custom-scrollbar select-none text-slate-300 space-y-1.5">
-                                                        <div class="text-zinc-600">// Select parameters and press \'Run Simulation\'</div>
-                                                        <template x-for="log in simLogs">
-                                                            <div x-html="log"></div>
-                                                        </template>
-                                                        <div x-show="simStatus === 'running'" class="text-blue-500/80 animate-pulse text-[10px]">Calling native JVM instructions...</div>
-                                                    </div>
-
-                                                    <!-- Interactive Controls -->
-                                                    <div class="flex gap-2 mt-4 pt-3 border-t border-white/5">
-                                                        <template x-if="cmd.argOptions && cmd.argOptions.length > 0">
-                                                            <select x-model="simArgs" class="bg-black border border-brand-border rounded-lg px-2.5 py-1.5 text-[11px] font-mono text-slate-300 focus:outline-none focus:border-blue-500 flex-grow max-w-[150px]">
-                                                                <option value="">Default Option</option>
-                                                                <template x-for="opt in cmd.argOptions" :key="opt">
-                                                                    <option :value="opt" x-text="opt"></option>
-                                                                </template>
-                                                            </select>
-                                                        </template>
-                                                        <button @click="simulate()" :disabled="simStatus === 'running'" class="flex-grow py-2 bg-blue-600 text-white text-[11px] font-black uppercase tracking-wider rounded-lg hover:bg-blue-500 transition-all text-center flex items-center justify-center gap-1.5 font-bold">
-                                                            <span x-text="simStatus === 'running' ? 'Executing...' : 'Run Simulation'"></span>
-                                                        </button>
-                                                        <button @click="simLogs = []; simStatus = 'idle'; simArgs = ''" class="px-3 bg-white/5 border border-white/10 text-slate-400 hover:text-white rounded-lg transition-all text-[11px]">
-                                                            Reset
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </template>
-                            <!-- If no results match query -->
-                            <tbody x-show="filteredCommands().length === 0">
-                                <tr>
-                                    <td colspan="3" class="p-12 text-center text-zinc-500 font-bold">No commands matched your query.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 100% Free & Open-Source Section -->
-    <section id="download" class="py-32 px-8 bg-zinc-950/40 border-t border-white/5 text-center">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="text-center mb-16">
-                <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-widest mb-4">
-                    100% Free & Open Source
-                </span>
-                <h2 class="text-5xl font-black italic mb-6 uppercase">🚀 Get RetroMail Today</h2>
-                <p class="text-zinc-400 max-w-3xl mx-auto text-lg leading-relaxed">
-                    RetroMail is completely free and open-source. Download official releases directly from Modrinth, Hangar, or GitHub.
-                </p>
-            </div>
-
-            <div class="flex flex-wrap justify-center items-center gap-6 max-w-4xl mx-auto">
-                <a href="https://modrinth.com/plugin/retromail" target="_blank" class="flex items-center gap-4 px-8 py-5 bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-wider rounded-2xl transition shadow-xl shadow-emerald-600/30 text-sm">
-                    <i class="fa-solid fa-box-open text-xl"></i> Download on Modrinth
-                </a>
-                <a href="https://hangar.papermc.io/AJA_RETRO/RetroMail" target="_blank" class="flex items-center gap-4 px-8 py-5 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-wider rounded-2xl transition shadow-xl shadow-blue-600/30 text-sm">
-                    <i class="fa-solid fa-paper-plane text-xl"></i> Download on Hangar
-                </a>
-                <a href="https://github.com/AJARETRO/RetroMail" target="_blank" class="flex items-center gap-4 px-8 py-5 bg-zinc-800 hover:bg-zinc-700 text-white font-black uppercase tracking-wider rounded-2xl transition shadow-xl text-sm border border-white/10">
-                    <i class="fa-brands fa-github text-xl"></i> View Source on GitHub
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-24 border-t border-white/5 text-center">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-center gap-1 mb-10">
-                <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-red-600">AJA</span>RETRO</span>
-            </div>
-            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-black leading-loose">
-                RetroMail • AJARETRO © 2026<br>
-                <span class="text-zinc-900">Developed by Niloy</span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase italic tracking-tight mb-6">
+                RetroMail <span class="text-blue-500">v1.0.7-DEADEYE</span>
+            </h1>
+            <p class="text-zinc-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-medium mb-10">
+                Secure double-opt-in SMTP gateway integration. Verifies player emails in-game, triggers verification rewards, and supports mass email announcements (<code class="text-blue-400 font-mono">/mass-email</code>).
             </p>
-            <p class="text-[11px] text-zinc-400 max-w-md mx-auto leading-relaxed pt-6">
-                Feed the devs! 🍕 Buy us a coffee or send a donation to keep the ideas flowing—it helps us provide better support and encourages us to build even more awesome tools!
-            </p>
-            <div class="flex justify-center gap-4 pt-2 pb-2">
-                <a href="donate.html" class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-600/20">
-                    ☕ Support & Donate
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://modrinth.com/plugin/retromail" target="_blank" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest rounded-2xl text-xs shadow-xl shadow-blue-600/30 transition-all flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Download v1.0.7-DEADEYE
+                </a>
+                <a href="https://github.com/AJARETRO/PaperSMTP" target="_blank" class="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest rounded-2xl text-xs transition-all flex items-center gap-2">
+                    <i data-lucide="github" class="w-4 h-4"></i> GitHub Source
                 </a>
             </div>
-            <div class="text-[10px] text-zinc-500 font-mono tracking-wide max-w-2xl mx-auto border-t border-white/5 pt-4 mt-6 leading-relaxed">
-                <strong class="text-red-500">PROPRIETARY LICENSE (ALL RIGHTS RESERVED)</strong><br>
-                Redistributing, republishing, or commercial/monetized network hosting of this software is strictly prohibited. Violating these terms may result in immediate DMCA takedown requests to platforms and hosts (GitHub, Modrinth, hosting providers), hosting service suspension, server network blacklisting, and copyright infringement legal action.
+        </section>
+        <section class="py-16 px-6 max-w-7xl mx-auto">
+            <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] border border-blue-500/30 space-y-6">
+                <h2 class="text-3xl font-black italic uppercase text-white">In-Game Commands & Usage</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+                    <div class="bg-black/70 p-5 rounded-2xl border border-white/10 space-y-2">
+                        <div class="text-blue-400 font-bold text-sm">/email &lt;address&gt;</div>
+                        <p class="text-zinc-400 text-[11px]">Dispatches a 6-digit confirmation PIN to the player's email address via SMTP.</p>
+                    </div>
+                    <div class="bg-black/70 p-5 rounded-2xl border border-white/10 space-y-2">
+                        <div class="text-blue-400 font-bold text-sm">/email verify &lt;code&gt;</div>
+                        <p class="text-zinc-400 text-[11px]">Confirms email ownership and triggers automatic in-game rewards.</p>
+                    </div>
+                    <div class="bg-black/70 p-5 rounded-2xl border border-white/10 space-y-2">
+                        <div class="text-cyan-400 font-bold text-sm">/mass-email &lt;perm&gt; &lt;subject&gt; &lt;msg&gt;</div>
+                        <p class="text-zinc-400 text-[11px]">Sends broadcast email announcements to verified player groups asynchronously.</p>
+                    </div>
+                    <div class="bg-black/70 p-5 rounded-2xl border border-white/10 space-y-2">
+                        <div class="text-emerald-400 font-bold text-sm">/email resend</div>
+                        <p class="text-zinc-400 text-[11px]">Requests a new verification code if the previous code expired.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="py-16 border-t border-white/10 bg-[#09090b] px-6 relative z-10">
+        <div class="max-w-7xl mx-auto text-center space-y-6">
+            <div class="flex justify-center items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center font-black text-white text-sm shadow-lg shadow-red-600/30">AR</div>
+                <span class="text-2xl font-black tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
+            </div>
+            <p class="text-zinc-500 text-xs uppercase tracking-widest font-mono">
+                100% Free & Open Source Ecosystem • &copy; 2026 Ahmed Juhaed Ayeman Niloy (@ajar3tr0)
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 font-mono text-xs uppercase tracking-wider text-zinc-400">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <a href="demalware.html" class="hover:text-cyan-400 transition-colors">DeMalware</a>
+                <a href="retromail.html" class="hover:text-blue-400 transition-colors">RetroMail</a>
+                <a href="circuitbreaker.html" class="hover:text-red-400 transition-colors">CircuitBreaker</a>
+                <a href="FoliaCore.html" class="hover:text-emerald-400 transition-colors">FoliaCore</a>
+                <a href="retroworldpurger.html" class="hover:text-purple-400 transition-colors">WorldPurger</a>
+                <a href="https://github.com/AJARETRO" target="_blank" class="hover:text-white transition-colors">GitHub</a>
             </div>
         </div>
     </footer>
-
-    <script>
-        lucide.createIcons();
-    </script>
+    
+    <script>lucide.createIcons();</script>
 </body>
 </html>

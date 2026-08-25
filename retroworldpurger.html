@@ -1,493 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <!-- Favicon / Brand Logo for Google Search -->
-    <link rel="icon" type="image/png" href="/logo-google.png">
-    <link rel="apple-touch-icon" href="/logo-google.png">
     <meta charset="UTF-8">
-    <link rel="canonical" href="https://ajaretro.dev/retroworldpurger.html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetroWorldPurger | Safe Minecraft Chunk Purger & Disk Storage Optimizer</title>
-    <meta name="description" content="RetroWorldPurger is a high-performance Minecraft Spigot, Paper, and Folia plugin that prevents region file storage bloat by automatically purging unmodified chunks.">
-    <meta name="keywords" content="RetroWorldPurger, Minecraft chunk purger, reduce region file size, save minecraft disk space, PaperMC chunk cleaner, Folia storage optimizer, safe chunk deletion, minecraft server disk optimization">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ajaretro.dev/retroworldpurger.html">
-    <meta property="og:title" content="RetroWorldPurger | Intelligent Chunk Purging & Storage Optimizer">
-    <meta property="og:description" content="RetroWorldPurger is a high-performance Minecraft Spigot, Paper, and Folia plugin that prevents region file storage bloat by automatically purging unmodified chunks.">
-    <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://ajaretro.dev/retroworldpurger.html">
-    <meta property="twitter:title" content="RetroWorldPurger | Intelligent Chunk Purging & Storage Optimizer">
-    <meta property="twitter:description" content="RetroWorldPurger is a high-performance Minecraft Spigot, Paper, and Folia plugin that prevents region file storage bloat by automatically purging unmodified chunks.">
-    <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
-
+    <title>WorldPurger v1.0.1-PURGE | World Storage & Region File Optimizer</title>
+    <link rel="icon" type="image/png" href="/logo-google.png">
     <script src="/js/tailwind.js"></script>
     <script src="/js/alpine.js" defer></script>
     <script src="/js/lucide.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-        
-        .grid-bg {
-            background-image: 
-                linear-gradient(rgba(139, 92, 246, 0.02) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(139, 92, 246, 0.02) 2px, transparent 2px);
-            background-size: 50px 50px;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #09090b; color: #f4f4f5; }
+        .glass-panel { background: rgba(24, 24, 27, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
     </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            red: '#ef4444',
-                            dark: '#050508',
-                            card: 'rgba(17, 17, 24, 0.75)',
-                            border: 'rgba(255, 255, 255, 0.04)',
-                            glow: 'rgba(139, 92, 246, 0.15)'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
 </head>
-<body class="bg-brand-dark text-slate-100 font-sans selection:bg-violet-600 selection:text-white overflow-x-hidden min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
+<body class="antialiased selection:bg-purple-500 selection:text-white min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
+    <div class="fixed top-0 left-1/3 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[160px] pointer-events-none z-0"></div>
+    
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#09090b]/80 backdrop-blur-2xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-cyan-500 flex items-center justify-center font-black text-white shadow-lg shadow-red-500/25 group-hover:scale-105 transition-all">
+                    AR
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black text-xl tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
+                    <span class="text-[10px] text-zinc-400 font-mono tracking-widest uppercase">Open Source Ecosystem</span>
+                </div>
+            </a>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-xl border-b border-brand-border py-4 px-6 md:px-12">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <a href="index.html" class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</a>
-                <div class="h-6 w-[2px] bg-white/10 mx-3"></div>
-                <span class="text-xs font-bold text-violet-500 uppercase tracking-[0.3em]">RetroWorldPurger</span>
-            </div>
-            
-            <!-- Desktop Links -->
-            <div class="hidden lg:flex items-center gap-10 font-bold text-xs uppercase tracking-widest text-slate-400">
-                <a href="index.html" class="hover:text-white transition">Home</a>
-                <a href="blog.html" class="hover:text-white transition">Blog</a>
-                <a href="#simulator" class="hover:text-white transition">Interactive Demo</a>
-                <a href="#security" class="hover:text-white transition">Safety Matrix</a>
-                <a href="#config" class="hover:text-white transition">Config</a>
-                <a href="modrinth-transfer-retroworldpurger.html" class="px-6 py-3 bg-violet-600 text-white rounded-xl hover:bg-violet-500 transition font-black">Get Plugin</a>
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-widest">
+                <a href="index.html" class="text-zinc-400 hover:text-white transition-colors flex items-center">Home</a>
+                <a href="demalware.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="shield" class="w-3.5 h-3.5 inline mr-1"></i>DeMalware</a>
+                <a href="retromail.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="mail" class="w-3.5 h-3.5 inline mr-1"></i>RetroMail</a>
+                <a href="circuitbreaker.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="activity" class="w-3.5 h-3.5 inline mr-1"></i>CircuitBreaker</a>
+                <a href="FoliaCore.html" class="text-zinc-400 hover:text-white transition-colors flex items-center"><i data-lucide="zap" class="w-3.5 h-3.5 inline mr-1"></i>FoliaCore</a>
+                <a href="retroworldpurger.html" class="text-white border-b-2 border-red-500 pb-1 flex items-center"><i data-lucide="hard-drive" class="w-3.5 h-3.5 inline mr-1"></i>WorldPurger</a>
+                <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="text-zinc-400 hover:text-white transition-colors">Modrinth</a>
+                <a href="https://github.com/AJARETRO" target="_blank" class="text-zinc-400 hover:text-white transition-colors">GitHub</a>
+            </nav>
+
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-red-600/30 hover:scale-105 transition-all flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Download Free
+                </a>
             </div>
 
-            <!-- Mobile Menu Toggle -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-slate-300 hover:text-white focus:outline-none">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2.5 rounded-2xl text-zinc-300 hover:text-white hover:bg-white/5 border border-white/10">
                 <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
                 <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" x-transition.opacity class="absolute top-full left-0 w-full bg-brand-dark border-b border-brand-border py-6 px-8 flex flex-col gap-6 font-bold text-sm uppercase tracking-widest text-slate-400 z-50 shadow-2xl">
-            <a href="index.html" class="hover:text-white transition">Home</a>
-            <a href="blog.html" class="hover:text-white transition">Blog</a>
-            <a href="#simulator" @click="mobileMenuOpen = false" class="hover:text-white transition">Interactive Demo</a>
-            <a href="#security" @click="mobileMenuOpen = false" class="hover:text-white transition">Safety Matrix</a>
-            <a href="modrinth-transfer-retroworldpurger.html" class="py-4 bg-violet-600 text-white text-center rounded-xl transition font-black">Get Plugin</a>
-        </div>
-    </nav>
-
-    <!-- Header Section -->
-    <header class="relative pt-44 pb-20 px-6 md:px-12 grid-bg overflow-hidden border-b border-brand-border">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-violet-600/5 blur-[120px] rounded-full -z-10"></div>
-        <div class="max-w-5xl mx-auto text-center space-y-6 relative z-10">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-600/10 border border-violet-600/20 text-violet-400 text-xs font-bold uppercase tracking-widest">
-                <span class="w-2 h-2 rounded-full bg-violet-600 animate-pulse"></span>
-                Storage Optimization Sentinel
-            </div>
-            
-            <h1 class="text-4xl md:text-7xl font-black tracking-tighter uppercase italic leading-[0.9]">
-                WIPING STORAGE BLOAT,<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-300 to-slate-500">PROTECTING PLY BUILD.</span>
-            </h1>
-            
-            <p class="text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-                RetroWorldPurger detects chunks loaded briefly by traveling players and discards them upon unload. Pristine terrain generates fresh on return, saving gigabytes of disk bloat safely.
-            </p>
-
-            <div class="flex flex-wrap justify-center gap-4 pt-4">
-                <a href="modrinth-transfer-retroworldpurger.html" class="px-8 py-4 bg-violet-600 text-white font-black uppercase tracking-widest rounded-xl hover:bg-violet-500 transition text-xs shadow-lg shadow-violet-600/20">
-                    Get Modrinth Release
-                </a>
-                <a href="github-transfer-retroworldpurger.html" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-xl hover:bg-white/10 transition text-xs">
-                    Get GitHub Release
-                </a>
-            </div>
+        <div x-show="mobileMenuOpen" x-transition class="lg:hidden bg-[#09090b]/95 backdrop-blur-2xl border-b border-white/10 px-8 py-6 flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-zinc-300">
+            <a href="index.html" class="hover:text-white">Home</a>
+            <a href="demalware.html" class="hover:text-cyan-400">DeMalware Antivirus (v3.0.9-VIGIL)</a>
+            <a href="retromail.html" class="hover:text-blue-400">RetroMail SMTP (v1.0.7-DEADEYE)</a>
+            <a href="circuitbreaker.html" class="hover:text-red-400">CircuitBreaker (v2.5-VANGUARD)</a>
+            <a href="FoliaCore.html" class="hover:text-emerald-400">FoliaCore (v6.1-RAGNAROK)</a>
+            <a href="retroworldpurger.html" class="hover:text-purple-400">WorldPurger (v1.0.1-PURGE)</a>
         </div>
     </header>
-
-    <!-- Interactive Simulator Section -->
-    <section id="simulator" class="py-24 px-6 md:px-12 bg-zinc-950/40 relative" x-data="{
-        chunks: [
-            { x: -1, z: -1, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: 0, z: -1, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: 1, z: -1, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: -1, z: 0, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: 0, z: 0, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: 1, z: 0, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: -1, z: 1, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: 0, z: 1, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' },
-            { x: 1, z: 1, state: 'unloaded', modified: false, inhabitedTime: 0, type: 'Pristine Seed' }
-        ],
-        selectedIdx: 4,
-        totalPurged: 0,
-        totalSaved: 0,
-        bytesSavedKb: 0.0,
-        logs: ['Simulator loaded. Click on any chunk to simulate player interactions.'],
-        addLog(msg) {
-            this.logs.unshift(msg);
-            if (this.logs.length > 8) this.logs.pop();
-        },
-        interact(action) {
-            let chunk = this.chunks[this.selectedIdx];
-            if (chunk.state === 'unloaded') {
-                chunk.state = 'loaded_clean';
-                this.addLog(`Chunk [${chunk.x}, ${chunk.z}] loaded due to player movement.`);
-            }
-            
-            if (action === 'modify') {
-                chunk.modified = true;
-                chunk.state = 'loaded_modified';
-                chunk.type = 'Player Base (Modified)';
-                this.addLog(`Player placed blocks/interacted in Chunk [${chunk.x}, ${chunk.z}]. Marked as modified.`);
-            } else if (action === 'idle') {
-                chunk.inhabitedTime += 2400; // Simulate 2 minutes
-                this.addLog(`Player idled inside Chunk [${chunk.x}, ${chunk.z}]. Inhabited time: ${chunk.inhabitedTime} ticks.`);
-                if (chunk.inhabitedTime > 200 && !chunk.modified) {
-                    chunk.state = 'loaded_inhabited';
-                    chunk.type = 'Player Visited / Idled';
-                }
-            } else if (action === 'flyby') {
-                chunk.inhabitedTime += 50; // Simulate fast pass
-                this.addLog(`Player flew through Chunk [${chunk.x}, ${chunk.z}] briefly (${chunk.inhabitedTime} ticks).`);
-            }
-        },
-        unloadAll() {
-            let savedThisTick = 0;
-            let purgedThisTick = 0;
-
-            this.chunks.forEach(chunk => {
-                if (chunk.state === 'unloaded') return;
-                
-                // Safety Checks
-                let isModified = chunk.modified;
-                let isLongVisit = chunk.inhabitedTime > 200; // Config limit
-
-                if (isModified || isLongVisit) {
-                    chunk.state = 'unloaded';
-                    this.totalSaved++;
-                    savedThisTick++;
-                    this.addLog(`Saved Chunk [${chunk.x}, ${chunk.z}] to disk (${chunk.modified ? 'Modified' : 'Long Residency'}).`);
-                } else {
-                    chunk.state = 'unloaded';
-                    chunk.inhabitedTime = 0;
-                    chunk.modified = false;
-                    chunk.type = 'Pristine Seed';
-                    this.totalPurged++;
-                    purgedThisTick++;
-                    this.bytesSavedKb += 4.0; // Assume 4KB per chunk
-                    this.addLog(`Purged Chunk [${chunk.x}, ${chunk.z}] safely (0 modifications, quick pass).`);
-                }
-            });
-
-            if (savedThisTick > 0 || purgedThisTick > 0) {
-                this.addLog(`Tick completed: Purged ${purgedThisTick} chunks, Saved ${savedThisTick} chunks.`);
-            } else {
-                this.addLog('All chunks are already unloaded.');
-            }
-        },
-        reset() {
-            this.chunks.forEach(c => {
-                c.state = 'unloaded';
-                c.modified = false;
-                c.inhabitedTime = 0;
-                c.type = 'Pristine Seed';
-            });
-            this.totalPurged = 0;
-            this.totalSaved = 0;
-            this.bytesSavedKb = 0.0;
-            this.logs = ['Simulator reset.'];
-        }
-    }">
-        <div class="max-w-7xl mx-auto space-y-12">
-            <div class="text-center space-y-3">
-                <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">Chunk Purging Simulator</h2>
-                <p class="text-slate-400 text-sm max-w-xl mx-auto">Click on a grid block, trigger player interactions, and then unload chunks to visually observe the purge logic in action.</p>
+    
+    <main class="flex-grow pt-32 relative z-10">
+        <section class="py-20 px-6 max-w-7xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-400 font-mono text-xs uppercase tracking-wider mb-6">
+                💽 WORLD STORAGE & CHUNK PURGE OPTIMIZER
             </div>
-
-            <!-- Dashboard Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                <!-- Chunk Map (4 Cols) -->
-                <div class="lg:col-span-5 bg-brand-card border border-brand-border p-8 rounded-[2rem] flex flex-col justify-between space-y-6">
-                    <h3 class="text-lg font-black uppercase tracking-wider text-slate-300">Chunk Grid View</h3>
-                    
-                    <div class="grid grid-cols-3 gap-3 aspect-square w-full max-w-[320px] mx-auto">
-                        <template x-for="(chunk, idx) in chunks">
-                            <button 
-                                @click="selectedIdx = idx"
-                                class="border aspect-square rounded-xl flex flex-col items-center justify-center p-2 transition-all relative overflow-hidden"
-                                :class="{
-                                    'border-violet-500 bg-violet-500/10 ring-2 ring-violet-500/50 scale-105 z-10': selectedIdx === idx,
-                                    'border-brand-border hover:border-slate-500 bg-zinc-950/40': selectedIdx !== idx
-                                }">
-                                <!-- State Visualizer -->
-                                <div class="absolute inset-0 opacity-15" :class="{
-                                    'bg-transparent': chunk.state === 'unloaded',
-                                    'bg-cyan-500 animate-pulse': chunk.state === 'loaded_clean',
-                                    'bg-emerald-500': chunk.state === 'loaded_modified',
-                                    'bg-amber-500': chunk.state === 'loaded_inhabited'
-                                }"></div>
-
-                                <span class="text-xs font-mono font-bold text-slate-500" :class="{'text-white': selectedIdx === idx}" x-text="`[${chunk.x}, ${chunk.z}]`"></span>
-                                <span class="text-[9px] uppercase font-bold tracking-widest mt-1" :class="{
-                                    'text-slate-600': chunk.state === 'unloaded',
-                                    'text-cyan-400': chunk.state === 'loaded_clean',
-                                    'text-emerald-400 font-extrabold': chunk.state === 'loaded_modified',
-                                    'text-amber-400': chunk.state === 'loaded_inhabited'
-                                }" x-text="chunk.state === 'unloaded' ? 'unloaded' : 'loaded'"></span>
-                            </button>
-                        </template>
-                    </div>
-
-                    <!-- Legend -->
-                    <div class="grid grid-cols-2 gap-3 text-[10px] font-mono text-slate-500 pt-4 border-t border-brand-border">
-                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-zinc-900 border border-brand-border inline-block"></span> Unloaded Chunks</div>
-                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-cyan-500/20 border border-cyan-500/30 inline-block"></span> Loaded (Clean)</div>
-                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-emerald-500/20 border border-emerald-500/30 inline-block"></span> Player Modifications</div>
-                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-amber-500/20 border border-amber-500/30 inline-block"></span> Visited (>10s)</div>
-                    </div>
-                </div>
-
-                <!-- Simulation Controls (7 Cols) -->
-                <div class="lg:col-span-7 flex flex-col justify-between gap-8">
-                    <!-- Top Panel -->
-                    <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-6 flex-1">
-                        <div class="flex justify-between items-center border-b border-brand-border pb-4">
-                            <div>
-                                <h4 class="font-extrabold text-white text-lg">Selected Chunk Info</h4>
-                                <p class="text-xs text-slate-500 mt-1" x-text="`Grid Index: [${chunks[selectedIdx].x}, ${chunks[selectedIdx].z}]`"></p>
-                            </div>
-                            <span class="px-3 py-1.5 rounded-full bg-slate-900 border border-brand-border text-[10px] font-mono text-slate-300" x-text="chunks[selectedIdx].type"></span>
-                        </div>
-
-                        <!-- Info details -->
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div class="bg-zinc-950/30 p-4 border border-brand-border rounded-xl">
-                                <span class="text-xs text-slate-500 block font-medium uppercase tracking-wider">Inhabited Time</span>
-                                <span class="text-lg font-bold font-mono text-white mt-1 block" x-text="`${chunks[selectedIdx].inhabitedTime} Ticks`"></span>
-                            </div>
-                            <div class="bg-zinc-950/30 p-4 border border-brand-border rounded-xl">
-                                <span class="text-xs text-slate-500 block font-medium uppercase tracking-wider">Modification Bit</span>
-                                <span class="text-lg font-bold uppercase mt-1 block" :class="chunks[selectedIdx].modified ? 'text-emerald-400' : 'text-slate-600'" x-text="chunks[selectedIdx].modified ? 'PDC True' : 'PDC False'"></span>
-                            </div>
-                        </div>
-
-                        <!-- Interaction Buttons -->
-                        <div class="space-y-3">
-                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block">Simulate Player Actions:</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button @click="interact('flyby')" class="px-5 py-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-xs font-black uppercase transition-all flex items-center gap-2">
-                                    <i data-lucide="navigation" class="w-4 h-4 text-cyan-400"></i> Travel Through
-                                </button>
-                                <button @click="interact('modify')" class="px-5 py-3 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 rounded-xl text-xs font-black uppercase transition-all flex items-center gap-2">
-                                    <i data-lucide="hammer" class="w-4 h-4"></i> Place/Break Block
-                                </button>
-                                <button @click="interact('idle')" class="px-5 py-3 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 text-amber-400 rounded-xl text-xs font-black uppercase transition-all flex items-center gap-2">
-                                    <i data-lucide="clock" class="w-4 h-4"></i> Stand Still (Idle)
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Output Log -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Stats card -->
-                        <div class="bg-brand-card border border-brand-border p-6 rounded-[1.5rem] flex flex-col justify-between">
-                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Storage Reclaimed</span>
-                            <span class="text-3xl font-mono font-black text-violet-400 mt-2" x-text="`${bytesSavedKb.toFixed(1)} KB`"></span>
-                            <span class="text-[10px] text-slate-600 font-mono mt-1 uppercase" x-text="`Purged: ${totalPurged} chunks`"></span>
-                        </div>
-                        <div class="bg-brand-card border border-brand-border p-6 rounded-[1.5rem] flex flex-col justify-between">
-                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Permanent Saves</span>
-                            <span class="text-3xl font-mono font-black text-emerald-400 mt-2" x-text="totalSaved"></span>
-                            <span class="text-[10px] text-slate-600 font-mono mt-1 uppercase">Saved to region files</span>
-                        </div>
-                        
-                        <!-- Control Actions -->
-                        <div class="flex flex-col justify-between gap-3">
-                            <button @click="unloadAll()" class="w-full py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-violet-600/10">
-                                Unload Chunks
-                            </button>
-                            <button @click="reset()" class="w-full py-3 bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 rounded-xl font-bold uppercase tracking-wider text-[10px] transition-all">
-                                Clear Map
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Console Log -->
-            <div class="bg-zinc-950/70 border border-brand-border rounded-[1.5rem] p-6 font-mono text-xs space-y-2.5 max-h-[180px] overflow-y-auto custom-scrollbar">
-                <template x-for="log in logs">
-                    <div class="flex gap-2">
-                        <span class="text-violet-500">[System]</span>
-                        <span class="text-slate-300" x-text="log"></span>
-                    </div>
-                </template>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why it is Safe (The Security Core) -->
-    <section id="security" class="py-24 px-6 md:px-12 relative overflow-hidden border-t border-brand-border">
-        <div class="absolute top-0 right-10 w-[400px] h-[400px] bg-violet-500/5 blur-[100px] rounded-full -z-10"></div>
-        
-        <div class="max-w-6xl mx-auto space-y-16">
-            <div class="border-b border-brand-border pb-6">
-                <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">Why it is 100% Safe</h2>
-                <p class="text-zinc-500 mt-2 text-sm md:text-base">A complete breakdown of our multi-layered boundary protection mechanics.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- 1. Direct Modifications -->
-                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-xl text-violet-400 font-bold">1</div>
-                    <h3 class="text-xl font-black uppercase text-white">Direct Actions</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Any standard player interaction immediately tags a chunk. This includes placing or breaking blocks, striking flint & steel, igniting TNT, and right-clicking items like doors, levers, anvils, and chests.
-                    </p>
-                </div>
-
-                <!-- 2. Cross-Border Pistons -->
-                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-xl text-violet-400 font-bold">2</div>
-                    <h3 class="text-xl font-black uppercase text-white">Cross-Border Pistons</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Redstone machinery pushes blocks across boundaries. If a piston extends or retracts and shifts block states from one chunk into an adjacent chunk, the destination chunk is flagged instantly.
-                    </p>
-                </div>
-
-                <!-- 3. Fluid Flow Propagation -->
-                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-xl text-violet-400 font-bold">3</div>
-                    <h3 class="text-xl font-black uppercase text-white">Fluid Flows</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        When water or lava flows across a chunk border, the destination chunk block states change. If the fluid originates from a modified chunk, the modification flag propagates across the border to preserve cascades.
-                    </p>
-                </div>
-
-                <!-- 4. Dispenser triggers -->
-                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-xl text-violet-400 font-bold">4</div>
-                    <h3 class="text-xl font-black uppercase text-white">Dispensers & Projectiles</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        If a dispenser shoots projectiles or sets water buckets across chunk lines, or if a player fires arrows/fireworks landing on target blocks in adjacent chunks, those chunks are protected immediately.
-                    </p>
-                </div>
-
-                <!-- 5. Environmental Cascades -->
-                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-xl text-violet-400 font-bold">5</div>
-                    <h3 class="text-xl font-black uppercase text-white">Explosions & Structures</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Explosions (Creepers, TNT, respawn anchors) and bonemealed saplings (like dark oak/mega spruce) spill over chunk lines. The plugin scans all affected block lists to flag every touched chunk.
-                    </p>
-                </div>
-
-                <!-- 6. Inhabited Time Buffer -->
-                <div class="bg-brand-card border border-brand-border p-8 rounded-[2rem] space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-xl text-violet-400 font-bold">6</div>
-                    <h3 class="text-xl font-black uppercase text-white">Inhabited Ticks Buffer</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Minecraft natively tracks how long players stand inside chunks. If a player stands still, talks, or idles in a chunk for more than the configurable limit (default: 10s), the chunk is automatically saved.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Configuration Hub -->
-    <section id="config" class="py-24 px-6 md:px-12 bg-zinc-950/20 border-t border-brand-border">
-        <div class="max-w-6xl mx-auto space-y-12">
-            <div class="text-center space-y-3">
-                <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">Configuration</h2>
-                <p class="text-slate-400 text-sm max-w-lg mx-auto">Tune your purge metrics easily. Standard `config.yml` settings file.</p>
-            </div>
-
-            <div class="bg-brand-card border border-brand-border rounded-[2rem] p-8 md:p-12 max-w-3xl mx-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <span class="text-[10px] font-mono text-violet-400 uppercase tracking-widest">config.yml</span>
-                    <button class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest hover:text-white transition">Copy File</button>
-                </div>
-                
-                <pre class="text-xs md:text-sm font-mono text-slate-300 leading-relaxed overflow-x-auto custom-scrollbar bg-zinc-950/50 p-6 rounded-xl border border-brand-border"><code># Worlds that should be excluded from chunk cleaning
-blacklisted-worlds:
-  - "lobby"
-
-# Distance from the world spawn (in blocks) where chunks are never purged
-spawn-protection-radius: 500
-
-# Minimum player presence (in ticks) inside a chunk before it gets saved permanently
-# 200 ticks = 10 seconds.
-min-inhabited-time-ticks: 200
-
-# Automatically populated stats tracker
-stats:
-  total-chunks-deleted: 0
-  total-bytes-saved: 0</code></pre>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-16 border-t border-brand-border text-center bg-brand-dark px-6">
-        <div class="max-w-7xl mx-auto space-y-6">
-            <span class="text-3xl font-black tracking-tighter uppercase italic"><span class="text-brand-red">AJA</span>RETRO</span>
-            <p class="text-zinc-600 text-[10px] uppercase tracking-[0.8em] font-bold leading-loose">
-                Designed for the Multithreaded Era • &copy; 2026<br>
-                <span class="text-zinc-900">Ahmed Juhaed Ayeman Niloy</span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase italic tracking-tight mb-6">
+                WorldPurger <span class="text-purple-400">v1.0.1-PURGE</span>
+            </h1>
+            <p class="text-zinc-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-medium mb-10">
+                Intelligent chunk purging and region storage optimizer. Prevents world storage bloat on high-traffic survival networks by safely trimming unmodified chunks upon unload.
             </p>
-            <div class="flex justify-center gap-6 pt-2 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                <a href="index.html" class="hover:text-white transition">Home</a>
-                <a href="blog.html" class="hover:text-white transition">Blog</a>
-                <a href="about.html" class="hover:text-white transition">About</a>
-                <a href="services.html" class="hover:text-white transition">Services</a>
-                <a href="cover.html" class="hover:text-white transition">Covers</a>
-            </div>
-            <p class="text-[11px] text-zinc-400 max-w-md mx-auto leading-relaxed pt-2">
-                Feed the devs! 🍕 Buy us a coffee or send a donation to keep the ideas flowing—it helps us provide better support and encourages us to build even more awesome tools!
-            </p>
-            <div class="flex justify-center gap-4 pt-2">
-                <a href="donate.html" class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-600/20">
-                    ☕ Support & Donate
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://modrinth.com/plugin/retroworldpurger" target="_blank" class="px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest rounded-2xl text-xs shadow-xl shadow-purple-600/30 transition-all flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Download v1.0.1-PURGE
                 </a>
+                <a href="https://github.com/AJARETRO/RetroWorldPurger" target="_blank" class="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest rounded-2xl text-xs transition-all flex items-center gap-2">
+                    <i data-lucide="github" class="w-4 h-4"></i> GitHub Source
+                </a>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="py-16 border-t border-white/10 bg-[#09090b] px-6 relative z-10">
+        <div class="max-w-7xl mx-auto text-center space-y-6">
+            <div class="flex justify-center items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center font-black text-white text-sm shadow-lg shadow-red-600/30">AR</div>
+                <span class="text-2xl font-black tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
+            </div>
+            <p class="text-zinc-500 text-xs uppercase tracking-widest font-mono">
+                100% Free & Open Source Ecosystem • &copy; 2026 Ahmed Juhaed Ayeman Niloy (@ajar3tr0)
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 font-mono text-xs uppercase tracking-wider text-zinc-400">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <a href="demalware.html" class="hover:text-cyan-400 transition-colors">DeMalware</a>
+                <a href="retromail.html" class="hover:text-blue-400 transition-colors">RetroMail</a>
+                <a href="circuitbreaker.html" class="hover:text-red-400 transition-colors">CircuitBreaker</a>
+                <a href="FoliaCore.html" class="hover:text-emerald-400 transition-colors">FoliaCore</a>
+                <a href="retroworldpurger.html" class="hover:text-purple-400 transition-colors">WorldPurger</a>
+                <a href="https://github.com/AJARETRO" target="_blank" class="hover:text-white transition-colors">GitHub</a>
             </div>
         </div>
     </footer>
-
-    <script>
-        lucide.createIcons();
-    </script>
+    
+    <script>lucide.createIcons();</script>
 </body>
 </html>
