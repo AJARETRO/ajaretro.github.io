@@ -15,17 +15,17 @@
         .glass-panel { background: rgba(24, 24, 27, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
     </style>
 </head>
-<body class="antialiased selection:bg-purple-500 selection:text-white min-h-screen flex flex-col justify-between" x-data="{ mobileMenuOpen: false }">
-    <div class="fixed top-0 left-1/3 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[160px] pointer-events-none z-0"></div>
+<body class="antialiased selection:bg-purple-500 selection:text-white min-h-screen flex flex-col justify-between overflow-x-hidden" x-data="{ mobileMenuOpen: false }">
+    <div class="fixed top-0 left-1/3 w-[700px] h-[700px] bg-purple-600/15 rounded-full blur-[160px] pointer-events-none z-0 animate-pulse"></div>
     
     <header class="fixed top-0 left-0 right-0 z-50 bg-[#09090b]/80 backdrop-blur-2xl border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-cyan-500 flex items-center justify-center font-black text-white shadow-lg shadow-red-500/25 group-hover:scale-105 transition-all">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-cyan-500 flex items-center justify-center font-black text-white shadow-lg shadow-red-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                     AR
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-black text-xl tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
+                    <span class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-red-500">AJA</span><span class="text-white">RETRO</span></span>
                     <span class="text-[10px] text-zinc-400 font-mono tracking-widest uppercase">Open Source Ecosystem</span>
                 </div>
             </a>
@@ -76,7 +76,7 @@
                 Intelligent chunk purging and region storage optimizer. Prevents world storage bloat on high-traffic survival networks by safely trimming unmodified chunks upon unload.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://modrinth.com/plugin/retroworldpurger" target="_blank" class="px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest rounded-2xl text-xs shadow-xl shadow-purple-600/30 transition-all flex items-center gap-2">
+                <a href="https://modrinth.com/plugin/retroworldpurger" target="_blank" class="px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest rounded-2xl text-xs shadow-xl shadow-purple-600/30 hover:scale-105 transition-all flex items-center gap-2">
                     <i data-lucide="download" class="w-4 h-4"></i> Download v1.0.1-PURGE
                 </a>
                 <a href="https://github.com/AJARETRO/RetroWorldPurger" target="_blank" class="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest rounded-2xl text-xs transition-all flex items-center gap-2">
@@ -90,7 +90,7 @@
         <div class="max-w-7xl mx-auto text-center space-y-6">
             <div class="flex justify-center items-center gap-3">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center font-black text-white text-sm shadow-lg shadow-red-600/30">AR</div>
-                <span class="text-2xl font-black tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
+                <span class="text-2xl font-extrabold tracking-tighter uppercase italic"><span class="text-red-500">AJA</span><span class="text-white">RETRO</span></span>
             </div>
             <p class="text-zinc-500 text-xs uppercase tracking-widest font-mono">
                 100% Free & Open Source Ecosystem • &copy; 2026 Ahmed Juhaed Ayeman Niloy (@ajar3tr0)
