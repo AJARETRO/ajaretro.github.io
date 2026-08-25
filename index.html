@@ -3,59 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJA RETRO | Next-Gen Minecraft Server Security & High-Performance Plugins</title>
-    <meta name="description" content="Official developer portal of AJA RETRO (Ahmed Juhaed Ayeman Niloy). Engineering DeMalware-RETRO server antivirus, SuperBoard-RETRO 3D minigames, FoliaCore, CircuitBreaker anti-lag, and RetroMail.">
-    <meta name="keywords" content="AJA RETRO, DeMalware-RETRO, Minecraft antivirus, Minecraft malware scanner, SuperBoard-RETRO, FoliaCore, CircuitBreaker, RetroMail, Minecraft server security, PaperMC plugins, Folia plugins, Minecraft high performance">
+    <title>AJA RETRO | High-Performance Minecraft Server Engineering & Antivirus Security</title>
+    <meta name="description" content="Official open-source developer portal of AJA RETRO (Ahmed Juhaed Ayeman Niloy). Engineering DeMalware-RETRO server antivirus, FoliaCore multithreaded utilities, CircuitBreaker anti-lag, RetroMail SMTP, and WorldPurger.">
+    <meta name="keywords" content="AJA RETRO, DeMalware-RETRO, Minecraft antivirus, Minecraft malware scanner, FoliaCore, CircuitBreaker, RetroMail, WorldPurger, Minecraft server security, PaperMC plugins, Folia plugins">
     <meta name="author" content="Ahmed Juhaed Ayeman Niloy">
     <link rel="canonical" href="https://ajaretro.dev/">
     <link rel="icon" type="image/png" href="/logo-google.png">
     <link rel="apple-touch-icon" href="/logo-google.png">
-    <meta name="theme-color" content="#030712">
+    <meta name="theme-color" content="#09090b">
 
     <!-- Open Graph / Facebook SEO -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ajaretro.dev/">
-    <meta property="og:title" content="AJA RETRO | High-Performance Minecraft Engineering & Antivirus Security">
-    <meta property="og:description" content="Next-generation multithreaded Minecraft plugins, JVM agent antivirus protection, 3D display minigames engine, and surgical lag machine filters.">
+    <meta property="og:title" content="AJA RETRO | High-Performance Minecraft Engineering & Security">
+    <meta property="og:description" content="Next-generation multithreaded Minecraft plugins, JVM agent antivirus protection, SMTP email verification, and surgical anti-lag machine filters. 100% Free & Open Source.">
     <meta property="og:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
 
     <!-- Twitter SEO -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://ajaretro.dev/">
-    <meta property="twitter:title" content="AJA RETRO | High-Performance Minecraft Engineering & Antivirus Security">
-    <meta property="twitter:description" content="Next-generation multithreaded Minecraft plugins, JVM agent antivirus protection, 3D display minigames engine, and surgical lag machine filters.">
+    <meta property="twitter:title" content="AJA RETRO | High-Performance Minecraft Engineering & Security">
+    <meta property="twitter:description" content="Next-generation multithreaded Minecraft plugins, JVM agent antivirus protection, SMTP email verification, and surgical anti-lag machine filters. 100% Free & Open Source.">
     <meta property="twitter:image" content="https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg">
 
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Person",
-          "@id": "https://ajaretro.dev/#person",
-          "name": "Ahmed Juhaed Ayeman Niloy",
-          "alternateName": ["AJA RETRO", "AJA NILOY"],
-          "url": "https://ajaretro.dev/",
-          "image": "https://ajaretro.dev/IMG-20240928-WA0011-01.jpeg",
-          "jobTitle": "Lead Systems Architect & Security Engineer",
-          "sameAs": [
-            "https://github.com/AJARETRO",
-            "https://modrinth.com/user/AJA_R3TR0",
-            "https://hangar.papermc.io/AJA_R3TR0"
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://ajaretro.dev/#website",
-          "url": "https://ajaretro.dev/",
-          "name": "AJA RETRO Software Portal",
-          "description": "High-Performance Minecraft Plugins & Server Antivirus Security Ecosystem"
-        }
-      ]
-    }
-    </script>
-
+    <!-- Fonts & Scripts -->
     <script src="/js/tailwind.js"></script>
     <script src="/js/alpine.js" defer></script>
     <script src="/js/lucide.js"></script>
@@ -67,8 +38,8 @@
         }
 
         body {
-            background-color: #030712;
-            color: #f3f4f6;
+            background-color: #09090b;
+            color: #f4f4f5;
         }
 
         .mono {
@@ -76,32 +47,28 @@
         }
 
         .glass-panel {
-            background: rgba(17, 24, 39, 0.6);
+            background: rgba(24, 24, 27, 0.65);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .glass-card {
-            background: rgba(15, 23, 42, 0.55);
+            background: rgba(24, 24, 27, 0.5);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-card:hover {
-            border-color: rgba(239, 68, 68, 0.3);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px -5px rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(239, 68, 68, 0.2);
         }
 
         .gradient-text-red {
             background: linear-gradient(135deg, #ffffff 0%, #f87171 50%, #ef4444 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .gradient-text-amber {
-            background: linear-gradient(135deg, #ffffff 0%, #fbbf24 50%, #f59e0b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -112,70 +79,77 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .mesh-bg {
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(239, 68, 68, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.1) 0px, transparent 50%),
-                radial-gradient(at 50% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+        .ambient-glow-1 {
+            background: radial-gradient(circle at 20% 20%, rgba(239, 68, 68, 0.15) 0%, transparent 60%);
+        }
+
+        .ambient-glow-2 {
+            background: radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 60%);
         }
     </style>
 </head>
-<body class="antialiased selection:bg-red-500 selection:text-white min-h-screen flex flex-col justify-between mesh-bg" x-data="{ mobileMenuOpen: false }">
+<body class="antialiased selection:bg-red-500 selection:text-white min-h-screen flex flex-col justify-between relative overflow-x-hidden" x-data="{ mobileMenuOpen: false, searchFilter: '' }">
+
+    <!-- Ambient Radial Glows -->
+    <div class="fixed top-0 left-1/4 -translate-x-1/2 w-[600px] h-[600px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-0 right-1/4 translate-x-1/2 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
     <!-- Navigation Header -->
     <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 via-amber-500 to-cyan-500 flex items-center justify-center font-black text-white shadow-lg shadow-red-500/20 group-hover:scale-105 transition-transform">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 via-rose-500 to-cyan-500 flex items-center justify-center font-black text-white shadow-lg shadow-red-500/20 group-hover:scale-105 transition-transform">
                     AR
                 </div>
                 <div class="flex flex-col">
                     <span class="font-black text-xl tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
-                    <span class="text-[10px] text-slate-400 font-mono tracking-widest uppercase">High-Performance Ecosystem</span>
+                    <span class="text-[10px] text-zinc-400 font-mono tracking-widest uppercase">Open Source Ecosystem</span>
                 </div>
             </a>
 
             <!-- Desktop Nav Links -->
-            <nav class="hidden lg:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-300">
+            <nav class="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-widest text-zinc-300">
                 <a href="index.html" class="text-white border-b-2 border-red-500 pb-1">Home</a>
-                <a href="demalware.html" class="hover:text-red-400 transition-colors flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-cyan-400"></i> DeMalware</a>
-                <a href="superboard.html" class="hover:text-amber-400 transition-colors flex items-center gap-1.5"><i data-lucide="gamepad-2" class="w-3.5 h-3.5 text-amber-400"></i> SuperBoard</a>
-                <a href="https://license.ajaretro.dev/store" class="hover:text-white transition-colors">Store</a>
-                <a href="https://license.ajaretro.dev/" class="hover:text-white transition-colors">Portal</a>
-                <a href="blog.html" class="hover:text-white transition-colors">Research Blog</a>
-                <a href="about.html" class="hover:text-white transition-colors">About</a>
-                <a href="services.html" class="hover:text-white transition-colors">Services</a>
+                <a href="demalware.html" class="hover:text-cyan-400 transition-colors flex items-center gap-1.5"><i data-lucide="shield" class="w-3.5 h-3.5 text-cyan-400"></i> DeMalware</a>
+                <a href="retromail.html" class="hover:text-blue-400 transition-colors flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-blue-400"></i> RetroMail</a>
+                <a href="circuitbreaker.html" class="hover:text-red-400 transition-colors flex items-center gap-1.5"><i data-lucide="activity" class="w-3.5 h-3.5 text-red-400"></i> CircuitBreaker</a>
+                <a href="FoliaCore.html" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-400"></i> FoliaCore</a>
+                <a href="retroworldpurger.html" class="hover:text-purple-400 transition-colors flex items-center gap-1.5"><i data-lucide="hard-drive" class="w-3.5 h-3.5 text-purple-400"></i> WorldPurger</a>
+                <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="hover:text-white transition-colors">Modrinth</a>
+                <a href="https://github.com/AJARETRO" target="_blank" class="hover:text-white transition-colors">GitHub</a>
             </nav>
 
-            <!-- CTA Buttons -->
+            <!-- CTA Button -->
             <div class="hidden sm:flex items-center gap-4">
-                <a href="https://license.ajaretro.dev/" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-600/20 hover:scale-105 transition-all flex items-center gap-2">
-                    <i data-lucide="key" class="w-3.5 h-3.5"></i> Client Portal
+                <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-600/25 hover:scale-105 transition-all flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Download Free
                 </a>
             </div>
 
             <!-- Mobile Menu Trigger -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/5" aria-label="Toggle Navigation">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/5" aria-label="Toggle Navigation">
                 <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
                 <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
             </button>
         </div>
 
         <!-- Mobile Drawer Menu -->
-        <div x-show="mobileMenuOpen" x-transition.opacity class="lg:hidden glass-panel border-b border-white/10 px-8 py-6 flex flex-col gap-5 text-sm font-bold uppercase tracking-widest text-slate-300">
+        <div x-show="mobileMenuOpen" x-transition.opacity class="lg:hidden glass-panel border-b border-white/10 px-8 py-6 flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-zinc-300">
             <a href="index.html" class="text-red-400">Home</a>
-            <a href="demalware.html" class="hover:text-cyan-400 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i> DeMalware Antivirus</a>
-            <a href="superboard.html" class="hover:text-amber-400 flex items-center gap-2"><i data-lucide="gamepad-2" class="w-4 h-4 text-amber-400"></i> SuperBoard 3D Games</a>
-            <a href="https://license.ajaretro.dev/store" class="hover:text-white">Store & Licenses</a>
-            <a href="https://license.ajaretro.dev/" class="hover:text-white">License Portal</a>
-            <a href="blog.html" class="hover:text-white">Research & Case Studies</a>
+            <a href="demalware.html" class="hover:text-cyan-400 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-cyan-400"></i> DeMalware Antivirus</a>
+            <a href="retromail.html" class="hover:text-blue-400 flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-blue-400"></i> RetroMail SMTP</a>
+            <a href="circuitbreaker.html" class="hover:text-red-400 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-red-400"></i> CircuitBreaker Anti-Lag</a>
+            <a href="FoliaCore.html" class="hover:text-emerald-400 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i> FoliaCore Multithreaded</a>
+            <a href="retroworldpurger.html" class="hover:text-purple-400 flex items-center gap-2"><i data-lucide="hard-drive" class="w-4 h-4 text-purple-400"></i> WorldPurger Storage</a>
+            <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="hover:text-white">Modrinth Profile</a>
+            <a href="https://github.com/AJARETRO" target="_blank" class="hover:text-white">GitHub Org</a>
+            <a href="blog.html" class="hover:text-white">Research Blog</a>
             <a href="about.html" class="hover:text-white">About Architect</a>
-            <a href="services.html" class="hover:text-white">Enterprise Services</a>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-32">
+    <main class="flex-grow pt-32 relative z-10">
         <!-- Hero Section -->
         <section class="relative px-6 py-20 md:py-28 max-w-7xl mx-auto text-center overflow-hidden">
             <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-mono uppercase tracking-wider mb-8">
@@ -183,7 +157,7 @@
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                 </span>
-                ENTERPRISE MINECRAFT SOFTWARE & SECURITY ARCHITECTURE
+                100% FREE & OPEN SOURCE MINECRAFT SOFTWARE ARCHITECTURE
             </div>
 
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight uppercase italic leading-none mb-8">
@@ -191,56 +165,58 @@
                 <span class="gradient-text-red">PERFORMANCE & SECURITY</span>
             </h1>
 
-            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed font-medium mb-12">
-                Natively multithreaded Minecraft server architectures, JVM bytecode antivirus protection, 60 FPS smooth 3D display game engines, and surgical lag machine defusers.
+            <p class="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-medium mb-12">
+                Natively multithreaded Minecraft server architectures, JVM agent bytecode antivirus protection, interactive chest GUI monitors, and surgical lag machine defusers.
             </p>
 
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="demalware.html" class="px-8 py-4 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-extrabold uppercase tracking-widest rounded-xl text-xs shadow-xl shadow-red-600/30 hover:scale-105 transition-all flex items-center gap-2">
+                <a href="demalware.html" class="px-8 py-4 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold uppercase tracking-widest rounded-2xl text-xs shadow-xl shadow-red-600/30 hover:scale-105 transition-all flex items-center gap-2">
                     <i data-lucide="shield" class="w-4 h-4"></i> DeMalware Antivirus
                 </a>
-                <a href="superboard.html" class="px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-extrabold uppercase tracking-widest rounded-xl text-xs shadow-xl shadow-amber-500/30 hover:scale-105 transition-all flex items-center gap-2">
-                    <i data-lucide="gamepad-2" class="w-4 h-4"></i> SuperBoard 3D Games
-                </a>
-                <a href="#catalog" class="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold uppercase tracking-widest rounded-xl text-xs transition-all flex items-center gap-2">
-                    <i data-lucide="layers" class="w-4 h-4"></i> Full Catalog
+                <a href="https://modrinth.com/user/AJA_R3TR0" target="_blank" class="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold uppercase tracking-widest rounded-2xl text-xs transition-all flex items-center gap-2">
+                    <i data-lucide="layers" class="w-4 h-4"></i> Browse All Plugins
                 </a>
             </div>
 
             <!-- Stats Bar -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-20">
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="text-3xl font-black text-red-500 font-mono">100%</div>
-                    <div class="text-xs text-slate-400 uppercase tracking-widest font-semibold mt-1">Bytecode Sandbox</div>
+                <div class="glass-panel p-6 rounded-3xl border border-white/10">
+                    <div class="text-3xl font-black text-red-500 font-mono">JVM Agent</div>
+                    <div class="text-[11px] text-zinc-400 uppercase tracking-widest font-semibold mt-1">Bytecode Protection</div>
                 </div>
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="text-3xl font-black text-amber-400 font-mono">60 FPS</div>
-                    <div class="text-xs text-slate-400 uppercase tracking-widest font-semibold mt-1">Smooth Display Movement</div>
+                <div class="glass-panel p-6 rounded-3xl border border-white/10">
+                    <div class="text-3xl font-black text-cyan-400 font-mono">Chest GUI</div>
+                    <div class="text-[11px] text-zinc-400 uppercase tracking-widest font-semibold mt-1">Interactive Network Inspector</div>
                 </div>
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="text-3xl font-black text-cyan-400 font-mono">Folia</div>
-                    <div class="text-xs text-slate-400 uppercase tracking-widest font-semibold mt-1">Async Region Native</div>
+                <div class="glass-panel p-6 rounded-3xl border border-white/10">
+                    <div class="text-3xl font-black text-emerald-400 font-mono">Folia Native</div>
+                    <div class="text-[11px] text-zinc-400 uppercase tracking-widest font-semibold mt-1">Async Region Multithreading</div>
                 </div>
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="text-3xl font-black text-emerald-400 font-mono">0 MSPT</div>
-                    <div class="text-xs text-slate-400 uppercase tracking-widest font-semibold mt-1">Zero Overhead Standard</div>
+                <div class="glass-panel p-6 rounded-3xl border border-white/10">
+                    <div class="text-3xl font-black text-blue-400 font-mono">0 MSPT</div>
+                    <div class="text-[11px] text-zinc-400 uppercase tracking-widest font-semibold mt-1">Zero Overhead Benchmark</div>
                 </div>
             </div>
         </section>
 
-        <!-- Flagship Products Catalog -->
+        <!-- Searchable Software Ecosystem Catalog -->
         <section id="catalog" class="py-24 px-6 max-w-7xl mx-auto">
-            <div class="border-b border-white/10 pb-6 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div class="border-b border-white/10 pb-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
                     <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tight text-white">Software Ecosystem</h2>
-                    <p class="text-slate-400 mt-2 text-sm md:text-base">Production-ready plugins built for high-traffic Paper, Folia, and GeyserMC networks.</p>
+                    <p class="text-zinc-400 mt-2 text-sm md:text-base">Production-grade open source plugins built for high-traffic Paper, Folia, and GeyserMC servers.</p>
                 </div>
-                <span class="text-xs font-mono text-slate-500 uppercase tracking-widest">Available on Modrinth & GitHub</span>
+                
+                <!-- Live Search Input -->
+                <div class="relative w-full md:w-72">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+                    <input type="text" x-model="searchFilter" placeholder="Search plugins & commands..." class="w-full pl-10 pr-4 py-2.5 bg-zinc-900/80 border border-white/10 rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-red-500/50 font-medium">
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- 1. DeMalware-RETRO -->
-                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden">
+                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden" x-show="!searchFilter || 'demalware antivirus security network gui ip block'.includes(searchFilter.toLowerCase())">
                     <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
                     <div class="space-y-6 relative z-10">
                         <div class="w-14 h-14 bg-cyan-500/10 border border-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
@@ -250,93 +226,24 @@
                             <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 font-mono text-[10px] uppercase tracking-wider">JVM Agent Antivirus</span>
                             <h3 class="text-2xl font-black italic uppercase text-white mt-2">DeMalware-RETRO</h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Boot-level JVM agent class transformer to actively intercept and block trojans, shell command executions, JNI native escapes, and low-level Unsafe memory writes.
+                        <p class="text-zinc-400 text-sm leading-relaxed">
+                            Boot-level JVM agent class transformer. Scans bytecode opcodes, blocks ForceOP backdoors, shell execution, and features an interactive Chest GUI (<code class="text-cyan-400 font-mono text-xs">/demalware net</code>) for inspecting plugin network connections and manual IP blocking.
                         </p>
+                        <div class="bg-zinc-950/80 p-3 rounded-xl border border-white/5 text-[11px] font-mono text-zinc-300">
+                            <span class="text-red-400">/demalware net</span> &bull; <span class="text-cyan-400">/netwatch</span> &bull; <span class="text-zinc-400">/demalware status</span>
+                        </div>
                     </div>
                     <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
-                        <span class="text-xs font-mono text-slate-500">v3.0.9-VIGIL</span>
+                        <span class="text-xs font-mono text-zinc-500">v3.0.9-VIGIL</span>
                         <div class="flex gap-2">
-                            <a href="demalware.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold uppercase transition-all">Docs</a>
-                            <a href="https://modrinth.com/mod/demalware-retro" target="_blank" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold rounded-lg text-xs uppercase transition-all">Get</a>
+                            <a href="demalware.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold uppercase transition-all">Docs</a>
+                            <a href="https://modrinth.com/mod/demalware-retro" target="_blank" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold rounded-xl text-xs uppercase transition-all">Get</a>
                         </div>
                     </div>
                 </article>
 
-                <!-- 2. SuperBoard-RETRO -->
-                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
-                    <div class="space-y-6 relative z-10">
-                        <div class="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
-                            <i data-lucide="gamepad-2" class="w-7 h-7"></i>
-                        </div>
-                        <div>
-                            <span class="px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-400 font-mono text-[10px] uppercase tracking-wider">60 FPS 3D Minigames</span>
-                            <h3 class="text-2xl font-black italic uppercase text-white mt-2">SuperBoard-RETRO</h3>
-                        </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            18+ 3D tabletop board, card, and retro arcade minigames engine rendered with BlockDisplay & Interaction entities. Features client 60 FPS movement interpolation and customizable game titles.
-                        </p>
-                    </div>
-                    <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
-                        <span class="text-xs font-mono text-slate-500">v1.0.0 Free</span>
-                        <div class="flex gap-2">
-                            <a href="superboard.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold uppercase transition-all">Docs</a>
-                            <a href="https://modrinth.com/mod/superboard-retro" target="_blank" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-extrabold rounded-lg text-xs uppercase transition-all">Get</a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- 3. FoliaCore -->
-                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
-                    <div class="space-y-6 relative z-10">
-                        <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-                            <i data-lucide="zap" class="w-7 h-7"></i>
-                        </div>
-                        <div>
-                            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 font-mono text-[10px] uppercase tracking-wider">Multithreaded Essentials</span>
-                            <h3 class="text-2xl font-black italic uppercase text-white mt-2">FoliaCore</h3>
-                        </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            A complete essentials suite rewrite designed explicitly for regionized servers. Runs warp, spawn, utility commands, and chat visual frameworks asynchronously across region threads.
-                        </p>
-                    </div>
-                    <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
-                        <span class="text-xs font-mono text-slate-500">Folia Native</span>
-                        <div class="flex gap-2">
-                            <a href="FoliaCore.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold uppercase transition-all">Docs</a>
-                            <a href="modrinth-transfer-foliacore.html" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold rounded-lg text-xs uppercase transition-all">Get</a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- 4. CircuitBreaker -->
-                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-2xl"></div>
-                    <div class="space-y-6 relative z-10">
-                        <div class="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
-                            <i data-lucide="activity" class="w-7 h-7"></i>
-                        </div>
-                        <div>
-                            <span class="px-2.5 py-1 rounded-md bg-red-500/10 text-red-400 font-mono text-[10px] uppercase tracking-wider">Surgical Anti-Lag</span>
-                            <h3 class="text-2xl font-black italic uppercase text-white mt-2">CircuitBreaker</h3>
-                        </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Chunk-based event filters to isolate and defuse lag machines without affecting player performance. Instantly freezes chunk physics and redstone loops exceeding TPS margins.
-                        </p>
-                    </div>
-                    <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
-                        <span class="text-xs font-mono text-slate-500">Paper / Purpur</span>
-                        <div class="flex gap-2">
-                            <a href="circuitbreaker.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold uppercase transition-all">Docs</a>
-                            <a href="modrinth-transfer-circuitbreaker.html" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-extrabold rounded-lg text-xs uppercase transition-all">Get</a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- 5. RetroMail -->
-                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden">
+                <!-- 2. RetroMail (PaperSMTP) -->
+                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden" x-show="!searchFilter || 'retromail email smtp verification papersmtp'.includes(searchFilter.toLowerCase())">
                     <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
                     <div class="space-y-6 relative z-10">
                         <div class="w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
@@ -346,21 +253,78 @@
                             <span class="px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 font-mono text-[10px] uppercase tracking-wider">SMTP Email Verification</span>
                             <h3 class="text-2xl font-black italic uppercase text-white mt-2">RetroMail</h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Secure double-opt-in SMTP gateway integration. Verifies player emails in-game, triggers rewards upon confirmation, and coordinates multi-server network queues.
+                        <p class="text-zinc-400 text-sm leading-relaxed">
+                            High-performance double-opt-in SMTP email verification gateway. Features customizable HTML templates, mass email broadcast announcements, and automatic player verification rewards.
                         </p>
+                        <div class="bg-zinc-950/80 p-3 rounded-xl border border-white/5 text-[11px] font-mono text-zinc-300">
+                            <span class="text-blue-400">/email &lt;address&gt;</span> &bull; <span class="text-cyan-400">/mass-email</span>
+                        </div>
                     </div>
                     <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
-                        <span class="text-xs font-mono text-slate-500">HMAC Secure</span>
+                        <span class="text-xs font-mono text-zinc-500">v1.2.0 Open</span>
                         <div class="flex gap-2">
-                            <a href="retromail.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold uppercase transition-all">Docs</a>
-                            <a href="modrinth-transfer-retromail.html" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-lg text-xs uppercase transition-all">Get</a>
+                            <a href="retromail.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold uppercase transition-all">Docs</a>
+                            <a href="https://modrinth.com/plugin/retromail" target="_blank" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-xl text-xs uppercase transition-all">Get</a>
                         </div>
                     </div>
                 </article>
 
-                <!-- 6. WorldPurger -->
-                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden">
+                <!-- 3. CircuitBreaker -->
+                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden" x-show="!searchFilter || 'circuitbreaker anti-lag freeze chunk redstone'.includes(searchFilter.toLowerCase())">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-2xl"></div>
+                    <div class="space-y-6 relative z-10">
+                        <div class="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
+                            <i data-lucide="activity" class="w-7 h-7"></i>
+                        </div>
+                        <div>
+                            <span class="px-2.5 py-1 rounded-md bg-red-500/10 text-red-400 font-mono text-[10px] uppercase tracking-wider">Surgical Anti-Lag</span>
+                            <h3 class="text-2xl font-black italic uppercase text-white mt-2">CircuitBreaker</h3>
+                        </div>
+                        <p class="text-zinc-400 text-sm leading-relaxed">
+                            Chunk-based event filter engine to isolate and defuse lag machines without interrupting player gameplay. Features interactive GUI controls (<code class="text-red-400 font-mono text-xs">/cb gui</code>) and automatic redstone loop throttling.
+                        </p>
+                        <div class="bg-zinc-950/80 p-3 rounded-xl border border-white/5 text-[11px] font-mono text-zinc-300">
+                            <span class="text-red-400">/cb gui</span> &bull; <span class="text-amber-400">/cb status</span> &bull; <span class="text-zinc-400">/cb freeze</span>
+                        </div>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
+                        <span class="text-xs font-mono text-zinc-500">Paper / Purpur</span>
+                        <div class="flex gap-2">
+                            <a href="circuitbreaker.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold uppercase transition-all">Docs</a>
+                            <a href="https://modrinth.com/plugin/circuitbreaker" target="_blank" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-extrabold rounded-xl text-xs uppercase transition-all">Get</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 4. FoliaCore -->
+                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden" x-show="!searchFilter || 'foliacore folia multithreaded warp spawn essentials'.includes(searchFilter.toLowerCase())">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                    <div class="space-y-6 relative z-10">
+                        <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                            <i data-lucide="zap" class="w-7 h-7"></i>
+                        </div>
+                        <div>
+                            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 font-mono text-[10px] uppercase tracking-wider">Multithreaded Essentials</span>
+                            <h3 class="text-2xl font-black italic uppercase text-white mt-2">FoliaCore</h3>
+                        </div>
+                        <p class="text-zinc-400 text-sm leading-relaxed">
+                            Essentials suite ground-up rewrite designed explicitly for Folia's regionized multithreading architecture. Dispatches warp, spawn, TPA, and utility commands across independent region threads.
+                        </p>
+                        <div class="bg-zinc-950/80 p-3 rounded-xl border border-white/5 text-[11px] font-mono text-zinc-300">
+                            <span class="text-emerald-400">/warp</span> &bull; <span class="text-cyan-400">/spawn</span> &bull; <span class="text-zinc-400">/tpa</span> &bull; <span class="text-zinc-400">/trash</span>
+                        </div>
+                    </div>
+                    <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
+                        <span class="text-xs font-mono text-zinc-500">Folia Native</span>
+                        <div class="flex gap-2">
+                            <a href="FoliaCore.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold uppercase transition-all">Docs</a>
+                            <a href="https://modrinth.com/plugin/foliacore" target="_blank" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold rounded-xl text-xs uppercase transition-all">Get</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 5. RetroWorldPurger -->
+                <article class="glass-card p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden" x-show="!searchFilter || 'worldpurger storage chunk purge region anvil'.includes(searchFilter.toLowerCase())">
                     <div class="absolute -right-10 -top-10 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl"></div>
                     <div class="space-y-6 relative z-10">
                         <div class="w-14 h-14 bg-purple-500/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
@@ -370,91 +334,43 @@
                             <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 font-mono text-[10px] uppercase tracking-wider">World Storage Optimizer</span>
                             <h3 class="text-2xl font-black italic uppercase text-white mt-2">WorldPurger</h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Intelligent chunk purging and region storage optimizer. Prevents world storage bloat on high-traffic servers by safely discarding unmodified chunks upon unload.
+                        <p class="text-zinc-400 text-sm leading-relaxed">
+                            Intelligent chunk purging and region storage optimizer. Prevents world storage bloat on high-traffic survival and anarchy networks by safely trimming unmodified chunks upon unload.
                         </p>
+                        <div class="bg-zinc-950/80 p-3 rounded-xl border border-white/5 text-[11px] font-mono text-zinc-300">
+                            <span class="text-purple-400">/purger status</span> &bull; <span class="text-cyan-400">/purger run</span>
+                        </div>
                     </div>
                     <div class="pt-8 mt-8 border-t border-white/10 flex items-center justify-between relative z-10">
-                        <span class="text-xs font-mono text-slate-500">Folia & Paper</span>
+                        <span class="text-xs font-mono text-zinc-500">Folia & Paper</span>
                         <div class="flex gap-2">
-                            <a href="retroworldpurger.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold uppercase transition-all">Docs</a>
-                            <a href="modrinth-transfer-retroworldpurger.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold rounded-lg text-xs uppercase transition-all">Get</a>
+                            <a href="retroworldpurger.html" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold uppercase transition-all">Docs</a>
+                            <a href="https://modrinth.com/plugin/retroworldpurger" target="_blank" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold rounded-xl text-xs uppercase transition-all">Get</a>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
-
-        <!-- Research & Case Studies -->
-        <section class="py-24 px-6 max-w-7xl mx-auto border-t border-white/10">
-            <div class="border-b border-white/10 pb-6 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                <div>
-                    <h2 class="text-3xl md:text-5xl font-black italic uppercase tracking-tight text-white">Research & Case Studies</h2>
-                    <p class="text-slate-400 mt-2 text-sm md:text-base">Deep dives into Minecraft hosting, storage engine benchmarks, and multithreaded architectures.</p>
-                </div>
-                <a href="blog.html" class="text-xs font-mono text-red-400 hover:text-red-300 uppercase tracking-widest flex items-center gap-1">View All Articles &rarr;</a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <a href="blog/circuitbreaker-case-study.html" class="glass-card p-8 rounded-3xl flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <span class="px-2.5 py-1 rounded-md bg-red-500/10 text-red-400 font-mono text-[10px] uppercase tracking-wider">Case Study</span>
-                        <h3 class="text-xl font-extrabold text-white group-hover:text-red-400 transition-colors">Lag Machine Defense Case Study</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed">
-                            Analysis of surgical chunk freezing under heavy redstone and entity lag machine attacks on 500+ player survival servers.
-                        </p>
-                    </div>
-                    <span class="text-xs font-mono text-slate-500 mt-6 block">Read Study &rarr;</span>
-                </a>
-
-                <a href="blog/anvil-format-and-server-storage-bloat.html" class="glass-card p-8 rounded-3xl flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 font-mono text-[10px] uppercase tracking-wider">Storage Research</span>
-                        <h3 class="text-xl font-extrabold text-white group-hover:text-purple-400 transition-colors">Anatomy of Anvil Storage Bloat</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed">
-                            How Minecraft region files grow exponentially and how zero-overhead chunk purging reclaims hundreds of gigabytes safely.
-                        </p>
-                    </div>
-                    <span class="text-xs font-mono text-slate-500 mt-6 block">Read Study &rarr;</span>
-                </a>
-
-                <a href="blog/foliacore-blog-1.html" class="glass-card p-8 rounded-3xl flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 font-mono text-[10px] uppercase tracking-wider">Multithreading</span>
-                        <h3 class="text-xl font-extrabold text-white group-hover:text-emerald-400 transition-colors">Folia vs Legacy Utilities</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed">
-                            Benchmark breakdown comparing main thread blocking utilities against regionized async thread dispatching.
-                        </p>
-                    </div>
-                    <span class="text-xs font-mono text-slate-500 mt-6 block">Read Study &rarr;</span>
-                </a>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="py-16 border-t border-white/10 bg-black/80 px-6">
-        <div class="max-w-7xl mx-auto text-center space-y-8">
+    <footer class="py-16 border-t border-white/10 bg-zinc-950/90 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto text-center space-y-6">
             <div class="flex justify-center items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center font-black text-white text-sm">AR</div>
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center font-black text-white text-sm">AR</div>
                 <span class="text-2xl font-black tracking-tight uppercase italic text-white">AJA<span class="text-red-500">RETRO</span></span>
             </div>
-            <p class="text-slate-500 text-xs uppercase tracking-widest font-mono">
-                Designed for the Multithreaded Era • &copy; 2026 Ahmed Juhaed Ayeman Niloy
+            <p class="text-zinc-500 text-xs uppercase tracking-widest font-mono">
+                100% Free & Open Source Ecosystem • &copy; 2026 Ahmed Juhaed Ayeman Niloy (@ajar3tr0)
             </p>
-            <div class="flex flex-wrap justify-center gap-6 font-mono text-xs uppercase tracking-wider text-slate-400">
+            <div class="flex flex-wrap justify-center gap-6 font-mono text-xs uppercase tracking-wider text-zinc-400">
                 <a href="index.html" class="hover:text-white transition-colors">Home</a>
                 <a href="demalware.html" class="hover:text-cyan-400 transition-colors">DeMalware</a>
-                <a href="superboard.html" class="hover:text-amber-400 transition-colors">SuperBoard</a>
-                <a href="blog.html" class="hover:text-white transition-colors">Blog</a>
-                <a href="about.html" class="hover:text-white transition-colors">About</a>
-                <a href="services.html" class="hover:text-white transition-colors">Services</a>
-                <a href="donate.html" class="hover:text-red-400 transition-colors">Donate</a>
-            </div>
-            <div class="pt-4">
-                <a href="donate.html" class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs uppercase tracking-widest rounded-xl shadow-lg shadow-red-600/20 transition-all">
-                    ☕ Support & Donate
-                </a>
+                <a href="retromail.html" class="hover:text-blue-400 transition-colors">RetroMail</a>
+                <a href="circuitbreaker.html" class="hover:text-red-400 transition-colors">CircuitBreaker</a>
+                <a href="FoliaCore.html" class="hover:text-emerald-400 transition-colors">FoliaCore</a>
+                <a href="retroworldpurger.html" class="hover:text-purple-400 transition-colors">WorldPurger</a>
+                <a href="https://github.com/AJARETRO" target="_blank" class="hover:text-white transition-colors">GitHub</a>
             </div>
         </div>
     </footer>
