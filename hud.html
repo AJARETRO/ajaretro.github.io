@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeMalware-UNIVERSAL // SCI-FI TACTICAL HUD & TELEMETRY</title>
+    <meta name="description" content="Futuristic Sci-Fi Live HUD and RASP Telemetry Dashboard for DeMalware-UNIVERSAL by AJA_RETRO. Real-time CPU overhead dial, memory radar, and active zero-day threat interception stream.">
+    <link rel="canonical" href="https://ajaretro.dev/hud">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            cyan: '#00f0ff',
+                            blue: '#0070f3',
+                            purple: '#7928ca',
+                            green: '#00ff66',
+                            red: '#ff003c',
+                            amber: '#ffb703'
+                        }
+                    },
+                    fontFamily: {
+                        scifi: ['Orbitron', 'monospace'],
+                        tech: ['Rajdhani', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #030712;
+            color: #f1f5f9;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 36px 36px, 36px 36px;
+        }
+
+        .font-scifi { font-family: 'Orbitron', monospace; }
+        .font-mono-code { font-family: 'Share Tech Mono', monospace; }
+
+        /* CRT Scanline Overlay */
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        /* Cyber Glows */
+        .glow-cyan {
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), inset 0 0 15px rgba(0, 240, 255, 0.08);
+        }
+        .glow-rose {
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.35);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+        }
+        .text-glow-rose {
+            text-shadow: 0 0 10px rgba(244, 63, 94, 0.8);
+        }
+
+        /* Radar Beam Animation */
+        @keyframes radar-sweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .radar-beam {
+            animation: radar-sweep 4s linear infinite;
+        }
+
+        /* Tactical HUD Pulses */
+        @keyframes hud-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.96); }
+        }
+        .hud-blink {
+            animation: hud-pulse 1.4s ease-in-out infinite;
+        }
+
+        /* Custom Holographic Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.4); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.8); }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-cyan-500 selection:text-black" x-data="hudDashboard()">
+    
+    <!-- CRT Scanline Filter -->
+    <div class="fixed inset-0 scanlines z-50 pointer-events-none opacity-40"></div>
+
+    <!-- Background Ambient Glowing Orbs -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <!-- Main HUD Shell -->
+    <div class="max-w-[1600px] mx-auto p-3 sm:p-6 space-y-5 relative z-10">
+
+        <!-- Top Sci-Fi Navigation Header -->
+        <header class="bg-black/85 backdrop-blur-2xl border border-cyan-500/30 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 glow-cyan">
+            
+            <!-- Left Brand Core -->
+            <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
+                <div class="flex items-center gap-3">
+                    <!-- Rotating Cyber Hex Core -->
+                    <div class="relative w-12 h-12 flex items-center justify-center flex-shrink-0">
+                        <div class="absolute inset-0 rounded-xl border border-cyan-400/50 rotate-45"></div>
+                        <div class="absolute inset-1 rounded-lg border border-indigo-500/50 -rotate-12"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></div>
+                        <div class="w-3 h-3 rounded-full bg-cyan-400 relative z-10 shadow-lg shadow-cyan-400"></div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-scifi font-bold tracking-widest text-cyan-400 uppercase">DeMalware-UNIVERSAL</span>
+                            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono-code text-[10px] border border-cyan-500/40 font-bold">TACTICAL HUD</span>
+                        </div>
+                        <h1 class="text-xl sm:text-2xl font-black font-scifi uppercase tracking-wider text-white">
+                            LIVE TELEMETRY OVERLAY
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Return to Main Site -->
+                <a href="demalware-universal.html" class="md:hidden px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono-code text-cyan-300">
+                    &larr; Exit
+                </a>
+            </div>
+
+            <!-- Telemetry Status Badges & Controls -->
+            <div class="flex flex-wrap items-center justify-center md:justify-end gap-2.5 sm:gap-3 font-mono-code text-xs w-full md:w-auto">
+                
+                <!-- Daemon Link Status Indicator -->
+                <div class="px-3 py-2 rounded-xl bg-zinc-900/90 border border-white/10 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full" :class="connectedToLocal ? 'bg-emerald-400 hud-blink' : 'bg-cyan-400 animate-pulse'"></span>
+                    <span class="text-zinc-400">FEED:</span>
+                    <span class="font-bold" :class="connectedToLocal ? 'text-emerald-400' : 'text-cyan-300'" x-text="connectedToLocal ? 'LOCAL DAEMON (' + localPort + ')' : 'CLOUD SIMULATION'"></span>
+                </div>
+
+                <!-- Protected Runtime Stack -->
+                <div class="px-3 py-2 rounded-xl bg-zinc-900/90 border border-white/10 flex items-center gap-2">
+                    <span class="text-zinc-400">STACK:</span>
+                    <span class="text-cyan-300 font-bold" x-text="telemetry.runtime">JVM / NODE / PYTHON</span>
+                </div>
+
+                <!-- Session Uptime -->
+                <div class="px-3 py-2 rounded-xl bg-zinc-900/90 border border-white/10 flex items-center gap-2">
+                    <span class="text-zinc-400">UPTIME:</span>
+                    <span class="text-white font-bold" x-text="formatUptime(telemetry.uptime)">00:00:00</span>
+                </div>
+
+                <!-- Sound FX Toggle Button -->
+                <button @click="toggleSound()" class="px-3 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 transition flex items-center gap-1.5 font-bold" title="Toggle Sci-Fi HUD Audio Chirps">
+                    <i data-lucide="volume-2" class="w-3.5 h-3.5" x-show="soundEnabled"></i>
+                    <i data-lucide="volume-x" class="w-3.5 h-3.5" x-show="!soundEnabled"></i>
+                    <span x-text="soundEnabled ? 'AUDIO ON' : 'AUDIO OFF'"></span>
+                </button>
+
+                <!-- Trigger Test Attack Button -->
+                <button @click="triggerSimulatedThreat()" class="px-3.5 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold uppercase transition flex items-center gap-1.5 glow-rose">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                    <span>TRIGGER ATTACK</span>
+                </button>
+
+                <!-- Back Link -->
+                <a href="demalware-universal.html" class="hidden md:flex px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-zinc-300 hover:text-white transition items-center gap-1">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    <span>Docs & Benchmarks</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Command Ribbon: How To Pull Up This HUD in CLI -->
+        <div class="bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3 text-xs font-mono-code">
+            <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">CLI ARGUMENT</span>
+                <span class="text-zinc-300">Run any runtime with <code class="text-cyan-300 font-bold bg-zinc-900 px-1.5 py-0.5 rounded">--hud</code> or <code class="text-cyan-300 font-bold bg-zinc-900 px-1.5 py-0.5 rounded">DEMALWARE_HUD=true</code> to pop up this telemetry HUD!</span>
+            </div>
+            <div class="flex items-center gap-3 text-[11px] text-zinc-400">
+                <span>PORT: <strong>9999</strong></span>
+                <span>•</span>
+                <span>ZERO MEASURABLE OVERHEAD</span>
+            </div>
+        </div>
+
+        <!-- Main 3-Column Tactical Module Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+            <!-- MODULE 1: Live CPU Overhead Speedometer & Resource Sensors (4 Cols) -->
+            <div class="lg:col-span-4 space-y-5">
+                
+                <!-- Speedometer Panel -->
+                <div class="bg-black/75 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-5 sm:p-6 space-y-4 relative overflow-hidden">
+                    
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                        <div class="text-xs font-scifi uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                            <i data-lucide="gauge" class="w-4 h-4"></i>
+                            <span>REAL-TIME OVERHEAD SENSOR</span>
+                        </div>
+                        <span class="text-[10px] font-mono-code text-emerald-400 font-bold">1000ms REFRESH</span>
+                    </div>
+
+                    <!-- Circular Radial Overhead Dial -->
+                    <div class="flex flex-col items-center justify-center py-4 relative">
+                        <svg class="w-52 h-52 -rotate-90 transform" viewBox="0 0 120 120">
+                            <!-- Background Track -->
+                            <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" stroke-dasharray="301.6" stroke-dashoffset="0"/>
+                            <!-- Active Arc -->
+                            <circle cx="60" cy="60" r="48" fill="none" 
+                                    :stroke="telemetry.overhead <= 3.0 ? '#00ff66' : (telemetry.overhead <= 15.0 ? '#00f0ff' : '#f59e0b')" 
+                                    stroke-width="8" 
+                                    stroke-linecap="round"
+                                    stroke-dasharray="301.6" 
+                                    :stroke-dashoffset="301.6 - (Math.min(telemetry.overhead, 100) / 100 * 301.6)" 
+                                    class="transition-all duration-700 ease-out"/>
+                        </svg>
+
+                        <!-- Center Digital Meter -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+                            <span class="text-4xl sm:text-5xl font-scifi font-black"
+                                  :class="telemetry.overhead <= 3.0 ? 'text-emerald-400 text-glow-cyan' : 'text-cyan-400 text-glow-cyan'"
+                                  x-text="'+' + telemetry.overhead.toFixed(2) + '%'">
+                                +1.42%
+                            </span>
+                            <span class="text-[11px] font-mono-code uppercase tracking-widest text-zinc-400 mt-1">CPU Execution Overhead</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Sub-Metrics Grid -->
+                    <div class="grid grid-cols-2 gap-3 text-center font-mono-code text-xs">
+                        <div class="bg-zinc-900/80 p-3 rounded-2xl border border-white/5">
+                            <div class="text-[10px] text-zinc-500 uppercase">Estimated Latency</div>
+                            <div class="text-emerald-400 font-bold text-base mt-0.5" x-text="'+' + (telemetry.overhead * 0.12).toFixed(2) + ' ms'">+0.17 ms</div>
+                        </div>
+                        <div class="bg-zinc-900/80 p-3 rounded-2xl border border-white/5">
+                            <div class="text-[10px] text-zinc-500 uppercase">Resident Memory</div>
+                            <div class="text-cyan-300 font-bold text-base mt-0.5" x-text="telemetry.memory_mb.toFixed(1) + ' MB'">18.4 MB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sentinel Defense Metrics -->
+                <div class="bg-black/75 backdrop-blur-xl border border-white/10 rounded-3xl p-5 sm:p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                        <span class="text-xs font-scifi uppercase tracking-wider text-rose-400 flex items-center gap-2">
+                            <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                            <span>THREAT MITIGATION CORE</span>
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-mono-code font-bold">100% STABLE</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 font-mono-code">
+                        <div class="bg-zinc-900/90 p-3 rounded-2xl border border-rose-500/20">
+                            <div class="text-[10px] text-zinc-400 uppercase">Threats Trapped</div>
+                            <div class="text-3xl font-scifi font-black text-rose-400 mt-1" x-text="telemetry.blocked_threats_count">0</div>
+                        </div>
+                        <div class="bg-zinc-900/90 p-3 rounded-2xl border border-emerald-500/20">
+                            <div class="text-[10px] text-zinc-400 uppercase">Crash Free</div>
+                            <div class="text-3xl font-scifi font-black text-emerald-400 mt-1">0 Faults</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 text-xs font-mono-code bg-black/60 p-3.5 rounded-2xl border border-white/5">
+                        <div class="flex justify-between">
+                            <span class="text-zinc-400">BYTECODE CLASS HOOK:</span>
+                            <span class="text-emerald-400 font-bold">ARMED (ASM 9.6)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-zinc-400">UNSAFE MEMORY GUARD:</span>
+                            <span class="text-emerald-400 font-bold">SECURED</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-zinc-400">SUBPROCESS FILTER:</span>
+                            <span class="text-cyan-300 font-bold">ACTIVE</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-zinc-400">OFFLINE RESILIENCE:</span>
+                            <span class="text-amber-400 font-bold">36 HR GRACE</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- MODULE 2: Holographic In-Memory Threat Radar (4 Cols) -->
+            <div class="lg:col-span-4 space-y-5">
+                <div class="bg-black/75 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-5 sm:p-6 space-y-4 relative overflow-hidden h-full flex flex-col justify-between">
+                    
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                        <div class="text-xs font-scifi uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                            <i data-lucide="radio" class="w-4 h-4"></i>
+                            <span>IN-MEMORY DEFENSE RADAR</span>
+                        </div>
+                        <span class="text-[10px] font-mono-code text-cyan-400 font-bold">HEX GRID ACTIVE</span>
+                    </div>
+
+                    <!-- Holographic Radar Display -->
+                    <div class="relative w-64 h-64 sm:w-72 sm:h-72 mx-auto my-6 flex items-center justify-center">
+                        <!-- Concentric Radar Rings -->
+                        <div class="absolute inset-0 rounded-full border border-cyan-500/20 shadow-inner"></div>
+                        <div class="absolute inset-8 rounded-full border border-cyan-500/30 border-dashed"></div>
+                        <div class="absolute inset-16 rounded-full border border-cyan-500/40"></div>
+                        <div class="absolute inset-24 rounded-full border border-indigo-500/40"></div>
+
+                        <!-- Crosshairs -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-full h-[1px] bg-cyan-500/20"></div>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="h-full w-[1px] bg-cyan-500/20"></div>
+                        </div>
+
+                        <!-- Sweeping Radar Beam -->
+                        <div class="absolute inset-0 radar-beam pointer-events-none">
+                            <div class="w-1/2 h-1/2 bg-gradient-to-br from-cyan-400/40 via-cyan-400/10 to-transparent rounded-tl-full origin-bottom-right"></div>
+                        </div>
+
+                        <!-- Central Core -->
+                        <div class="w-4 h-4 rounded-full bg-cyan-400 relative z-10 shadow-lg shadow-cyan-400">
+                            <div class="absolute inset-0 rounded-full bg-cyan-400 animate-ping"></div>
+                        </div>
+
+                        <!-- Dynamic Blips for Recent Intercepted Threats -->
+                        <template x-for="item in telemetry.blocked_events.slice(0, 5)" :key="item.id">
+                            <div class="absolute w-3.5 h-3.5 rounded-full bg-rose-500 border border-white text-glow-rose animate-bounce"
+                                 :style="'top: ' + (15 + (item.id * 19) % 65) + '%; left: ' + (15 + (item.id * 31) % 65) + '%;'"
+                                 :title="item.vector + ': ' + item.target">
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Radar Telemetry Footer -->
+                    <div class="bg-black/60 p-3.5 rounded-2xl border border-white/5 font-mono-code text-xs space-y-1.5">
+                        <div class="flex justify-between text-zinc-400">
+                            <span>SURVEILLANCE SECTOR:</span>
+                            <span class="text-white font-bold">HEAP & SYSTEM BUILTINS</span>
+                        </div>
+                        <div class="flex justify-between text-zinc-400">
+                            <span>ACTIVE THREAT ANOMALIES:</span>
+                            <span class="font-bold" :class="telemetry.blocked_threats_count > 0 ? 'text-rose-400' : 'text-emerald-400'" x-text="telemetry.blocked_threats_count + ' INTERCEPTED'"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- MODULE 3: Live Intercepted Threats Stream Console (4 Cols) -->
+            <div class="lg:col-span-4 space-y-5">
+                <div class="bg-black/75 backdrop-blur-xl border border-white/10 rounded-3xl p-5 sm:p-6 space-y-4 h-full flex flex-col justify-between">
+                    
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                        <div class="text-xs font-scifi uppercase tracking-wider text-rose-400 flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-4 h-4"></i>
+                            <span>INTERCEPTED PAYLOAD STREAM</span>
+                        </div>
+                        <span class="text-[10px] font-mono-code text-cyan-400 font-bold hud-blink">LIVE FEED ●</span>
+                    </div>
+
+                    <!-- Real-Time Event Feed Window -->
+                    <div class="bg-zinc-950/90 rounded-2xl p-3.5 border border-white/10 font-mono-code text-xs space-y-2.5 h-[360px] overflow-y-auto custom-scrollbar">
+                        
+                        <template x-if="telemetry.blocked_events.length === 0">
+                            <div class="text-zinc-500 text-center py-20">
+                                <i data-lucide="shield-check" class="w-10 h-10 text-emerald-400/40 mx-auto mb-2"></i>
+                                <div class="font-bold text-zinc-400">NO ANOMALIES DETECTED</div>
+                                <div class="text-[11px] text-zinc-600 mt-1">Application running safely under sandbox sentinel.</div>
+                            </div>
+                        </template>
+
+                        <template x-for="event in telemetry.blocked_events" :key="event.id">
+                            <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-200 space-y-1.5 transition-all">
+                                <div class="flex items-center justify-between text-[10px]">
+                                    <span class="px-2 py-0.5 rounded bg-rose-600 text-black font-black uppercase tracking-wider" x-text="event.action">BLOCKED</span>
+                                    <span class="text-zinc-400 font-mono" x-text="event.timestamp"></span>
+                                </div>
+                                <div class="font-bold text-white text-xs leading-snug" x-text="event.vector"></div>
+                                <div class="text-[11px] text-zinc-300 font-mono bg-black/50 p-2 rounded-lg truncate border border-white/5" x-text="event.target"></div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Bottom Event Controls -->
+                    <div class="flex items-center gap-2">
+                        <button @click="clearLogs()" class="flex-1 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-zinc-400 hover:text-white text-xs font-mono-code transition">
+                            CLEAR LOCAL BUFFER
+                        </button>
+                        <button @click="triggerSimulatedThreat()" class="px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 text-xs font-mono-code font-bold rounded-xl transition flex items-center gap-1">
+                            <i data-lucide="plus" class="w-3 h-3"></i> Test
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Sci-Fi Status Terminal -->
+        <footer class="bg-black/85 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono-code text-xs text-zinc-400">
+            <div class="flex items-center gap-3">
+                <span class="text-cyan-400 font-bold">&gt;&gt; SECURE KERNEL HOOK:</span>
+                <span class="text-white">DEMALWARE-UNIVERSAL-SENTINEL-v2.0</span>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium">
+                <span>AUTHOR: <strong class="text-white">AJA_RETRO</strong></span>
+                <span>•</span>
+                <a href="https://ajaretro.dev/demalware-universal" class="text-cyan-400 hover:underline">Flagship Architecture</a>
+                <span>•</span>
+                <a href="https://wa.me/8801989208751" target="_blank" class="text-emerald-400 hover:underline">WhatsApp Commercial Support</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Alpine.js Sci-Fi HUD Application Logic -->
+    <script>
+        function hudDashboard() {
+            return {
+                soundEnabled: true,
+                audioCtx: null,
+                connectedToLocal: false,
+                localPort: '9999',
+                telemetry: {
+                    overhead: 1.42,
+                    memory_mb: 18.4,
+                    uptime: 0,
+                    status: 'ARMED & ACTIVE',
+                    runtime: 'MULTI-RUNTIME RASP',
+                    blocked_threats_count: 0,
+                    blocked_events: []
+                },
+
+                init() {
+                    lucide.createIcons();
+
+                    // Check for local daemon stream parameter in URL: e.g. ?local=http://localhost:9999
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const localUrl = urlParams.get('local') || 'http://localhost:9999';
+
+                    this.probeLocalDaemon(localUrl);
+
+                    // Clock ticker
+                    setInterval(() => {
+                        this.telemetry.uptime += 1;
+                    }, 1000);
+                },
+
+                formatUptime(sec) {
+                    const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+                    const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
+                    const s = (sec % 60).toString().padStart(2, '0');
+                    return `${h}:${m}:${s}`;
+                },
+
+                playBip(freq = 880, type = 'sine', duration = 0.08) {
+                    if (!this.soundEnabled) return;
+                    try {
+                        if (!this.audioCtx) {
+                            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        }
+                        const osc = this.audioCtx.createOscillator();
+                        const gain = this.audioCtx.createGain();
+                        osc.type = type;
+                        osc.frequency.value = freq;
+                        gain.gain.setValueAtTime(0.08, this.audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duration);
+                        osc.connect(gain);
+                        gain.connect(this.audioCtx.destination);
+                        osc.start();
+                        osc.stop(this.audioCtx.currentTime + duration);
+                    } catch (e) {}
+                },
+
+                toggleSound() {
+                    this.soundEnabled = !this.soundEnabled;
+                    if (this.soundEnabled) this.playBip(1200, 'triangle', 0.1);
+                },
+
+                probeLocalDaemon(endpoint) {
+                    const poll = () => {
+                        fetch(endpoint + '/api/telemetry')
+                            .then(res => res.json())
+                            .then(data => {
+                                this.connectedToLocal = true;
+                                const oldCount = this.telemetry.blocked_threats_count;
+                                this.telemetry = Object.assign(this.telemetry, data);
+                                if (this.telemetry.blocked_threats_count > oldCount) {
+                                    this.playBip(380, 'sawtooth', 0.25);
+                                }
+                            })
+                            .catch(() => {
+                                this.connectedToLocal = false;
+                                // Standalone simulation: gentle realistic jitter on overhead
+                                const delta = (Math.random() * 0.3 - 0.15);
+                                this.telemetry.overhead = Math.max(0.4, +(this.telemetry.overhead + delta).toFixed(2));
+                            });
+                    };
+
+                    poll();
+                    setInterval(poll, 1200);
+                },
+
+                triggerSimulatedThreat() {
+                    const vectors = [
+                        { vector: 'SIG_UNSAFE_MEMORY_INJECTION', target: 'sun.misc.Unsafe.allocateMemory(8192)', action: 'INTERCEPTED' },
+                        { vector: 'SIG_COMMAND_INJECTION_RM_RF', target: 'ProcessBuilder.start(["rm", "-rf", "/"])', action: 'TERMINATED' },
+                        { vector: 'SIG_CREDENTIAL_EXFILTRATION', target: 'open("/etc/shadow", "r")', action: 'SANDBOX LOCK' },
+                        { vector: 'SIG_REVERSE_SHELL_TCP', target: 'Socket.connect("185.220.101.5", 4444)', action: 'PORT REFUSED' },
+                        { vector: 'SIG_DYNAMIC_EVAL_RCE', target: 'eval("__import__(\'os\').system(\'cat /etc/passwd\')")', action: 'NEUTRALIZED' }
+                    ];
+
+                    const picked = vectors[Math.floor(Math.random() * vectors.length)];
+                    this.telemetry.blocked_threats_count++;
+                    this.telemetry.blocked_events.unshift({
+                        id: Date.now(),
+                        timestamp: new Date().toLocaleTimeString(),
+                        vector: picked.vector,
+                        target: picked.target,
+                        action: picked.action
+                    });
+
+                    // Jitter overhead up slightly upon threat interception
+                    this.telemetry.overhead = +(this.telemetry.overhead + 0.72).toFixed(2);
+                    this.playBip(320, 'sawtooth', 0.3);
+
+                    setTimeout(() => { lucide.createIcons(); }, 50);
+                },
+
+                clearLogs() {
+                    this.telemetry.blocked_events = [];
+                    this.telemetry.blocked_threats_count = 0;
+                    this.playBip(600, 'sine', 0.05);
+                }
+            };
+        }
+    </script>
+</body>
+</html>

@@ -25,6 +25,18 @@
     <changefreq>daily</changefreq>
     <priority>1.00</priority>
   </url>
+  <url>
+    <loc>https://ajaretro.dev/hud</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/hud.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
 
   <!-- Software Ecosystem Projects -->
   <url>
