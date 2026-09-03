@@ -1,168 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Flagship & Home -->
+  <url>
+    <loc>https://ajaretro.dev/</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.00</priority>
+  </url>
   <url>
     <loc>https://ajaretro.dev/index.html</loc>
     <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/demalware-universal</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/demalware-universal.html</loc>
     <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.00</priority>
   </url>
+
+  <!-- Software Ecosystem Projects -->
   <url>
-    <loc>https://ajaretro.dev/about.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://ajaretro.dev/services.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://ajaretro.dev/cover.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.70</priority>
-  </url>
-  <url>
-    <loc>https://ajaretro.dev/blog.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <loc>https://ajaretro.dev/demalware.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://ajaretro.dev/totem.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.85</priority>
+    <loc>https://ajaretro.dev/retromail.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/circuitbreaker.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.85</priority>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/FoliaCore.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://ajaretro.dev/retromail.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/retroworldpurger.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://ajaretro.dev/demalware.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.90</priority>
+    <loc>https://ajaretro.dev/superboard.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://ajaretro.dev/superboard.html</loc>
-    <lastmod>2026-07-25</lastmod>
+    <loc>https://ajaretro.dev/totem.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/blockify-bot-commands.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/timer.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Informational & Company Pages -->
+  <url>
+    <loc>https://ajaretro.dev/about.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/services.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/cover.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/donate.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://ajaretro.dev/blog.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
+
+  <!-- Technical Blog & Case Studies -->
   <url>
     <loc>https://ajaretro.dev/blog/retromail-blog-1.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/retromail-blog-2.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/retromail-blog-3.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-case-study.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-blog-2.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-blog-3.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/circuitbreaker-blog-4.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/why-anti-p2w-griefing-hurts-servers.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/cost-to-run-minecraft-network.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/foliacore-blog-1.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/foliacore-blog-2.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/foliacore-blog-3.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/hiring-custom-minecraft-developers.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/bedrock-vs-java-pvp-balance.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/retromail-pricing-model.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/custom-plugin-development-services.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/why-2b2ts-80tb-world-is-mostly-empty.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/cross-border-redstone-and-chunk-purging-safety.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://ajaretro.dev/blog/anvil-format-and-server-storage-bloat.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://ajaretro.dev/donate.html</loc>
-    <lastmod>2026-07-16</lastmod>
-    <priority>0.85</priority>
   </url>
 </urlset>
