@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Exam Speed Timer & Ultimate Prep Toolkit | AJA RETRO</title>
+    <meta name="description" content="Precision Question Timer, Multi-Graph Analytics, Negative Marking Calculator, Exam Strategy Planner, OMR Sheet Trainer, Formula Vault, and Focus Generator for Engineering Admission Examinees (BUET, KUET Standalone 1.5h 500M MCQ, CKRUET, IUT, MIST).">
+    <link rel="icon" type="image/png" href="/logo-google.png">
+    <meta name="theme-color" content="#09090b">
+
+    <!-- Fonts & Libraries -->
+    <script src="/js/tailwind.js"></script>
+    <script src="/js/alpine.js" defer></script>
+    <script src="/js/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+        
+        :root {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #09090b;
+            color: #f4f4f5;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Glassmorphism 2.0 */
+        .glass-panel {
+            background: rgba(24, 24, 27, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(24, 24, 27, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(6, 182, 212, 0.15);
+        }
+
+        .gradient-text-hero {
+            background: linear-gradient(135deg, #ffffff 0%, #38bdf8 40%, #06b6d4 80%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Pulsing Overtime Glow animation */
+        @keyframes overtimePulse {
+            0%, 100% {
+                box-shadow: 0 0 35px rgba(239, 68, 68, 0.6), inset 0 0 25px rgba(239, 68, 68, 0.3);
+                border-color: rgba(239, 68, 68, 0.9);
+            }
+            50% {
+                box-shadow: 0 0 75px rgba(239, 68, 68, 0.95), inset 0 0 50px rgba(239, 68, 68, 0.5);
+                border-color: rgba(252, 165, 165, 1);
+            }
+        }
+
+        .animate-overtime-glow {
+            animation: overtimePulse 1.2s infinite ease-in-out;
+        }
+
+        /* Ring Transition */
+        .timer-ring-circle {
+            transition: stroke-dashoffset 0.2s linear, stroke 0.5s ease;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(9, 9, 11, 0.8);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(6, 182, 212, 0.5);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white min-h-screen flex flex-col justify-between relative overflow-x-hidden" 
+      x-data="admissionTimerApp()" 
+      x-init="initApp()" 
+      @keydown.window="handleGlobalKeydown($event)">
+
+    <!-- Ambient Glowing Radial Blobs -->
+    <div class="fixed top-[-10%] left-1/4 -translate-x-1/2 w-[700px] h-[700px] bg-cyan-600/15 rounded-full blur-[160px] pointer-events-none z-0 animate-pulse"></div>
+    <div class="fixed bottom-[-10%] right-1/4 translate-x-1/2 w-[700px] h-[700px] bg-indigo-600/12 rounded-full blur-[160px] pointer-events-none z-0"></div>
+    <div x-show="isOvertime" class="fixed inset-0 bg-red-600/10 pointer-events-none z-0 transition-opacity duration-500 animate-pulse"></div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#09090b]/80 backdrop-blur-2xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img src="/logo-google.png" alt="AJA RETRO Logo" class="w-10 h-10 rounded-2xl object-cover border border-white/10 shadow-lg shadow-cyan-500/25 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
+                <div class="flex flex-col">
+                    <span class="font-black text-xl tracking-tight uppercase italic text-white">AJA<span class="text-cyan-400">RETRO</span></span>
+                    <span class="text-[10px] text-zinc-400 font-mono tracking-widest uppercase">Admission Prep Tools</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-widest">
+                <a href="index.html" class="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5"><i data-lucide="home" class="w-3.5 h-3.5 text-zinc-400"></i> Home</a>
+                <a href="timer.html" class="text-white border-b-2 border-cyan-400 pb-1 flex items-center gap-1.5"><i data-lucide="timer" class="w-3.5 h-3.5 text-cyan-400"></i> Question Timer</a>
+                <a href="demalware.html" class="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5"><i data-lucide="shield" class="w-3.5 h-3.5 text-cyan-400"></i> DeMalware</a>
+                <a href="retromail.html" class="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-blue-400"></i> RetroMail</a>
+            </nav>
+
+            <!-- Quick Tools Toolbar Buttons -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                
+                <!-- Engineering Formula Vault Trigger -->
+                <button @click="showFormulaModal = true" 
+                        class="p-2.5 sm:px-3 sm:py-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-400 hover:text-white transition-all text-xs font-bold font-mono uppercase flex items-center gap-1.5"
+                        title="High-Yield Formula Vault">
+                    <i data-lucide="book-open" class="w-4 h-4 text-purple-400"></i>
+                    <span class="hidden md:inline">Formula Vault</span>
+                </button>
+
+                <!-- OMR Bubble Sheet Trainer Trigger -->
+                <button @click="showOmrModal = true" 
+                        class="p-2.5 sm:px-3 sm:py-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-rose-400 hover:text-white transition-all text-xs font-bold font-mono uppercase flex items-center gap-1.5"
+                        title="OMR Bubble Sheet Trainer">
+                    <i data-lucide="check-square" class="w-4 h-4 text-rose-400"></i>
+                    <span class="hidden md:inline">OMR Sheet</span>
+                </button>
+
+                <!-- Score & Negative Mark Calculator Trigger -->
+                <button @click="showScoreModal = true" 
+                        class="p-2.5 sm:px-3 sm:py-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-emerald-400 hover:text-white transition-all text-xs font-bold font-mono uppercase flex items-center gap-1.5"
+                        title="Negative Marking & Score Predictor">
+                    <i data-lucide="calculator" class="w-4 h-4 text-emerald-400"></i>
+                    <span class="hidden md:inline">Score Calc</span>
+                </button>
+
+                <!-- Exam Strategy & Pace Planner Trigger -->
+                <button @click="showPaceModal = true" 
+                        class="p-2.5 sm:px-3 sm:py-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-400 hover:text-white transition-all text-xs font-bold font-mono uppercase flex items-center gap-1.5"
+                        title="Exam Pace & Time Planner">
+                    <i data-lucide="sliders" class="w-4 h-4 text-cyan-400"></i>
+                    <span class="hidden md:inline">Pace Tool</span>
+                </button>
+
+                <!-- Rough Scratchpad Drawer Trigger -->
+                <button @click="showScratchpadModal = true" 
+                        class="p-2.5 sm:px-3 sm:py-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-amber-400 hover:text-white transition-all text-xs font-bold font-mono uppercase flex items-center gap-1.5"
+                        title="Rough Scratchpad & Practice Notes">
+                    <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
+                    <span class="hidden md:inline">Scratchpad</span>
+                </button>
+
+                <!-- Focus Sound Generator Toggle -->
+                <button @click="toggleFocusSound()" 
+                        class="p-2.5 rounded-2xl border transition-all flex items-center gap-2 text-xs font-bold font-mono uppercase"
+                        :class="focusSoundActive ? 'bg-purple-500/20 border-purple-500/40 text-purple-300 animate-pulse' : 'bg-white/5 border-white/10 text-zinc-500 hover:text-zinc-300'"
+                        title="Exam Focus Noise Generator">
+                    <i data-lucide="headphones" class="w-4 h-4" :class="focusSoundActive ? 'text-purple-400' : 'text-zinc-500'"></i>
+                </button>
+
+                <!-- Audio Toggle -->
+                <button @click="toggleSound()" 
+                        class="p-2.5 rounded-2xl border transition-all flex items-center gap-2 text-xs font-bold font-mono uppercase"
+                        :class="soundEnabled ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20' : 'bg-white/5 border-white/10 text-zinc-500 hover:text-zinc-300'">
+                    <i data-lucide="volume-2" class="w-4 h-4" x-show="soundEnabled"></i>
+                    <i data-lucide="volume-x" class="w-4 h-4" x-show="!soundEnabled"></i>
+                </button>
+
+                <!-- Mobile Navigation Trigger -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2.5 rounded-2xl text-zinc-300 hover:text-white hover:bg-white/5 border border-white/10" aria-label="Toggle Navigation">
+                    <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                    <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div x-show="mobileMenuOpen" x-transition class="lg:hidden bg-[#09090b]/95 backdrop-blur-2xl border-b border-white/10 px-8 py-6 flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-zinc-300">
+            <a href="index.html" class="hover:text-white flex items-center gap-2"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+            <a href="timer.html" class="text-cyan-400 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-400"></i> Question Timer (Active)</a>
+            <button @click="showFormulaModal = true; mobileMenuOpen = false;" class="hover:text-purple-400 flex items-center gap-2 text-left">
+                <i data-lucide="book-open" class="w-4 h-4 text-purple-400"></i> Engineering Formula Vault
+            </button>
+            <button @click="showOmrModal = true; mobileMenuOpen = false;" class="hover:text-rose-400 flex items-center gap-2 text-left">
+                <i data-lucide="check-square" class="w-4 h-4 text-rose-400"></i> OMR Bubble Sheet Trainer
+            </button>
+            <button @click="showScoreModal = true; mobileMenuOpen = false;" class="hover:text-emerald-400 flex items-center gap-2 text-left">
+                <i data-lucide="calculator" class="w-4 h-4 text-emerald-400"></i> Score & Negative Mark Calculator
+            </button>
+            <button @click="showPaceModal = true; mobileMenuOpen = false;" class="hover:text-cyan-400 flex items-center gap-2 text-left">
+                <i data-lucide="sliders" class="w-4 h-4 text-cyan-400"></i> Exam Strategy & Pace Planner
+            </button>
+            <button @click="showScratchpadModal = true; mobileMenuOpen = false;" class="hover:text-amber-400 flex items-center gap-2 text-left">
+                <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i> Rough Scratchpad / Notes
+            </button>
+            <div class="h-[1px] bg-white/10 my-1"></div>
+            <button @click="resetSession(); mobileMenuOpen = false;" class="text-red-400 flex items-center gap-2 text-left">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset Session
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow pt-28 pb-32 px-4 sm:px-6 max-w-7xl mx-auto w-full relative z-10 space-y-10">
+
+        <!-- Top Header Banner -->
+        <div class="text-center space-y-4">
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider shadow-inner">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                KUET 1.5-HOUR STANDALONE &bull; BUET &bull; CKRUET &bull; IUT &bull; MIST PREP DASHBOARD
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight uppercase italic">
+                Engineering <span class="gradient-text-hero">Speed Timer & Analytics</span>
+            </h1>
+            <p class="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto font-medium">
+                Tap to solve. Real-time target countdown, 4 interactive graph types, OMR trainer, formula vault, score prediction, and automatic browser cookie recovery.
+            </p>
+        </div>
+
+        <!-- Daily Goal & Practice Streak Progress Card -->
+        <div class="glass-panel rounded-3xl p-5 border border-white/10 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-amber-500/20">
+                    🔥
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-base font-extrabold text-white uppercase tracking-wider">Daily Target Progress</h3>
+                        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold border border-amber-500/30" x-text="dailyStreak + ' Day Streak'"></span>
+                    </div>
+                    <p class="text-xs text-zinc-400 font-mono mt-0.5">
+                        Solved <span class="text-cyan-400 font-bold" x-text="questions.length"></span> / <span class="text-white font-bold" x-text="dailyGoal"></span> Questions Target Today
+                    </p>
+                </div>
+            </div>
+
+            <div class="w-full sm:w-64 space-y-1.5 font-mono">
+                <div class="flex justify-between text-[11px]">
+                    <span class="text-zinc-400">Target Completion</span>
+                    <span class="text-cyan-400 font-bold" x-text="dailyGoalPercentage + '%'"></span>
+                </div>
+                <div class="w-full h-3 rounded-full bg-black/60 border border-white/10 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 rounded-full transition-all duration-500"
+                         :style="'width: ' + dailyGoalPercentage + '%'"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer Workspace Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Column: Controls & Configuration (4 cols) -->
+            <div class="lg:col-span-4 space-y-6 order-2 lg:order-1">
+
+                <!-- KUET 2026 Standalone 1.5 Hour Exam Breakdown Card -->
+                <div class="glass-panel rounded-3xl p-5 border border-cyan-500/30 space-y-3 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+                        <span class="text-xs font-black uppercase text-cyan-300 tracking-wider flex items-center gap-2">
+                            <i data-lucide="award" class="w-4 h-4 text-cyan-400"></i> KUET Standalone (1.5 Hours)
+                        </span>
+                        <span class="text-[11px] font-mono font-extrabold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">500 Marks</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 text-xs font-mono">
+                        <div class="bg-black/50 p-2.5 rounded-2xl border border-white/5 flex items-center justify-between">
+                            <div>
+                                <span class="font-bold text-white block">Physics / Chem / Math</span>
+                                <span class="text-[10px] text-zinc-400">75 Qs &bull; 6 Marks each (450 M)</span>
+                            </div>
+                            <button @click="selectPreset(presetList.find(p => p.id === 'kuet-sci'))" 
+                                    class="px-2.5 py-1 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-bold text-[10px]">
+                                Set 62s/Q
+                            </button>
+                        </div>
+
+                        <div class="bg-black/50 p-2.5 rounded-2xl border border-white/5 flex items-center justify-between">
+                            <div>
+                                <span class="font-bold text-white block">English Grammar & Aptitude</span>
+                                <span class="text-[10px] text-zinc-400">25 Qs &bull; 2 Marks each (50 M)</span>
+                            </div>
+                            <button @click="selectPreset(presetList.find(p => p.id === 'kuet-eng'))" 
+                                    class="px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-[10px]">
+                                Set 31s/Q
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-[10px] font-mono text-zinc-400 pt-1 text-center border-t border-white/5">
+                        ⏱️ Total Time: 90 Minutes (5,400s) for 100 MCQs (54s Overall Avg Pace)
+                    </div>
+                </div>
+                
+                <!-- Target Preset Card -->
+                <div class="glass-panel rounded-3xl p-6 space-y-6 border border-white/10 shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <div class="flex items-center gap-2 text-white font-extrabold text-sm uppercase tracking-wider">
+                            <i data-lucide="target" class="w-4 h-4 text-cyan-400"></i>
+                            Optimal Time Setup
+                        </div>
+                        <span class="text-[11px] font-mono text-zinc-400" x-text="targetSeconds + 's target'"></span>
+                    </div>
+
+                    <!-- Exam Preset Buttons Grid -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-zinc-400 uppercase font-mono tracking-wider">Admission Test Presets</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <template x-for="preset in presetList" :key="preset.id">
+                                <button @click="selectPreset(preset)" 
+                                        :disabled="status === 'running' || status === 'paused'"
+                                        class="p-3 rounded-2xl border text-left transition-all relative overflow-hidden"
+                                        :class="activePresetId === preset.id ? 
+                                            'bg-cyan-500/20 border-cyan-500 text-white font-bold shadow-lg shadow-cyan-500/10' : 
+                                            'bg-white/5 border-white/10 text-zinc-400 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed'">
+                                    <div class="text-xs font-extrabold" x-text="preset.name"></div>
+                                    <div class="text-[10px] font-mono text-cyan-400/90" x-text="preset.label"></div>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Custom Time Target Input -->
+                    <div class="space-y-2 pt-2 border-t border-white/5">
+                        <label class="text-xs font-bold text-zinc-400 uppercase font-mono tracking-wider flex justify-between">
+                            <span>Custom Target Time</span>
+                            <span class="text-cyan-400" x-text="formatMMSS(customSeconds)"></span>
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <div class="relative flex-grow">
+                                <input type="number" 
+                                       x-model.number="customSecondsInput" 
+                                       @input="updateCustomTarget()" 
+                                       :disabled="status === 'running' || status === 'paused'"
+                                       min="5" max="3600" step="5"
+                                       class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-3 text-sm font-mono font-bold text-white focus:outline-none focus:border-cyan-500 disabled:opacity-50"
+                                       placeholder="Target in seconds (e.g. 180)">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-mono text-zinc-500">sec</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subject & Paper Selector -->
+                    <div class="space-y-2 pt-2 border-t border-white/5">
+                        <label class="text-xs font-bold text-zinc-400 uppercase font-mono tracking-wider">Subject / Topic Tag</label>
+                        <select x-model="subject" 
+                                @change="handleSubjectChange()"
+                                :disabled="status === 'running' || status === 'paused'"
+                                class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-3 text-xs font-mono font-bold text-zinc-200 focus:outline-none focus:border-cyan-500 disabled:opacity-50">
+                            <option value="KUET Physics (6-Mark)">⚡ KUET Physics (25 Qs &bull; 6 Marks &bull; 62s Target)</option>
+                            <option value="KUET Chemistry (6-Mark)">🧪 KUET Chemistry (25 Qs &bull; 6 Marks &bull; 62s Target)</option>
+                            <option value="KUET Higher Math (6-Mark)">📐 KUET Higher Math (25 Qs &bull; 6 Marks &bull; 62s Target)</option>
+                            <option value="KUET English (2-Mark)">🔤 KUET English (25 Qs &bull; 2 Marks &bull; 31s Target)</option>
+                            <option value="Higher Math">📐 Higher Math (General Practice)</option>
+                            <option value="Physics">⚡ Physics (General Practice)</option>
+                            <option value="Chemistry">🧪 Chemistry (General Practice)</option>
+                            <option value="English & Aptitude">🧠 General Engineering & Aptitude</option>
+                            <option value="Custom Set">📝 General Model Test / Question Bank</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Session Stats Quick Card -->
+                <div class="glass-panel rounded-3xl p-6 space-y-4 border border-white/10">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                        <span class="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i> Session Summary
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono text-zinc-400" x-text="questions.length + ' questions recorded'"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 font-mono">
+                        <div class="bg-black/50 p-3.5 rounded-2xl border border-white/5 space-y-1">
+                            <div class="text-[10px] text-zinc-400 uppercase tracking-widest">Avg Time / Q</div>
+                            <div class="text-lg font-black text-cyan-400" x-text="formatMMSS(avgTimePerQ)"></div>
+                        </div>
+                        <div class="bg-black/50 p-3.5 rounded-2xl border border-white/5 space-y-1">
+                            <div class="text-[10px] text-zinc-400 uppercase tracking-widest">On-Time Rate</div>
+                            <div class="text-lg font-black" :class="onTimePercentage >= 75 ? 'text-emerald-400' : 'text-amber-400'" x-text="onTimePercentage + '%'"></div>
+                        </div>
+                        <div class="bg-black/50 p-3.5 rounded-2xl border border-white/5 space-y-1">
+                            <div class="text-[10px] text-zinc-400 uppercase tracking-widest">Total Time</div>
+                            <div class="text-lg font-black text-white" x-text="formatMMSS(totalSessionTime)"></div>
+                        </div>
+                        <div class="bg-black/50 p-3.5 rounded-2xl border border-white/5 space-y-1">
+                            <div class="text-[10px] text-zinc-400 uppercase tracking-widest">Overtime Qs</div>
+                            <div class="text-lg font-black" :class="overtimeCount > 0 ? 'text-red-400' : 'text-zinc-400'" x-text="overtimeCount"></div>
+                        </div>
+                    </div>
+
+                    <!-- Reset Session Card Action -->
+                    <div class="pt-2 border-t border-white/5 flex items-center justify-between">
+                        <span class="text-[11px] font-mono text-zinc-500">Saved to Browser Cookies</span>
+                        <button @click="resetSession()" class="text-xs font-mono text-red-400 hover:text-red-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Reset Session
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Circular Timer Ring & Actions (8 cols) -->
+            <div class="lg:col-span-8 space-y-8 order-1 lg:order-2">
+                
+                <!-- Main Glass Ring Container -->
+                <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-white/10 relative overflow-hidden flex flex-col items-center justify-center text-center shadow-2xl transition-all duration-500"
+                     :class="isOvertime ? 'animate-overtime-glow bg-red-950/20' : ''">
+                    
+                    <!-- Top Status Badge -->
+                    <div class="mb-6 flex items-center gap-3">
+                        <span class="px-4 py-1.5 rounded-full border text-xs font-mono font-extrabold uppercase tracking-widest shadow-md transition-all"
+                              :class="{
+                                'bg-zinc-800/80 border-white/10 text-zinc-400': status === 'idle',
+                                'bg-cyan-500/20 border-cyan-500/40 text-cyan-300': status === 'running' && !isOvertime,
+                                'bg-amber-500/20 border-amber-500/40 text-amber-300': status === 'paused',
+                                'bg-red-500/30 border-red-500/60 text-red-300 animate-pulse': isOvertime
+                              }">
+                            <span class="inline-block w-2 h-2 rounded-full mr-1.5"
+                                  :class="{
+                                    'bg-zinc-500': status === 'idle',
+                                    'bg-cyan-400 animate-ping': status === 'running' && !isOvertime,
+                                    'bg-amber-400': status === 'paused',
+                                    'bg-red-500 animate-ping': isOvertime
+                                  }"></span>
+                            <span x-text="statusText"></span>
+                        </span>
+
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-300 font-mono text-xs font-bold"
+                              x-text="'Question #' + currentQIndex"></span>
+                    </div>
+
+                    <!-- Circular SVG Ring Timer -->
+                    <div class="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center my-4 group">
+                        
+                        <!-- SVG Ring -->
+                        <svg class="w-full h-full transform -rotate-90 filter drop-shadow-2xl" viewBox="0 0 320 320">
+                            <!-- Background Track Circle -->
+                            <circle cx="160" cy="160" r="140" 
+                                    stroke="rgba(255, 255, 255, 0.05)" 
+                                    stroke-width="14" 
+                                    fill="transparent" />
+
+                            <!-- Progress Track Circle -->
+                            <circle cx="160" cy="160" r="140" 
+                                    class="timer-ring-circle"
+                                    :stroke="ringColor" 
+                                    stroke-width="14" 
+                                    stroke-linecap="round"
+                                    fill="transparent" 
+                                    :stroke-dasharray="ringCircumference" 
+                                    :stroke-dashoffset="ringStrokeDashoffset" />
+                        </svg>
+
+                        <!-- Center Timer Display -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 space-y-2 pointer-events-none">
+                            
+                            <!-- Main Digital Counter -->
+                            <div class="text-5xl sm:text-7xl font-black font-mono tracking-tight transition-all duration-300"
+                                 :class="isOvertime ? 'text-red-400 scale-105 animate-pulse' : 'text-white'"
+                                 x-text="isOvertime ? '+' + formatMMSS(overtimeSeconds) : formatMMSS(timeRemaining)">
+                            </div>
+
+                            <!-- Target / Overtime Subtext -->
+                            <div class="space-y-1">
+                                <template x-if="!isOvertime">
+                                    <div class="text-xs sm:text-sm font-mono font-bold text-zinc-400">
+                                        Target: <span class="text-cyan-300" x-text="formatMMSS(targetSeconds)"></span>
+                                    </div>
+                                </template>
+                                <template x-if="isOvertime">
+                                    <div class="text-xs sm:text-sm font-mono font-extrabold text-red-400 tracking-wider uppercase animate-pulse">
+                                        ⚠️ Overtime Run On! (+<span x-text="overtimeSeconds"></span>s)
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Subject & Preset Badge -->
+                            <div class="text-[11px] font-mono text-zinc-500 uppercase tracking-widest pt-2">
+                                <span x-text="subject"></span> &bull; <span x-text="activePresetName"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Primary Action Controls -->
+                    <div class="w-full max-w-xl space-y-4 pt-6">
+                        
+                        <!-- Main Tap Button (Desktop & Tablet) -->
+                        <button @click="handlePrimaryAction()" 
+                                class="w-full py-5 rounded-3xl font-black text-lg sm:text-xl uppercase tracking-wider transition-all transform active:scale-95 shadow-2xl flex items-center justify-center gap-3 relative overflow-hidden group"
+                                :class="{
+                                    'bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white shadow-cyan-500/30 hover:scale-[1.02]': status === 'idle',
+                                    'bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-400 hover:to-cyan-500 text-white shadow-emerald-500/30 hover:scale-[1.02]': status === 'running' && !isOvertime,
+                                    'bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white shadow-red-600/40 hover:scale-[1.02] animate-pulse': isOvertime,
+                                    'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white shadow-amber-500/30': status === 'paused'
+                                }">
+                            
+                            <i data-lucide="play" class="w-6 h-6" x-show="status === 'idle'"></i>
+                            <i data-lucide="check-circle-2" class="w-6 h-6" x-show="status === 'running' || status === 'paused'"></i>
+                            <i data-lucide="alert-triangle" class="w-6 h-6 animate-bounce" x-show="isOvertime"></i>
+
+                            <span x-text="primaryBtnText"></span>
+                            
+                            <span class="text-xs font-mono bg-black/30 px-2.5 py-1 rounded-xl font-normal opacity-80 group-hover:opacity-100 transition-opacity">
+                                Press [Space]
+                            </span>
+                        </button>
+
+                        <!-- Secondary Action Row -->
+                        <div class="grid grid-cols-3 gap-3">
+                            <!-- Pause / Resume -->
+                            <button @click="togglePause()" 
+                                    :disabled="status === 'idle'"
+                                    class="py-3 px-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-40 text-zinc-300 hover:text-white transition-all font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                                <i data-lucide="pause" class="w-4 h-4 text-amber-400" x-show="status === 'running'"></i>
+                                <i data-lucide="play" class="w-4 h-4 text-emerald-400" x-show="status === 'paused'"></i>
+                                <span x-text="status === 'paused' ? 'Resume' : 'Pause'"></span>
+                            </button>
+
+                            <!-- Bookmark Question -->
+                            <button @click="toggleBookmarkCurrent()" 
+                                    :disabled="status === 'idle'"
+                                    class="py-3 px-4 rounded-2xl border transition-all font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-40"
+                                    :class="isCurrentBookmarked ? 'bg-amber-500/20 border-amber-500/40 text-amber-300' : 'bg-white/5 hover:bg-white/10 border-white/10 text-zinc-300'">
+                                <i data-lucide="bookmark" class="w-4 h-4" :class="isCurrentBookmarked ? 'text-amber-400 fill-amber-400' : 'text-zinc-400'"></i>
+                                <span x-text="isCurrentBookmarked ? 'Flagged' : 'Flag Q'"></span>
+                            </button>
+
+                            <!-- Reset Current Question -->
+                            <button @click="resetCurrentQuestion()" 
+                                    :disabled="status === 'idle'"
+                                    class="py-3 px-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-40 text-zinc-300 hover:text-white transition-all font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                                <i data-lucide="rotate-ccw" class="w-4 h-4 text-cyan-400"></i>
+                                <span>Reset Q</span>
+                            </button>
+                        </div>
+
+                        <!-- Stop Altogether Action -->
+                        <div class="pt-2 flex items-center justify-center gap-4 text-xs font-mono">
+                            <button @click="stopSession()" 
+                                    :disabled="status === 'idle' && questions.length === 0"
+                                    class="text-zinc-500 hover:text-amber-400 transition-colors uppercase tracking-widest inline-flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20">
+                                <i data-lucide="square" class="w-3.5 h-3.5"></i> Pause Session
+                            </button>
+
+                            <button @click="resetSession()" 
+                                    class="text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest inline-flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-red-500/10 border border-transparent hover:border-red-500/20">
+                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Reset Session
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW SECTION: Interactive Multi-Graph Performance Analytics -->
+        <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 border border-white/10 shadow-2xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                <div>
+                    <h2 class="text-xl font-black uppercase italic text-white flex items-center gap-2">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-cyan-400"></i> Visual Performance Analytics
+                    </h2>
+                    <p class="text-xs text-zinc-400 font-mono mt-0.5">Switch between 4 dynamic graph types to analyze speed, variance, and cumulative pace</p>
+                </div>
+
+                <!-- Graph Type Selector Tabs -->
+                <div class="flex flex-wrap items-center gap-1.5 bg-black/60 p-1.5 rounded-2xl border border-white/10 font-mono text-xs">
+                    <button @click="activeGraphType = 'timePerQ'" 
+                            class="px-3 py-1.5 rounded-xl font-bold uppercase transition-all"
+                            :class="activeGraphType === 'timePerQ' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-zinc-400 hover:text-white'">
+                        📊 Speed / Q
+                    </button>
+                    <button @click="activeGraphType = 'cumulative'" 
+                            class="px-3 py-1.5 rounded-xl font-bold uppercase transition-all"
+                            :class="activeGraphType === 'cumulative' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-zinc-400 hover:text-white'">
+                        📈 Cumulative Pace
+                    </button>
+                    <button @click="activeGraphType = 'subjectDist'" 
+                            class="px-3 py-1.5 rounded-xl font-bold uppercase transition-all"
+                            :class="activeGraphType === 'subjectDist' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'text-zinc-400 hover:text-white'">
+                        🍩 Subject Time
+                    </button>
+                    <button @click="activeGraphType = 'variance'" 
+                            class="px-3 py-1.5 rounded-xl font-bold uppercase transition-all"
+                            :class="activeGraphType === 'variance' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-zinc-400 hover:text-white'">
+                        📉 Overtime Delta
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="relative w-full h-72 sm:h-96 bg-black/40 rounded-2xl border border-white/5 p-4 flex items-center justify-center">
+                <div x-show="questions.length === 0" class="text-center space-y-2">
+                    <i data-lucide="bar-chart-2" class="w-8 h-8 text-zinc-600 mx-auto"></i>
+                    <p class="text-xs font-mono text-zinc-500">Log questions to generate real-time performance graphs.</p>
+                </div>
+                <canvas id="sessionAnalyticsChart" x-show="questions.length > 0" class="w-full h-full"></canvas>
+            </div>
+        </div>
+
+        <!-- Bottom Section: Detailed Question History & Analytics Table -->
+        <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 border border-white/10 shadow-2xl">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                <div>
+                    <h2 class="text-xl font-black uppercase italic text-white flex items-center gap-2">
+                        <i data-lucide="history" class="w-5 h-5 text-cyan-400"></i> Session Question Log
+                    </h2>
+                    <p class="text-xs text-zinc-400 font-mono mt-0.5">Click ✏️ Edit on any question to manually adjust logged time or subject</p>
+                </div>
+
+                <!-- History Actions & Export -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button @click="exportSessionCSV()" 
+                            :disabled="questions.length === 0"
+                            class="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-40 text-zinc-300 hover:text-white text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5">
+                        <i data-lucide="download" class="w-3.5 h-3.5 text-cyan-400"></i> Export CSV
+                    </button>
+                    <button @click="copySessionSummary()" 
+                            :disabled="questions.length === 0"
+                            class="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-40 text-zinc-300 hover:text-white text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5">
+                        <i data-lucide="copy" class="w-3.5 h-3.5 text-emerald-400"></i> Copy Report
+                    </button>
+                    <button @click="clearHistory()" 
+                            :disabled="questions.length === 0"
+                            class="px-3.5 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 disabled:opacity-40 text-red-300 text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Clear Log
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex items-center gap-2 border-b border-white/5 pb-3">
+                <button @click="historyFilter = 'all'" 
+                        class="px-4 py-1.5 rounded-xl font-mono text-xs font-bold uppercase transition-all"
+                        :class="historyFilter === 'all' ? 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300' : 'text-zinc-400 hover:text-white'">
+                    All (<span x-text="questions.length"></span>)
+                </button>
+                <button @click="historyFilter = 'ontime'" 
+                        class="px-4 py-1.5 rounded-xl font-mono text-xs font-bold uppercase transition-all"
+                        :class="historyFilter === 'ontime' ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-300' : 'text-zinc-400 hover:text-white'">
+                    On Time (<span x-text="questions.filter(q => !q.isOvertime).length"></span>)
+                </button>
+                <button @click="historyFilter = 'overtime'" 
+                        class="px-4 py-1.5 rounded-xl font-mono text-xs font-bold uppercase transition-all"
+                        :class="historyFilter === 'overtime' ? 'bg-red-500/20 border border-red-500/40 text-red-300' : 'text-zinc-400 hover:text-white'">
+                    Overtime (<span x-text="questions.filter(q => q.isOvertime).length"></span>)
+                </button>
+                <button @click="historyFilter = 'flagged'" 
+                        class="px-4 py-1.5 rounded-xl font-mono text-xs font-bold uppercase transition-all"
+                        :class="historyFilter === 'flagged' ? 'bg-amber-500/20 border border-amber-500/40 text-amber-300' : 'text-zinc-400 hover:text-white'">
+                    Flagged 🚩 (<span x-text="questions.filter(q => q.bookmarked).length"></span>)
+                </button>
+            </div>
+
+            <!-- Questions Table (Desktop) -->
+            <div x-show="filteredQuestions.length > 0" class="hidden md:block overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/10 text-[11px] font-mono uppercase text-zinc-400 tracking-wider">
+                            <th class="py-3 px-4">Q#</th>
+                            <th class="py-3 px-4">Subject</th>
+                            <th class="py-3 px-4">Time Spent</th>
+                            <th class="py-3 px-4">Optimal Target</th>
+                            <th class="py-3 px-4">Variance / Delta</th>
+                            <th class="py-3 px-4">Status</th>
+                            <th class="py-3 px-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5 text-xs font-mono">
+                        <template x-for="q in filteredQuestions" :key="q.id">
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="py-3 px-4 font-bold text-white flex items-center gap-2">
+                                    <span x-text="'Q' + q.qNum"></span>
+                                    <i data-lucide="bookmark" class="w-3.5 h-3.5 text-amber-400 fill-amber-400" x-show="q.bookmarked"></i>
+                                </td>
+                                <td class="py-3 px-4 text-zinc-300" x-text="q.subject"></td>
+                                <td class="py-3 px-4 font-bold text-white flex items-center gap-1.5">
+                                    <span x-text="formatMMSS(q.actualSec)"></span>
+                                    <button @click="openEditQuestion(q)" class="text-zinc-500 hover:text-cyan-400 p-1" title="Edit logged time">
+                                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                </td>
+                                <td class="py-3 px-4 text-zinc-400" x-text="formatMMSS(q.targetSec)"></td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-0.5 rounded font-bold"
+                                          :class="q.isOvertime ? 'bg-red-500/20 text-red-400' : 'bg-emerald-500/20 text-emerald-400'"
+                                          x-text="(q.diffSec > 0 ? '+' : '') + formatMMSS(Math.abs(q.diffSec))"></span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                                          :class="q.isOvertime ? 'bg-red-500/20 border border-red-500/30 text-red-300' : 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300'"
+                                          x-text="q.isOvertime ? 'Overtime' : 'On Time'"></span>
+                                </td>
+                                <td class="py-3 px-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button @click="openEditQuestion(q)" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-cyan-400 transition-colors" title="Edit Question Details">
+                                            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                        <button @click="toggleBookmarkQuestion(q.id)" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-amber-400 transition-colors" title="Flag Question">
+                                            <i data-lucide="bookmark" class="w-3.5 h-3.5" :class="q.bookmarked ? 'text-amber-400 fill-amber-400' : ''"></i>
+                                        </button>
+                                        <button @click="deleteQuestionLog(q.id)" class="p-1.5 rounded-lg bg-white/5 hover:bg-red-500/20 text-zinc-500 hover:text-red-400 transition-colors" title="Delete Entry">
+                                            <i data-lucide="trash" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Questions Cards (Mobile) -->
+            <div x-show="filteredQuestions.length > 0" class="md:hidden space-y-3">
+                <template x-for="q in filteredQuestions" :key="q.id">
+                    <div class="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-3">
+                        <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span class="font-mono font-bold text-white text-sm flex items-center gap-1.5">
+                                <span x-text="'Question #' + q.qNum"></span>
+                                <i data-lucide="bookmark" class="w-3.5 h-3.5 text-amber-400 fill-amber-400" x-show="q.bookmarked"></i>
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase"
+                                  :class="q.isOvertime ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'"
+                                  x-text="q.isOvertime ? 'Overtime' : 'On Time'"></span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <div>
+                                <span class="text-zinc-500 text-[10px] block uppercase">Time Spent</span>
+                                <span class="font-bold text-white text-sm" x-text="formatMMSS(q.actualSec)"></span>
+                            </div>
+                            <div>
+                                <span class="text-zinc-500 text-[10px] block uppercase">Target Time</span>
+                                <span class="text-zinc-300" x-text="formatMMSS(q.targetSec)"></span>
+                            </div>
+                            <div>
+                                <span class="text-zinc-500 text-[10px] block uppercase">Subject</span>
+                                <span class="text-zinc-300" x-text="q.subject"></span>
+                            </div>
+                            <div>
+                                <span class="text-zinc-500 text-[10px] block uppercase">Variance</span>
+                                <span :class="q.isOvertime ? 'text-red-400' : 'text-emerald-400'" 
+                                      x-text="(q.diffSec > 0 ? '+' : '') + formatMMSS(Math.abs(q.diffSec))"></span>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2 border-t border-white/5 font-mono">
+                            <button @click="openEditQuestion(q)" class="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+                                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Time
+                            </button>
+                            <button @click="toggleBookmarkQuestion(q.id)" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1">
+                                <i data-lucide="bookmark" class="w-3.5 h-3.5"></i> Flag
+                            </button>
+                            <button @click="deleteQuestionLog(q.id)" class="text-xs text-zinc-500 hover:text-red-400 flex items-center gap-1">
+                                <i data-lucide="trash" class="w-3.5 h-3.5"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Fixed Bottom Action Dock (Thumb-friendly tap target) -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 bg-[#09090b]/95 backdrop-blur-2xl border-t border-white/10 p-4 lg:hidden">
+        <div class="max-w-md mx-auto flex items-center gap-3">
+            <!-- Pause / Resume -->
+            <button @click="togglePause()" 
+                    :disabled="status === 'idle'"
+                    class="p-4 rounded-2xl bg-white/5 border border-white/10 disabled:opacity-40 text-zinc-300 hover:text-white transition-all flex items-center justify-center">
+                <i data-lucide="pause" class="w-5 h-5 text-amber-400" x-show="status === 'running'"></i>
+                <i data-lucide="play" class="w-5 h-5 text-emerald-400" x-show="status === 'paused'"></i>
+            </button>
+
+            <!-- Main Primary Action Button -->
+            <button @click="handlePrimaryAction()" 
+                    class="flex-grow py-4 rounded-2xl font-black text-base uppercase tracking-wider shadow-xl flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                    :class="{
+                        'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-cyan-500/20': status === 'idle',
+                        'bg-gradient-to-r from-emerald-500 to-cyan-600 text-white shadow-emerald-500/20': status === 'running' && !isOvertime,
+                        'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-red-600/40 animate-pulse': isOvertime,
+                        'bg-gradient-to-r from-amber-500 to-orange-600 text-white': status === 'paused'
+                    }">
+                <i data-lucide="check-circle-2" class="w-5 h-5" x-show="status !== 'idle'"></i>
+                <i data-lucide="play" class="w-5 h-5" x-show="status === 'idle'"></i>
+                <span x-text="primaryBtnTextMobile"></span>
+            </button>
+
+            <!-- Flag Question -->
+            <button @click="toggleBookmarkCurrent()" 
+                    :disabled="status === 'idle'"
+                    class="p-4 rounded-2xl border transition-all disabled:opacity-40 flex items-center justify-center"
+                    :class="isCurrentBookmarked ? 'bg-amber-500/20 border-amber-500/40 text-amber-300' : 'bg-white/5 border-white/10 text-zinc-300'">
+                <i data-lucide="bookmark" class="w-5 h-5" :class="isCurrentBookmarked ? 'text-amber-400 fill-amber-400' : 'text-zinc-400'"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- TOOL MODAL: High-Yield Engineering Formula Vault -->
+    <div x-show="showFormulaModal" 
+         x-transition.opacity
+         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div @click.away="showFormulaModal = false" 
+             class="bg-[#18181b] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-2xl w-full space-y-6 shadow-2xl max-h-[85vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 class="text-lg font-black uppercase italic text-white flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-5 h-5 text-purple-400"></i> High-Yield Engineering Formula Vault
+                </h3>
+                <button @click="showFormulaModal = false" class="p-1 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Subject Formula Tabs -->
+            <div class="flex items-center gap-2 border-b border-white/10 pb-3 font-mono text-xs">
+                <button @click="formulaTab = 'math'" 
+                        class="px-4 py-1.5 rounded-xl font-bold uppercase transition-all"
+                        :class="formulaTab === 'math' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-zinc-400 hover:text-white'">
+                    📐 Higher Math
+                </button>
+                <button @click="formulaTab = 'physics'" 
+                        class="px-4 py-1.5 rounded-xl font-bold uppercase transition-all"
+                        :class="formulaTab === 'physics' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-zinc-400 hover:text-white'">
+                    ⚡ Physics
+                </button>
+                <button @click="formulaTab = 'chem'" 
+                        class="px-4 py-1.5 rounded-xl font-bold uppercase transition-all"
+                        :class="formulaTab === 'chem' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-zinc-400 hover:text-white'">
+                    🧪 Chemistry
+                </button>
+            </div>
+
+            <!-- Formulas List -->
+            <div class="space-y-3 font-mono text-xs">
+                
+                <!-- Math Formulas -->
+                <div x-show="formulaTab === 'math'" class="space-y-2">
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-cyan-400 font-bold block">Standard Integrals</span>
+                        <code class="text-white text-sm block">∫ (1 / (x² + a²)) dx = (1/a) tan⁻¹(x/a) + C</code>
+                        <code class="text-white text-sm block">∫ (1 / √(a² - x²)) dx = sin⁻¹(x/a) + C</code>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-cyan-400 font-bold block">Vectors & Conics</span>
+                        <code class="text-white text-sm block">A × B = |A||B| sin(θ) n̂ &bull; A · B = |A||B| cos(θ)</code>
+                        <code class="text-white text-sm block">Ellipse Eccentricity: e = √(1 - b²/a²)  (a > b)</code>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-cyan-400 font-bold block">Trigonometric Shortcut</span>
+                        <code class="text-white text-sm block">tan(A + B) = (tan A + tan B) / (1 - tan A tan B)</code>
+                    </div>
+                </div>
+
+                <!-- Physics Formulas -->
+                <div x-show="formulaTab === 'physics'" class="space-y-2">
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-emerald-400 font-bold block">Mechanics & Projectiles</span>
+                        <code class="text-white text-sm block">Maximum Height: H_max = (u² sin²θ) / (2g)</code>
+                        <code class="text-white text-sm block">Horizontal Range: R = (u² sin 2θ) / g</code>
+                        <code class="text-white text-sm block">Time of Flight: T = (2u sinθ) / g</code>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-emerald-400 font-bold block">Electricity & Magnetism</span>
+                        <code class="text-white text-sm block">Lorentz Force: F = q(E + v × B)</code>
+                        <code class="text-white text-sm block">Capacitance: C = (ε₀ A) / d &bull; Energy = ½ C V²</code>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-emerald-400 font-bold block">Modern Physics & Quantum</span>
+                        <code class="text-white text-sm block">de Broglie Wavelength: λ = h / p = h / √(2mE)</code>
+                        <code class="text-white text-sm block">Photoelectric: E_k(max) = hν - W₀</code>
+                    </div>
+                </div>
+
+                <!-- Chemistry Formulas -->
+                <div x-show="formulaTab === 'chem'" class="space-y-2">
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-amber-400 font-bold block">Physical Chemistry & Gases</span>
+                        <code class="text-white text-sm block">Ideal Gas: P V = n R T &bull; R = 0.0821 L·atm/(mol·K)</code>
+                        <code class="text-white text-sm block">pH Calculation: pH = -log10[H⁺] &bull; pH + pOH = 14</code>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-1">
+                        <span class="text-amber-400 font-bold block">Electrochemistry</span>
+                        <code class="text-white text-sm block">Nernst Equation: E = E° - (0.0591 / n) log10(Q) at 25°C</code>
+                    </div>
+                </div>
+
+            </div>
+
+            <button @click="showFormulaModal = false" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-xs transition-all">
+                Close Vault
+            </button>
+        </div>
+    </div>
+
+    <!-- TOOL MODAL: OMR Bubble Sheet Trainer & Grader -->
+    <div x-show="showOmrModal" 
+         x-transition.opacity
+         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div @click.away="showOmrModal = false" 
+             class="bg-[#18181b] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-xl w-full space-y-6 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 class="text-lg font-black uppercase italic text-white flex items-center gap-2">
+                    <i data-lucide="check-square" class="w-5 h-5 text-rose-400"></i> OMR Bubble Sheet Practice Trainer
+                </h3>
+                <button @click="showOmrModal = false" class="p-1 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 font-mono text-xs">
+                <p class="text-zinc-400">Train your OMR bubble filling speed during timed mock tests! Tap a bubble option (A / B / C / D) when solving each question:</p>
+                
+                <div class="bg-black/60 p-4 rounded-2xl border border-white/10 space-y-3">
+                    <div class="flex items-center justify-between text-sm font-bold text-white border-b border-white/10 pb-2">
+                        <span>Active Question #<span x-text="currentQIndex"></span></span>
+                        <span class="text-cyan-400" x-text="activeOmrOption ? 'Selected: ' + activeOmrOption : 'No Option Selected'"></span>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-3 py-2">
+                        <template x-for="opt in ['A', 'B', 'C', 'D']" :key="opt">
+                            <button @click="selectOmrOption(opt)" 
+                                    class="py-4 rounded-2xl border font-black text-lg transition-all flex flex-col items-center justify-center gap-1"
+                                    :class="activeOmrOption === opt ? 
+                                        'bg-rose-500 text-white border-rose-400 shadow-lg shadow-rose-500/30 scale-105' : 
+                                        'bg-white/5 border-white/10 text-zinc-300 hover:bg-white/10 hover:text-white'">
+                                <span x-text="opt"></span>
+                                <span class="text-[9px] font-normal text-zinc-400">Option <span x-text="opt"></span></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="text-[11px] text-zinc-400 bg-white/5 p-3 rounded-xl border border-white/5 flex items-center justify-between">
+                    <span>💡 Tip: Tapping an option automatically logs your answer choice for Question #<span x-text="currentQIndex"></span>!</span>
+                    <button @click="activeOmrOption = null" class="text-zinc-500 hover:text-red-400 text-[10px] font-bold uppercase">Clear</button>
+                </div>
+            </div>
+
+            <button @click="showOmrModal = false" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-xs transition-all">
+                Close OMR Trainer
+            </button>
+        </div>
+    </div>
+
+    <!-- TOOL MODAL 1: Negative Marking & Score Predictor -->
+    <div x-show="showScoreModal" 
+         x-transition.opacity
+         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div @click.away="showScoreModal = false" 
+             class="bg-[#18181b] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 class="text-lg font-black uppercase italic text-white flex items-center gap-2">
+                    <i data-lucide="calculator" class="w-5 h-5 text-emerald-400"></i> Score & Negative Mark Calculator
+                </h3>
+                <button @click="showScoreModal = false" class="p-1 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 font-mono text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-zinc-400 uppercase font-bold tracking-wider block mb-1">Correct Answers</label>
+                        <input type="number" min="0" max="200" x-model.number="calcScore.correctCount" class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-2.5 text-sm font-bold text-emerald-400">
+                    </div>
+                    <div>
+                        <label class="text-zinc-400 uppercase font-bold tracking-wider block mb-1">Wrong Answers</label>
+                        <input type="number" min="0" max="200" x-model.number="calcScore.wrongCount" class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-2.5 text-sm font-bold text-red-400">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-zinc-400 uppercase font-bold tracking-wider block mb-1">Marks per Question</label>
+                        <input type="number" step="0.5" x-model.number="calcScore.marksPerQ" class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-2.5 text-sm font-bold text-white">
+                    </div>
+                    <div>
+                        <label class="text-zinc-400 uppercase font-bold tracking-wider block mb-1">Negative Penalty %</label>
+                        <select x-model.number="calcScore.negativeRatio" class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-2.5 text-xs font-bold text-white">
+                            <option value="0.25">25% (-0.25 per mark)</option>
+                            <option value="0.33">33% (-0.33 per mark)</option>
+                            <option value="0.5">50% (-0.5 per mark)</option>
+                            <option value="0">0% (No Negative)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Calculated Output Card -->
+                <div class="bg-black/60 p-4 rounded-2xl border border-white/10 space-y-3">
+                    <div class="grid grid-cols-2 gap-2 text-center">
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+                            <span class="text-[10px] text-zinc-400 uppercase block">Gross Score</span>
+                            <span class="text-lg font-black text-white" x-text="grossScore + ' Marks'"></span>
+                        </div>
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+                            <span class="text-[10px] text-zinc-400 uppercase block">Negative Penalty</span>
+                            <span class="text-lg font-black text-red-400" x-text="'-' + penaltyMarks.toFixed(2)"></span>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 p-4 rounded-xl border border-emerald-500/30 text-center">
+                        <span class="text-xs font-bold text-zinc-300 uppercase block">Estimated Net Score</span>
+                        <span class="text-3xl font-black text-emerald-400" x-text="netScore.toFixed(2) + ' / ' + (calcScore.marksPerQ * (calcScore.correctCount + calcScore.wrongCount))"></span>
+                        <div class="text-[10px] text-cyan-300 mt-1" x-text="'Accuracy: ' + calcAccuracy + '% (' + calcScore.correctCount + '/' + totalAttempted + ' attempted)'"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button @click="showScoreModal = false" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-xs transition-all">
+                Close Calculator
+            </button>
+        </div>
+    </div>
+
+    <!-- TOOL MODAL 2: Exam Strategy & Pace Planner -->
+    <div x-show="showPaceModal" 
+         x-transition.opacity
+         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div @click.away="showPaceModal = false" 
+             class="bg-[#18181b] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 class="text-lg font-black uppercase italic text-white flex items-center gap-2">
+                    <i data-lucide="sliders" class="w-5 h-5 text-cyan-400"></i> Exam Strategy & Pace Planner
+                </h3>
+                <button @click="showPaceModal = false" class="p-1 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 font-mono text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-zinc-400 uppercase font-bold tracking-wider block mb-1">Total Exam Minutes</label>
+                        <input type="number" min="10" max="360" step="5" x-model.number="paceCalc.examMinutes" class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-2.5 text-sm font-bold text-white">
+                    </div>
+                    <div>
+                        <label class="text-zinc-400 uppercase font-bold tracking-wider block mb-1">Total Questions</label>
+                        <input type="number" min="10" max="300" step="5" x-model.number="paceCalc.totalQuestions" class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-2.5 text-sm font-bold text-cyan-400">
+                    </div>
+                </div>
+
+                <!-- Strategic Breakdown Display -->
+                <div class="bg-black/60 p-4 rounded-2xl border border-white/10 space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+                            <span class="text-[10px] text-zinc-400 uppercase block">Average Pace Target</span>
+                            <span class="text-xl font-black text-cyan-400" x-text="overallSecPerQ + ' sec / Q'"></span>
+                        </div>
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+                            <span class="text-[10px] text-zinc-400 uppercase block">Recommended Revision Buffer</span>
+                            <span class="text-xl font-black text-emerald-400" x-text="recommendedRevisionBuffer + ' mins'"></span>
+                        </div>
+                    </div>
+                    <div class="text-[11px] text-zinc-300 bg-cyan-500/10 p-3 rounded-xl border border-cyan-500/20 space-y-1">
+                        <span class="font-bold text-cyan-300 block">💡 Pro Strategy Tip:</span>
+                        <span>Spend no more than <strong class="text-white" x-text="Math.round(overallSecPerQ * 1.4) + ' seconds'"></strong> on any single hard problem during Round 1. Skip and flag to revisit in the final <strong class="text-white" x-text="recommendedRevisionBuffer + ' mins'"></strong>!</span>
+                    </div>
+                </div>
+            </div>
+
+            <button @click="showPaceModal = false" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-xs transition-all">
+                Close Planner
+            </button>
+        </div>
+    </div>
+
+    <!-- TOOL MODAL 3: Rough Scratchpad & Practice Notes -->
+    <div x-show="showScratchpadModal" 
+         x-transition.opacity
+         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div @click.away="showScratchpadModal = false" 
+             class="bg-[#18181b] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-xl w-full space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 class="text-lg font-black uppercase italic text-white flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-5 h-5 text-amber-400"></i> Practice Scratchpad & Rough Notes
+                </h3>
+                <button @click="showScratchpadModal = false" class="p-1 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-2 font-mono text-xs">
+                <p class="text-zinc-400">Auto-saved rough notes area for writing down question numbers to re-solve, key formulas, or exam strategies:</p>
+                <textarea x-model="scratchpadNotes" 
+                          @input="saveScratchpad()"
+                          rows="10" 
+                          class="w-full bg-black/70 border border-white/10 rounded-2xl p-4 text-xs font-mono text-zinc-200 focus:outline-none focus:border-amber-400"
+                          placeholder="e.g. Q4 Physics - double check integration limits&#10;Q12 Chem - organic reaction mechanism&#10;Formula: V = I * R, KE = 0.5 * m * v^2"></textarea>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+                <span class="text-[10px] font-mono text-zinc-500">Auto-saved to Browser Storage</span>
+                <button @click="showScratchpadModal = false" class="py-2.5 px-6 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-extrabold uppercase text-xs transition-all shadow-lg shadow-amber-500/20">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Question Time Modal Overlay -->
+    <div x-show="showEditModal" 
+         x-transition.opacity
+         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div @click.away="showEditModal = false" 
+             class="bg-[#18181b] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 class="text-lg font-black uppercase italic text-white flex items-center gap-2">
+                    <i data-lucide="edit-3" class="w-5 h-5 text-cyan-400"></i> Edit Logged Question #<span x-text="editingQuestion.qNum"></span>
+                </h3>
+                <button @click="showEditModal = false" class="p-1 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 font-mono text-xs">
+                <!-- Time Spent Input -->
+                <div class="space-y-2">
+                    <label class="text-zinc-400 uppercase font-bold tracking-wider">Time Spent (seconds or MM:SS format)</label>
+                    <input type="text" 
+                           x-model="editingQuestion.timeInput" 
+                           class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-3 text-sm font-mono font-bold text-white focus:outline-none focus:border-cyan-500"
+                           placeholder="e.g. 01:02 or 62">
+                    <p class="text-[10px] text-zinc-500">Supports entering "01:02" (1 min 2 sec) or raw seconds like "62"</p>
+                </div>
+
+                <!-- Optimal Target Input -->
+                <div class="space-y-2">
+                    <label class="text-zinc-400 uppercase font-bold tracking-wider">Optimal Target Time (seconds or MM:SS)</label>
+                    <input type="text" 
+                           x-model="editingQuestion.targetInput" 
+                           class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-3 text-sm font-mono font-bold text-white focus:outline-none focus:border-cyan-500"
+                           placeholder="e.g. 01:02 or 62">
+                </div>
+
+                <!-- Subject Tag -->
+                <div class="space-y-2">
+                    <label class="text-zinc-400 uppercase font-bold tracking-wider">Subject Tag</label>
+                    <input type="text" 
+                           x-model="editingQuestion.subject" 
+                           class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-3 text-xs font-mono font-bold text-white focus:outline-none focus:border-cyan-500"
+                           placeholder="Higher Math, Physics, etc.">
+                </div>
+
+                <!-- Bookmarked Checkbox -->
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="editFlagged" x-model="editingQuestion.bookmarked" class="rounded bg-black border-white/20 text-amber-400 focus:ring-amber-400">
+                    <label for="editFlagged" class="text-zinc-300 uppercase font-bold">Flag as hard / needs review 🚩</label>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 pt-2">
+                <button @click="saveEditQuestion()" class="flex-1 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold uppercase text-xs transition-all shadow-lg shadow-cyan-500/20">
+                    Save Changes
+                </button>
+                <button @click="showEditModal = false" class="py-3 px-5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-xs transition-all">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Modal Overlay -->
+    <div x-show="showShortcutsModal" 
+         x-transition.opacity
+         class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div @click.away="showShortcutsModal = false" 
+             class="bg-[#18181b] border border-white/10 rounded-3xl p-6 max-w-md w-full space-y-6 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 class="text-lg font-black uppercase italic text-white flex items-center gap-2">
+                    <i data-lucide="keyboard" class="w-5 h-5 text-cyan-400"></i> Keyboard Shortcuts
+                </h3>
+                <button @click="showShortcutsModal = false" class="p-1 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 font-mono text-xs">
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-black/40 border border-white/5">
+                    <span class="text-zinc-300">Start / Next Question</span>
+                    <kbd class="px-2.5 py-1 rounded bg-white/10 border border-white/20 text-cyan-400 font-bold">Space / Enter</kbd>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-black/40 border border-white/5">
+                    <span class="text-zinc-300">Pause / Resume</span>
+                    <kbd class="px-2.5 py-1 rounded bg-white/10 border border-white/20 text-amber-400 font-bold">P</kbd>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-black/40 border border-white/5">
+                    <span class="text-zinc-300">Flag / Bookmark Question</span>
+                    <kbd class="px-2.5 py-1 rounded bg-white/10 border border-white/20 text-amber-400 font-bold">B</kbd>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-black/40 border border-white/5">
+                    <span class="text-zinc-300">Reset Current Question</span>
+                    <kbd class="px-2.5 py-1 rounded bg-white/10 border border-white/20 text-zinc-300 font-bold">R</kbd>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-black/40 border border-white/5">
+                    <span class="text-zinc-300">Pause Session</span>
+                    <kbd class="px-2.5 py-1 rounded bg-white/10 border border-white/20 text-red-400 font-bold">Esc</kbd>
+                </div>
+            </div>
+
+            <button @click="showShortcutsModal = false" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-xs transition-all">
+                Got It
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Overlay -->
+    <div x-show="toastMessage" 
+         x-transition 
+         class="fixed top-24 right-6 z-50 px-5 py-3 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 backdrop-blur-xl text-cyan-200 text-xs font-mono font-bold shadow-2xl flex items-center gap-2">
+        <i data-lucide="info" class="w-4 h-4 text-cyan-400"></i>
+        <span x-text="toastMessage"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/10 bg-[#09090b] px-6 relative z-10">
+        <div class="max-w-7xl mx-auto text-center space-y-4">
+            <div class="flex justify-center items-center gap-3">
+                <img src="/logo-google.png" alt="AJA RETRO Logo" class="w-8 h-8 rounded-xl object-cover border border-white/10 shadow-lg shadow-cyan-600/30">
+                <span class="text-xl font-black tracking-tight uppercase italic text-white">AJA<span class="text-cyan-400">RETRO</span></span>
+            </div>
+            <p class="text-zinc-500 text-[11px] uppercase tracking-widest font-mono">
+                Admission Engineering Speed Timer & Analytics &bull; &copy; 2026 AJA RETRO
+            </p>
+        </div>
+    </footer>
+
+    <!-- Alpine App Script -->
+    <script>
+        function admissionTimerApp() {
+            return {
+                // Audio Context
+                audioCtx: null,
+                soundEnabled: true,
+                focusOscillator: null,
+                focusGain: null,
+                focusSoundActive: false,
+
+                // Daily Goal & Streak State
+                dailyGoal: 50,
+                dailyStreak: 3,
+
+                // Timer State
+                status: 'idle', // 'idle', 'running', 'paused'
+                currentQIndex: 1,
+                targetSeconds: 62, // default 62s for KUET 1.5h Science MCQ (75 Qs)
+                customSecondsInput: 62,
+                customSeconds: 62,
+                activePresetId: 'kuet-sci',
+                subject: 'KUET Physics (6-Mark)',
+                
+                // Ring & Time Counters
+                elapsedSeconds: 0,
+                overtimeSeconds: 0,
+                startTime: null,
+                pausedDuration: 0,
+                pauseStartTime: null,
+                timerInterval: null,
+
+                // Question Bookmarking & OMR State
+                isCurrentBookmarked: false,
+                activeOmrOption: null,
+
+                // History & Presets
+                presetList: [
+                    { id: 'kuet-sci', name: 'KUET 6-Mark MCQ', targetSec: 62, label: '62s / Q (Phy/Chem/Math)' },
+                    { id: 'kuet-eng', name: 'KUET 2-Mark Eng', targetSec: 31, label: '31s / Q (English)' },
+                    { id: 'kuet-full', name: 'KUET 500M Full (1.5h)', targetSec: 54, label: '54s / Q (100 MCQs)' },
+                    { id: 'buet-written', name: 'BUET Written', targetSec: 180, label: '3m / question' },
+                    { id: 'buet-prelim', name: 'BUET Prelim', targetSec: 36, label: '36s / MCQ' },
+                    { id: 'ckruet-mcq', name: 'CKRUET MCQ', targetSec: 60, label: '60s / MCQ' },
+                    { id: 'iut-mcq', name: 'IUT Admission', targetSec: 72, label: '72s / question' },
+                    { id: 'mist-mcq', name: 'MIST Admission', targetSec: 90, label: '90s / question' },
+                    { id: 'custom', name: 'Custom Target', targetSec: 120, label: 'Custom time' }
+                ],
+                questions: [],
+                historyFilter: 'all',
+
+                // Graphs & Multi-Chart State
+                activeGraphType: 'timePerQ', // 'timePerQ', 'cumulative', 'subjectDist', 'variance'
+                chartInstance: null,
+
+                // Score Calculator State
+                showScoreModal: false,
+                calcScore: {
+                    marksPerQ: 6,
+                    correctCount: 20,
+                    wrongCount: 5,
+                    negativeRatio: 0.25
+                },
+
+                // Exam Strategy & Pace Planner State
+                showPaceModal: false,
+                paceCalc: {
+                    examMinutes: 90, // default 1.5 hours for KUET
+                    totalQuestions: 100
+                },
+
+                // Scratchpad & Formula Vault State
+                showScratchpadModal: false,
+                showFormulaModal: false,
+                showOmrModal: false,
+                formulaTab: 'math',
+                scratchpadNotes: '',
+
+                // Edit Question Modal State
+                showEditModal: false,
+                editingQuestion: { id: null, qNum: 1, subject: '', actualSec: 0, targetSec: 62, timeInput: '01:02', targetInput: '01:02', bookmarked: false },
+
+                // UI Modals & Toasts
+                showShortcutsModal: false,
+                mobileMenuOpen: false,
+                toastMessage: '',
+                toastTimeout: null,
+
+                // Computed Ring Attributes
+                ringRadius: 140,
+
+                get ringCircumference() {
+                    return 2 * Math.PI * this.ringRadius;
+                },
+
+                get timeRemaining() {
+                    return Math.max(0, this.targetSeconds - this.elapsedSeconds);
+                },
+
+                get isOvertime() {
+                    return this.elapsedSeconds > this.targetSeconds;
+                },
+
+                get ringProgress() {
+                    if (this.targetSeconds <= 0) return 0;
+                    if (this.isOvertime) return 0;
+                    return (this.targetSeconds - this.elapsedSeconds) / this.targetSeconds;
+                },
+
+                get ringStrokeDashoffset() {
+                    return this.ringCircumference * (1 - this.ringProgress);
+                },
+
+                get ringColor() {
+                    if (this.isOvertime) return '#ef4444'; // Red
+                    if (this.targetSeconds <= 0) return '#06b6d4';
+                    const ratio = this.timeRemaining / this.targetSeconds;
+                    if (ratio > 0.5) return '#06b6d4'; // Cyan
+                    if (ratio > 0.2) return '#f59e0b'; // Amber
+                    return '#ef4444'; // Red
+                },
+
+                get statusText() {
+                    if (this.status === 'idle') return 'READY TO START';
+                    if (this.status === 'paused') return 'TIMING PAUSED';
+                    if (this.isOvertime) return 'OVERTIME RUNNING';
+                    return 'TIMING IN PROGRESS';
+                },
+
+                get activePresetName() {
+                    const preset = this.presetList.find(p => p.id === this.activePresetId);
+                    return preset ? preset.name : 'Custom Target';
+                },
+
+                get primaryBtnText() {
+                    if (this.status === 'idle') return 'START QUESTION 1';
+                    if (this.isOvertime) return 'NEXT QUESTION (OVERTIME)';
+                    if (this.status === 'paused') return 'NEXT QUESTION (Q' + (this.currentQIndex + 1) + ')';
+                    return 'NEXT QUESTION (Q' + (this.currentQIndex + 1) + ')';
+                },
+
+                get primaryBtnTextMobile() {
+                    if (this.status === 'idle') return 'START Q1';
+                    if (this.isOvertime) return 'NEXT Q (OVERTIME)';
+                    return 'NEXT (Q' + (this.currentQIndex + 1) + ')';
+                },
+
+                get filteredQuestions() {
+                    if (this.historyFilter === 'ontime') return this.questions.filter(q => !q.isOvertime);
+                    if (this.historyFilter === 'overtime') return this.questions.filter(q => q.isOvertime);
+                    if (this.historyFilter === 'flagged') return this.questions.filter(q => q.bookmarked);
+                    return this.questions;
+                },
+
+                get totalSessionTime() {
+                    return this.questions.reduce((acc, q) => acc + q.actualSec, 0);
+                },
+
+                get avgTimePerQ() {
+                    if (this.questions.length === 0) return 0;
+                    return Math.round(this.totalSessionTime / this.questions.length);
+                },
+
+                get onTimePercentage() {
+                    if (this.questions.length === 0) return 100;
+                    const onTimeCount = this.questions.filter(q => !q.isOvertime).length;
+                    return Math.round((onTimeCount / this.questions.length) * 100);
+                },
+
+                get overtimeCount() {
+                    return this.questions.filter(q => q.isOvertime).length;
+                },
+
+                get dailyGoalPercentage() {
+                    if (!this.dailyGoal) return 0;
+                    return Math.min(100, Math.round((this.questions.length / this.dailyGoal) * 100));
+                },
+
+                // Score Calculator Computed Helpers
+                get totalAttempted() {
+                    return (this.calcScore.correctCount || 0) + (this.calcScore.wrongCount || 0);
+                },
+                get grossScore() {
+                    return (this.calcScore.correctCount || 0) * (this.calcScore.marksPerQ || 0);
+                },
+                get penaltyMarks() {
+                    return (this.calcScore.wrongCount || 0) * (this.calcScore.marksPerQ || 0) * (this.calcScore.negativeRatio || 0);
+                },
+                get netScore() {
+                    return Math.max(0, this.grossScore - this.penaltyMarks);
+                },
+                get calcAccuracy() {
+                    if (this.totalAttempted === 0) return 100;
+                    return Math.round((this.calcScore.correctCount / this.totalAttempted) * 100);
+                },
+
+                // Pace Planner Computed Helpers
+                get totalExamSec() {
+                    return (this.paceCalc.examMinutes || 90) * 60;
+                },
+                get overallSecPerQ() {
+                    if (!this.paceCalc.totalQuestions) return 54;
+                    return Math.round(this.totalExamSec / this.paceCalc.totalQuestions);
+                },
+                get recommendedRevisionBuffer() {
+                    return Math.round((this.paceCalc.examMinutes || 90) * 0.1);
+                },
+
+                // Initialization
+                initApp() {
+                    this.loadSavedData();
+                    this.$watch('questions', () => {
+                        this.saveData();
+                        this.updateChart();
+                    });
+                    this.$watch('activeGraphType', () => this.updateChart());
+                    this.$watch('soundEnabled', () => this.saveData());
+                    this.$watch('status', () => this.saveData());
+
+                    // If app reloaded while timer was running, seamlessly resume clock calculation!
+                    if (this.status === 'running') {
+                        if (this.timerInterval) clearInterval(this.timerInterval);
+                        this.timerInterval = setInterval(() => this.tick(), 100);
+                    }
+
+                    setTimeout(() => {
+                        if (window.lucide) lucide.createIcons();
+                        this.updateChart();
+                    }, 200);
+                },
+
+                // Preset & Target Selector
+                selectPreset(preset) {
+                    if (!preset) return;
+                    this.activePresetId = preset.id;
+                    this.targetSeconds = preset.targetSec;
+                    this.customSeconds = preset.targetSec;
+                    this.customSecondsInput = preset.targetSec;
+                    this.saveData();
+                    this.showToast(`Selected preset: ${preset.name} (${preset.targetSec}s)`);
+                },
+
+                updateCustomTarget() {
+                    if (this.customSecondsInput > 0) {
+                        this.activePresetId = 'custom';
+                        this.targetSeconds = parseInt(this.customSecondsInput);
+                        this.customSeconds = parseInt(this.customSecondsInput);
+                        this.saveData();
+                    }
+                },
+
+                handleSubjectChange() {
+                    if (this.subject.includes('KUET English')) {
+                        const p = this.presetList.find(item => item.id === 'kuet-eng');
+                        if (p) this.selectPreset(p);
+                    } else if (this.subject.includes('KUET')) {
+                        const p = this.presetList.find(item => item.id === 'kuet-sci');
+                        if (p) this.selectPreset(p);
+                    }
+                },
+
+                selectOmrOption(opt) {
+                    this.activeOmrOption = opt;
+                    this.showToast(`Selected OMR Bubble: ${opt} for Q#${this.currentQIndex}`);
+                },
+
+                // Timer Execution & Clock Logic
+                handlePrimaryAction() {
+                    if (this.status === 'idle') {
+                        this.startTimer();
+                    } else {
+                        this.nextQuestion();
+                    }
+                },
+
+                startTimer() {
+                    this.status = 'running';
+                    this.elapsedSeconds = 0;
+                    this.overtimeSeconds = 0;
+                    this.pausedDuration = 0;
+                    this.startTime = Date.now();
+                    this.isCurrentBookmarked = false;
+                    this.activeOmrOption = null;
+
+                    this.saveData();
+                    this.playSound('start');
+                    this.triggerHaptic([30]);
+
+                    if (this.timerInterval) clearInterval(this.timerInterval);
+                    this.timerInterval = setInterval(() => this.tick(), 100);
+                },
+
+                tick() {
+                    if (this.status !== 'running') return;
+                    const now = Date.now();
+                    const totalMs = now - this.startTime - this.pausedDuration;
+                    const newElapsed = Math.floor(totalMs / 1000);
+
+                    // Check for zero transition sound signal
+                    if (this.elapsedSeconds < this.targetSeconds && newElapsed >= this.targetSeconds) {
+                        this.playSound('overtime');
+                        this.triggerHaptic([100, 50, 100]);
+                    }
+
+                    this.elapsedSeconds = newElapsed;
+                    if (this.elapsedSeconds > this.targetSeconds) {
+                        this.overtimeSeconds = this.elapsedSeconds - this.targetSeconds;
+                    } else {
+                        this.overtimeSeconds = 0;
+                    }
+
+                    // Periodically update cookie/localStorage for tab reload safety
+                    if (this.elapsedSeconds % 3 === 0) {
+                        this.saveData();
+                    }
+                },
+
+                nextQuestion() {
+                    if (this.status === 'idle') return;
+
+                    // Log current question
+                    const actualSec = this.elapsedSeconds;
+                    const diffSec = actualSec - this.targetSeconds;
+                    const isOvertime = actualSec > this.targetSeconds;
+
+                    const entry = {
+                        id: Date.now(),
+                        qNum: this.currentQIndex,
+                        subject: this.subject,
+                        targetSec: this.targetSeconds,
+                        actualSec: actualSec,
+                        isOvertime: isOvertime,
+                        diffSec: diffSec,
+                        bookmarked: this.isCurrentBookmarked,
+                        omrChoice: this.activeOmrOption,
+                        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    };
+
+                    this.questions.unshift(entry);
+
+                    // Sound & vibration feedback
+                    this.playSound(isOvertime ? 'next-overtime' : 'next-ontime');
+                    this.triggerHaptic(isOvertime ? [60, 40, 60] : [40]);
+
+                    // Prepare for next question
+                    this.currentQIndex++;
+                    this.status = 'running';
+                    this.elapsedSeconds = 0;
+                    this.overtimeSeconds = 0;
+                    this.pausedDuration = 0;
+                    this.startTime = Date.now();
+                    this.isCurrentBookmarked = false;
+                    this.activeOmrOption = null;
+
+                    this.saveData();
+                    this.updateChart();
+                    this.showToast(`Logged Q${entry.qNum}: ${this.formatMMSS(actualSec)}`);
+                    setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 50);
+                },
+
+                togglePause() {
+                    if (this.status === 'running') {
+                        this.status = 'paused';
+                        this.pauseStartTime = Date.now();
+                        this.saveData();
+                        this.playSound('pause');
+                        this.showToast('Timer Paused');
+                    } else if (this.status === 'paused') {
+                        this.status = 'running';
+                        if (this.pauseStartTime) {
+                            this.pausedDuration += (Date.now() - this.pauseStartTime);
+                            this.pauseStartTime = null;
+                        }
+                        this.saveData();
+                        this.playSound('resume');
+                        this.showToast('Timer Resumed');
+                        if (this.timerInterval) clearInterval(this.timerInterval);
+                        this.timerInterval = setInterval(() => this.tick(), 100);
+                    }
+                },
+
+                resetCurrentQuestion() {
+                    if (this.status === 'idle') return;
+                    this.elapsedSeconds = 0;
+                    this.overtimeSeconds = 0;
+                    this.pausedDuration = 0;
+                    this.startTime = Date.now();
+                    this.activeOmrOption = null;
+                    this.saveData();
+                    this.showToast(`Reset Question #${this.currentQIndex}`);
+                },
+
+                toggleBookmarkCurrent() {
+                    this.isCurrentBookmarked = !this.isCurrentBookmarked;
+                    this.saveData();
+                    this.showToast(this.isCurrentBookmarked ? `Flagged Q#${this.currentQIndex} for review` : `Unflagged Q#${this.currentQIndex}`);
+                },
+
+                stopSession() {
+                    if (this.timerInterval) clearInterval(this.timerInterval);
+                    this.status = 'idle';
+                    this.elapsedSeconds = 0;
+                    this.overtimeSeconds = 0;
+                    this.saveData();
+                    this.showToast('Session Paused & Preserved');
+                },
+
+                // Complete Session Reset
+                resetSession() {
+                    if (confirm('Reset session? This will clear all logged question history and reset to Question 1.')) {
+                        if (this.timerInterval) clearInterval(this.timerInterval);
+                        this.status = 'idle';
+                        this.currentQIndex = 1;
+                        this.elapsedSeconds = 0;
+                        this.overtimeSeconds = 0;
+                        this.pausedDuration = 0;
+                        this.startTime = null;
+                        this.questions = [];
+                        this.isCurrentBookmarked = false;
+                        this.activeOmrOption = null;
+                        
+                        this.eraseCookie('ajaretro_timer_session');
+                        this.saveData();
+                        this.updateChart();
+                        this.showToast('Session reset to Question #1');
+                        setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 50);
+                    }
+                },
+
+                // Manual Editing of Completed Questions
+                openEditQuestion(q) {
+                    this.editingQuestion = {
+                        id: q.id,
+                        qNum: q.qNum,
+                        subject: q.subject,
+                        actualSec: q.actualSec,
+                        targetSec: q.targetSec,
+                        timeInput: this.formatMMSS(q.actualSec),
+                        targetInput: this.formatMMSS(q.targetSec),
+                        bookmarked: q.bookmarked || false
+                    };
+                    this.showEditModal = true;
+                    setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 50);
+                },
+
+                saveEditQuestion() {
+                    const parsedActual = this.parseTimeInput(this.editingQuestion.timeInput);
+                    const parsedTarget = this.parseTimeInput(this.editingQuestion.targetInput);
+
+                    const q = this.questions.find(item => item.id === this.editingQuestion.id);
+                    if (q) {
+                        q.actualSec = parsedActual;
+                        q.targetSec = parsedTarget > 0 ? parsedTarget : q.targetSec;
+                        q.subject = this.editingQuestion.subject || q.subject;
+                        q.diffSec = q.actualSec - q.targetSec;
+                        q.isOvertime = q.actualSec > q.targetSec;
+                        q.bookmarked = this.editingQuestion.bookmarked;
+
+                        this.saveData();
+                        this.updateChart();
+                        this.showToast(`Updated Q#${q.qNum}: ${this.formatMMSS(q.actualSec)}`);
+                    }
+                    this.showEditModal = false;
+                    setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 50);
+                },
+
+                parseTimeInput(input) {
+                    if (typeof input === 'number') return Math.max(0, Math.floor(input));
+                    if (!input) return 0;
+                    input = input.toString().trim();
+                    if (input.includes(':')) {
+                        const parts = input.split(':');
+                        const mins = parseInt(parts[0]) || 0;
+                        const secs = parseInt(parts[1]) || 0;
+                        return (mins * 60) + secs;
+                    }
+                    return Math.max(0, parseInt(input) || 0);
+                },
+
+                // Dynamic Chart Rendering (Chart.js)
+                updateChart() {
+                    if (typeof Chart === 'undefined') return;
+                    const canvas = document.getElementById('sessionAnalyticsChart');
+                    if (!canvas) return;
+
+                    const ctx = canvas.getContext('2d');
+                    if (this.chartInstance) {
+                        this.chartInstance.destroy();
+                        this.chartInstance = null;
+                    }
+
+                    if (this.questions.length === 0) return;
+
+                    const sortedQs = this.questions.slice().reverse(); // Q1, Q2, Q3 order
+
+                    if (this.activeGraphType === 'timePerQ') {
+                        const labels = sortedQs.map(q => 'Q' + q.qNum);
+                        const actualData = sortedQs.map(q => q.actualSec);
+                        const targetData = sortedQs.map(q => q.targetSec);
+                        const barColors = sortedQs.map(q => q.isOvertime ? 'rgba(239, 68, 68, 0.85)' : 'rgba(16, 185, 129, 0.85)');
+
+                        this.chartInstance = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: 'Time Spent (sec)',
+                                        data: actualData,
+                                        backgroundColor: barColors,
+                                        borderRadius: 6
+                                    },
+                                    {
+                                        label: 'Optimal Target (sec)',
+                                        data: targetData,
+                                        type: 'line',
+                                        borderColor: '#06b6d4',
+                                        borderWidth: 2,
+                                        borderDash: [4, 4],
+                                        pointBackgroundColor: '#06b6d4',
+                                        fill: false
+                                    }
+                                ]
+                            },
+                            options: this.getDarkChartOptions('Seconds per Question')
+                        });
+                    } else if (this.activeGraphType === 'cumulative') {
+                        const labels = sortedQs.map(q => 'Q' + q.qNum);
+                        let cumulActual = 0;
+                        let cumulTarget = 0;
+                        const actualCumul = sortedQs.map(q => { cumulActual += q.actualSec; return cumulActual; });
+                        const targetCumul = sortedQs.map(q => { cumulTarget += q.targetSec; return cumulTarget; });
+
+                        this.chartInstance = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: 'Cumulative Actual Time (s)',
+                                        data: actualCumul,
+                                        borderColor: '#ef4444',
+                                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                                        fill: true,
+                                        tension: 0.3
+                                    },
+                                    {
+                                        label: 'Cumulative Target Time (s)',
+                                        data: targetCumul,
+                                        borderColor: '#10b981',
+                                        borderDash: [5, 5],
+                                        fill: false,
+                                        tension: 0.3
+                                    }
+                                ]
+                            },
+                            options: this.getDarkChartOptions('Total Seconds Accumulated')
+                        });
+                    } else if (this.activeGraphType === 'subjectDist') {
+                        const subjectTotals = {};
+                        sortedQs.forEach(q => {
+                            subjectTotals[q.subject] = (subjectTotals[q.subject] || 0) + q.actualSec;
+                        });
+
+                        this.chartInstance = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: Object.keys(subjectTotals),
+                                datasets: [{
+                                    data: Object.values(subjectTotals),
+                                    backgroundColor: ['#06b6d4', '#10b981', '#f59e0b', '#a855f7', '#ec4899', '#3b82f6'],
+                                    borderWidth: 0
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { labels: { color: '#f4f4f5', font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }
+                                }
+                            }
+                        });
+                    } else if (this.activeGraphType === 'variance') {
+                        const labels = sortedQs.map(q => 'Q' + q.qNum);
+                        const variances = sortedQs.map(q => q.diffSec);
+                        const barColors = variances.map(v => v > 0 ? 'rgba(239, 68, 68, 0.85)' : 'rgba(16, 185, 129, 0.85)');
+
+                        this.chartInstance = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Variance vs Target (sec)',
+                                    data: variances,
+                                    backgroundColor: barColors,
+                                    borderRadius: 6
+                                }]
+                            },
+                            options: this.getDarkChartOptions('+ Overtime / - Fast (s)')
+                        });
+                    }
+                },
+
+                getDarkChartOptions(yAxisTitle) {
+                    return {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                ticks: { color: '#a1a1aa', font: { family: 'JetBrains Mono', size: 10 } },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            },
+                            y: {
+                                ticks: { color: '#a1a1aa', font: { family: 'JetBrains Mono', size: 10 } },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                                title: { display: !!yAxisTitle, text: yAxisTitle, color: '#71717a', font: { size: 11 } }
+                            }
+                        },
+                        plugins: {
+                            legend: { labels: { color: '#f4f4f5', font: { family: 'Plus Jakarta Sans', size: 11 } } }
+                        }
+                    };
+                },
+
+                toggleFocusSound() {
+                    this.initAudio();
+                    this.focusSoundActive = !this.focusSoundActive;
+                    if (this.focusSoundActive) {
+                        try {
+                            this.focusOscillator = this.audioCtx.createOscillator();
+                            this.focusGain = this.audioCtx.createGain();
+                            this.focusOscillator.type = 'sine';
+                            this.focusOscillator.frequency.setValueAtTime(220, this.audioCtx.currentTime); // Low 220Hz hum
+                            this.focusGain.gain.setValueAtTime(0.03, this.audioCtx.currentTime); // Very subtle
+                            this.focusOscillator.connect(this.focusGain);
+                            this.focusGain.connect(this.audioCtx.destination);
+                            this.focusOscillator.start();
+                            this.showToast('Exam Focus Tone Activated (220Hz Ambient)');
+                        } catch (e) {
+                            console.warn("Focus audio error", e);
+                        }
+                    } else {
+                        if (this.focusOscillator) {
+                            try { this.focusOscillator.stop(); } catch (e) {}
+                            this.focusOscillator = null;
+                        }
+                        this.showToast('Exam Focus Tone Deactivated');
+                    }
+                },
+
+                saveScratchpad() {
+                    try {
+                        localStorage.setItem('ajaretro_scratchpad', this.scratchpadNotes);
+                    } catch (e) {}
+                },
+
+                // History & Data Management
+                toggleBookmarkQuestion(id) {
+                    const q = this.questions.find(item => item.id === id);
+                    if (q) {
+                        q.bookmarked = !q.bookmarked;
+                        this.saveData();
+                        setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 50);
+                    }
+                },
+
+                deleteQuestionLog(id) {
+                    this.questions = this.questions.filter(item => item.id !== id);
+                    this.saveData();
+                    this.updateChart();
+                    this.showToast('Log entry removed');
+                },
+
+                clearHistory() {
+                    if (confirm('Are you sure you want to clear all logged question history?')) {
+                        this.questions = [];
+                        this.currentQIndex = 1;
+                        this.saveData();
+                        this.updateChart();
+                        this.showToast('Question log cleared');
+                    }
+                },
+
+                exportSessionCSV() {
+                    if (this.questions.length === 0) return;
+                    let csvContent = "data:text/csv;charset=utf-8,Question,Subject,ActualSeconds,TargetSeconds,Variance,Status,OMRChoice,Flagged,Timestamp\n";
+                    this.questions.forEach(q => {
+                        csvContent += `Q${q.qNum},"${q.subject}",${q.actualSec},${q.targetSec},${q.diffSec},${q.isOvertime ? 'Overtime' : 'OnTime'},${q.omrChoice || 'N/A'},${q.bookmarked ? 'Yes' : 'No'},"${q.timestamp}"\n`;
+                    });
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", `AJA_RETRO_Session_Log_${new Date().toISOString().slice(0,10)}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    this.showToast('Exported CSV session log');
+                },
+
+                copySessionSummary() {
+                    if (this.questions.length === 0) return;
+                    let text = `🎯 *AJA RETRO Admission Speed Session Summary*\n`;
+                    text += `• Total Questions: ${this.questions.length}\n`;
+                    text += `• On-Time Rate: ${this.onTimePercentage}%\n`;
+                    text += `• Average Time / Question: ${this.formatMMSS(this.avgTimePerQ)}\n`;
+                    text += `• Total Session Time: ${this.formatMMSS(this.totalSessionTime)}\n\n`;
+                    text += `*Question Log:*\n`;
+                    this.questions.forEach(q => {
+                        const icon = q.isOvertime ? '⚠️' : '✅';
+                        const flag = q.bookmarked ? ' 🚩' : '';
+                        const omr = q.omrChoice ? ` [OMR: ${q.omrChoice}]` : '';
+                        text += `Q${q.qNum} (${q.subject}): ${this.formatMMSS(q.actualSec)} [Target: ${this.formatMMSS(q.targetSec)}]${omr} ${icon}${flag}\n`;
+                    });
+
+                    navigator.clipboard.writeText(text).then(() => {
+                        this.showToast('Summary copied to clipboard!');
+                    });
+                },
+
+                // Audio Synthesis (Web Audio API)
+                initAudio() {
+                    if (!this.audioCtx) {
+                        const AudioContext = window.AudioContext || window.webkitAudioContext;
+                        this.audioCtx = new AudioContext();
+                    }
+                },
+
+                toggleSound() {
+                    this.soundEnabled = !this.soundEnabled;
+                    this.saveData();
+                    this.showToast(this.soundEnabled ? 'Audio alerts enabled' : 'Audio alerts muted');
+                },
+
+                playSound(type) {
+                    if (!this.soundEnabled) return;
+                    try {
+                        this.initAudio();
+                        if (this.audioCtx.state === 'suspended') {
+                            this.audioCtx.resume();
+                        }
+
+                        const osc = this.audioCtx.createOscillator();
+                        const gain = this.audioCtx.createGain();
+                        osc.connect(gain);
+                        gain.connect(this.audioCtx.destination);
+
+                        const now = this.audioCtx.currentTime;
+
+                        if (type === 'start') {
+                            osc.frequency.setValueAtTime(523.25, now);
+                            osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15);
+                            gain.gain.setValueAtTime(0.2, now);
+                            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                            osc.start(now);
+                            osc.stop(now + 0.2);
+                        } else if (type === 'next-ontime') {
+                            osc.frequency.setValueAtTime(659.25, now);
+                            osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+                            gain.gain.setValueAtTime(0.25, now);
+                            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                            osc.start(now);
+                            osc.stop(now + 0.2);
+                        } else if (type === 'next-overtime') {
+                            osc.frequency.setValueAtTime(440, now);
+                            osc.frequency.setValueAtTime(349.23, now + 0.1);
+                            gain.gain.setValueAtTime(0.3, now);
+                            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                            osc.start(now);
+                            osc.stop(now + 0.25);
+                        } else if (type === 'overtime') {
+                            osc.type = 'sawtooth';
+                            osc.frequency.setValueAtTime(880, now);
+                            osc.frequency.setValueAtTime(440, now + 0.15);
+                            gain.gain.setValueAtTime(0.3, now);
+                            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                            osc.start(now);
+                            osc.stop(now + 0.35);
+                        } else if (type === 'pause' || type === 'resume') {
+                            osc.frequency.setValueAtTime(400, now);
+                            gain.gain.setValueAtTime(0.15, now);
+                            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                            osc.start(now);
+                            osc.stop(now + 0.1);
+                        }
+                    } catch (e) {
+                        console.warn("Web Audio API error", e);
+                    }
+                },
+
+                triggerHaptic(pattern) {
+                    if (navigator.vibrate) {
+                        navigator.vibrate(pattern);
+                    }
+                },
+
+                // Global Keydown Handler
+                handleGlobalKeydown(e) {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+                        return;
+                    }
+
+                    if (e.code === 'Space' || e.code === 'Enter') {
+                        e.preventDefault();
+                        this.handlePrimaryAction();
+                    } else if (e.code === 'KeyP') {
+                        e.preventDefault();
+                        this.togglePause();
+                    } else if (e.code === 'KeyR') {
+                        e.preventDefault();
+                        this.resetCurrentQuestion();
+                    } else if (e.code === 'KeyB') {
+                        e.preventDefault();
+                        this.toggleBookmarkCurrent();
+                    } else if (e.code === 'Escape') {
+                        e.preventDefault();
+                        this.stopSession();
+                    }
+                },
+
+                // Cookie & Storage Persistence Helpers
+                setCookie(name, value, days = 14) {
+                    try {
+                        const d = new Date();
+                        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+                        const expires = "expires=" + d.toUTCString();
+                        document.cookie = name + "=" + encodeURIComponent(JSON.stringify(value)) + ";" + expires + ";path=/;SameSite=Lax";
+                    } catch (e) {
+                        console.warn("Cookie set error", e);
+                    }
+                },
+
+                getCookie(name) {
+                    try {
+                        const cname = name + "=";
+                        const decodedCookie = decodeURIComponent(document.cookie);
+                        const ca = decodedCookie.split(';');
+                        for (let i = 0; i < ca.length; i++) {
+                            let c = ca[i].trim();
+                            if (c.indexOf(cname) === 0) {
+                                return JSON.parse(c.substring(cname.length, c.length));
+                            }
+                        }
+                    } catch (e) {
+                        return null;
+                    }
+                    return null;
+                },
+
+                eraseCookie(name) {
+                    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                },
+
+                // Utility Formatters & Persistence
+                formatMMSS(totalSec) {
+                    if (isNaN(totalSec) || totalSec < 0) totalSec = 0;
+                    const mins = Math.floor(totalSec / 60);
+                    const secs = totalSec % 60;
+                    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                },
+
+                showToast(msg) {
+                    this.toastMessage = msg;
+                    if (this.toastTimeout) clearTimeout(this.toastTimeout);
+                    this.toastTimeout = setTimeout(() => {
+                        this.toastMessage = '';
+                    }, 3000);
+                },
+
+                saveData() {
+                    const sessionState = {
+                        status: this.status,
+                        currentQIndex: this.currentQIndex,
+                        targetSeconds: this.targetSeconds,
+                        activePresetId: this.activePresetId,
+                        subject: this.subject,
+                        elapsedSeconds: this.elapsedSeconds,
+                        startTime: this.startTime,
+                        pausedDuration: this.pausedDuration,
+                        questions: this.questions,
+                        soundEnabled: this.soundEnabled
+                    };
+
+                    try {
+                        localStorage.setItem('ajaretro_timer_session', JSON.stringify(sessionState));
+                        this.setCookie('ajaretro_timer_session', sessionState, 14);
+                    } catch (e) {
+                        console.warn("Storage save error", e);
+                    }
+                },
+
+                loadSavedData() {
+                    try {
+                        const savedNotes = localStorage.getItem('ajaretro_scratchpad');
+                        if (savedNotes) this.scratchpadNotes = savedNotes;
+
+                        let saved = this.getCookie('ajaretro_timer_session');
+                        if (!saved) {
+                            const lsData = localStorage.getItem('ajaretro_timer_session');
+                            if (lsData) saved = JSON.parse(lsData);
+                        }
+
+                        if (saved) {
+                            if (saved.questions && Array.isArray(saved.questions)) {
+                                this.questions = saved.questions;
+                            }
+                            if (saved.currentQIndex) this.currentQIndex = saved.currentQIndex;
+                            if (saved.targetSeconds) {
+                                this.targetSeconds = saved.targetSeconds;
+                                this.customSeconds = saved.targetSeconds;
+                                this.customSecondsInput = saved.targetSeconds;
+                            }
+                            if (saved.activePresetId) this.activePresetId = saved.activePresetId;
+                            if (saved.subject) this.subject = saved.subject;
+                            if (saved.soundEnabled !== undefined) this.soundEnabled = saved.soundEnabled;
+
+                            if (saved.status === 'running' && saved.startTime) {
+                                this.status = 'running';
+                                this.startTime = saved.startTime;
+                                this.pausedDuration = saved.pausedDuration || 0;
+                                const now = Date.now();
+                                this.elapsedSeconds = Math.max(0, Math.floor((now - this.startTime - this.pausedDuration) / 1000));
+                                if (this.elapsedSeconds > this.targetSeconds) {
+                                    this.overtimeSeconds = this.elapsedSeconds - this.targetSeconds;
+                                }
+                            } else if (saved.status === 'paused') {
+                                this.status = 'paused';
+                                this.elapsedSeconds = saved.elapsedSeconds || 0;
+                                this.startTime = saved.startTime;
+                                this.pausedDuration = saved.pausedDuration || 0;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("Storage load error", e);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
